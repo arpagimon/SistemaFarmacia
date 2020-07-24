@@ -10,10 +10,7 @@
 
         });
 
-        //function miModal(MSG) {
-        //    alert(MSG);
-        //};
-
+        
         function ModalUpdate(titulo, MSG) {
             var update = $('#alertas');
             update.fadeIn('2000')
@@ -48,6 +45,7 @@
                 $(LogError).fadeOut('2000');
             })
         }
+
 
 
 
