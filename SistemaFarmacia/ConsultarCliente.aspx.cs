@@ -214,6 +214,7 @@ namespace SistemaFarmacia
             TxtNota.Text = Nota.Text;
 
 
+
             FGAgregar.Visible = false;
             FGActualizar.Visible = true;
         }

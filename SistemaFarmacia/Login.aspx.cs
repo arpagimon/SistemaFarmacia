@@ -52,8 +52,8 @@ namespace SistemaFarmacia
                     }
                     else
                     {
-                        lanzaScript("ModalUpdate('Mensaje','El usuario o contraseña son incorrectos, favor de intentarlo nuevamente')");
                         Pass.Text = "";
+                        lanzaScript("ModalUpdate('Mensaje','El usuario o contraseña son incorrectos, favor de intentarlo nuevamente')");
                         //Response.Redirect("Login.aspx");
                     }
                 }

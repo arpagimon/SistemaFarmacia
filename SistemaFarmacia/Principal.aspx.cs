@@ -44,6 +44,7 @@ namespace SistemaFarmacia
                             iconoClientesMes.Visible = true;
                             break;
 
+
                         case "31":
                             iconoAdministracion.Visible = true;
                             break;

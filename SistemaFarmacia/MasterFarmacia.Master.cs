@@ -26,6 +26,7 @@ namespace SistemaFarmacia
         public void mostrarbtnSalir(Boolean opcion)
         {
             btnSalir.Visible = opcion;
+
         }
 
         protected void btnSalir_Click(object sender, ImageClickEventArgs e)

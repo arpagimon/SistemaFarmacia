@@ -14,6 +14,7 @@ namespace SistemaFarmacia
     public partial class ConsultarClienteMes : System.Web.UI.Page
     {
 
+
         Conexion connMySql = new Conexion();
 
         public int mesesMasMenos = 0;

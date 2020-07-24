@@ -111,7 +111,7 @@
         <br />
         <asp:Button runat="server" ID ="btnOpcionPerfil" OnClick="btnOpcionPerfil_Click" Text="Perfiles"/>
         <br />
-        <asp:Button runat="server" ID ="btnOpcionCorreo" OnClick="btnOpcionCorreo_Click" Text="Correo"/>
+        <asp:Button runat="server" ID ="btnOpcionCorreo" OnClick="btnOpcionCorreo_Click" Text="Correo" Visible="false"/>
         <br />
         <asp:Button runat="server" ID ="btnRegresar" OnClick="btnRegresar_Click" Text="Regresar" Visible="false"/>
         <%--<a href="#" runat="server" id="opcionUsuairo" onclick="MostrarOpcionUsuario">Usuarios</a>
@@ -206,7 +206,7 @@
             </div>
         </div>
 
-        <div runat="server" id="divCorreo" class="divContenido" visible="true">
+        <div runat="server" id="divCorreo" class="divContenido" visible="false">
             <div id="divCorreo1">
                 <asp:Button runat="server" ID="btnActualizarCorreo" Text="Actualizar datos" OnClick="btnActualizarCorreo_Click" CssClass="btnAgrUsuarioG" />
                 
