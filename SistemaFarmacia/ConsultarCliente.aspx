@@ -1,0 +1,257 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterFarmacia.Master" AutoEventWireup="true" CodeBehind="ConsultarCliente.aspx.cs" Inherits="SistemaFarmacia.ConsultarCliente" %>
+
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <link href="Css/ConsultaCliente.css" type="text/css" rel="stylesheet" />
+</asp:Content>
+
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceMensaje" runat="server">
+    <div id="sombraMensaje" class="sombra" runat="server">
+        <div runat="server" id="divMensaje" class="divMensaje" visible="false">
+            <div id="MCabecera">
+                <label id="MTitulo">Mensaje</label>
+            </div>
+            <div id="MContenido">
+                <asp:Label runat="server" ID="lblMensaje" CssClass="lblMensaje"></asp:Label>
+                <br />
+                <asp:Button runat="server" ID="MOk" CssClass="MBoton" Text="Aceptar" OnClick="MOk_Click" />
+                <asp:Button runat="server" ID="btnOkSalir" CssClass="MBoton" Text="Aceptar" OnClick="btnOkSalir_Click" Visible="false" />
+            </div>
+        </div>
+
+        <div runat="server" id="divFormularioG" class="FormGerente">
+            <div id="FCabecera" class="FCabecera">
+                <label id="FTitulo" class="FTitulo">Agregar usuario</label>
+            </div>
+            <div id="FContenido" class="FContenido">
+                <br />
+                <label class="FGEtiqueta">Nombre: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <label class="FGEtiqueta">Apellido Paterno: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Apellido Materno: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <label class="FGEtiqueta">Municipio: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMunicipio" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Fecha Nacimiento: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
+                <label class="FGEtiqueta">Edad: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Fecha ingreso: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
+                <label class="FGEtiqueta">Medio: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMedio" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Telefono fijo: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtTelFijo" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <label class="FGEtiqueta">Extensión: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Celular: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <label class="FGEtiqueta">Email: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Observaciones: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <label class="FGEtiqueta">Nota: </label>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
+                <br />
+                <br />
+                <div id="FBotonera">
+                    <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
+                    <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
+                    <asp:Button runat="server" ID="FGCancelar" CssClass="FGBoton" Text="Cancelar" OnClick="FGCancelar_Click" />
+                    <asp:Button runat="server" ID="FGAgregar" CssClass="FGBoton" Text="Agregar" OnClick="FGAgregar_Click" />
+                    <asp:Button runat="server" ID="FGActualizar" CssClass="FGBoton" Text="Actualizar" OnClick="FGActualizar_Click" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</asp:Content>
+
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceBody" runat="server">
+
+        <div runat="server" id="divGerentes" class="divContenido" visible="true">
+            <div id="divGerentes1">
+                <asp:Button runat="server" ID="btnAgrClienteG" Text="Agregar cliente" OnClick="btnAgrClienteG_Click" CssClass="btnAgrClienteG" />
+                <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusquedaC" placeholder="Nombre/Apellido/Email/Observación" CssClass="txtBusquedaG" OnTextChanged="txtBusquedaC_TextChanged" AutoPostBack="true"></asp:TextBox>--%>
+                <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />
+                <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+            </div>
+            <div id="divGerentes2">
+                <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="25" PagerSettings-Mode="NumericFirstLast"
+                    CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" OnRowEditing="gvGerentes_RowEditing" OnRowCancelingEdit="gvGerentes_RowCancelingEdit"
+                    OnRowUpdated="gvGerentes_RowUpdated" OnRowDeleted="gvGerentes_RowDeleted" OnRowDeleting="gvGerentes_RowDeleting">
+                    <AlternatingRowStyle BackColor="#f2f2f2" />
+                    <RowStyle BackColor="#FFFFFF" />
+                    <Columns>
+                        <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Nombre" HeaderStyle-Width="15%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblNombre' CssClass="lblGerentes" Text='<%# Bind("Nombre") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Apellido Paterno" HeaderStyle-Width="15%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblApellidoP' CssClass="lblGerentes" Text='<%# Bind("Apellido_paterno") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="15%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Municipio" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblMunicipio' CssClass="lblGerentes" Text='<%# Bind("MUNICIPIO") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Edad" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblEdad' CssClass="lblGerentes" Text='<%# Bind("EDAD") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Fecha Ingreso" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblFechaI' CssClass="lblGerentes" Text='<%# Bind("FECHA_INGRESO") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Medio" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblMedio' CssClass="lblGerentes" Text='<%# Bind("MEDIO") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Tel casa" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblTelFijo' CssClass="lblGerentes" Text='<%# Bind("tel_casa_fijo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Extensión" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblExtension' CssClass="lblGerentes" Text='<%# Bind("Extension") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Celular" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblCelular' CssClass="lblGerentes" Text='<%# Bind("Celular") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Fecha nacimiento" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblFechaN' CssClass="lblGerentes" Text='<%# Bind("FECHA_NACIMIENTO") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Email" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblEmail' CssClass="lblGerentes" Text='<%# Bind("EMAIL") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Observaciones" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblObservaciones' CssClass="lblGerentes" Text='<%# Bind("OBSERVACIONES") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Nota" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblNota' CssClass="lblGerentes" Text='<%# Bind("NOTA") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        
+                        <asp:CommandField ShowEditButton="true"  ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
+
+                    </Columns>
+                </asp:GridView>
+            </div>
+    
+
+
+    <%--<div>
+        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Style="height: 26px" Text="Button" />
+        <asp:TextBox ID="CONSULTA" runat="server"></asp:TextBox>
+        <asp:Button ID="buscar01" runat="server" Text="buscar"  OnClick="buscardatos"/>
+
+    </div>
+
+    <asp:GridView ID="tablaPrincipal" runat="server" AutoGenerateColumns="true" AllowPaging="true" PageSize="50">
+        <%--  <Columns>
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="appellidop" HeaderText="apellidoPaterno" />
+                <asp:BoundField DataField="apellidom" HeaderText="apellidoMaterno" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+                <asp:BoundField DataField="nombre" HeaderText="nombre" />
+            </Columns>
+    </asp:GridView>
+    
+        <div>
+            <asp:Button ID="GUARDARD" runat="server" Text="GUARDAR" OnClick="GUARDARD_Click" />
+        <asp:Label ID="Label1" runat="server" Text="nombre"></asp:Label> 
+        <asp:TextBox ID="Cnombre" runat="server"></asp:TextBox>
+         <br />
+        <asp:Label ID="Label2" runat="server" Text="apellido paterno"></asp:Label>
+          <asp:TextBox ID="cappellidopaterno" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label3" runat="server" Text="apellido materno"></asp:Label>
+          <asp:TextBox ID="cappelidomaterno" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label4" runat="server" Text="edad"></asp:Label>
+          <asp:TextBox ID="cedad" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label5" runat="server" Text="fecha_nacimiento"></asp:Label>
+          <asp:TextBox ID="cfechanacimiento" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label6" runat="server" Text="fecha_ingreso"></asp:Label>
+          <asp:TextBox ID="cfechaingreso" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label7" runat="server" Text="municipio"></asp:Label>
+          <asp:TextBox ID="cmunicipio" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label8" runat="server" Text="calle"></asp:Label>
+          <asp:TextBox ID="ccalle" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label9" runat="server" Text="no_int"></asp:Label>
+          <asp:TextBox ID="cnoint" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label10" runat="server" Text="no_ext"></asp:Label>
+          <asp:TextBox ID="cnoext" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label11" runat="server" Text="tel casa"></asp:Label>
+          <asp:TextBox ID="Ctelcasafija" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label12" runat="server" Text="extension"></asp:Label>
+          <asp:TextBox ID="cextension" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label13" runat="server" Text="celular"></asp:Label>
+          <asp:TextBox ID="ccelular" runat="server"></asp:TextBox>
+         <br />
+           <asp:Label ID="Label14" runat="server" Text="email"></asp:Label>
+          <asp:TextBox ID="cemail" runat="server"></asp:TextBox>
+           
+       
+
+
+
+--%>
+
+        </div>
+
+
+</asp:Content>

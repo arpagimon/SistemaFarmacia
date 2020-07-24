@@ -1,0 +1,1095 @@
+﻿.chkPruebas{
+    height: 20px;
+}
+
+#divCorreo2{
+    background: rgba(200,200,200,0.9);
+    border-radius: 11px;
+    padding: 10px;
+    margin-top: 10px;
+
+}
+
+.sidenav {
+    height: calc(100% - 70px);
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 70px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+}
+
+.sidenav input {
+    padding: 6px 6px 6px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+}
+
+.sidenav input:hover {
+    color: #f1f1f1;
+}
+
+.seleccionado{
+    color:#f1f1f1 !important;
+    background: #333333 !important;
+}
+
+
+.main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+}
+
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+        .sidenav a {
+            font-size: 18px;
+        }
+}
+
+
+
+.chkPrimer{
+    margin-right: 120px;
+    margin-left: 5px;
+}
+
+
+.chkSegundo{
+    margin-right: 145px;
+}
+
+/*Depurar
+*/
+
+
+#MenuAdmin {
+    display: inline-block;
+    margin: 10px;
+    vertical-align: top;
+    width: 12%;
+}
+
+.BotonAdmin {
+    width: 100%;
+    background: rgb(242,242,242);
+    font-family: Verdana;
+    font-size: 12px;
+    text-align: left;
+    padding: 20px 10px;
+    white-space: normal;
+    border: none;
+}
+
+.divContenido {
+    vertical-align: top;
+    width: 84%;
+    /*height: 100%;*/
+    margin-top: 10px;
+    overflow: auto;
+    display: inline-block;
+    position: relative;
+    /*float: right;*/
+    margin-left: 8%;
+}
+
+/*                  Bloque Gerentes                 */
+
+.btnAgrUsuarioG {
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 30px;
+}
+
+.FormGerente {
+    width: 600px;
+    height: 370px;
+    background: white;
+    margin: auto;
+    margin-top: 0.5%;
+    z-index: 6;
+    position: relative;
+}
+
+
+.txtBusquedaG {
+    float: right;
+    background: rgb(217,217,217);
+    border: solid 1px rgb(125,125,125);
+    border-radius: 5px;
+    padding: 2px;
+    font-size: 14px;
+    font-family: Verdana;
+    color: white;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.imgBusquedaG {
+    float: right;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+
+
+#divGerentes2, #Perfiles2 {
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+    margin-top: 2%;
+    border: solid 1px rgb(91,155,213);
+    overflow: auto;
+}
+
+
+.gridview {
+    border: none;
+    font-family: Verdana;
+    font-size: 12px;
+    border-color: white;
+}
+
+    .gridview th {
+        color: white;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-color: white;
+    }
+
+    .gridview tr {
+        border: none;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        text-align: center;
+        border-color: white;
+    }
+
+    .gridview td {
+        /*text-align:right;*/
+    }
+
+    .gridview:first-child a {
+        color: black;
+        margin-left: 10px;
+    }
+
+.lblSinResultado {
+    text-align: center !important;
+}
+
+.FGSeccionCorreo {
+    height: 30px;
+}
+
+.chPermiso td {
+    width: 50%;
+}
+
+.FGPaddingRight {
+    padding-right: 20px !important;
+}
+
+#divGerentes3 {
+    margin-top: 2%;
+}
+
+.lblNotaEmail {
+    vertical-align: top;
+    width: 12%;
+    display: inline-block;
+    text-align: center;
+}
+
+.txtNotaEmail {
+    vertical-align: top;
+    width: 77%;
+    height: 100px;
+}
+
+.btnGuardarNota {
+    vertical-align: top;
+    width: 10%;
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    float: right;
+}
+
+/*      Agrega Gerente / Coorporativo       */
+.FCabecera {
+    background: #333f4f;
+    text-align: center;
+    color: white;
+    height: 30px;
+}
+
+.FTitulo {
+    font-family: Verdana;
+    vertical-align: sub;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+#FContenido, #FContenidoP {
+    height: 340px;
+    text-align: center;
+}
+
+.FGEtiqueta {
+    display: inline-block;
+    width: 130px;
+    text-align: left;
+    font-weight: bold;
+    font-family: Verdana;
+    font-size: 13px;
+    vertical-align: text-top;
+}
+
+.FGInput {
+    width: 425px;
+    vertical-align: text-top;
+    font-size: 10px;
+    padding: 2px 6px;
+    display: inline-block;
+    text-align: left;
+    border: solid 1px rgb(170,170,170);
+}
+
+.FGColumna2 {
+    width: 425px;
+}
+
+.FGInput input {
+    vertical-align: top;
+    margin-top: 10px;
+}
+
+.FGInput label {
+    vertical-align: top;
+    margin-top: 10px;
+    white-space: normal;
+    width: 85%;
+    padding-left: 15px;
+    font-family: Verdana;
+    font-size: 10px;
+}
+
+.sinTop input {
+    margin-top: 0px;
+}
+
+.sinTop label {
+    margin-top: 0px;
+}
+
+.chbFG {
+    width: 100%;
+}
+
+.FGContenedorTerm {
+    height: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /*margin-left: 114px;*/
+}
+
+.FGBoton {
+    display: inline-block;
+    font-size: 15px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px;
+    margin: 25px auto 10px 30px;
+    width: 33%;
+}
+
+.FGFBoton:first-child {
+    margin-right: 5%;
+}
+
+/*          Fin Agrega Gerente / Coorporativo       */
+
+
+
+
+
+/*----------      Mensaje      --------*/
+
+.divMensaje {
+    width: 500px;
+    height: 140px;
+    background: white;
+    margin: auto;
+    margin-top: 10%;
+    z-index: 6;
+    position: relative;
+}
+
+#MCabecera {
+    background: rgb(68,84,106);
+    text-align: center;
+    color: white;
+    height: 30px;
+}
+
+#MTitulo {
+    font-family: Verdana;
+    vertical-align: sub;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+#MContenido {
+    height: 110px;
+    text-align: center;
+}
+
+.MBoton {
+    display: inline-block;
+    width: 40%;
+    font-size: 15px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px;
+    position: relative;
+    bottom: 10px;
+    margin: 20px auto 0px auto;
+}
+
+.lblMensaje {
+    margin: 10px;
+    display: inline-block;
+}
+
+/*----------      Fin Mensaje      --------*/
+
+/*                  Fin Bloque Gerentes                 */
+
+
+
+
+
+/*                  Bloque Gerentes                 */
+
+#divAdministrador2 {
+    display: inline-block;
+    width: 100%;
+    height: 50%;
+    margin-top: 2%;
+    border: solid 1px rgb(91,155,213);
+}
+
+
+
+
+.FormAdministrador {
+    width: 600px;
+    height: 170px;
+    background: white;
+    margin: auto;
+    margin-top: 6%;
+    z-index: 6;
+    position: relative;
+}
+
+
+/*      Agregar administrador       */
+
+#FAContenido {
+    height: 140px;
+    text-align: center;
+}
+
+/*      Fin agregar administrador   */
+
+/*          fin bloque Administrador*/
+
+
+
+
+
+
+/*      Bloque Parámetros          */
+
+.divParametros1 {
+    display: inline-block;
+    width: 100%;
+    border: solid 1px rgb(91,155,213);
+}
+
+
+.divSubNvl1 {
+    background: rgb(250,250,250);
+    padding: 20px;
+}
+
+
+.divSubNvl2 {
+    background: rgb(245,245,245);
+    padding: 20px;
+}
+
+.lblTituloParametro {
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.lblSubtitulo {
+    font-family: Verdana;
+    font-size: 11px;
+    font-weight: normal;
+}
+
+.lblInfoTabla {
+    float: left;
+}
+
+.tblParametros {
+    /*border: solid 1px rgb(91,155,213) !important;*/
+    font-family: Verdana;
+    font-size: 12px;
+    /*border-color: white;*/
+    margin-left: 20px;
+    margin-top: 5px;
+    width: calc(100% - 30px);
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+
+.tblParametros :first-child th {
+    background: rgb(91,155,213);
+}
+
+.tblParametros th {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
+
+.tblParametros tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
+
+.tblParametros td {
+    text-align:left;
+}
+
+.tblParametros:first-child a {
+    color: black;
+    margin-left: 10px;
+}
+
+
+
+.tblParametros label {
+    margin: 0px 10px;
+    /*font-size: 11px;*/
+    font-family: Verdana;
+    /*font-weight: normal;*/
+}
+
+.tblParametros label {
+    font-size: 12px;
+    font-weight: bolder;
+}
+
+.tblParametros input {
+    width: 100% !important;
+    text-align: left;
+    padding: 3px;
+}
+
+
+
+
+.ParamColumnaColor {
+    min-width: 100px;
+}
+
+.ParamInput {
+    width: 40px;
+    text-align: center;
+    font-family: Verdana;
+    font-size: 11px;
+    margin: 2px 4px;
+}
+
+
+.lblTituloPTabla {
+    font-weight: bold !important;
+}
+
+
+.btnGuardarParametros {
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 30px;
+    float: right;
+}
+
+
+/*          Fin bloque Parametros        */
+
+
+
+
+/*          Bloque Alertas          */
+
+
+.divAlerta1 {
+    display: inline-block;
+    width: 100%;
+    /*border: solid 1px rgb(91,155,213);*/
+}
+
+.divAlerta1 {
+    background: rgb(250,250,250);
+    padding: 20px;
+}
+
+
+.divAlerta2 {
+    background: rgb(245,245,245);
+    padding: 20px;
+}
+
+.btnGuardarAlertas {
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 30px;
+    float: right;
+}
+
+.lblTituloAlertas {
+    font-family: Verdana;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+
+.tblAlertas {
+    border: solid 1px rgb(91,155,213) !important;
+    font-family: Verdana;
+    font-size: 12px;
+    border-color: white;
+    margin-left: 20px;
+    margin-top: 5px;
+}
+
+    .tblAlertas label {
+        font-weight: normal !important;
+    }
+
+    .tblAlertas :first-child th {
+        background: rgb(91,155,213);
+    }
+
+    .tblAlertas th {
+        color: white;
+        text-align: center;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-color: white;
+    }
+
+    .tblAlertas tr {
+        border: none;
+        padding-bottom: 5px;
+        padding-top: 5px;
+        text-align: center;
+        border-color: white;
+    }
+
+    .tblAlertas td {
+        text-align: left;
+        padding: 2px 10px;
+    }
+
+    .tblAlertas:first-child a {
+        color: black;
+        margin-left: 10px;
+    }
+
+.marginleft {
+    margin-left: 20px;
+}
+
+
+.borde {
+    border: solid 1px rgb(91,155,213);
+}
+
+
+/*          Fin bloque alertas          */
+
+#divGerentes2 > div, #Perfiles2 > div {
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#divMotCan1 > div {
+    max-height: 600px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.sinBorde {
+    border: none !important;
+}
+
+/*              Cifra Control               */
+.FixedHeader {
+    position: absolute;
+    font-weight: bold;
+    padding-bottom: 0px !Important;
+    padding-top: 0px !Important;
+}
+
+.CifrasCriticaColumn1 {
+    width: 100px;
+}
+
+.CifrasCriticaColumn2 {
+    width: 100px;
+}
+
+.CifrasCriticaColumn3 {
+    width: 100px;
+}
+
+.CifrasCriticaColumn4 {
+    width: 100px;
+}
+
+.CifrasCriticaColumn5 {
+    width: 100px;
+}
+
+.CifrasCriticaColumn6 {
+    width: 100px;
+}
+
+
+#divCifrasControl2 {
+    display: inline-block;
+    width: 98%;
+}
+/*              Fin Cifra Control               */
+
+/*              Log Usuarios                    */
+#ui-datepicker-div {
+    z-index: 10 !important;
+}
+
+.hasDatepicker {
+    width: 120px;
+    text-align: center;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.LogUsuarioColumn1 {
+    width: 500px;
+}
+
+.LogUsuarioColumn2 {
+    width: 500px;
+}
+
+
+.imgExcel {
+    height: 35px;
+    float: right;
+    margin-right: 15px;
+}
+
+/*              Fin Log Usuarios                */
+
+@media (min-width: 768px) {
+    .gridview {
+        font-size: 10px;
+    }
+
+    .CifrasCriticaColumn1 {
+        width: 140px;
+    }
+
+    .CifrasCriticaColumn2 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn3 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn4 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn5 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn6 {
+        width: 100px;
+    }
+
+    /* Log Usuario */
+    .LogUsuarioColumn1 {
+        width: 200px;
+    }
+
+    .LogUsuarioColumn2 {
+        width: 200px;
+    }
+    /* Fin Log Usuario */
+
+}
+
+@media (min-width: 992px) {
+
+    .gridview {
+        font-size: 11px;
+    }
+
+    .CifrasCriticaColumn1 {
+        width: 130px;
+    }
+
+    .CifrasCriticaColumn2 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn3 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn4 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn5 {
+        width: 100px;
+    }
+
+    .CifrasCriticaColumn6 {
+        width: 100px;
+    }
+
+    /* Log Usuario */
+    .LogUsuarioColumn1 {
+        width: 300px;
+    }
+
+    .LogUsuarioColumn2 {
+        width: 300px;
+    }
+    /* Fin Log Usuario */
+}
+
+
+@media (min-width: 1400px) {
+
+    .gridview {
+        font-size: 12px;
+    }
+
+    .CifrasCriticaColumn1 {
+        width: 150px;
+    }
+
+    .CifrasCriticaColumn2 {
+        width: 150px;
+    }
+
+    .CifrasCriticaColumn3 {
+        width: 150px;
+    }
+
+    .CifrasCriticaColumn4 {
+        width: 150px;
+    }
+
+    .CifrasCriticaColumn5 {
+        width: 200px;
+    }
+
+    .CifrasCriticaColumn6 {
+        width: 200px;
+    }
+
+    /* Log Usuario */
+    .LogUsuarioColumn1 {
+        width: 200px;
+    }
+
+    .LogUsuarioColumn2 {
+        width: 200px;
+    }
+    /* Fin Log Usuario */
+}
+
+
+@media (min-width: 1700px) {
+    .CifrasCriticaColumn1 {
+        width: 200px;
+    }
+
+    .CifrasCriticaColumn2 {
+        width: 200px;
+    }
+
+    .CifrasCriticaColumn3 {
+        width: 200px;
+    }
+
+    .CifrasCriticaColumn4 {
+        width: 200px;
+    }
+
+    .CifrasCriticaColumn5 {
+        width: 250px;
+    }
+
+    .CifrasCriticaColumn6 {
+        width: 250px;
+    }
+}
+
+
+
+
+@media(max-width:685px) {
+    .gridview {
+        border: none;
+        font-family: Verdana;
+        font-size: 10px;
+        border-color: white;
+    }
+
+    .BotonAdmin {
+        width: 230px;
+        background: rgb(242,242,242);
+        font-family: Verdana;
+        font-size: 12px;
+        text-align: left;
+        padding: 20px 10px;
+        white-space: normal;
+        border: none;
+    }
+
+    .imgBusquedaG {
+        float: right;
+        height: 20px;
+        width: 20px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .txtBusquedaG {
+        float: right;
+        background: rgb(217,217,217);
+        border: solid 1px rgb(125,125,125);
+        border-radius: 5px;
+        padding: 2px;
+        font-size: 12px;
+        font-family: Verdana;
+        color: white;
+        width: 80%;
+        margin-top: 10px;
+    }
+
+    .btnAgrUsuarioG {
+        display: inline-block;
+        font-size: 11px;
+        font-family: Verdana;
+        background: rgb(51,51,153);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 30px;
+    }
+
+    #divGerentes2, #Perfiles2 {
+        display: inline-block;
+        width: 100%;
+        height: 50%;
+        margin-top: 2%;
+        border: solid 1px rgb(91,155,213);
+        overflow: auto;
+    }
+
+    .divContenido {
+        vertical-align: top;
+        width: 84%;
+        height: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+        display: inline-block;
+        position: relative;
+        float: right;
+    }
+
+    .lblNotaEmail {
+        vertical-align: top;
+        width: 51%;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .txtNotaEmail {
+        vertical-align: top;
+        width: 100%;
+        height: 100px;
+    }
+
+    .btnGuardarNota {
+        vertical-align: top;
+        width: 40%;
+        font-size: 11px;
+        margin-top: 10px;
+    }
+}
+
+@media(max-width:400px) {
+    .gridview {
+        border: none;
+        font-family: Verdana;
+        font-size: 10px;
+        border-color: white;
+    }
+
+    .BotonAdmin {
+        width: 780%;
+        background: rgb(242,242,242);
+        font-family: Verdana;
+        font-size: 12px;
+        text-align: left;
+        padding: 20px 10px;
+        white-space: normal;
+        border: none;
+    }
+
+    .imgBusquedaG {
+        float: right;
+        height: 20px;
+        width: 20px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .txtBusquedaG {
+        float: right;
+        background: rgb(217,217,217);
+        border: solid 1px rgb(125,125,125);
+        border-radius: 5px;
+        padding: 2px;
+        font-size: 12px;
+        font-family: Verdana;
+        color: white;
+        width: 80%;
+        margin-top: 10px;
+    }
+
+    .btnAgrUsuarioG {
+        display: inline-block;
+        font-size: 11px;
+        font-family: Verdana;
+        background: rgb(51,51,153);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 30px;
+    }
+
+    #divGerentes2, #Perfiles2 {
+        display: inline-block;
+        width: 100%;
+        height: 50%;
+        margin-top: 2%;
+        border: solid 1px rgb(91,155,213);
+        overflow: auto;
+    }
+
+    .divContenido {
+        vertical-align: top;
+        width: 84%;
+        height: 100%;
+        margin-top: 10px;
+        overflow: hidden;
+        display: inline-block;
+        position: relative;
+        float: right;
+    }
+
+    .lblNotaEmail {
+        vertical-align: top;
+        width: 51%;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 5px;
+    }
+
+    .txtNotaEmail {
+        vertical-align: top;
+        width: 100%;
+        height: 100px;
+    }
+
+    .btnGuardarNota {
+        vertical-align: top;
+        width: 40%;
+        font-size: 11px;
+        margin-top: 10px;
+    }
+}
