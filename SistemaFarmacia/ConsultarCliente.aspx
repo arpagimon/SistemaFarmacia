@@ -20,7 +20,7 @@
 
         <div runat="server" id="divFormularioG" class="FormGerente">
             <div id="FCabecera" class="FCabecera">
-                <label id="FTitulo" class="FTitulo">Agregar usuario</label>
+                <asp:Label runat="server" id="FTitulo" CssClass="FTitulo">Agregar usuario</asp:Label>
             </div>
             <div id="FContenido" class="FContenido">
                 <br />

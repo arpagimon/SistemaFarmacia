@@ -98,7 +98,7 @@
 
             <div id="divGerentes1">
                 <%--<div id="divEnviarCorreo">--%>
-                    <asp:Button OnClientClick="mostrarMensajeJS()" runat="server" ID="btnEnviarCorreo" CssClass="btnAgrClienteG" AutoPostBack="true" Text="Reenviar Correos" OnClick="btnEnviarCorreo_Click"></asp:Button>
+                    <asp:Button OnClientClick="mostrarMensajeJS()" runat="server" ID="btnEnviarCorreo" CssClass="btnAgrClienteG" AutoPostBack="true" Text="Reenviar Correos" OnClick="btnEnviarCorreo_Click" Visible="false"></asp:Button>
                     
                     <%--<asp:Image runat="server" ID="imgEnviarCorreo" ImageUrl="~/Imagenes/mail.png" CssClass="imgBusquedaG" />--%>
                 <%--</div>--%>

@@ -87,7 +87,7 @@ namespace SistemaFarmacia
             {
                 connMySql.Open();
 
-                MySqlCommand mySqlCommand = new MySqlCommand("select permisos from empleado join perfil on empleado.id_perfil = perfil.id_perfil where usuario= 'FAE01'", connMySql);
+                MySqlCommand mySqlCommand = new MySqlCommand("select permisos from empleado join perfil on empleado.id_perfil = perfil.id_perfil where usuario= '" + usuario + "'", connMySql);
                 MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
 
                 if (mySqlDataReader.HasRows)

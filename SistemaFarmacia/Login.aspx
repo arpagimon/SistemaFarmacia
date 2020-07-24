@@ -41,6 +41,7 @@
             LogError.fadeIn('2000');
 
             var CerrarError = $('#cerrarError')
+
             CerrarError.click(function () {
                 $(LogError).fadeOut('2000');
             })

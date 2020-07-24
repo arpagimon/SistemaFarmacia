@@ -170,6 +170,8 @@ namespace SistemaFarmacia
         protected void gvGerentes_RowEditing(object sender, GridViewEditEventArgs e)
         {
 
+            FTitulo.Text = "Editar cliente";
+
             GridViewRow row = (GridViewRow)gvGerentes.Rows[e.NewEditIndex];
 
             Label IdCliente = (Label)row.FindControl("lblIdCliente");
@@ -201,12 +203,12 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = ApellidoM.Text;
             TxtMunicipio.Text = Municipio.Text;
             TxtEdad.Text = Edad.Text;
-            TxtFechaI.Text = FechaI.Text;
+            TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3,2) + "-" + FechaI.Text.Substring(0,2);
             TxtMedio.Text = Medio.Text;
             TxtTelFijo.Text = TelFijo.Text;
             TxtExtension.Text = Extension.Text;
             TxtCelular.Text = Celular.Text;
-            TxtFechaN.Text = FechaN.Text;
+            TxtFechaN.Text = FechaN.Text.Substring(6) + "-" + FechaN.Text.Substring(3, 2) + "-" + FechaN.Text.Substring(0, 2); ;
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
             TxtNota.Text = Nota.Text;
@@ -328,6 +330,8 @@ namespace SistemaFarmacia
 
         protected void btnAgrClienteG_Click(object sender, EventArgs e)
         {
+            FTitulo.Text = "Agregar cliente";
+
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(true);
             sombraMensaje.Visible = true;
@@ -608,6 +612,10 @@ namespace SistemaFarmacia
             FGAgregar.Visible = false;
             FGActualizar.Visible = false;
             divFormularioG.Visible = true;
+
+            FTitulo.Text = "Buscar clientes";
+
+
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(true);
