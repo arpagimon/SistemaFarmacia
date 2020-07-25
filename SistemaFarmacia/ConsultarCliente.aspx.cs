@@ -149,6 +149,7 @@ namespace SistemaFarmacia
                 eliminar = true;
             }
 
+            
             if (!editar && !eliminar)
             {
                 if(e.Row.RowType != DataControlRowType.Pager){
@@ -163,10 +164,17 @@ namespace SistemaFarmacia
                     e.Row.Cells[15].Controls[0].Visible = false;
                 }
 
-                if (!eliminar)
+                try
                 {
-                    e.Row.Cells[15].Controls[2].Visible = false;
+                    if (!eliminar)
+                    {
+                        e.Row.Cells[15].Controls[2].Visible = false;
+                    }
+                }catch(Exception ex)
+                {
+
                 }
+
 
             }
         }
