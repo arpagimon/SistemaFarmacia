@@ -207,12 +207,19 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = ApellidoM.Text;
             TxtMunicipio.Text = Municipio.Text;
             TxtEdad.Text = Edad.Text;
+            try { 
             TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3,2) + "-" + FechaI.Text.Substring(0,2);
+            }catch(Exception ex) { }
             TxtMedio.Text = Medio.Text;
             TxtTelFijo.Text = TelFijo.Text;
             TxtExtension.Text = Extension.Text;
             TxtCelular.Text = Celular.Text;
+            try { 
             TxtFechaN.Text = FechaN.Text.Substring(6) + "-" + FechaN.Text.Substring(3, 2) + "-" + FechaN.Text.Substring(0, 2); ;
+            }catch(Exception ex)
+            {
+
+            }
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
             TxtNota.Text = Nota.Text;

@@ -57,7 +57,7 @@
                 <label class="FGEtiqueta">Observaciones: </label>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                 <label class="FGEtiqueta">Nota: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine">></asp:TextBox>
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
                 <br />
                 <br />
