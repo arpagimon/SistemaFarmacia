@@ -475,6 +475,12 @@ namespace SistemaFarmacia
             cargaClientes();
 
         }
+
+        protected void gvGerentes_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvGerentes.PageIndex = e.NewPageIndex;
+            cargaClientes();
+        }
     }
     
 }
