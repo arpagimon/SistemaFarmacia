@@ -482,6 +482,21 @@ namespace SistemaFarmacia
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
 
+            TxtIdCliente.Text = "";
+            TxtNombre.Text = "";
+            TxtApellidoP.Text = "";
+            TxtApellidoM.Text = "";
+            TxtMunicipio.Text = "";
+            TxtEdad.Text = "";
+            TxtFechaI.Text = "";
+            TxtMedio.Text = "";
+            TxtTelFijo.Text = "";
+            TxtExtension.Text = "";
+            TxtCelular.Text = "";
+            TxtFechaN.Text = "";
+            TxtEmail.Text = "";
+            TxtObservaciones.Text = "";
+            TxtNota.Text = "";
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
