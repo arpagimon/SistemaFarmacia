@@ -69,7 +69,7 @@
                 <br />
                 <div id="FBotonera">
                     <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
-                    <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
+                    <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Salir" OnClick="btnLimpiarF_Click" Visible="false" />
                 </div>
             </div>
         </div>
