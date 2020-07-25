@@ -113,7 +113,7 @@
                     <asp:ImageButton runat="server" ID="btnMasMes" OnClick="btnMasMes_Click" ImageUrl="~/Imagenes/right-arrow.png" CssClass="btnMasMes"/>
                 </div>
                 <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
-                    CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" AllowPaging ="true" PageSize="25" PagerSettings-Mode="NumericFirstLast" OnPageIndexChanging="gvGerentes_PageIndexChanging">
+                    CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" AllowPaging ="true" PageSize="10" PagerSettings-Mode="NumericFirstLast" OnPageIndexChanging="gvGerentes_PageIndexChanging">
                     <AlternatingRowStyle BackColor="#f2f2f2" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <RowStyle BackColor="#FFFFFF" />

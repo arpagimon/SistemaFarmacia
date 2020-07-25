@@ -622,7 +622,7 @@
 /*          Fin bloque alertas          */
 
 #divGerentes2 > div, #Perfiles2 > div {
-    max-height: 450px;
+    /*max-height: 450px;*/
     /*overflow-x: hidden;
     overflow-y: auto;*/
 }
