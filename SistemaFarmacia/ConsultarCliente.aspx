@@ -137,7 +137,7 @@
                                 <asp:Label runat='server' ID='lblTelFijo' CssClass="lblGerentes" Text='<%# Bind("tel_casa_fijo") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Extensión" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Ext." HeaderStyle-Width="20%">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblExtension' CssClass="lblGerentes" Text='<%# Bind("Extension") %>'></asp:Label>
                             </ItemTemplate>
@@ -168,7 +168,7 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         
-                        <asp:CommandField ShowEditButton="true"  ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
+                        <asp:CommandField ShowEditButton="true"  ShowDeleteButton="false" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                     </Columns>
                 </asp:GridView>
