@@ -117,6 +117,7 @@ namespace SistemaFarmacia
             master.mostrarMensaje(true);
             sombraMensaje.Visible = true;
             divFormularioG.Visible = true;
+            divFormularioP.Visible = false;
 
             ddlPerfil.DataSource = connMysql.TraerPerfilesddl("");
             ddlPerfil.DataBind();
@@ -212,6 +213,7 @@ namespace SistemaFarmacia
             txtContrasenia.Text = "";
 
             gvGerentes.EditIndex = -1;
+            cargaGerentes();
         }
 
         protected void FGAgregar_Click(object sender, EventArgs e)
@@ -232,7 +234,8 @@ namespace SistemaFarmacia
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            ddlPerfil.SelectedValue = "";
+            ddlPerfil.SelectedIndex = 0;
+            //ddlPerfil.SelectedValue = "";
             txtContrasenia.Text = "";
 
             sombraMensaje.Visible = true;
@@ -620,7 +623,8 @@ namespace SistemaFarmacia
                 item.Selected = false;
             }
 
-            //gvPerfiles.EditIndex = -1;
+            gvPerfiles.EditIndex = -1;
+            cargaPerfiles();
         }
 
         protected void FPAgregar_Click(object sender, EventArgs e)

@@ -17,11 +17,54 @@ namespace SistemaFarmacia
         String permisos = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            MasterFarmacia master = (MasterFarmacia)this.Master;
-            //String permisos = "";
             try
             {
-                permisos = Session["Permisos"].ToString();
+                
+                MasterFarmacia master = (MasterFarmacia)this.Master;
+                //String permisos = "";
+                try
+                {
+                    permisos = Session["Permisos"].ToString();
+                }
+                catch (Exception ex)
+                {
+                    sombraMensaje.Visible = true;
+                    mostrarMensaje("Su sesión a caducado, vuelva a iniciar sesion.");
+                    btnOkSalir.Visible = true;
+                    MOk.Visible = false;
+                }
+
+                if (permisos.Contains("11") || permisos.Contains("12") || permisos.Contains("13") || permisos.Contains("14"))
+                {
+                    if (!permisos.Contains("11"))
+                    {
+                        btnAgrClienteG.Visible = false;
+                    }
+                }
+                else
+                {
+                    Response.Redirect("Principal.aspx");
+                }
+
+
+                if (!IsPostBack)
+                {
+                    if (Session["Condicion"] == null)
+                    {
+                        Session.Add("Condicion", "");
+                    }
+                    else
+                    {
+                        Session["Condicion"] = "";
+                    }
+               
+
+
+                    master.mostrarMensaje(false);
+                    sombraMensaje.Visible = false;
+
+                    cargaClientes();
+                }
             }
             catch (Exception ex)
             {
@@ -30,51 +73,12 @@ namespace SistemaFarmacia
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
             }
-
-            if (permisos.Contains("11") || permisos.Contains("12") || permisos.Contains("13") || permisos.Contains("14"))
-            {
-                if (!permisos.Contains("11"))
-                {
-                    btnAgrClienteG.Visible = false;
-                }
-            }
-            else
-            {
-                Response.Redirect("Principal.aspx");
-            }
-
-
-            if (!IsPostBack)
-            {
-                if (Session["Condicion"] == null)
-                {
-                    Session.Add("Condicion", "");
-                }
-                else
-                {
-                    Session["Condicion"] = "";
-                }
-               
-
-
-                master.mostrarMensaje(false);
-                sombraMensaje.Visible = false;
-
-                cargaClientes();
-            }
         }
 
 
 
         public void cargaClientes()
         {
-
-            //String condicion = txtBusquedaC.Text.Trim().ToUpper();
-
-            //if (condicion.Length > 0)
-            //{
-            //    condicion = " (NOMBRE LIKE '%" + condicion + "%' OR APELLIDO_PATERNO LIKE '%" + condicion + "%' OR APELLIDO_MATERNO LIKE '%" + condicion + "%' OR EMAIL LIKE '%" + condicion + "%' OR  OBSERVACIONES LIKE '%" + condicion + "%' OR NOTA LIKE '%" + condicion + "%')";
-            //}
 
             DataSet ds = connMySql.TraerClientes(Session["Condicion"].ToString());
 
@@ -252,6 +256,9 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
 
+
+            gvGerentes.EditIndex = -1;
+            cargaClientes();
         }
 
         protected void FGAgregar_Click(object sender, EventArgs e)
