@@ -11,6 +11,9 @@
         });
 
         
+        ///Aqui va el comentario
+
+
         function ModalUpdate(titulo, MSG) {
             var update = $('#alertas');
             update.fadeIn('2000')

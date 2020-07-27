@@ -674,5 +674,19 @@ namespace SistemaFarmacia
             cargaClientes();
 
         }
+
+        //protected void gvGerentes_Sorting(object sender, GridViewSortEventArgs e)
+        //{
+        //    DataTable dt = Session["dsVentaAsesores"] as DataTable;
+
+        //    if (dt != null)
+        //    {
+        //        //Sort the data.
+        //        dt.DefaultView.Sort = e.SortExpression + " " + GetSortDirection(e.SortExpression);
+        //        //dt.DefaultView.Sort = e.SortExpression;
+        //        gvGerentes.DataSource = dt;
+        //        gvAsesorVenta.DataBind();
+        //    }
+        //}
     }
 }
