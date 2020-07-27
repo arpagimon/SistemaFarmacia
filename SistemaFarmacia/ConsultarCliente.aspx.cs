@@ -181,6 +181,7 @@ namespace SistemaFarmacia
 
         protected void gvGerentes_RowEditing(object sender, GridViewEditEventArgs e)
         {
+            panelMsj.DefaultButton = FGActualizar.ID;
 
             FTitulo.Text = "Editar cliente";
 
@@ -353,6 +354,9 @@ namespace SistemaFarmacia
 
         protected void btnAgrClienteG_Click(object sender, EventArgs e)
         {
+            panelMsj.DefaultButton = FGAgregar.ID;
+
+
             FTitulo.Text = "Agregar cliente";
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -644,6 +648,9 @@ namespace SistemaFarmacia
         //Muestra la ventana del buscador
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+
+            panelMsj.DefaultButton = btnBuscarF.ID;
+
             btnLimpiarF.Visible = true;
             btnBuscarF.Visible = true;
             FGCancelar.Visible = false;

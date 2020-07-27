@@ -22,53 +22,55 @@
             <div id="FCabecera" class="FCabecera">
                 <asp:Label runat="server" id="FTitulo" CssClass="FTitulo">Agregar usuario</asp:Label>
             </div>
-            <div id="FContenido" class="FContenido">
-                <br />
-                <label class="FGEtiqueta">Nombre: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput" AutoComplete="off" ></asp:TextBox>
-                <label class="FGEtiqueta">Apellido Paterno: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Apellido Materno: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                <label class="FGEtiqueta">Municipio: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMunicipio" CssClass="FGColumna2 FGInput"></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Fecha Nacimiento: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
-                <label class="FGEtiqueta">Edad: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number"></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Fecha ingreso: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
-                <label class="FGEtiqueta">Medio: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMedio" CssClass="FGColumna2 FGInput" ></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Telefono fijo: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtTelFijo" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
-                <label class="FGEtiqueta">Extensión: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Celular: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
-                <label class="FGEtiqueta">Email: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Email"></asp:TextBox>
-                <br />
-                <label class="FGEtiqueta">Observaciones: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
-                <label class="FGEtiqueta">Nota: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
-                <br />
-                <br />
-                <div id="FBotonera">
-                    <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
-                    <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Salir" OnClick="btnLimpiarF_Click" Visible="false" />
-                    <asp:Button runat="server" ID="FGCancelar" CssClass="FGBoton" Text="Cancelar" OnClick="FGCancelar_Click" />
-                    <asp:Button runat="server" ID="FGAgregar" CssClass="FGBoton" Text="Agregar" OnClick="FGAgregar_Click" />
-                    <asp:Button runat="server" ID="FGActualizar" CssClass="FGBoton" Text="Actualizar" OnClick="FGActualizar_Click" />
+            <asp:Panel runat="server" ID="panelMsj">
+                <div id="FContenido" class="FContenido">
+                    <br />
+                    <label class="FGEtiqueta">Nombre: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput" AutoComplete="off" ></asp:TextBox>
+                    <label class="FGEtiqueta">Apellido Paterno: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Apellido Materno: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <label class="FGEtiqueta">Municipio: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMunicipio" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Fecha Nacimiento: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                    <label class="FGEtiqueta">Edad: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number"></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Fecha ingreso: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                    <label class="FGEtiqueta">Medio: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMedio" CssClass="FGColumna2 FGInput" ></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Telefono fijo: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtTelFijo" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
+                    <label class="FGEtiqueta">Extensión: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Celular: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
+                    <label class="FGEtiqueta">Email: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Email"></asp:TextBox>
+                    <br />
+                    <label class="FGEtiqueta">Observaciones: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                    <label class="FGEtiqueta">Nota: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
+                    <br />
+                    <br />
+                    <div id="FBotonera">
+                        <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
+                        <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Salir" OnClick="btnLimpiarF_Click" Visible="false" />
+                        <asp:Button runat="server" ID="FGCancelar" CssClass="FGBoton" Text="Cancelar" OnClick="FGCancelar_Click" />
+                        <asp:Button runat="server" ID="FGAgregar" CssClass="FGBoton" Text="Agregar" OnClick="FGAgregar_Click" />
+                        <asp:Button runat="server" ID="FGActualizar" CssClass="FGBoton" Text="Actualizar" OnClick="FGActualizar_Click" />
+                    </div>
                 </div>
-            </div>
+                </asp:Panel>
         </div>
 
 
