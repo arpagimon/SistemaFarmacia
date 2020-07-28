@@ -338,7 +338,7 @@ namespace SistemaFarmacia
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-
+            panelMsj.DefaultButton = btnBuscarF.ID;
             btnLimpiarF.Visible = true;
             btnBuscarF.Visible = true;
             divFormularioG.Visible = true;

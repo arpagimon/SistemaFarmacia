@@ -84,7 +84,14 @@ namespace SistemaFarmacia
 
             if (ds.Tables[0].Rows.Count > 0)
             {
-                gvGerentes.DataSource = ds.Tables[0];
+                //if(ordenamiento != null)
+                //{
+
+                //}
+                //else
+                //{
+                    gvGerentes.DataSource = ds.Tables[0];
+                //}
                 gvGerentes.DataBind();
             }
             else
@@ -678,14 +685,14 @@ namespace SistemaFarmacia
         //protected void gvGerentes_Sorting(object sender, GridViewSortEventArgs e)
         //{
         //    DataTable dt = Session["dsVentaAsesores"] as DataTable;
+            
 
         //    if (dt != null)
         //    {
-        //        //Sort the data.
         //        dt.DefaultView.Sort = e.SortExpression + " " + GetSortDirection(e.SortExpression);
-        //        //dt.DefaultView.Sort = e.SortExpression;
+
         //        gvGerentes.DataSource = dt;
-        //        gvAsesorVenta.DataBind();
+        //        gvGerentes.DataBind();
         //    }
         //}
     }

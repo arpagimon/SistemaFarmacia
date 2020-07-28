@@ -11,7 +11,7 @@
         });
 
         
-        ///Aqui va el comentario
+        ///Aqui va EL CAMBIO
 
 
         function ModalUpdate(titulo, MSG) {
