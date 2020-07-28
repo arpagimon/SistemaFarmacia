@@ -11,6 +11,7 @@
                 <label id="MTitulo">Mensaje</label>
             </div>
             <div id="MContenido">
+
                 <asp:Label runat="server" ID="lblMensaje" CssClass="lblMensaje"></asp:Label>
                 <br />
                 <asp:Button runat="server" ID="MOk" CssClass="MBoton" Text="Aceptar" OnClick="MOk_Click" />
@@ -89,84 +90,96 @@
             <div id="divGerentes2">
                 <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" OnRowEditing="gvGerentes_RowEditing" OnRowCancelingEdit="gvGerentes_RowCancelingEdit"
-                    OnRowUpdated="gvGerentes_RowUpdated" OnRowDeleted="gvGerentes_RowDeleted" OnRowDeleting="gvGerentes_RowDeleting" OnPageIndexChanging="gvGerentes_PageIndexChanging" >
+                    OnRowUpdated="gvGerentes_RowUpdated" OnRowDeleted="gvGerentes_RowDeleted" OnRowDeleting="gvGerentes_RowDeleting" OnPageIndexChanging="gvGerentes_PageIndexChanging" OnSorting="gvGerentes_Sorting" AllowSorting="true" >
                     <AlternatingRowStyle BackColor="#f2f2f2" />
                     <RowStyle BackColor="#FFFFFF" />
                     <PagerStyle BackColor="#CCCCCC" />
+                    <SortedAscendingHeaderStyle ForeColor ="WhiteSmoke" CssClass="Seleccionada"/>
+                    <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada"/>
+                    <SortedAscendingCellStyle CssClass="Seleccionada" />
+                    <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
+                    <PagerStyle CssClass="Paginador" />
+
                     <Columns>
-                        <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                        <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false" >
+                            
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Nombre" HeaderStyle-Width="15%">
+                        <asp:TemplateField HeaderText="Nombre" HeaderStyle-Width="15%" SortExpression="Nombre">
                             <ItemTemplate>
-                                <asp:Label runat='server' ID='lblNombre' CssClass="lblGerentes" Text='<%# Bind("Nombre") %>'></asp:Label>
+                                <asp:Label runat='server' ID='lblNombre' CssClass="lblGerentes" Text='<%# Bind("Nombre") %>' ></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Apellido Paterno" HeaderStyle-Width="15%">
+                        <asp:TemplateField HeaderText="Apellido Paterno" HeaderStyle-Width="15%" SortExpression="Apellido_paterno">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblApellidoP' CssClass="lblGerentes" Text='<%# Bind("Apellido_paterno") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="15%">
+                        <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="15%" SortExpression="Apellido_materno">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Municipio" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Municipio" HeaderStyle-Width="20%" SortExpression="MUNICIPIO">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblMunicipio' CssClass="lblGerentes" Text='<%# Bind("MUNICIPIO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Edad" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Edad" HeaderStyle-Width="20%" SortExpression="EDAD">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblEdad' CssClass="lblGerentes" Text='<%# Bind("EDAD") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Fecha Ingreso" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Fecha Ingreso" HeaderStyle-Width="20%" SortExpression="FECHA_INGRESO">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblFechaI' CssClass="lblGerentes" Text='<%# Bind("FECHA_INGRESO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Medio" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Medio" HeaderStyle-Width="20%" SortExpression="MEDIO">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblMedio' CssClass="lblGerentes" Text='<%# Bind("MEDIO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Tel casa" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Tel casa" HeaderStyle-Width="20%" SortExpression="tel_casa_fijo">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblTelFijo' CssClass="lblGerentes" Text='<%# Bind("tel_casa_fijo") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Ext." HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Ext." HeaderStyle-Width="20%" SortExpression="Extension">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblExtension' CssClass="lblGerentes" Text='<%# Bind("Extension") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Celular" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Celular" HeaderStyle-Width="20%" SortExpression="Celular">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblCelular' CssClass="lblGerentes" Text='<%# Bind("Celular") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Fecha nacimiento" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Fecha nacimiento" HeaderStyle-Width="20%" SortExpression="FECHA_NACIMIENTO">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblFechaN' CssClass="lblGerentes" Text='<%# Bind("FECHA_NACIMIENTO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Email" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Email" HeaderStyle-Width="20%" SortExpression="EMAIL">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblEmail' CssClass="lblGerentes" Text='<%# Bind("EMAIL") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Observaciones" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Observaciones" HeaderStyle-Width="20%" SortExpression="OBSERVACIONES">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblObservaciones' CssClass="lblGerentes" Text='<%# Bind("OBSERVACIONES") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Nota" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Nota" HeaderStyle-Width="20%" SortExpression="NOTA">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblNota' CssClass="lblGerentes" Text='<%# Bind("NOTA") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Estatus" HeaderStyle-Width="20%" SortExpression="Estatus">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblEstatus' CssClass="lblGerentes" Text='<%# Bind("estatus") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         

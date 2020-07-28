@@ -19,7 +19,6 @@ namespace SistemaFarmacia
         {
             try
             {
-                
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 //String permisos = "";
                 try
@@ -32,23 +31,26 @@ namespace SistemaFarmacia
                     mostrarMensaje("Su sesión a caducado, vuelva a iniciar sesion.");
                     btnOkSalir.Visible = true;
                     MOk.Visible = false;
+                    
                 }
 
-                if (permisos.Contains("11") || permisos.Contains("12") || permisos.Contains("13") || permisos.Contains("14"))
-                {
-                    if (!permisos.Contains("11"))
-                    {
-                        btnAgrClienteG.Visible = false;
-                    }
-                }
-                else
-                {
-                    Response.Redirect("Principal.aspx");
-                }
 
 
                 if (!IsPostBack)
                 {
+
+                    if (permisos.Contains("11") || permisos.Contains("12") || permisos.Contains("13") || permisos.Contains("14"))
+                    {
+                        if (!permisos.Contains("11"))
+                        {
+                            btnAgrClienteG.Visible = false;
+                        }
+                    }
+                    else
+                    {
+                        Response.Redirect("Principal.aspx");
+                    }
+
                     if (Session["Condicion"] == null)
                     {
                         Session.Add("Condicion", "");
@@ -57,14 +59,23 @@ namespace SistemaFarmacia
                     {
                         Session["Condicion"] = "";
                     }
-               
 
+                    if (Session["Orden"] == null)
+                    {
+                        Session.Add("Orden", "Nombre ASC");
+                    }
+                    else
+                    {
+                        Session["Orden"] = "Nombre ASC";
+                    }
 
                     master.mostrarMensaje(false);
                     sombraMensaje.Visible = false;
 
                     cargaClientes();
                 }
+
+                Session.Timeout = 1440;
             }
             catch (Exception ex)
             {
@@ -84,14 +95,10 @@ namespace SistemaFarmacia
 
             if (ds.Tables[0].Rows.Count > 0)
             {
-                //if(ordenamiento != null)
-                //{
-
-                //}
-                //else
-                //{
-                    gvGerentes.DataSource = ds.Tables[0];
-                //}
+                
+                ds.Tables[0].DefaultView.Sort = Session["Orden"].ToString();
+                gvGerentes.DataSource = ds.Tables[0];
+                
                 gvGerentes.DataBind();
             }
             else
@@ -143,6 +150,42 @@ namespace SistemaFarmacia
 
         protected void gvGerentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+
+            //string imgOrd = @" <img src='Imagenes\IndicadorOrden.png' title='Ascending' style='float: left; height: 9px; margin-top: 1px;' />";
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                foreach (TableCell cell in e.Row.Cells)
+                {
+                    try
+                    {
+                        LinkButton lbSort = (LinkButton)cell.Controls[0];
+                        DataTable dttempora = (DataTable)gvGerentes.DataSource;
+                        if (dttempora.DefaultView.Sort == "")
+                        {
+                            if (lbSort.Text == "Nombre")
+                            {
+                                //lbSort.Text = imgOrd + lbSort.Text;
+                                lbSort.CssClass = "Seleccionada";
+                            }
+                        }
+                        else
+                        {
+                            if(lbSort.CommandArgument == dttempora.DefaultView.Sort.Substring(0, dttempora.DefaultView.Sort.IndexOf(" "))){
+                                //lbSort.Text = imgOrd + lbSort.Text;
+                                lbSort.CssClass = "Seleccionada";
+                            }
+                        }
+
+                    }
+                    catch
+                    {
+
+                    }
+
+                }
+            }
+
+
             bool editar = false;
             bool eliminar = false;
 
@@ -181,8 +224,6 @@ namespace SistemaFarmacia
                 {
 
                 }
-
-
             }
         }
 
@@ -224,14 +265,14 @@ namespace SistemaFarmacia
             TxtMunicipio.Text = Municipio.Text;
             TxtEdad.Text = Edad.Text;
             try { 
-            TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3,2) + "-" + FechaI.Text.Substring(0,2);
+                TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3,2) + "-" + FechaI.Text.Substring(0,2);
             }catch(Exception ex) { }
             TxtMedio.Text = Medio.Text;
             TxtTelFijo.Text = TelFijo.Text;
             TxtExtension.Text = Extension.Text;
             TxtCelular.Text = Celular.Text;
             try { 
-            TxtFechaN.Text = FechaN.Text.Substring(6) + "-" + FechaN.Text.Substring(3, 2) + "-" + FechaN.Text.Substring(0, 2); ;
+                TxtFechaN.Text = FechaN.Text.Substring(6) + "-" + FechaN.Text.Substring(3, 2) + "-" + FechaN.Text.Substring(0, 2); ;
             }catch(Exception ex)
             {
 
@@ -682,18 +723,17 @@ namespace SistemaFarmacia
 
         }
 
-        //protected void gvGerentes_Sorting(object sender, GridViewSortEventArgs e)
-        //{
-        //    DataTable dt = Session["dsVentaAsesores"] as DataTable;
-            
-
-        //    if (dt != null)
-        //    {
-        //        dt.DefaultView.Sort = e.SortExpression + " " + GetSortDirection(e.SortExpression);
-
-        //        gvGerentes.DataSource = dt;
-        //        gvGerentes.DataBind();
-        //    }
-        //}
+        protected void gvGerentes_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (Session["Orden"].ToString() == e.SortExpression + " " + "ASC" )
+            {
+                Session["Orden"] = e.SortExpression + " " + "DESC";
+            }
+            else
+            {
+                Session["Orden"] = e.SortExpression + " " + "ASC";
+            }
+            cargaClientes();
+        }
     }
 }

@@ -26,16 +26,19 @@ namespace SistemaFarmacia
                 mostrarMensaje("Su sesión a caducado, vuelva a iniciar sesion.");
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
+                
             }
 
-            if (!permisos.Contains("31"))
-            {
-                Response.Redirect("Principal.aspx");
-            }
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
             if (!IsPostBack)
             {
+
+                if (!permisos.Contains("31"))
+                {
+                    Response.Redirect("Principal.aspx");
+                }
+
                 master.mostrarMensaje(false);
                 sombraMensaje.Visible = false;
 
@@ -48,6 +51,9 @@ namespace SistemaFarmacia
                 btnOpcionCorreo.CssClass = "";
                 cargaGerentes();
             }
+
+
+            Session.Timeout = 1440;
         }
 
 

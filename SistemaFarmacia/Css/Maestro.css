@@ -9,8 +9,8 @@
 
 .sombra{
     background: rgba(220,220,220,0.7);
-    position: fixed;
-    height: 100%;
+    position: absolute;
+    height: calc(100% - 70px);
     width: 100%;
     z-index: 5;
 }

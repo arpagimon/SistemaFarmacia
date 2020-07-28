@@ -77,7 +77,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon"><i class="fa fa-lock" aria-hidden="true"></i></span>
                         </div>
-                        <asp:TextBox type="text" runat="server" class="form-control" ID="Pass" TextMode="Password" placeholder="Contaseña" aria-label="Contraseña" aria-describedby="basic-addon1"></asp:TextBox>
+                        <asp:TextBox type="text" runat="server" class="form-control" ID="Pass" TextMode="Password" placeholder="Contraseña" aria-label="Contraseña" aria-describedby="basic-addon1"></asp:TextBox>
                     </div>
                     <div class="pt-3">
                         <asp:UpdatePanel runat="server">

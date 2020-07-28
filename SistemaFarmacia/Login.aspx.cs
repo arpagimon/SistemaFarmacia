@@ -14,6 +14,7 @@ namespace SistemaFarmacia
         Conexion conexion = new Conexion();
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             if (!IsPostBack)
             {
                 ValidaCorreo();
@@ -24,6 +25,9 @@ namespace SistemaFarmacia
                 master.mostrarbtnSalir(false);
                 master.mostrarbtnRegresar(false);
             }
+
+            Session.Timeout = 1440;
+
         }
         private void RegistrarScript()
         {

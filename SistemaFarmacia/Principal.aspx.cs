@@ -51,6 +51,9 @@ namespace SistemaFarmacia
                     }
                 }
             }
+
+            Session.Timeout = 1440;
+
         }
 
         protected void Clientes_Click(object sender, EventArgs e)

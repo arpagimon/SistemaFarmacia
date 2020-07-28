@@ -22,14 +22,14 @@
 
 .divContenido {
     vertical-align: top;
-    width: 84%;
+    width: 95%;
     /*height: 100%;*/
     margin-top: 10px;
     overflow: auto;
     display: inline-block;
     position: relative;
     /*float: right;*/
-    margin-left: 8%;
+    margin-left: 2%;
 }
 
 /*                  Bloque Gerentes                 */
@@ -94,17 +94,23 @@
 .gridview {
     border: none;
     font-family: Verdana;
-    font-size: 12px;
+    /*font-size: 12px;*/
+    font-size:large;
     border-color: white;
 }
 
     .gridview th {
-        color: white;
+        color: white ;
         text-align: center;
         padding-left: 10px;
         padding-right: 10px;
         border-color: white;
     }
+    .gridview th a{
+        color: white ;
+        margin: 0px;
+    }
+
 
     .gridview tr {
         border: none;
@@ -118,10 +124,28 @@
         /*text-align:right;*/
     }
 
-    .gridview:first-child a {
-        color: black;
+    .Paginador a {
+        color: #555555;
         margin-left: 10px;
     }
+
+    .Paginador span{
+        margin-left: 10px;
+        margin-bottom: 2px;
+        color: black;
+        text-decoration: underline;
+        font-size: medium;
+    }
+
+
+    .Seleccionada{
+        /*color: yellow !important;*/
+        color: #DFDFDF !important;
+        font-weight:bolder;
+        text-decoration: underline;
+    }
+
+
 
 .lblSinResultado {
     text-align: center !important;
@@ -919,7 +943,7 @@
         overflow: auto;
     }
 
-    .divContenido {
+    /*.divContenido {
         vertical-align: top;
         width: 84%;
         height: 100%;
@@ -928,7 +952,7 @@
         display: inline-block;
         position: relative;
         float: right;
-    }
+    }*/
 
     .lblNotaEmail {
         vertical-align: top;
@@ -1012,7 +1036,7 @@
         overflow: auto;
     }
 
-    .divContenido {
+    /*.divContenido {
         vertical-align: top;
         width: 84%;
         height: 100%;
@@ -1021,7 +1045,7 @@
         display: inline-block;
         position: relative;
         float: right;
-    }
+    }*/
 
     .lblNotaEmail {
         vertical-align: top;

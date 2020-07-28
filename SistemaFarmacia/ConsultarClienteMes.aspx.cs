@@ -34,13 +34,14 @@ namespace SistemaFarmacia
                 MOk.Visible = false;
             }
 
-            if (!permisos.Contains("21"))
-            {
-                Response.Redirect("Principal.aspx");
-            }
 
             if (!IsPostBack)
             {
+
+                if (!permisos.Contains("21"))
+                {
+                    Response.Redirect("Principal.aspx");
+                }
 
                 if (Session["Condicion"] == null)
                 {
@@ -60,12 +61,23 @@ namespace SistemaFarmacia
                 }
 
 
+                if (Session["Orden"] == null)
+                {
+                    Session.Add("Orden", "Nombre ASC");
+                }
+                else
+                {
+                    Session["Orden"] = "Nombre ASC";
+                }
+
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarMensaje(false);
                 sombraMensaje.Visible = false;
 
                 cargaClientes();
             }
+
+            Session.Timeout = 1440;
         }
 
         
@@ -125,6 +137,7 @@ namespace SistemaFarmacia
 
             if (ds.Tables[0].Rows.Count > 0)
             {
+                ds.Tables[0].DefaultView.Sort = Session["Orden"].ToString();
                 gvGerentes.DataSource = ds.Tables[0];
                 gvGerentes.DataBind();
             }
@@ -177,7 +190,39 @@ namespace SistemaFarmacia
 
         protected void gvGerentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
+            if (e.Row.RowType == DataControlRowType.Header)
+            {
+                foreach (TableCell cell in e.Row.Cells)
+                {
+                    try
+                    {
+                        LinkButton lbSort = (LinkButton)cell.Controls[0];
+                        DataTable dttempora = (DataTable)gvGerentes.DataSource;
+                        if (dttempora.DefaultView.Sort == "")
+                        {
+                            if (lbSort.Text == "Nombre")
+                            {
+                                //lbSort.Text = imgOrd + lbSort.Text;
+                                lbSort.CssClass = "Seleccionada";
+                            }
+                        }
+                        else
+                        {
+                            if (lbSort.CommandArgument == dttempora.DefaultView.Sort.Substring(0, dttempora.DefaultView.Sort.IndexOf(" ")))
+                            {
+                                //lbSort.Text = imgOrd + lbSort.Text;
+                                lbSort.CssClass = "Seleccionada";
+                            }
+                        }
 
+                    }
+                    catch(Exception ex)
+                    {
+
+                    }
+
+                }
+            }
         }
         
         
@@ -479,6 +524,19 @@ namespace SistemaFarmacia
         protected void gvGerentes_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvGerentes.PageIndex = e.NewPageIndex;
+            cargaClientes();
+        }
+
+        protected void gvGerentes_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (Session["Orden"].ToString() == e.SortExpression + " " + "ASC")
+            {
+                Session["Orden"] = e.SortExpression + " " + "DESC";
+            }
+            else
+            {
+                Session["Orden"] = e.SortExpression + " " + "ASC";
+            }
             cargaClientes();
         }
     }
