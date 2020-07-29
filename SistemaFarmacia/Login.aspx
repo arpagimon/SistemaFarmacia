@@ -11,7 +11,7 @@
         });
 
         
-        ///Aqui va EL CAMBIO
+        ///Aqui va se debe de ir solo a pruebas
 
 
         function ModalUpdate(titulo, MSG) {
