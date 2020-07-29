@@ -31,7 +31,7 @@ namespace SistemaFarmacia
                     mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
                     btnOkSalir.Visible = true;
                     MOk.Visible = false;
-                    
+                    return;
                 }
 
 
@@ -98,8 +98,8 @@ namespace SistemaFarmacia
 
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-
                     ds.Tables[0].DefaultView.Sort = Session["Orden"].ToString();
+                    
                     gvGerentes.DataSource = ds.Tables[0];
 
                     gvGerentes.DataBind();
@@ -221,15 +221,29 @@ namespace SistemaFarmacia
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                     Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 
-                    if (etiquetaFechaI.Text.Trim().Length > 0)
-                    {
-                        etiquetaFechaI.Text = etiquetaFechaI.Text.Split(' ')[0];
+                    try{
+                        etiquetaFechaN.Text =  ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("dd/MM/yyyy");
                     }
+                    catch { }
 
-                    if (etiquetaFechaN.Text.Trim().Length > 0)
+                    try
                     {
-                        etiquetaFechaN.Text = etiquetaFechaN.Text.Split(' ')[0];
+                        etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
                     }
+                    catch { }
+                    //DataRowView drvFechaI = (DataRowView)e.Row.DataItem;
+                    
+
+                    
+                    //if (etiquetaFechaI.Text.Trim().Length > 0)
+                    //{
+                    //    etiquetaFechaI.Text = etiquetaFechaI.Text.Split(' ')[0];
+                    //}
+
+                    //if (etiquetaFechaN.Text.Trim().Length > 0)
+                    //{
+                    //    etiquetaFechaN.Text = etiquetaFechaN.Text.Split(' ')[0];
+                    //}
 
 
 

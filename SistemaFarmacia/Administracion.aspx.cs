@@ -24,6 +24,10 @@ namespace SistemaFarmacia
             {
                 sombraMensaje.Visible = true;
                 mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
+                divGerentes.Visible = false;
+                divPerfiles.Visible = false;
+                divCorreo.Visible = false;
+
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
                 
