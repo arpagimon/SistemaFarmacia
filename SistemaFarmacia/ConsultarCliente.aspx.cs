@@ -214,8 +214,7 @@ namespace SistemaFarmacia
                         e.Row.Cells[15].Visible = false;
                     }
                 }
-
-                //
+                
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
@@ -231,22 +230,8 @@ namespace SistemaFarmacia
                         etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
                     }
                     catch { }
-                    //DataRowView drvFechaI = (DataRowView)e.Row.DataItem;
-                    
 
                     
-                    //if (etiquetaFechaI.Text.Trim().Length > 0)
-                    //{
-                    //    etiquetaFechaI.Text = etiquetaFechaI.Text.Split(' ')[0];
-                    //}
-
-                    //if (etiquetaFechaN.Text.Trim().Length > 0)
-                    //{
-                    //    etiquetaFechaN.Text = etiquetaFechaN.Text.Split(' ')[0];
-                    //}
-
-
-
 
 
                     if (!editar)

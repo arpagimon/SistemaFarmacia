@@ -201,4 +201,5 @@ _Pvt_Extensions/
 ModelManifest.xml
 
 
-web.config
+Web.config
+*.config
