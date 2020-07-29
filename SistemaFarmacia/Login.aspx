@@ -11,7 +11,7 @@
         });
 
         
-        ///Aqui va se debe de ir solo a pruebas
+        ///Cacha Sesion muerta
 
 
         function ModalUpdate(titulo, MSG) {

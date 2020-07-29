@@ -29,7 +29,7 @@ namespace SistemaFarmacia
             catch (Exception ex)
             {
                 sombraMensaje.Visible = true;
-                mostrarMensaje("Su sesión a caducado, vuelva a iniciar sesion.");
+                mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
             }
@@ -223,9 +223,29 @@ namespace SistemaFarmacia
 
                 }
             }
-        }
-        
-        
+
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
+                Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
+
+                if (etiquetaFechaI.Text.Trim().Length > 0)
+                {
+                    etiquetaFechaI.Text = etiquetaFechaI.Text.Split(' ')[0];
+                }
+
+                if (etiquetaFechaN.Text.Trim().Length > 0)
+                {
+                    etiquetaFechaN.Text = etiquetaFechaN.Text.Split(' ')[0];
+                }
+
+            }
+
+            }
+
+
+
 
         public void mostrarMensaje(String mensaje)
         {

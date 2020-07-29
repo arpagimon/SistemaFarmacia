@@ -23,7 +23,7 @@ namespace SistemaFarmacia
             catch (Exception ex)
             {
                 sombraMensaje.Visible = true;
-                mostrarMensaje("Su sesión a caducado, vuelva a iniciar sesion.");
+                mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
                 
