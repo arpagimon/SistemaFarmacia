@@ -10,3 +10,4 @@ C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.csprojResolveAssemblyReference.cache
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.pdb
+C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.csprojResolveAssemblyReference.cache
