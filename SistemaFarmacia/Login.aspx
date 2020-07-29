@@ -63,7 +63,7 @@
     <div class="container">
         <div class="row justify-content-center pt-5 mt-5 mr-1">
             <div class="col-md-5 formulario">
-                <form class="formInicio">
+                <%--<form class="formInicio" >--%>
                     <div class="form-group text-center pt-3">
                         <h1 class="tex-light">Iniciar Sesión</h1>
                     </div>
@@ -91,6 +91,7 @@
                     <div class="form-group mx-sm-4 pt-3 text-center reactive">
                         <button type="button" class="btn btn-link text-white" onclick="ModalOlvide()">Olvidé mi contraseña</button>
                     </div>
+                    <%--</form>--%>
             </div>
         </div>
     </div>

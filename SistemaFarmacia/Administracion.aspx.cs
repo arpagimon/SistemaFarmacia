@@ -52,8 +52,7 @@ namespace SistemaFarmacia
                 cargaGerentes();
             }
 
-
-            Session.Timeout = 1440;
+            
         }
 
 

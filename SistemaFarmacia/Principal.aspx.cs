@@ -51,8 +51,7 @@ namespace SistemaFarmacia
                     }
                 }
             }
-
-            Session.Timeout = 1440;
+            
 
         }
 

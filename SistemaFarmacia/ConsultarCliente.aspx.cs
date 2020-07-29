@@ -75,8 +75,7 @@ namespace SistemaFarmacia
 
                         cargaClientes();
                     }
-
-                    Session.Timeout = 1440;
+                    
                 }
             }
             catch (Exception ex)
