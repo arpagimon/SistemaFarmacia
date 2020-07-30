@@ -62,12 +62,13 @@
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
                     <br />
-                    <%--<label class="FGEtiqueta">Estatus: </label>
+
+                    <label class="FGEtiqueta">Estatus: </label>
                     <asp:DropDownList runat="server" ID="ddlEstatus" CssClass="FGColumna2 FGInput" >
                         <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
                         <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
                     </asp:DropDownList>
-                    --%>
+                    <br />
                     <br />
                     <div id="FBotonera">
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
@@ -185,7 +186,7 @@
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Estatus" HeaderStyle-Width="20%" SortExpression="Estatus">
                             <ItemTemplate>
-                                <asp:Label runat='server' ID='lblEstatus' CssClass="lblGerentes" Text='<%# Bind("estatus") %>'></asp:Label>
+                                <asp:Label runat='server' ID='lblEstatus' CssClass="lblGerentes" Text='<%# Bind("ESTATUS") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         

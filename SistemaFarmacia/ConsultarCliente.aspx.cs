@@ -15,6 +15,7 @@ namespace SistemaFarmacia
 
         Conexion connMySql = new Conexion();
         String permisos = "";
+        ListItem lITodos = new ListItem("Todos", "-1");
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -243,6 +244,8 @@ namespace SistemaFarmacia
                     {
                         if (!eliminar)
                         {
+                            
+
                             e.Row.Cells[15].Controls[2].Visible = false;
                         }
                     }
@@ -257,6 +260,11 @@ namespace SistemaFarmacia
         protected void gvGerentes_RowEditing(object sender, GridViewEditEventArgs e)
         {
             panelMsj.DefaultButton = FGActualizar.ID;
+
+            if (ddlEstatus.Items.IndexOf(lITodos) == 0)
+            {
+                ddlEstatus.Items.RemoveAt(0);
+            }
 
             FTitulo.Text = "Editar cliente";
 
@@ -277,6 +285,8 @@ namespace SistemaFarmacia
             Label Email = (Label)row.FindControl("lblEmail");
             Label Observaciones = (Label)row.FindControl("lblObservaciones");
             Label Nota = (Label)row.FindControl("lblNota");
+            Label Estatus = (Label)row.FindControl("lblEstatus");
+            
 
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -309,7 +319,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
             TxtNota.Text = Nota.Text;
-
+            ddlEstatus.SelectedIndex = (Estatus.Text == "Activo" ? 0: 1) ;
 
 
             FGAgregar.Visible = false;
@@ -348,7 +358,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
-
+            ddlEstatus.SelectedIndex = 0;
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
@@ -372,10 +382,10 @@ namespace SistemaFarmacia
             String Email = TxtEmail.Text;
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
-            //String Estatus = ddlEstatus.SelectedValue;
+            String Estatus = ddlEstatus.SelectedValue;
 
 
-            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad.ToUpper(), FechaN.ToUpper(), FechaI.ToUpper(), Municipio.ToUpper(), TelFijo, Extension, Celular, Email, Observaciones.ToUpper(), Nota.ToUpper(), Medio.ToUpper());
+            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad.ToUpper(), FechaN.ToUpper(), FechaI.ToUpper(), Municipio.ToUpper(), TelFijo, Extension, Celular, Email, Observaciones.ToUpper(), Nota.ToUpper(), Medio.ToUpper(), Estatus);
 
 
             TxtIdCliente.Text = "";
@@ -393,6 +403,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
+            ddlEstatus.SelectedIndex = 0;
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
@@ -433,6 +444,12 @@ namespace SistemaFarmacia
         {
             panelMsj.DefaultButton = FGAgregar.ID;
 
+            if (ddlEstatus.Items.IndexOf(lITodos) == 0)
+            {
+                ddlEstatus.Items.RemoveAt(0);
+            }
+
+
 
             FTitulo.Text = "Agregar cliente";
 
@@ -459,6 +476,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
+            ddlEstatus.SelectedIndex = 0;
         }
 
         
@@ -502,9 +520,9 @@ namespace SistemaFarmacia
             String Email = TxtEmail.Text;
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
-            //String Estatus = ddlEstatus.SelectedValue;
+            String Estatus = ddlEstatus.SelectedValue;
 
-            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, Medio);
+            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, Medio, Estatus);
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
@@ -524,6 +542,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
+            ddlEstatus.SelectedIndex = 0;
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
@@ -611,6 +630,10 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " nota like '%" + TxtNota.Text.Trim() + "%' ";
                 }
 
+                if(ddlEstatus.SelectedValue == "0" || ddlEstatus.SelectedValue == "1")
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " estatus LIKE '%" + ddlEstatus.SelectedValue + "%' ";
+                }
 
 
                 Session["Condicion"] = condicion;
@@ -649,6 +672,7 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
+            ddlEstatus.SelectedIndex = 0;
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(false);
@@ -668,23 +692,32 @@ namespace SistemaFarmacia
         //Muestra la ventana del buscador
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            if (SesionViva()) { 
+                
 
-            panelMsj.DefaultButton = btnBuscarF.ID;
+                if (ddlEstatus.Items.IndexOf(lITodos) == -1)
+                {
+                    ddlEstatus.Items.Insert(0, lITodos);
+                    ddlEstatus.SelectedIndex = 0;
+                }
 
-            btnLimpiarF.Visible = true;
-            btnBuscarF.Visible = true;
-            FGCancelar.Visible = false;
-            FGAgregar.Visible = false;
-            FGActualizar.Visible = false;
-            divFormularioG.Visible = true;
+                panelMsj.DefaultButton = btnBuscarF.ID;
 
-            FTitulo.Text = "Buscar clientes";
+                btnLimpiarF.Visible = true;
+                btnBuscarF.Visible = true;
+                FGCancelar.Visible = false;
+                FGAgregar.Visible = false;
+                FGActualizar.Visible = false;
+                divFormularioG.Visible = true;
+
+                FTitulo.Text = "Buscar clientes";
 
 
 
-            MasterFarmacia master = (MasterFarmacia)this.Master;
-            master.mostrarMensaje(true);
-            sombraMensaje.Visible = true;
+                MasterFarmacia master = (MasterFarmacia)this.Master;
+                master.mostrarMensaje(true);
+                sombraMensaje.Visible = true;
+            }
 
         }
 
