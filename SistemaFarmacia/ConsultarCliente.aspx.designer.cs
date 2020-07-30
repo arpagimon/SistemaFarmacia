@@ -247,6 +247,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Button btnLimpiarF;
         
         /// <summary>
+        /// Control btnCerrarF.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCerrarF;
+        
+        /// <summary>
         /// Control FGCancelar.
         /// </summary>
         /// <remarks>
@@ -290,6 +299,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAgrClienteG;
+        
+        /// <summary>
+        /// Control btnVerTodos.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVerTodos;
         
         /// <summary>
         /// Control btnBuscar.

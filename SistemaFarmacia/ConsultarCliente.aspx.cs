@@ -642,6 +642,7 @@ namespace SistemaFarmacia
 
                 btnLimpiarF.Visible = false;
                 btnBuscarF.Visible = false;
+                btnCerrarF.Visible = false;
                 FGCancelar.Visible = true;
                 FGAgregar.Visible = true;
                 FGActualizar.Visible = true;
@@ -657,35 +658,36 @@ namespace SistemaFarmacia
         {
             if (SesionViva()) { 
 
-            TxtIdCliente.Text = "";
-            TxtNombre.Text = "";
-            TxtApellidoP.Text = "";
-            TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
-            TxtEdad.Text = "";
-            TxtFechaI.Text = "";
-            TxtMedio.Text = "";
-            TxtTelFijo.Text = "";
-            TxtExtension.Text = "";
-            TxtCelular.Text = "";
-            TxtFechaN.Text = "";
-            TxtEmail.Text = "";
-            TxtObservaciones.Text = "";
-            TxtNota.Text = "";
-            ddlEstatus.SelectedIndex = 0;
+                TxtIdCliente.Text = "";
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                TxtMunicipio.Text = "";
+                TxtEdad.Text = "";
+                TxtFechaI.Text = "";
+                TxtMedio.Text = "";
+                TxtTelFijo.Text = "";
+                TxtExtension.Text = "";
+                TxtCelular.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                TxtObservaciones.Text = "";
+                TxtNota.Text = "";
+                ddlEstatus.SelectedIndex = 0;
 
-            MasterFarmacia master = (MasterFarmacia)this.Master;
-            master.mostrarMensaje(false);
-            sombraMensaje.Visible = false;
+                //MasterFarmacia master = (MasterFarmacia)this.Master;
+                //master.mostrarMensaje(false);
+                //sombraMensaje.Visible = false;
 
-            btnLimpiarF.Visible = false;
-            btnBuscarF.Visible = false;
-            FGCancelar.Visible = true;
-            FGAgregar.Visible = true;
-            FGActualizar.Visible = true;
-            divFormularioG.Visible = false;
-            Session["Condicion"] = "";
-            cargaClientes();
+                //btnLimpiarF.Visible = false;
+                //btnBuscarF.Visible = false;
+                //btnCerrarF.Visible = false;
+                //FGCancelar.Visible = true;
+                //FGAgregar.Visible = true;
+                //FGActualizar.Visible = true;
+                //divFormularioG.Visible = false;
+                //Session["Condicion"] = "";
+                //cargaClientes();
             }
         }
 
@@ -705,6 +707,7 @@ namespace SistemaFarmacia
 
                 btnLimpiarF.Visible = true;
                 btnBuscarF.Visible = true;
+                btnCerrarF.Visible = true;
                 FGCancelar.Visible = false;
                 FGAgregar.Visible = false;
                 FGActualizar.Visible = false;
@@ -759,5 +762,42 @@ namespace SistemaFarmacia
             return vive;
         }
         
+
+        protected void btnCerrarF_Click(object sender, EventArgs e)
+        {
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+
+            divFormularioG.Visible = false;
+
+        }
+
+        protected void btnVerTodos_Click(object sender, EventArgs e)
+        {
+            if (SesionViva())
+            {
+                TxtIdCliente.Text = "";
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                TxtMunicipio.Text = "";
+                TxtEdad.Text = "";
+                TxtFechaI.Text = "";
+                TxtMedio.Text = "";
+                TxtTelFijo.Text = "";
+                TxtExtension.Text = "";
+                TxtCelular.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                TxtObservaciones.Text = "";
+                TxtNota.Text = "";
+                ddlEstatus.SelectedIndex = 0;
+
+
+                Session["Condicion"] = "";
+                cargaClientes();
+            }
+        }
     }
 }

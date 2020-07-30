@@ -70,7 +70,8 @@
                     <br />
                     <div id="FBotonera">
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
-                        <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Salir" OnClick="btnLimpiarF_Click" Visible="false" />
+                        <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Vaciar" OnClick="btnLimpiarF_Click" Visible="false" />
+                        <asp:Button runat="server" ID="btnCerrarF" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrarF_Click" Visible="false" />
                     </div>
                 </div>
             </asp:Panel>
@@ -105,6 +106,7 @@
                     <%--<asp:Image runat="server" ID="imgEnviarCorreo" ImageUrl="~/Imagenes/mail.png" CssClass="imgBusquedaG" />--%>
                 <%--</div>--%>
                 <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusquedaC" placeholder="Nombre/Apellido/Email/Observación" CssClass="txtBusquedaG" OnTextChanged="txtBusquedaC_TextChanged" AutoPostBack="true"></asp:TextBox>--%>
+                <asp:Button runat="server" ID="btnVerTodos" Text="Ver Todos" OnClick="btnVerTodos_Click" CssClass="btnAgrClienteG floatDerecha btnVerTodos" />
                 <asp:Button runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" Text="Buscar" CssClass="btnAgrClienteG floatDerecha" AutoPostBack="true" />
                 <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
             </div>
