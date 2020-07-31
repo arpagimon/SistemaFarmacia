@@ -231,9 +231,6 @@ namespace SistemaFarmacia
                 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-
-                    Label etiquetaNumero = (Label)e.Row.FindControl("lblNumero");
-                    etiquetaNumero.Text = e.Row.RowIndex.ToString();
                     
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                     Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
