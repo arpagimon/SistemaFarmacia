@@ -17,7 +17,7 @@ namespace SistemaFarmacia
             
             if (!IsPostBack)
             {
-                ValidaCorreo();
+                //ValidaCorreo();
 
                 Session.Clear();
 

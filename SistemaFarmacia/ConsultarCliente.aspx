@@ -44,12 +44,13 @@
                     <label class="FGEtiqueta">Apellido Paterno: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
                     <br />
-                    <label class="FGEtiqueta">Apellido Materno: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <div class="divApePat">
+                        <label class="FGEtiqueta">Apellido Materno: </label>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    </div>
                     <label class="FGEtiqueta">Estado:</label>                 
                     <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado" >
                     </asp:DropDownList>
-                    <br />
                     <label class="FGEtiqueta">Municipio: </label>
                     <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMunicipio" CssClass="FGColumna2 FGInput"></asp:TextBox>--%>
                     <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlMunicipio" Enabled="false">
@@ -224,7 +225,7 @@
                             </ItemTemplate>
                         </asp:TemplateField>
                         
-                        <asp:CommandField ShowEditButton="true"  ShowDeleteButton="TRUE" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
+                        <asp:CommandField ShowEditButton="true"  ShowDeleteButton="false" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                     </Columns>
                 </asp:GridView>

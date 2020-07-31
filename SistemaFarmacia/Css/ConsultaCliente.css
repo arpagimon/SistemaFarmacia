@@ -64,7 +64,7 @@
 
 .FormGerente {
     width: 750px;
-    height: 500px;
+    /*height: 500px;*/
     background: white;
     margin: auto;
     margin-top: 0.5%;
@@ -227,7 +227,7 @@
 }
 
 #FContenido, #FContenidoP {
-    height: 450px;
+    /*height: 450px;*/
     text-align: center;
 }
 
@@ -283,6 +283,13 @@
 .chbFG {
     width: 100%;
 }
+
+.divApePat{
+    text-align: left;
+    padding: 0 0 0 2%;
+}
+
+
 
 .FGContenedorTerm {
     height: 80px;

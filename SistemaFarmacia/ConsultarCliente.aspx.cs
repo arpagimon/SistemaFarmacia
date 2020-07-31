@@ -326,7 +326,7 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = ApellidoM.Text;
             try
             {
-                ddlEstado.SelectedValue = connMySql.EjecutaQueryString("select ID from farmacia.Estados where Estado = '" + Estado.Text.Trim() + "'" );
+                ddlEstado.SelectedValue = connMySql.traerIdEstado(Estado.Text.Trim());
                 llenaMunicipio(ddlEstado.SelectedValue);
             }
             catch { }
@@ -519,6 +519,7 @@ namespace SistemaFarmacia
             //habilita botones
             btnBuscarF.Visible = false;
             btnLimpiarF.Visible = false;
+            btnCerrarF.Visible = false;
             FGCancelar.Visible = true;
             FGActualizar.Visible = false;
             FGAgregar.Visible = true;
