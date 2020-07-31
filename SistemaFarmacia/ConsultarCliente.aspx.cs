@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
+using SistemaFarmacia.Clases;
 
 namespace SistemaFarmacia
 {
@@ -21,7 +22,7 @@ namespace SistemaFarmacia
             try
             {
                 MasterFarmacia master = (MasterFarmacia)this.Master;
-                //String permisos = "";
+
                 try
                 {
                     permisos = Session["Permisos"].ToString();
@@ -71,10 +72,22 @@ namespace SistemaFarmacia
                             Session["Orden"] = "Nombre ASC";
                         }
 
+                        if(Session["EstadoGeneral"] == null)
+                        {
+                            Session.Add("EstadoGeneral", "1");
+                        }else
+                        {
+                            Session["EstadoGeneral"] = "1";
+                        }
+                        ddlEstatusGeneral.SelectedValue = "1";
+
+
                         master.mostrarMensaje(false);
                         sombraMensaje.Visible = false;
 
+                        llenarDropDownDlist();
                         cargaClientes();
+                        llenaEstados();
                     }
                     
                 }
@@ -95,14 +108,13 @@ namespace SistemaFarmacia
         {
             if (SesionViva())
             {
-                DataSet ds = connMySql.TraerClientes(Session["Condicion"].ToString());
+                DataSet ds = connMySql.TraerClientes(Session["Condicion"].ToString(), Session["EstadoGeneral"].ToString());
 
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     ds.Tables[0].DefaultView.Sort = Session["Orden"].ToString();
                     
                     gvGerentes.DataSource = ds.Tables[0];
-
                     gvGerentes.DataBind();
                 }
                 else
@@ -123,6 +135,7 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("EDAD");
                         dtTemporal.Columns.Add("FECHA_NACIMIENTO");
                         dtTemporal.Columns.Add("FECHA_INGRESO");
+                        dtTemporal.Columns.Add("ESTADO");
                         dtTemporal.Columns.Add("MUNICIPIO");
                         dtTemporal.Columns.Add("tel_casa_fijo");
                         dtTemporal.Columns.Add("extension");
@@ -218,6 +231,10 @@ namespace SistemaFarmacia
                 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
+
+                    Label etiquetaNumero = (Label)e.Row.FindControl("lblNumero");
+                    etiquetaNumero.Text = e.Row.RowIndex.ToString();
+                    
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                     Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 
@@ -260,7 +277,17 @@ namespace SistemaFarmacia
         protected void gvGerentes_RowEditing(object sender, GridViewEditEventArgs e)
         {
             panelMsj.DefaultButton = FGActualizar.ID;
+            divObservacionesNota.Visible = true;
 
+            btnCerrarF.Visible = false;
+            btnBuscarF.Visible = false;
+            btnLimpiarF.Visible = false;
+            FGCancelar.Visible = true;
+            FGActualizar.Visible = true;
+            FGAgregar.Visible = false;
+
+
+            
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
@@ -274,6 +301,7 @@ namespace SistemaFarmacia
             Label Nombre = (Label)row.FindControl("lblNombre");
             Label ApellidoP = (Label)row.FindControl("lblApellidoP");
             Label ApellidoM = (Label)row.FindControl("lblApellidoM");
+            Label Estado = (Label)row.FindControl("lblEstado");
             Label Municipio = (Label)row.FindControl("lblMunicipio");
             Label Edad = (Label)row.FindControl("lblEdad");
             Label FechaI = (Label)row.FindControl("lblFechaI");
@@ -299,14 +327,35 @@ namespace SistemaFarmacia
             TxtNombre.Text = Nombre.Text;
             TxtApellidoP.Text = ApellidoP.Text;
             TxtApellidoM.Text = ApellidoM.Text;
-            TxtMunicipio.Text = Municipio.Text;
+            try
+            {
+                ddlEstado.SelectedValue = connMySql.EjecutaQueryString("select ID from farmacia.Estados where Estado = '" + Estado.Text.Trim() + "'" );
+                llenaMunicipio(ddlEstado.SelectedValue);
+            }
+            catch { }
+
+            try
+            {
+                ddlMunicipio.SelectedValue = Municipio.Text.Trim();
+            }
+            catch { }
+
+
+
+
             TxtEdad.Text = Edad.Text;
 
             try { 
                 TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3,2) + "-" + FechaI.Text.Substring(0,2);
             }catch(Exception ex) { }
 
-            TxtMedio.Text = Medio.Text;
+
+            try
+            {
+                ddlMedio.SelectedValue = Medio.Text;
+            }
+            catch { }
+
             TxtTelFijo.Text = TelFijo.Text;
             TxtExtension.Text = Extension.Text;
             TxtCelular.Text = Celular.Text;
@@ -322,8 +371,6 @@ namespace SistemaFarmacia
             ddlEstatus.SelectedIndex = (Estatus.Text == "Activo" ? 0: 1) ;
 
 
-            FGAgregar.Visible = false;
-            FGActualizar.Visible = true;
         }
 
 
@@ -347,10 +394,14 @@ namespace SistemaFarmacia
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
+
+
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
-            TxtMedio.Text = "";
+            ddlMedio.SelectedIndex = -1;
+
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -371,10 +422,11 @@ namespace SistemaFarmacia
             String Nombre = TxtNombre.Text;
             String ApellidoP = TxtApellidoP.Text;
             String ApellidoM = TxtApellidoM.Text;
-            String Municipio = TxtMunicipio.Text;
+            String Estado = (ddlEstado.SelectedIndex < 1?"": ddlEstado.Items[ddlEstado.SelectedIndex].Text);
+            String Municipio = (ddlMunicipio.SelectedIndex < 1 ? "" : ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text);
             String Edad = TxtEdad.Text;
             String FechaI = TxtFechaI.Text;
-            String Medio = TxtMedio.Text;
+            String Medio = ddlMedio.SelectedValue;
             String TelFijo = TxtTelFijo.Text;
             String Extension = TxtExtension.Text;
             String Celular = TxtCelular.Text;
@@ -385,17 +437,20 @@ namespace SistemaFarmacia
             String Estatus = ddlEstatus.SelectedValue;
 
 
-            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad.ToUpper(), FechaN.ToUpper(), FechaI.ToUpper(), Municipio.ToUpper(), TelFijo, Extension, Celular, Email, Observaciones.ToUpper(), Nota.ToUpper(), Medio.ToUpper(), Estatus);
+            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad.ToUpper(), FechaN.ToUpper(), FechaI.ToUpper(), Municipio.ToUpper(), TelFijo, Extension, Celular, Email, Observaciones.ToUpper(), Nota.ToUpper(), (Medio.ToUpper() == "0"? "": Medio.ToUpper()), Estatus,Estado.ToUpper());
 
 
+
+            //Limpia las opciones
             TxtIdCliente.Text = "";
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
-            TxtMedio.Text = "";
+            ddlMedio.SelectedIndex = -1;
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -444,10 +499,15 @@ namespace SistemaFarmacia
         {
             panelMsj.DefaultButton = FGAgregar.ID;
 
+
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
             }
+
+
+
+            llenaEstados();
 
 
 
@@ -459,16 +519,24 @@ namespace SistemaFarmacia
 
             divFormularioG.Visible = true;
 
+            //habilita botones
+            btnBuscarF.Visible = false;
+            btnLimpiarF.Visible = false;
+            FGCancelar.Visible = true;
             FGActualizar.Visible = false;
             FGAgregar.Visible = true;
+
+            //Limpia las opciones
             TxtIdCliente.Text = "";
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
+            
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
-            TxtMedio.Text = "";
+            ddlMedio.SelectedIndex = -1;
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -477,6 +545,9 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
+
+            divObservacionesNota.Visible = true;
+
         }
 
         
@@ -494,12 +565,21 @@ namespace SistemaFarmacia
         {
             GridViewRow row = (GridViewRow)gvGerentes.Rows[e.RowIndex];
             Label Id_Cliente = (Label)row.FindControl("lblIdCliente");
-            String resultado = connMySql.EliminaCliente(Id_Cliente.Text);
+            String IdClienterefinado = Id_Cliente.Text;
+            recupera.Text = IdClienterefinado.ToString();
 
             sombraMensaje.Visible = true;
-            mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario eliminado exitosamente" : resultado));
+            mostrarMensaje2();
 
-            cargaClientes();
+
+            //GridViewRow row = (GridViewRow)gvGerentes.Rows[e.RowIndex];
+            //Label Id_Cliente = (Label)row.FindControl("lblIdCliente");
+            //String resultado = connMySql.EliminaCliente(Id_Cliente.Text);
+
+            //sombraMensaje.Visible = true;
+            //mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario eliminado exitosamente" : resultado));
+
+            //cargaClientes();
 
         }
 
@@ -509,10 +589,13 @@ namespace SistemaFarmacia
             String Nombre = TxtNombre.Text;
             String ApellidoP = TxtApellidoP.Text;
             String ApellidoM = TxtApellidoM.Text;
-            String Municipio = TxtMunicipio.Text;
+            String Estado = (ddlEstado.SelectedIndex < 1 ? "" : ddlEstado.Items[ddlEstado.SelectedIndex].Text);
+            String Municipio = (ddlMunicipio.SelectedIndex < 1 ? "" : ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text);
+
+
             String Edad = TxtEdad.Text;
             String FechaI = TxtFechaI.Text;
-            String Medio = TxtMedio.Text;
+            String Medio = ddlMedio.SelectedValue;
             String TelFijo = TxtTelFijo.Text;
             String Extension = TxtExtension.Text;
             String Celular = TxtCelular.Text;
@@ -522,7 +605,7 @@ namespace SistemaFarmacia
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
 
-            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, Medio, Estatus);
+            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado);
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
@@ -531,10 +614,11 @@ namespace SistemaFarmacia
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
-            TxtMedio.Text = "";
+            ddlMedio.SelectedIndex = -1;
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -570,11 +654,16 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtApellidoM.Text.Trim() + "%' ";
                 }
 
-                if (TxtMunicipio.Text.Trim().Length > 0)
+                if(ddlEstado.SelectedIndex > 0)
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " municipio like '%" + TxtMunicipio.Text.Trim() + "%' ";
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Estado like '%" + ddlEstado.Items[ddlEstado.SelectedIndex].Text.Trim() + "%' ";
+                    if(ddlMunicipio.SelectedIndex > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " Municipio like '%" + ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text.Trim() + "%' ";
+                    }
                 }
 
+                
                 if (TxtFechaN.Text.Trim().Length > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
@@ -595,10 +684,12 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFechaI.Text.Trim() + "%' ";
                 }
 
-                if (TxtMedio.Text.Trim().Length > 0)
+                
+                if (ddlMedio.SelectedValue != "0")
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + TxtMedio.Text.Trim() + "%' ";
+                    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlMedio.SelectedValue.Trim() + "%' ";
                 }
+
 
                 if (TxtTelFijo.Text.Trim().Length > 0)
                 {
@@ -662,10 +753,11 @@ namespace SistemaFarmacia
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
-                TxtMunicipio.Text = "";
+                ddlEstado.SelectedIndex = -1;
+                ddlMunicipio.SelectedIndex = -1;
                 TxtEdad.Text = "";
                 TxtFechaI.Text = "";
-                TxtMedio.Text = "";
+                ddlMedio.SelectedIndex = -1;
                 TxtTelFijo.Text = "";
                 TxtExtension.Text = "";
                 TxtCelular.Text = "";
@@ -674,28 +766,22 @@ namespace SistemaFarmacia
                 TxtObservaciones.Text = "";
                 TxtNota.Text = "";
                 ddlEstatus.SelectedIndex = 0;
-
-                //MasterFarmacia master = (MasterFarmacia)this.Master;
-                //master.mostrarMensaje(false);
-                //sombraMensaje.Visible = false;
-
-                //btnLimpiarF.Visible = false;
-                //btnBuscarF.Visible = false;
-                //btnCerrarF.Visible = false;
-                //FGCancelar.Visible = true;
-                //FGAgregar.Visible = true;
-                //FGActualizar.Visible = true;
-                //divFormularioG.Visible = false;
-                //Session["Condicion"] = "";
-                //cargaClientes();
+                
             }
         }
 
         //Muestra la ventana del buscador
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (SesionViva()) { 
-                
+            if (SesionViva()) {
+
+                panelMsj.DefaultButton = btnBuscarF.ID;
+
+                divObservacionesNota.Visible = false;
+
+
+
+
 
                 if (ddlEstatus.Items.IndexOf(lITodos) == -1)
                 {
@@ -703,7 +789,7 @@ namespace SistemaFarmacia
                     ddlEstatus.SelectedIndex = 0;
                 }
 
-                panelMsj.DefaultButton = btnBuscarF.ID;
+                
 
                 btnLimpiarF.Visible = true;
                 btnBuscarF.Visible = true;
@@ -781,10 +867,10 @@ namespace SistemaFarmacia
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
-                TxtMunicipio.Text = "";
+                ddlEstado.SelectedIndex = -1;
+                ddlMunicipio.SelectedIndex = -1;
                 TxtEdad.Text = "";
                 TxtFechaI.Text = "";
-                TxtMedio.Text = "";
                 TxtTelFijo.Text = "";
                 TxtExtension.Text = "";
                 TxtCelular.Text = "";
@@ -798,6 +884,99 @@ namespace SistemaFarmacia
                 Session["Condicion"] = "";
                 cargaClientes();
             }
+        }
+
+
+        #region medio
+        protected void llenarDropDownDlist()
+        {
+            DataSet ds = connMySql.consultarmedios();
+            ddlMedio.DataSource = ds;
+            ddlMedio.DataTextField = "MEDIO";
+            ddlMedio.DataValueField = "MEDIO";
+            ddlMedio.DataBind();
+
+            ddlMedio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+        #endregion
+
+        protected void ddlMunicipio_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            llenaMunicipio(ddlEstado.SelectedValue);
+        }
+
+        public void llenaMunicipio(String Estado)
+        {
+            ddlMunicipio.Enabled = true;
+            ddlMunicipio.DataTextField = "MUNICIPIO";
+            ddlMunicipio.DataValueField = "MUNICIPIO";
+            ddlMunicipio.DataSource = connMySql.traerMunicipio(Estado);
+            ddlMunicipio.DataBind();
+            ddlMunicipio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaEstados()
+        {
+            ddlEstado.DataTextField = "estado";
+            ddlEstado.DataValueField = "ID";
+            ddlEstado.DataSource = connMySql.traerEstado();
+            ddlEstado.DataBind();
+
+            ddlEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void ddlEstatusGeneral_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (SesionViva())
+            {
+                Session["EstadoGeneral"] = ddlEstatusGeneral.SelectedValue;
+                cargaClientes();
+            }
+        }
+
+
+
+
+
+        public void mostrarMensaje2()
+        {
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+            divFormularioG.Visible = false;
+            divmensaje2.Visible = true;
+            BAceptar.Visible = true;
+            BCancelar.Visible = true;
+
+        }
+
+        protected void BCancelar_Click(object sender, EventArgs e)
+        {
+            divMensaje.Visible = false;
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+            divmensaje2.Visible = false;
+            BAceptar.Visible = false;
+            BCancelar.Visible = false;
+        }
+
+        protected void BAceptar_Click(object sender, EventArgs e)
+        {
+            String idcliente = recupera.Text;
+
+            String resultado = connMySql.EliminaCliente(idcliente);
+
+            sombraMensaje.Visible = true;
+            divmensaje2.Visible = false;
+            mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario eliminado exitosamente" : resultado));
+
+            cargaClientes();
         }
     }
 }

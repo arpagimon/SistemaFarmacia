@@ -160,6 +160,8 @@
     <Compile Include="App_Code\Conexion.cs" />
     <Compile Include="Clases\DatosCorreo.cs" />
     <Compile Include="Clases\EnviarCorreo.cs" />
+    <Compile Include="Clases\Estados.cs" />
+    <Compile Include="Clases\municipios.cs" />
     <Compile Include="ConsultarClienteMes.aspx.cs">
       <DependentUpon>ConsultarClienteMes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

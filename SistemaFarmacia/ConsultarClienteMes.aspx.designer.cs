@@ -103,13 +103,22 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtApellidoM;
         
         /// <summary>
-        /// Control TxtMunicipio.
+        /// Control ddlEstado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMunicipio;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
+        
+        /// <summary>
+        /// Control ddlMunicipio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMunicipio;
         
         /// <summary>
         /// Control TxtFechaN.
@@ -139,13 +148,13 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtFechaI;
         
         /// <summary>
-        /// Control TxtMedio.
+        /// Control ddlMedio.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtMedio;
+        protected global::System.Web.UI.WebControls.DropDownList ddlMedio;
         
         /// <summary>
         /// Control TxtTelFijo.
@@ -299,15 +308,6 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnEnviarCorreo;
-        
-        /// <summary>
-        /// Control btnVerTodos.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnVerTodos;
         
         /// <summary>
         /// Control btnBuscar.

@@ -14,7 +14,7 @@
         <link href="resources/Login.css" rel="stylesheet" />
         <link href="resources/FontAwesome/css/font-awesome.min.css" rel="stylesheet" />
         <script src="resources/bootbox/bootbox.all.min.js"></script>
-
+        <script src="resources/js/bootstrap.bundle.min.js"></script>
         <asp:ContentPlaceHolder ID="head" runat="server">
         </asp:ContentPlaceHolder>
     </head>
@@ -23,8 +23,8 @@
             <div runat="server" id="sombra" class="sombra" style="display: none;">
             </div>
             <div class="container-fluid encabezado text-center pt-3">
-                <asp:ImageButton runat="server" ID="btnSalir" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="btnSalir_Click" />
-                <asp:ImageButton runat="server" ID="btnRegresar" ImageUrl="~/Imagenes/return.png" OnClick="btnRegresar_Click" />
+                <asp:ImageButton runat="server" ID="btnSalir" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="btnSalir_Click" data-toggle="tooltip" data-placement="bottom" title="Salir"/>
+                <asp:ImageButton runat="server" ID="btnRegresar" ImageUrl="~/Imagenes/return.png" OnClick="btnRegresar_Click" data-toggle="tooltip" data-placement="bottom" title="Regresar" />
                 <%--<asp:Image runat="server" ID="imgLogo" ImageUrl="~/Imagenes/Logo.png" />--%>
                 <%--<asp:ImageButton runat="server" ID="btnSalida" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="ibtSalida_Click" />--%>
                 <h1>Farmacia</h1>

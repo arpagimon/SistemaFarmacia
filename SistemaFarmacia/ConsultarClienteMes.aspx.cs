@@ -77,6 +77,8 @@ namespace SistemaFarmacia
                     sombraMensaje.Visible = false;
 
                     cargaClientes();
+                    llenarDropDownDlist();
+                    llenaEstados();
                 }
             }
         }
@@ -437,10 +439,20 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtApellidoM.Text.Trim() + "%' ";
                 }
 
-                if (TxtMunicipio.Text.Trim().Length > 0)
+
+                if (ddlEstado.SelectedIndex > 0)
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " municipio like '%" + TxtMunicipio.Text.Trim() + "%' ";
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Estado like '%" + ddlEstado.Items[ddlEstado.SelectedIndex].Text.Trim() + "%' ";
+                    if (ddlMunicipio.SelectedIndex > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " Municipio like '%" + ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text.Trim() + "%' ";
+                    }
                 }
+
+                //if (TxtMunicipio.Text.Trim().Length > 0)
+                //{
+                //    condicion += (condicion.Length > 0 ? " and " : "") + " municipio like '%" + TxtMunicipio.Text.Trim() + "%' ";
+                //}
 
                 if (TxtFechaN.Text.Trim().Length > 0)
                 {
@@ -462,10 +474,16 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFechaI.Text.Trim() + "%' ";
                 }
 
-                if (TxtMedio.Text.Trim().Length > 0)
+                //if (TxtMedio.Text.Trim().Length > 0)
+                //{
+                //    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + TxtMedio.Text.Trim() + "%' ";
+                //}
+                if (ddlMedio.SelectedValue != "0")
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + TxtMedio.Text.Trim() + "%' ";
+                    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlMedio.SelectedValue.Trim() + "%' ";
                 }
+
+
 
                 if (TxtTelFijo.Text.Trim().Length > 0)
                 {
@@ -520,10 +538,13 @@ namespace SistemaFarmacia
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            TxtMunicipio.Text = "";
+            //TxtMunicipio.Text = "";
+            ddlMunicipio.SelectedIndex = -1;
+            ddlEstado.SelectedIndex = -1;
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
-            TxtMedio.Text = "";
+            ddlMedio.SelectedIndex = -1;
+            //TxtMedio.Text = "";
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -586,10 +607,14 @@ namespace SistemaFarmacia
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
-                TxtMunicipio.Text = "";
+                //TxtMunicipio.Text = "";
+
+                ddlMunicipio.SelectedIndex = -1;
+                ddlEstado.SelectedIndex = -1;
                 TxtEdad.Text = "";
                 TxtFechaI.Text = "";
-                TxtMedio.Text = "";
+                ddlMedio.SelectedIndex = -1;
+                //TxtMedio.Text = "";
                 TxtTelFijo.Text = "";
                 TxtExtension.Text = "";
                 TxtCelular.Text = "";
@@ -623,6 +648,45 @@ namespace SistemaFarmacia
             return vive;
         }
 
+
+        #region medio
+        protected void llenarDropDownDlist()
+        {
+            DataSet ds = connMySql.consultarmedios();
+            ddlMedio.DataSource = ds;
+            ddlMedio.DataTextField = "MEDIO";
+            ddlMedio.DataValueField = "MEDIO";
+            ddlMedio.DataBind();
+
+            ddlMedio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+        #endregion
+
+
+        protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            llenaMunicipio(ddlEstado.SelectedValue);
+        }
+
+        public void llenaMunicipio(String Estado)
+        {
+            ddlMunicipio.Enabled = true;
+            ddlMunicipio.DataTextField = "MUNICIPIO";
+            ddlMunicipio.DataValueField = "MUNICIPIO";
+            ddlMunicipio.DataSource = connMySql.traerMunicipio(Estado);
+            ddlMunicipio.DataBind();
+            ddlMunicipio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaEstados()
+        {
+            ddlEstado.DataTextField = "estado";
+            ddlEstado.DataValueField = "ID";
+            ddlEstado.DataSource = connMySql.traerEstado();
+            ddlEstado.DataBind();
+
+            ddlEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
     }
 
 }
