@@ -11,7 +11,7 @@
         });
 
         
-        ///Cacha Sesion muerta
+        ///Version 1.27
 
 
         function ModalUpdate(titulo, MSG) {
