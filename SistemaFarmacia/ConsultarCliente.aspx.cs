@@ -41,7 +41,6 @@ namespace SistemaFarmacia
                 {
                     if (!IsPostBack)
                     {
-
                         if (permisos.Contains("11") || permisos.Contains("12") || permisos.Contains("13") || permisos.Contains("14"))
                         {
                             if (!permisos.Contains("11"))
@@ -88,8 +87,8 @@ namespace SistemaFarmacia
                         llenarDropDownDlist();
                         cargaClientes();
                         llenaEstados();
+                        llenaPaises();
                     }
-                    
                 }
             }
             catch (Exception ex)
@@ -99,7 +98,6 @@ namespace SistemaFarmacia
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
             }
-
         }
 
 
@@ -137,6 +135,7 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("FECHA_INGRESO");
                         dtTemporal.Columns.Add("ESTADO");
                         dtTemporal.Columns.Add("MUNICIPIO");
+                        dtTemporal.Columns.Add("PAIS");
                         dtTemporal.Columns.Add("tel_casa_fijo");
                         dtTemporal.Columns.Add("extension");
                         dtTemporal.Columns.Add("celular");
@@ -168,7 +167,6 @@ namespace SistemaFarmacia
 
         protected void gvGerentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
             if (SesionViva())
             {
                 //string imgOrd = @" <img src='Imagenes\IndicadorOrden.png' title='Ascending' style='float: left; height: 9px; margin-top: 1px;' />";
@@ -300,6 +298,8 @@ namespace SistemaFarmacia
             Label ApellidoM = (Label)row.FindControl("lblApellidoM");
             Label Estado = (Label)row.FindControl("lblEstado");
             Label Municipio = (Label)row.FindControl("lblMunicipio");
+            Label Pais = (Label)row.FindControl("lblPais");
+
             Label Edad = (Label)row.FindControl("lblEdad");
             Label FechaI = (Label)row.FindControl("lblFechaI");
             Label Medio = (Label)row.FindControl("lblMedio");
@@ -337,7 +337,16 @@ namespace SistemaFarmacia
             }
             catch { }
 
+            try
+            {
+                ddlPais.SelectedValue = Pais.Text.Trim();
+                divPais.Visible = true;
+                divMunicipio.Visible = false;
+            }
+            catch(Exception ex)
+            {
 
+            }
 
 
             TxtEdad.Text = Edad.Text;
@@ -361,6 +370,9 @@ namespace SistemaFarmacia
                 TxtFechaN.Text = FechaN.Text.Substring(6) + "-" + FechaN.Text.Substring(3, 2) + "-" + FechaN.Text.Substring(0, 2); ;
             }catch(Exception ex)
             {}
+
+
+
 
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
@@ -408,6 +420,10 @@ namespace SistemaFarmacia
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
 
+            ddlPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
+
             gvGerentes.EditIndex = -1;
             cargaClientes();
         }
@@ -432,9 +448,10 @@ namespace SistemaFarmacia
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
+            String Pais = (ddlPais.SelectedIndex < 1 ? "" : ddlPais.Items[ddlPais.SelectedIndex].Text); 
 
 
-            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad.ToUpper(), FechaN.ToUpper(), FechaI.ToUpper(), Municipio.ToUpper(), TelFijo, Extension, Celular, Email, Observaciones.ToUpper(), Nota.ToUpper(), (Medio.ToUpper() == "0"? "": Medio.ToUpper()), Estatus,Estado.ToUpper());
+            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado, Pais);
 
 
 
@@ -456,6 +473,9 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
+            ddlPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
@@ -531,7 +551,7 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = "";
             ddlEstado.SelectedIndex = -1;
             ddlMunicipio.SelectedIndex = -1;
-            
+            ddlPais.SelectedIndex = -1;
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
             ddlMedio.SelectedIndex = -1;
@@ -568,18 +588,8 @@ namespace SistemaFarmacia
 
             sombraMensaje.Visible = true;
             mostrarMensaje2();
-
-
-            //GridViewRow row = (GridViewRow)gvGerentes.Rows[e.RowIndex];
-            //Label Id_Cliente = (Label)row.FindControl("lblIdCliente");
-            //String resultado = connMySql.EliminaCliente(Id_Cliente.Text);
-
-            //sombraMensaje.Visible = true;
-            //mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario eliminado exitosamente" : resultado));
-
-            //cargaClientes();
-
         }
+
 
         protected void FGActualizar_Click(object sender, EventArgs e)
         {
@@ -589,7 +599,7 @@ namespace SistemaFarmacia
             String ApellidoM = TxtApellidoM.Text;
             String Estado = (ddlEstado.SelectedIndex < 1 ? "" : ddlEstado.Items[ddlEstado.SelectedIndex].Text);
             String Municipio = (ddlMunicipio.SelectedIndex < 1 ? "" : ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text);
-
+            String Pais = (ddlPais.SelectedIndex < 1 ? "" : ddlPais.Items[ddlPais.SelectedIndex].Text);
 
             String Edad = TxtEdad.Text;
             String FechaI = TxtFechaI.Text;
@@ -602,8 +612,9 @@ namespace SistemaFarmacia
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
+            
 
-            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado);
+            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado, Pais);
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
@@ -625,6 +636,9 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
+            ddlPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
@@ -661,7 +675,12 @@ namespace SistemaFarmacia
                     }
                 }
 
-                
+
+                if (ddlPais.SelectedIndex > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Pais like '%" + ddlPais.Items[ddlPais.SelectedIndex].Text.Trim() + "%' ";
+                }
+
                 if (TxtFechaN.Text.Trim().Length > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
@@ -764,7 +783,9 @@ namespace SistemaFarmacia
                 TxtObservaciones.Text = "";
                 TxtNota.Text = "";
                 ddlEstatus.SelectedIndex = 0;
-                
+                ddlPais.SelectedIndex = -1;
+                divPais.Visible = false;
+                divMunicipio.Visible = true;
             }
         }
 
@@ -905,7 +926,16 @@ namespace SistemaFarmacia
 
         protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            llenaMunicipio(ddlEstado.SelectedValue);
+            if(ddlEstado.SelectedValue == "33")
+            {
+                divMunicipio.Visible = false;
+                divPais.Visible = true;
+            }else
+            {
+                divMunicipio.Visible = true;
+                divPais.Visible = false;
+                llenaMunicipio(ddlEstado.SelectedValue);
+            }
         }
 
         public void llenaMunicipio(String Estado)
@@ -937,7 +967,15 @@ namespace SistemaFarmacia
             }
         }
 
+        public void llenaPaises()
+        {
+            ddlPais.DataTextField = "pais";
+            ddlPais.DataValueField = "pais";
+            ddlPais.DataSource = connMySql.traerPaises();
+            ddlPais.DataBind();
 
+            ddlPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
 
 
 

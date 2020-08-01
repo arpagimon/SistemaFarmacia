@@ -43,11 +43,16 @@
                     <label class="FGEtiqueta">Estado:</label>                 
                     <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado" >
                     </asp:DropDownList>
-                    
-                    <label class="FGEtiqueta">Municipio: </label>
-                    <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMunicipio" CssClass="FGColumna2 FGInput"></asp:TextBox>--%>
-                    <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlMunicipio" Enabled="false">
+                    <div runat="server" id="divMunicipio" class="divCelda">
+                        <label class="FGEtiqueta">Municipio: </label>
+                        <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlMunicipio" Enabled="false">
                     </asp:DropDownList>
+                        </div>
+                    <div runat="server" id="divPais" visible="false" class="divCelda">
+                        <label class="FGEtiqueta" >Pais: </label>
+                        <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlPais" >
+                        </asp:DropDownList>
+                    </div>
                     <br />
                     <label class="FGEtiqueta">Fecha Nacimiento: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>

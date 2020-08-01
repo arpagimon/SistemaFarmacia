@@ -108,6 +108,11 @@
     overflow: auto;
 }
 
+.divCelda{
+    display: inline-block;
+}
+
+
 .gridview {
     border: none;
     font-family: Verdana;

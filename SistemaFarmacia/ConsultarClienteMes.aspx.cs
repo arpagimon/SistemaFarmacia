@@ -79,6 +79,7 @@ namespace SistemaFarmacia
                     cargaClientes();
                     llenarDropDownDlist();
                     llenaEstados();
+                    llenaPaises();
                 }
             }
         }
@@ -362,7 +363,6 @@ namespace SistemaFarmacia
                 else{
                     lblMensajeJS.Text = "Ocurrio un problema al enviar los correo, favor de intentarlo nuevamente.";
                 }
-                //enviaCorreo.Enviar(listaCorreos, dCorreo.SMTP_IMAGEN);
             }
 
             sombraJS.Style.Remove("Display");
@@ -449,11 +449,7 @@ namespace SistemaFarmacia
                     }
                 }
 
-                //if (TxtMunicipio.Text.Trim().Length > 0)
-                //{
-                //    condicion += (condicion.Length > 0 ? " and " : "") + " municipio like '%" + TxtMunicipio.Text.Trim() + "%' ";
-                //}
-
+                
                 if (TxtFechaN.Text.Trim().Length > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
@@ -474,10 +470,7 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFechaI.Text.Trim() + "%' ";
                 }
 
-                //if (TxtMedio.Text.Trim().Length > 0)
-                //{
-                //    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + TxtMedio.Text.Trim() + "%' ";
-                //}
+
                 if (ddlMedio.SelectedValue != "0")
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlMedio.SelectedValue.Trim() + "%' ";
@@ -538,13 +531,11 @@ namespace SistemaFarmacia
             TxtNombre.Text = "";
             TxtApellidoP.Text = "";
             TxtApellidoM.Text = "";
-            //TxtMunicipio.Text = "";
             ddlMunicipio.SelectedIndex = -1;
             ddlEstado.SelectedIndex = -1;
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
             ddlMedio.SelectedIndex = -1;
-            //TxtMedio.Text = "";
             TxtTelFijo.Text = "";
             TxtExtension.Text = "";
             TxtCelular.Text = "";
@@ -553,17 +544,10 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
 
-            //MasterFarmacia master = (MasterFarmacia)this.Master;
-            //master.mostrarMensaje(false);
-            //sombraMensaje.Visible = false;
-
-            //btnLimpiarF.Visible = false;
-            //btnBuscarF.Visible = false;
-            //divFormularioG.Visible = false;
-
-            //Session["Condicion"] = "";
-            //cargaClientes();
-
+            ddlPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
+            
         }
 
         protected void gvGerentes_PageIndexChanging(object sender, GridViewPageEventArgs e)
@@ -607,14 +591,12 @@ namespace SistemaFarmacia
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
-                //TxtMunicipio.Text = "";
-
+                
                 ddlMunicipio.SelectedIndex = -1;
                 ddlEstado.SelectedIndex = -1;
                 TxtEdad.Text = "";
                 TxtFechaI.Text = "";
                 ddlMedio.SelectedIndex = -1;
-                //TxtMedio.Text = "";
                 TxtTelFijo.Text = "";
                 TxtExtension.Text = "";
                 TxtCelular.Text = "";
@@ -622,9 +604,7 @@ namespace SistemaFarmacia
                 TxtEmail.Text = "";
                 TxtObservaciones.Text = "";
                 TxtNota.Text = "";
-                //ddlEstatus.SelectedIndex = 0;
-
-
+                
                 Session["Condicion"] = "";
                 cargaClientes();
             }
@@ -665,7 +645,17 @@ namespace SistemaFarmacia
 
         protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            llenaMunicipio(ddlEstado.SelectedValue);
+            if (ddlEstado.SelectedValue == "33")
+            {
+                divMunicipio.Visible = false;
+                divPais.Visible = true;
+            }
+            else
+            {
+                divMunicipio.Visible = true;
+                divPais.Visible = false;
+                llenaMunicipio(ddlEstado.SelectedValue);
+            }
         }
 
         public void llenaMunicipio(String Estado)
@@ -686,6 +676,17 @@ namespace SistemaFarmacia
             ddlEstado.DataBind();
 
             ddlEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+
+        public void llenaPaises()
+        {
+            ddlPais.DataTextField = "pais";
+            ddlPais.DataValueField = "pais";
+            ddlPais.DataSource = connMySql.traerPaises();
+            ddlPais.DataBind();
+
+            ddlPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
         }
     }
 
