@@ -11,7 +11,7 @@
         });
 
         
-        ///Version 1.27
+        ///Version 1.30
 
 
         function ModalUpdate(titulo, MSG) {

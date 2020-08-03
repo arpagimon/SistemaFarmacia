@@ -335,27 +335,39 @@ namespace SistemaFarmacia
             try
             {
                 ddlEstado.SelectedValue = connMySql.traerIdEstado(Estado.Text.Trim());
-                llenaMunicipio(ddlEstado.SelectedValue);
+                if (Estado.Text != "--OTRO--")
+                {
+                    divMunicipio.Visible = true;
+                    divPais.Visible = false;
+
+                    
+                    llenaMunicipio(ddlEstado.SelectedValue);
+                    try
+                    {
+                        ddlMunicipio.SelectedValue = Municipio.Text.Trim();
+                    }
+                    catch { }
+
+                }else
+                {
+                    divMunicipio.Visible = false;
+                    divPais.Visible = true;
+                    try
+                    {
+                        ddlPais.SelectedValue = Pais.Text.Trim();
+                        divPais.Visible = true;
+                        divMunicipio.Visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
             }
             catch { }
 
-            try
-            {
-                ddlMunicipio.SelectedValue = Municipio.Text.Trim();
-            }
-            catch { }
-
-            try
-            {
-                ddlPais.SelectedValue = Pais.Text.Trim();
-                divPais.Visible = true;
-                divMunicipio.Visible = false;
-            }
-            catch(Exception ex)
-            {
-
-            }
-
+            
+            
 
             TxtEdad.Text = Edad.Text;
 
@@ -810,23 +822,23 @@ namespace SistemaFarmacia
             String FechaI = TxtFechaI.Text;
             if (Edad.Trim().Length == 0)
             {
-                TxtEdad.Attributes.Add("Style", "border: red 1px solid;");
+                TxtFechaI.Attributes.Add("Style", "border: red 1px solid;");
                 Pasa = false;
             }
             else
             {
-                TxtEdad.Attributes.Remove("Style");
+                TxtFechaI.Attributes.Remove("Style");
             }
 
             String Medio = ddlMedio.SelectedValue;
             if (Edad.Trim().Length == 0)
             {
-                TxtEdad.Attributes.Add("Style", "border: red 1px solid;");
+                ddlMedio.Attributes.Add("Style", "border: red 1px solid;");
                 Pasa = false;
             }
             else
             {
-                TxtEdad.Attributes.Remove("Style");
+                ddlMedio.Attributes.Remove("Style");
             }
 
             String TelFijo = TxtTelFijo.Text;
@@ -834,14 +846,15 @@ namespace SistemaFarmacia
             String Celular = TxtCelular.Text;
             if (TelFijo.Trim().Length > 0 || Celular.Trim().Length > 0)
             {
-                TxtTelFijo.Attributes.Add("style", "border: 1px red solid;");
-                TxtCelular.Attributes.Add("style", "border: 1px red solid;");
-                Pasa = false;
+                TxtTelFijo.Attributes.Remove("style");
+                TxtCelular.Attributes.Remove("style");
             }
             else
             {
-                TxtTelFijo.Attributes.Remove("style");
-                TxtCelular.Attributes.Remove("style");
+                TxtTelFijo.Attributes.Add("style", "border: 1px red solid;");
+                TxtCelular.Attributes.Add("style", "border: 1px red solid;");
+                Pasa = false;
+
             }
 
 
