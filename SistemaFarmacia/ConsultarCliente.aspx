@@ -98,8 +98,11 @@
                         </asp:DropDownList>
 
                     </div>
+                    <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
                     <br />
+                    
                     <div id="FBotonera">
+
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
                         <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
                         <asp:Button runat="server" ID="btnCerrarF" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrarF_Click" Visible="false" />
@@ -127,8 +130,9 @@
                 <asp:ListItem Value="0">Inactivos</asp:ListItem>
                 <asp:ListItem Value="1">Activos</asp:ListItem>
             </asp:DropDownList>
-            <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />
-            <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+            <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
+            <%--<asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />--%>
+            <%--<asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />--%>
         </div>
         <div id="divGerentes2">
             <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
@@ -144,8 +148,12 @@
                 <PagerStyle CssClass="Paginador" />
 
                 <Columns>
+                    <asp:Templatefield HeaderText="indice" Visible ="true">
+                         <ItemTemplate>
+                                <asp:Label runat='server' ID='lblindice' CssClass="lblUsuario" ></asp:Label>
+                            </ItemTemplate>
+                    </asp:Templatefield>
                     <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
-
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>
                         </ItemTemplate>

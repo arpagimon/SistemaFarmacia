@@ -30,3 +30,15 @@
     position: absolute;
     right: 70px;
 }
+
+
+ #lblTitle img {
+    vertical-align: top;
+    width: 47px !important;
+    margin-right: 7px;
+}
+
+#lblTitle h1 {
+    display: inherit;
+    line-height: 2.5rem;
+}

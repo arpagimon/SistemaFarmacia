@@ -88,6 +88,7 @@ namespace SistemaFarmacia
                         cargaClientes();
                         llenaEstados();
                         llenaPaises();
+                        master.cambiarLblTitle("<img src='/Imagenes/CLIENTE.png' alt='clientes'><h1>Clientes</h1>");
                     }
                 }
             }
@@ -229,7 +230,16 @@ namespace SistemaFarmacia
                 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
-                    
+                    Label lblNumeroFila = (Label)e.Row.FindControl("lblindice");
+
+                    try
+                    {
+                        lblNumeroFila.Text = ((e.Row.RowIndex + 1) + (gvGerentes.PageIndex * gvGerentes.PageSize)).ToString();
+                    }
+                    catch { }
+
+
+
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                     Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 
@@ -256,8 +266,6 @@ namespace SistemaFarmacia
                     {
                         if (!eliminar)
                         {
-                            
-
                             e.Row.Cells[15].Controls[2].Visible = false;
                         }
                     }
@@ -431,58 +439,187 @@ namespace SistemaFarmacia
         protected void FGAgregar_Click(object sender, EventArgs e)
         {
             String resultado = "";
-
+            Boolean pasa = true;
+            
             String Nombre = TxtNombre.Text;
+            if(Nombre.Trim().Length == 0)
+            {
+                TxtNombre.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }else
+            {
+                TxtNombre.Attributes.Remove("style");
+            }
+
             String ApellidoP = TxtApellidoP.Text;
+            if (ApellidoP.Trim().Length == 0)
+            {
+                TxtApellidoP.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtApellidoP.Attributes.Remove("style");
+            }
+
             String ApellidoM = TxtApellidoM.Text;
+            if (ApellidoM.Trim().Length == 0)
+            {
+                TxtApellidoM.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtApellidoM.Attributes.Remove("style");
+            }
+
             String Estado = (ddlEstado.SelectedIndex < 1?"": ddlEstado.Items[ddlEstado.SelectedIndex].Text);
+            if (Estado.Trim().Length == 0)
+            {
+                ddlEstado.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlEstado.Attributes.Remove("style");
+            }
+
             String Municipio = (ddlMunicipio.SelectedIndex < 1 ? "" : ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text);
+            if ((Estado != "--OTRO--" ? (Municipio.Trim().Length == 0 || Municipio == "0"): false))
+            {
+                ddlMunicipio.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlMunicipio.Attributes.Remove("style");
+            }
+
             String Edad = TxtEdad.Text;
+            if (Edad.Trim().Length == 0)
+            {
+                TxtEdad.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtEdad.Attributes.Remove("style");
+            }
+
             String FechaI = TxtFechaI.Text;
+            if (FechaI.Trim().Length == 0)
+            {
+                TxtFechaI.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtFechaI.Attributes.Remove("style");
+            }
+
             String Medio = ddlMedio.SelectedValue;
+            if (Medio.Trim().Length == 0 || Medio.Equals("0"))
+            {
+                ddlMedio.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlMedio.Attributes.Remove("style");
+            }
+
             String TelFijo = TxtTelFijo.Text;
+
             String Extension = TxtExtension.Text;
             String Celular = TxtCelular.Text;
+            if(TelFijo.Trim().Length > 0 || Celular.Trim().Length > 0)
+            {
+                TxtTelFijo.Attributes.Remove("style");
+                TxtCelular.Attributes.Remove("style");
+            }
+            else
+            {
+                TxtTelFijo.Attributes.Add("style", "border: 1px red solid;");
+                TxtCelular.Attributes.Add("style", "border: 1px red solid;");
+            }
+
+
             String FechaN = TxtFechaN.Text;
+            if (FechaN.Trim().Length == 0)
+            {
+                TxtFechaN.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtFechaN.Attributes.Remove("style");
+            }
+
             String Email = TxtEmail.Text;
+            if (Email.Trim().Length == 0)
+            {
+                TxtEmail.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtEmail.Attributes.Remove("style");
+            }
+
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
-            String Pais = (ddlPais.SelectedIndex < 1 ? "" : ddlPais.Items[ddlPais.SelectedIndex].Text); 
+            String Pais = (ddlPais.SelectedIndex < 1 ? "" : ddlPais.Items[ddlPais.SelectedIndex].Text);
+            if ((Estado == "--OTRO--" ? (Pais.Trim().Length == 0 || Pais  == "0") : false))
+            {
+                ddlPais.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlPais.Attributes.Remove("style");
+            }
 
 
-            resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado, Pais);
+            if (pasa)
+            {
+                lblError.Text = "";
+                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais);
 
 
 
-            //Limpia las opciones
-            TxtIdCliente.Text = "";
-            TxtNombre.Text = "";
-            TxtApellidoP.Text = "";
-            TxtApellidoM.Text = "";
-            ddlEstado.SelectedIndex = -1;
-            ddlMunicipio.SelectedIndex = -1;
-            TxtEdad.Text = "";
-            TxtFechaI.Text = "";
-            ddlMedio.SelectedIndex = -1;
-            TxtTelFijo.Text = "";
-            TxtExtension.Text = "";
-            TxtCelular.Text = "";
-            TxtFechaN.Text = "";
-            TxtEmail.Text = "";
-            TxtObservaciones.Text = "";
-            TxtNota.Text = "";
-            ddlEstatus.SelectedIndex = 0;
-            ddlPais.SelectedIndex = -1;
-            divPais.Visible = false;
-            divMunicipio.Visible = true;
+                //Limpia las opciones
+                TxtIdCliente.Text = "";
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                ddlEstado.SelectedIndex = -1;
+                ddlMunicipio.SelectedIndex = -1;
+                TxtEdad.Text = "";
+                TxtFechaI.Text = "";
+                ddlMedio.SelectedIndex = -1;
+                TxtTelFijo.Text = "";
+                TxtExtension.Text = "";
+                TxtCelular.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                TxtObservaciones.Text = "";
+                TxtNota.Text = "";
+                ddlEstatus.SelectedIndex = 0;
+                ddlPais.SelectedIndex = -1;
+                divPais.Visible = false;
+                divMunicipio.Visible = true;
 
-            sombraMensaje.Visible = true;
-            mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
+                sombraMensaje.Visible = true;
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
 
 
-            gvGerentes.EditIndex = -1;
-            cargaClientes();
+                gvGerentes.EditIndex = -1;
+                cargaClientes();
+            }else
+            {
+                lblError.Text = "Favor de llenar los campos faltantes";
+            }
         }
 
 
@@ -593,55 +730,182 @@ namespace SistemaFarmacia
 
         protected void FGActualizar_Click(object sender, EventArgs e)
         {
+            bool Pasa = true;
+
             String IDCliente = TxtIdCliente.Text;
             String Nombre = TxtNombre.Text;
+            if (Nombre.Trim().Length == 0)
+            {
+                TxtNombre.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }else
+            {
+                TxtNombre.Attributes.Remove("Style");
+            }
+
             String ApellidoP = TxtApellidoP.Text;
+            if (ApellidoP.Trim().Length == 0)
+            {
+                TxtApellidoP.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtApellidoP.Attributes.Remove("Style");
+            }
+
             String ApellidoM = TxtApellidoM.Text;
+            if (ApellidoM.Trim().Length == 0)
+            {
+                TxtApellidoM.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtApellidoM.Attributes.Remove("Style");
+            }
+
             String Estado = (ddlEstado.SelectedIndex < 1 ? "" : ddlEstado.Items[ddlEstado.SelectedIndex].Text);
+            if (Estado.Trim().Length == 0)
+            {
+                ddlEstado.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                ddlEstado.Attributes.Remove("Style");
+            }
+
             String Municipio = (ddlMunicipio.SelectedIndex < 1 ? "" : ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text);
+            if (Estado != "--OTRO--" ? (Municipio.Trim().Length == 0 || Municipio == "0"): false) {
+                ddlMunicipio.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                ddlMunicipio.Attributes.Remove("Style");
+            }
+
             String Pais = (ddlPais.SelectedIndex < 1 ? "" : ddlPais.Items[ddlPais.SelectedIndex].Text);
+            if (Estado == "--OTRO--" ? (Pais.Trim().Length == 0 || Pais == "0") : false) {
+                ddlPais.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                ddlPais.Attributes.Remove("Style");
+            }
 
             String Edad = TxtEdad.Text;
+            if (Edad.Trim().Length == 0)
+            {
+                TxtEdad.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtEdad.Attributes.Remove("Style");
+            }
+
             String FechaI = TxtFechaI.Text;
+            if (Edad.Trim().Length == 0)
+            {
+                TxtEdad.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtEdad.Attributes.Remove("Style");
+            }
+
             String Medio = ddlMedio.SelectedValue;
+            if (Edad.Trim().Length == 0)
+            {
+                TxtEdad.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtEdad.Attributes.Remove("Style");
+            }
+
             String TelFijo = TxtTelFijo.Text;
             String Extension = TxtExtension.Text;
             String Celular = TxtCelular.Text;
+            if (TelFijo.Trim().Length > 0 || Celular.Trim().Length > 0)
+            {
+                TxtTelFijo.Attributes.Add("style", "border: 1px red solid;");
+                TxtCelular.Attributes.Add("style", "border: 1px red solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtTelFijo.Attributes.Remove("style");
+                TxtCelular.Attributes.Remove("style");
+            }
+
+
             String FechaN = TxtFechaN.Text;
+            if (FechaN.Trim().Length == 0)
+            {
+                TxtFechaN.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtFechaN.Attributes.Remove("Style");
+            }
+
             String Email = TxtEmail.Text;
+            if (Email.Trim().Length == 0)
+            {
+                TxtEmail.Attributes.Add("Style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                TxtEmail.Attributes.Remove("Style");
+            }
+
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
-            
 
-            String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0"? "": Medio), Estatus, Estado, Pais);
+            if (Pasa) {
+                lblError.Text = "";
 
-            sombraMensaje.Visible = true;
-            mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
+                String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais);
 
-            TxtIdCliente.Text = "";
-            TxtNombre.Text = "";
-            TxtApellidoP.Text = "";
-            TxtApellidoM.Text = "";
-            ddlEstado.SelectedIndex = -1;
-            ddlMunicipio.SelectedIndex = -1;
-            TxtEdad.Text = "";
-            TxtFechaI.Text = "";
-            ddlMedio.SelectedIndex = -1;
-            TxtTelFijo.Text = "";
-            TxtExtension.Text = "";
-            TxtCelular.Text = "";
-            TxtFechaN.Text = "";
-            TxtEmail.Text = "";
-            TxtObservaciones.Text = "";
-            TxtNota.Text = "";
-            ddlEstatus.SelectedIndex = 0;
-            ddlPais.SelectedIndex = -1;
-            divPais.Visible = false;
-            divMunicipio.Visible = true;
+                sombraMensaje.Visible = true;
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
 
-            gvGerentes.EditIndex = -1;
-            cargaClientes();
+                TxtIdCliente.Text = "";
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                ddlEstado.SelectedIndex = -1;
+                ddlMunicipio.SelectedIndex = -1;
+                TxtEdad.Text = "";
+                TxtFechaI.Text = "";
+                ddlMedio.SelectedIndex = -1;
+                TxtTelFijo.Text = "";
+                TxtExtension.Text = "";
+                TxtCelular.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                TxtObservaciones.Text = "";
+                TxtNota.Text = "";
+                ddlEstatus.SelectedIndex = 0;
+                ddlPais.SelectedIndex = -1;
+                divPais.Visible = false;
+                divMunicipio.Visible = true;
+
+                gvGerentes.EditIndex = -1;
+                cargaClientes();
+            }else
+            {
+                lblError.Text = "Favor de llenar los campos faltantes";
+            }
         }
 
         protected void btnBuscarF_Click(object sender, EventArgs e)

@@ -15,6 +15,7 @@ namespace SistemaFarmacia
             {
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarbtnRegresar(false);
+                master.cambiarLblTitle("<h1>Menú principal</h1>");
 
                 iconoClientes.Visible = false;
                 iconoClientesMes.Visible = false;

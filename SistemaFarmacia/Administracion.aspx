@@ -111,7 +111,7 @@
         <br />
         <asp:Button runat="server" ID ="btnOpcionPerfil" OnClick="btnOpcionPerfil_Click" Text="Perfiles"/>
         <br />
-        <asp:Button runat="server" ID ="btnOpcionCorreo" OnClick="btnOpcionCorreo_Click" Text="Correo" Visible="false"/>
+        <asp:Button runat="server" ID ="btnOpcionCorreo" OnClick="btnOpcionCorreo_Click" Text="Correo" Visible="true"/>
         <br />
         <asp:Button runat="server" ID ="btnRegresar" OnClick="btnRegresar_Click" Text="Regresar" Visible="false"/>
         <%--<a href="#" runat="server" id="opcionUsuairo" onclick="MostrarOpcionUsuario">Usuarios</a>
@@ -219,7 +219,7 @@
                         <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreo" CssClass="ParamInput" TextMode="Email"></asp:TextBox></td>
                         <td style="width: 10%;"></td>
                         <td style="width: 15%;"><label>Contraseña:</label></t>
-                        <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreoContraseña" CssClass="ParamInput" ></asp:TextBox></td>
+                        <td style="width: 20%;"><asp:TextBox type="password" onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreoContraseña" CssClass="ParamInput" ></asp:TextBox></td>
                     </tr>
                     <tr>
                         <td><label>Mensaje:</label></td>
@@ -257,6 +257,20 @@
                         <td><label>Pruebas:</label></td>
                         <td><asp:CheckBox runat="server" ID="chkPruebas" CssClass="chkPruebas" ></asp:CheckBox></td>
                     </tr>
+                    <tr>
+                        <td><label>Enviar correo a:</label></td>
+                        <td>
+                            <div class="ml-1 mt-1">
+                            <asp:DropDownList runat="server" ID="ddlEnvCorreo" >
+                                <asp:ListItem Value="-1">Todos</asp:ListItem>
+                                <asp:ListItem Value="0">Inactivos</asp:ListItem>
+                                <asp:ListItem Value="1">Activos</asp:ListItem>
+                            </asp:DropDownList>
+                            </div>
+                        <td></td>
+                         
+                    </tr>
+
                 </table>
             </div>
         </div>

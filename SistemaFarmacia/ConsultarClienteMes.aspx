@@ -121,8 +121,8 @@
                 <%--</div>--%>
                 <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusquedaC" placeholder="Nombre/Apellido/Email/Observación" CssClass="txtBusquedaG" OnTextChanged="txtBusquedaC_TextChanged" AutoPostBack="true"></asp:TextBox>--%>
                 <%--<asp:Button runat="server" ID="btnVerTodos" Text="Ver Todos" OnClick="btnVerTodos_Click" CssClass="btnAgrClienteG floatDerecha btnVerTodos" />--%>
-                <asp:Button runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" Text="Buscar" CssClass="btnAgrClienteG floatDerecha" AutoPostBack="true" />
-                <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+                <asp:Button runat="server" ID="btnBuscar" OnClick="btnBuscar_Click" Text="Buscar" Style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha " />
+                <%--<asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />--%>
             </div>
             <div id="divGerentes2" style="overflow:auto;">
                 <div  class="divMes">
@@ -143,6 +143,11 @@
                     <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
                     <PagerStyle CssClass="Paginador" />
                     <Columns>
+                        <asp:Templatefield HeaderText="indice" Visible ="true">
+                             <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblindice' CssClass="lblUsuario" ></asp:Label>
+                                </ItemTemplate>
+                        </asp:Templatefield>
                         <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>

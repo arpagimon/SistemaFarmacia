@@ -403,6 +403,9 @@ namespace SistemaFarmacia
                             case "SMTP_CORREO_PRUEBA":
                                 resultado.SMTP_CORREO_PRUEBA = mySqlDataReader.GetString(1);
                                 break;
+                            case "ENV_CORREO_A":
+                                resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
+                                break;
                         }
                     }
                 }
@@ -520,6 +523,8 @@ namespace SistemaFarmacia
 
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.PRUEBAS + "' where nombre = 'PRUEBAS'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_CORREO_PRUEBA + "' where nombre = 'SMTP_CORREO_PRUEBA'");
+                    
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.ENV_ESTADO + "' where nombre = 'ENV_CORREO_A'");
             }
             catch(Exception ex)
             {

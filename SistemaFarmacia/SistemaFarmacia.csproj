@@ -78,6 +78,7 @@
     <Content Include="Imagenes\cumple.png" />
     <Content Include="Imagenes\Icono_salida.png" />
     <Content Include="Imagenes\imgBusqueda.png" />
+    <Content Include="Imagenes\imgBusqueda_opt.png" />
     <Content Include="Imagenes\imgFondoLogo.jpg" />
     <Content Include="Imagenes\IndicadorOrden.png" />
     <Content Include="Imagenes\left-arrow.png" />

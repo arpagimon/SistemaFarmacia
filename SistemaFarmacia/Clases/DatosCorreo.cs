@@ -24,5 +24,6 @@ namespace SistemaFarmacia.Clases
         public String DiasAntes { get; set; }
         public String PRUEBAS { get; set; }
         public String SMTP_CORREO_PRUEBA { get; set; }
+        public String ENV_ESTADO { get; set; }
     }
 }

@@ -2,6 +2,14 @@
 */
 
 
+
+.btnBuscar{
+    background-position: calc(100% - 20px) center;
+    background-image: url('Imagenes/imgBusqueda_opt.png');
+    background-repeat: no-repeat;
+    width: 140px;
+}
+
 #MenuAdmin {
     display: inline-block;
     margin: 10px;
@@ -260,6 +268,11 @@
     width: 200px;
     margin-right: 20px;
     margin-bottom: 20px;
+}
+
+.lblError{
+    color: red;
+    /*font-size: small;*/
 }
 
 .FGInput input {

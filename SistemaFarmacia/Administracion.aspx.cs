@@ -37,6 +37,7 @@ namespace SistemaFarmacia
             MasterFarmacia master = (MasterFarmacia)this.Master;
             if (!IsPostBack)
             {
+                master.cambiarLblTitle("<img src='/Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
 
                 if (!permisos.Contains("31"))
                 {
@@ -783,7 +784,9 @@ namespace SistemaFarmacia
             {
                 chkPruebas.Checked = true;
             }
+            
             txtCorreoPrueba.Text = datosCorreo.SMTP_CORREO_PRUEBA;
+            ddlEnvCorreo.SelectedValue = datosCorreo.ENV_ESTADO;
         }
 
         protected void btnActualizarCorreo_Click(object sender, EventArgs e)
@@ -803,6 +806,7 @@ namespace SistemaFarmacia
             datoscorreo.SMTP_CORREO_PRUEBA = txtCorreoPrueba.Text;
 
             datoscorreo.PRUEBAS = (chkPruebas.Checked ? "1" : "0");
+            datoscorreo.ENV_ESTADO = ddlEnvCorreo.SelectedValue;    // cambie en Clase DatosCorreo.cs
 
             String resultado = connMysql.ActualizaDatosCorreo(datoscorreo);
 
