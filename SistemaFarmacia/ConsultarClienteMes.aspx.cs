@@ -81,7 +81,7 @@ namespace SistemaFarmacia
                     llenaEstados();
                     llenaPaises();
 
-                    master.cambiarLblTitle("<img src='/Imagenes/cumple.png' alt='clientes'><h1>Clientes Mes</h1>");
+                    master.cambiarLblTitle("<img src='Imagenes/cumple.png' alt='clientes'><h1>Clientes Mes</h1>");
                 }
             }
         }

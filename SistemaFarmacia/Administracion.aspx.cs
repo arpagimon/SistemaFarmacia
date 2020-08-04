@@ -37,7 +37,7 @@ namespace SistemaFarmacia
             MasterFarmacia master = (MasterFarmacia)this.Master;
             if (!IsPostBack)
             {
-                master.cambiarLblTitle("<img src='/Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
+                master.cambiarLblTitle("<img src='Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
 
                 if (!permisos.Contains("31"))
                 {
