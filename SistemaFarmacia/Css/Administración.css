@@ -48,6 +48,15 @@
     margin-left: 200px; /* Same as the width of the sidenav */
 }
 
+
+textarea.ParamInput{
+    width:100%;
+    padding: 3px;
+    text-align: left;
+}
+
+
+
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;

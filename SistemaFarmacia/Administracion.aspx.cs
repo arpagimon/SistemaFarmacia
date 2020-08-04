@@ -773,7 +773,7 @@ namespace SistemaFarmacia
             txtCorreo.Text = datosCorreo.SMTP_CORREO;
             txtCorreoContraseña.Text = datosCorreo.SMTP_PASS;
             txtMensaje.Text = datosCorreo.SMTP_MENSAJE;
-            txtImagen.Text = datosCorreo.SMTP_IMAGEN;
+            //txtImagen.Text = datosCorreo.SMTP_IMAGEN;
             txtSujeto.Text = datosCorreo.SMTP_SUJETO;
             txtSSL.Text = datosCorreo.SMTP_SSL;
             txtHost.Text = datosCorreo.SMTP_HOST;
@@ -791,12 +791,15 @@ namespace SistemaFarmacia
 
         protected void btnActualizarCorreo_Click(object sender, EventArgs e)
         {
+
+            
+
             DatosCorreo datoscorreo = new DatosCorreo();
 
             datoscorreo.SMTP_CORREO = txtCorreo.Text;
             datoscorreo.SMTP_PASS = txtCorreoContraseña.Text;
             datoscorreo.SMTP_MENSAJE = txtMensaje.Text;
-            datoscorreo.SMTP_IMAGEN = txtImagen.Text;
+            //datoscorreo.SMTP_IMAGEN = txtImagen.Text;
             datoscorreo.SMTP_SUJETO = txtSujeto.Text;
             datoscorreo.SMTP_SSL = txtSSL.Text;
             datoscorreo.SMTP_HOST = txtHost.Text;
@@ -807,6 +810,16 @@ namespace SistemaFarmacia
 
             datoscorreo.PRUEBAS = (chkPruebas.Checked ? "1" : "0");
             datoscorreo.ENV_ESTADO = ddlEnvCorreo.SelectedValue;    // cambie en Clase DatosCorreo.cs
+
+            datoscorreo.SMTP_IMAGEN = "";
+            if (uploadImgCorreo.HasFile)
+            {
+                string nombreArchivo = uploadImgCorreo.FileName;
+                string ruta = "Imagenes/Correo/" + nombreArchivo;
+                uploadImgCorreo.SaveAs(Server.MapPath(ruta));
+
+                datoscorreo.SMTP_IMAGEN = ruta;
+            }
 
             String resultado = connMysql.ActualizaDatosCorreo(datoscorreo);
 

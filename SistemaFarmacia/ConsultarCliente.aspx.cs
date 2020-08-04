@@ -289,11 +289,17 @@ namespace SistemaFarmacia
             FGActualizar.Visible = true;
             FGAgregar.Visible = false;
 
+            ocultaRango();
 
-            
+
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
+            }
+
+            if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
+            {
+                ddlEnviarCorreo.Items.RemoveAt(ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")));
             }
 
             FTitulo.Text = "Editar cliente";
@@ -693,11 +699,14 @@ namespace SistemaFarmacia
                 ddlEstatus.Items.RemoveAt(0);
             }
 
-
+            ocultaRango();
 
             llenaEstados();
 
-
+            if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
+            {
+                ddlEnviarCorreo.Items.RemoveAt(ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")));
+            }
 
             FTitulo.Text = "Agregar cliente";
 
@@ -990,10 +999,23 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
                 }
 
-                if (TxtEdad.Text.Trim().Length > 0)
+                if (chkRango.Checked)
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " edad like '%" + TxtEdad.Text.Trim() + "%' ";
+                    if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " edad between " + TxtEdad.Text.Trim() + " and " + txtEdad2.Text.Trim() + " ";
+                    }
                 }
+                else
+                {
+
+                    if (TxtEdad.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " edad like '%" + TxtEdad.Text.Trim() + "%' ";
+                    }
+
+                }
+
 
                 if (TxtFechaI.Text.Trim().Length > 0)
                 {
@@ -1072,7 +1094,9 @@ namespace SistemaFarmacia
                 ddlEstado.SelectedIndex = -1;
                 ddlMunicipio.SelectedIndex = -1;
                 TxtEdad.Text = "";
+                txtEdad2.Text = "";
                 TxtFechaI.Text = "";
+                chkRango.Checked = false;
                 ddlMedio.SelectedIndex = -1;
                 TxtTelFijo.Text = "";
                 TxtExtension.Text = "";
@@ -1083,8 +1107,14 @@ namespace SistemaFarmacia
                 TxtNota.Text = "";
                 ddlEstatus.SelectedIndex = 0;
                 ddlPais.SelectedIndex = -1;
+
+                lblA.Visible = false;
+                TxtEdad.Attributes.Remove("style");
+                txtEdad2.Visible = false;
+
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
+
             }
         }
 
@@ -1096,9 +1126,9 @@ namespace SistemaFarmacia
                 panelMsj.DefaultButton = btnBuscarF.ID;
 
                 divObservacionesNota.Visible = false;
-
-
-
+                if(ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0) { 
+                    ddlEnviarCorreo.Items.Add(new ListItem("Todos", "-1"));
+                }
 
 
                 if (ddlEstatus.Items.IndexOf(lITodos) == -1)
@@ -1106,7 +1136,6 @@ namespace SistemaFarmacia
                     ddlEstatus.Items.Insert(0, lITodos);
                     ddlEstatus.SelectedIndex = 0;
                 }
-
                 
 
                 btnLimpiarF.Visible = true;
@@ -1119,7 +1148,8 @@ namespace SistemaFarmacia
 
                 FTitulo.Text = "Buscar clientes";
 
-
+                chkRango.Visible = true;
+                TxtEdad.Attributes.Add("style", "width:186px; margin-right: 0px;");
 
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarMensaje(true);
@@ -1313,5 +1343,33 @@ namespace SistemaFarmacia
 
             cargaClientes();
         }
+
+        protected void chkRango_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRango.Checked)
+            {
+                TxtEdad.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                lblA.Visible = true;
+                txtEdad2.Visible = true;
+                
+            }
+            else
+            {
+                ocultaRango();
+                TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                chkRango.Visible = true;
+            }
+        }
+        public void ocultaRango()
+        {
+            TxtEdad.Attributes.Remove("style");
+            txtEdad2.Text = "";
+            lblA.Visible = false;
+            txtEdad2.Visible = false;
+            chkRango.Visible = false;
+            chkRango.Checked = false;
+        }
+
     }
 }

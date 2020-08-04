@@ -223,10 +223,14 @@
                     </tr>
                     <tr>
                         <td><label>Mensaje:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput"></asp:TextBox></td>
+                        <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput"></asp:TextBox>--%>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                        </td>
                         <td></td>
                         <td><label>Imagen correo:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtImagen" CssClass="ParamInput" TextMode="Url" ></asp:TextBox></td>
+                        <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtImagen" CssClass="ParamInput" TextMode="Url" ></asp:TextBox>--%>
+                            <asp:FileUpload runat="server" ID="uploadImgCorreo" CssClass="ParamInput" />
+                        </td>
                     </tr>
                     <tr>
                         <td><label>Sujeto:</label></td>
