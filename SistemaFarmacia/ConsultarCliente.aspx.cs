@@ -444,6 +444,28 @@ namespace SistemaFarmacia
             divPais.Visible = false;
             divMunicipio.Visible = true;
 
+            lblError.Text = "";
+
+            try
+            {
+                TxtNombre.Attributes.Remove("style");
+                TxtApellidoP.Attributes.Remove("style");
+                TxtApellidoM.Attributes.Remove("style");
+                ddlEstado.Attributes.Remove("style");
+                ddlMunicipio.Attributes.Remove("style");
+                TxtEdad.Attributes.Remove("style");
+                TxtFechaI.Attributes.Remove("style");
+                ddlMedio.Attributes.Remove("style");
+                TxtTelFijo.Attributes.Remove("style");
+                TxtCelular.Attributes.Remove("style");
+                TxtFechaN.Attributes.Remove("style");
+                TxtEmail.Attributes.Remove("style");
+                ddlPais.Attributes.Remove("style");
+            }
+            catch { }
+                
+
+
             gvGerentes.EditIndex = -1;
             cargaClientes();
         }
