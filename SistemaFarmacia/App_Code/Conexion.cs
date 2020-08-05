@@ -233,7 +233,7 @@ namespace SistemaFarmacia
 
         public DataSet TraerClientes(String condicion, String Estatus)
         {
-            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + (Estatus == "-1" ? "" : " and estatus = '" + Estatus + "'") : (Estatus =="-1"? "": " where estatus = '"+Estatus+"'")) + " order by nombre asc, apellido_paterno asc, apellido_materno asc");
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + (Estatus == "-1" ? "" : " and estatus = '" + Estatus + "'") : (Estatus =="-1"? "": " where estatus = '"+Estatus+"'")) + " order by  ID_CLIENTE desc");
         }
 
         public String GuardaCliente(String NOMBRE, String APELLIDO_PATERNO, String APELLIDO_MATERNO, String EDAD, String FECHA_NACIMIENTO, String FECHA_INGRESO, String MUNICIPIO, String tel_casa_fijo, String extension, String celular, String EMAIL, String OBSERVACIONES, String NOTA, String MEDIO, String Estatus, String Estado, String Pais)

@@ -64,11 +64,11 @@ namespace SistemaFarmacia
 
                         if (Session["Orden"] == null)
                         {
-                            Session.Add("Orden", "Nombre ASC");
+                            Session.Add("Orden", "");
                         }
                         else
                         {
-                            Session["Orden"] = "Nombre ASC";
+                            Session["Orden"] = "";
                         }
 
                         if(Session["EstadoGeneral"] == null)
