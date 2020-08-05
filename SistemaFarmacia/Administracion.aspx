@@ -215,7 +215,7 @@
                 <asp:Label runat="server" CssClass="lblTituloParametro"></asp:Label>
                 <table class="tblParametros">
                     <tr>
-                        <td style="width: 15%;"><label>Correo:</label></td>
+                        <td style="width: 15%;"><label>Cuenta de correo base:</label></td>
                         <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreo" CssClass="ParamInput" TextMode="Email"></asp:TextBox></td>
                         <td style="width: 10%;"></td>
                         <td style="width: 15%;"><label>Contraseña:</label></t>
@@ -233,7 +233,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Sujeto:</label></td>
+                        <td><label>Asunto:</label></td>
                         <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtSujeto" CssClass="ParamInput"></asp:TextBox></td>
                         <td></td>
                         <td><label>SSL:</label></td>

@@ -64,11 +64,11 @@ namespace SistemaFarmacia
 
                         if (Session["Orden"] == null)
                         {
-                            Session.Add("Orden", "Nombre ASC");
+                            Session.Add("Orden", "");
                         }
                         else
                         {
-                            Session["Orden"] = "Nombre ASC";
+                            Session["Orden"] = "";
                         }
 
                         if(Session["EstadoGeneral"] == null)
@@ -145,6 +145,7 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("NOTA");
                         dtTemporal.Columns.Add("MEDIO");
                         dtTemporal.Columns.Add("estatus");
+                        dtTemporal.Columns.Add("Enviar_Correo");
                         dtTemporal.NewRow();
                         DataRow drTemporal = dtTemporal.NewRow();
                         dtTemporal.Rows.InsertAt(drTemporal, 0);
@@ -181,11 +182,11 @@ namespace SistemaFarmacia
                             DataTable dttempora = (DataTable)gvGerentes.DataSource;
                             if (dttempora.DefaultView.Sort == "")
                             {
-                                if (lbSort.Text == "Nombre")
-                                {
-                                    //lbSort.Text = imgOrd + lbSort.Text;
-                                    lbSort.CssClass = "Seleccionada";
-                                }
+                                //if (lbSort.Text == "Nombre")
+                                //{
+                                //    //lbSort.Text = imgOrd + lbSort.Text;
+                                //    lbSort.CssClass = "Seleccionada";
+                                //}
                             }
                             else
                             {
@@ -230,6 +231,8 @@ namespace SistemaFarmacia
                 
                 if (e.Row.RowType == DataControlRowType.DataRow)
                 {
+                    
+
                     Label lblNumeroFila = (Label)e.Row.FindControl("lblindice");
 
                     try
@@ -291,6 +294,7 @@ namespace SistemaFarmacia
 
             ocultaRango();
 
+            
 
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
@@ -653,7 +657,7 @@ namespace SistemaFarmacia
                 divMunicipio.Visible = true;
 
                 sombraMensaje.Visible = true;
-                mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente guardado exitosamente" : resultado));
 
 
                 gvGerentes.EditIndex = -1;
@@ -693,6 +697,8 @@ namespace SistemaFarmacia
 
         protected void btnAgrClienteG_Click(object sender, EventArgs e)
         {
+            lblError.Text = "";
+
             panelMsj.DefaultButton = FGAgregar.ID;
 
 
@@ -960,6 +966,9 @@ namespace SistemaFarmacia
         {
             if (SesionViva())
             {
+                Boolean pasa = true;
+
+                
                 String condicion = "";
 
                 if (TxtNombre.Text.Trim().Length > 0)
@@ -1008,6 +1017,30 @@ namespace SistemaFarmacia
                     if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length > 0)
                     {
                         condicion += (condicion.Length > 0 ? " and " : "") + " edad between " + TxtEdad.Text.Trim() + " and " + txtEdad2.Text.Trim() + " ";
+
+                        TxtEdad.Attributes.Remove("style");
+                        txtEdad2.Attributes.Remove("style");
+                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                    }
+                    else
+                    {
+                        TxtEdad.Attributes.Remove("style");
+                        txtEdad2.Attributes.Remove("style");
+                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+
+                        if (TxtEdad.Text.Trim().Length == 0 && txtEdad2.Text.Trim().Length > 0) {
+                            TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+
+                        if(TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length == 0)
+                        {
+                            txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+                        
                     }
                 }
                 else
@@ -1073,21 +1106,28 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " Enviar_Correo = '" + ddlEnviarCorreo.SelectedValue + "' ";
                 }
 
-                Session["Condicion"] = condicion;
-                cargaClientes();
+                if (pasa)
+                {
+                    lblError.Text = "";
+                    Session["Condicion"] = condicion;
+                    cargaClientes();
 
 
-                btnLimpiarF.Visible = false;
-                btnBuscarF.Visible = false;
-                btnCerrarF.Visible = false;
-                FGCancelar.Visible = true;
-                FGAgregar.Visible = true;
-                FGActualizar.Visible = true;
-                divFormularioG.Visible = false;
+                    btnLimpiarF.Visible = false;
+                    btnBuscarF.Visible = false;
+                    btnCerrarF.Visible = false;
+                    FGCancelar.Visible = true;
+                    FGAgregar.Visible = true;
+                    FGActualizar.Visible = true;
+                    divFormularioG.Visible = false;
 
-                MasterFarmacia master = (MasterFarmacia)this.Master;
-                master.mostrarMensaje(false);
-                sombraMensaje.Visible = false;
+                    MasterFarmacia master = (MasterFarmacia)this.Master;
+                    master.mostrarMensaje(false);
+                    sombraMensaje.Visible = false;
+                }else
+                {
+                    lblError.Text = "Favor de llenar los campos faltantes";
+                }
             }
         }
 
@@ -1133,6 +1173,23 @@ namespace SistemaFarmacia
 
                 panelMsj.DefaultButton = btnBuscarF.ID;
 
+                if (chkRango.Checked)
+                {
+                    TxtEdad.Attributes.Remove("style");
+                    TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                    lblA.Visible = true;
+                    txtEdad2.Visible = true;
+
+                }
+                else
+                {
+                    ocultaRango();
+                    TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                    chkRango.Visible = true;
+                }
+
+
+
                 divObservacionesNota.Visible = false;
                 int temporal = ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1"));
                 if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) == -1) { 
@@ -1159,7 +1216,7 @@ namespace SistemaFarmacia
                 FTitulo.Text = "Buscar clientes";
 
                 chkRango.Visible = true;
-                TxtEdad.Attributes.Add("style", "width:186px; margin-right: 0px;");
+                
 
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarMensaje(true);
@@ -1349,7 +1406,7 @@ namespace SistemaFarmacia
 
             sombraMensaje.Visible = true;
             divmensaje2.Visible = false;
-            mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario eliminado exitosamente" : resultado));
+            mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente eliminado exitosamente" : resultado));
 
             cargaClientes();
         }
@@ -1367,9 +1424,11 @@ namespace SistemaFarmacia
             else
             {
                 ocultaRango();
+                txtEdad2.Attributes.Remove("style");
                 TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
                 chkRango.Visible = true;
             }
+            panelMsj.DefaultButton = btnBuscarF.ID;
         }
         public void ocultaRango()
         {
