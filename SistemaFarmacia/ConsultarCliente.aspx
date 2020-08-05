@@ -252,90 +252,16 @@
                             <asp:Label runat='server' ID='lblPais' CssClass="lblGerentes" Text='<%# Bind("PAIS") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-
+                    <asp:TemplateField HeaderText="EnvCorreo" HeaderStyle-Width="20%" SortExpression="Enviar_Correo" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:CommandField ShowEditButton="true" ShowDeleteButton="false" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                 </Columns>
             </asp:GridView>
         </div>
-
-
-
-        <%--<div>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Style="height: 26px" Text="Button" />
-        <asp:TextBox ID="CONSULTA" runat="server"></asp:TextBox>
-        <asp:Button ID="buscar01" runat="server" Text="buscar"  OnClick="buscardatos"/>
-
-    </div>
-
-    <asp:GridView ID="tablaPrincipal" runat="server" AutoGenerateColumns="true" AllowPaging="true" PageSize="50">
-        <%--  <Columns>
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="appellidop" HeaderText="apellidoPaterno" />
-                <asp:BoundField DataField="apellidom" HeaderText="apellidoMaterno" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-            </Columns>
-    </asp:GridView>
-    
-        <div>
-            <asp:Button ID="GUARDARD" runat="server" Text="GUARDAR" OnClick="GUARDARD_Click" />
-        <asp:Label ID="Label1" runat="server" Text="nombre"></asp:Label> 
-        <asp:TextBox ID="Cnombre" runat="server"></asp:TextBox>
-         <br />
-        <asp:Label ID="Label2" runat="server" Text="apellido paterno"></asp:Label>
-          <asp:TextBox ID="cappellidopaterno" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label3" runat="server" Text="apellido materno"></asp:Label>
-          <asp:TextBox ID="cappelidomaterno" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label4" runat="server" Text="edad"></asp:Label>
-          <asp:TextBox ID="cedad" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label5" runat="server" Text="fecha_nacimiento"></asp:Label>
-          <asp:TextBox ID="cfechanacimiento" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label6" runat="server" Text="fecha_ingreso"></asp:Label>
-          <asp:TextBox ID="cfechaingreso" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label7" runat="server" Text="municipio"></asp:Label>
-          <asp:TextBox ID="cmunicipio" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label8" runat="server" Text="calle"></asp:Label>
-          <asp:TextBox ID="ccalle" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label9" runat="server" Text="no_int"></asp:Label>
-          <asp:TextBox ID="cnoint" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label10" runat="server" Text="no_ext"></asp:Label>
-          <asp:TextBox ID="cnoext" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label11" runat="server" Text="tel casa"></asp:Label>
-          <asp:TextBox ID="Ctelcasafija" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label12" runat="server" Text="extension"></asp:Label>
-          <asp:TextBox ID="cextension" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label13" runat="server" Text="celular"></asp:Label>
-          <asp:TextBox ID="ccelular" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label14" runat="server" Text="email"></asp:Label>
-          <asp:TextBox ID="cemail" runat="server"></asp:TextBox>
-           
-       
-
-
-
-        --%>
     </div>
 
 

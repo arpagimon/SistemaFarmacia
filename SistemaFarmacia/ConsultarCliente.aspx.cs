@@ -297,7 +297,7 @@ namespace SistemaFarmacia
                 ddlEstatus.Items.RemoveAt(0);
             }
 
-            if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
+            if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
             {
                 ddlEnviarCorreo.Items.RemoveAt(ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")));
             }
@@ -325,7 +325,7 @@ namespace SistemaFarmacia
             Label Observaciones = (Label)row.FindControl("lblObservaciones");
             Label Nota = (Label)row.FindControl("lblNota");
             Label Estatus = (Label)row.FindControl("lblEstatus");
-            
+            Label Env_Correo = (Label)row.FindControl("lblEnvCorreo");
 
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -620,11 +620,13 @@ namespace SistemaFarmacia
                 ddlPais.Attributes.Remove("style");
             }
 
+            String Enviar_Correo = ddlEnviarCorreo.SelectedValue;
+
 
             if (pasa)
             {
                 lblError.Text = "";
-                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais);
+                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo);
 
 
 
@@ -915,10 +917,12 @@ namespace SistemaFarmacia
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
 
+            String Env_Correo = ddlEnviarCorreo.SelectedValue;
+
             if (Pasa) {
                 lblError.Text = "";
 
-                String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais);
+                String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Env_Correo);
 
                 sombraMensaje.Visible = true;
                 mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
@@ -1064,6 +1068,10 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " estatus LIKE '%" + ddlEstatus.SelectedValue + "%' ";
                 }
 
+                if(ddlEnviarCorreo.SelectedValue != "-1")
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Enviar_Correo = '" + ddlEnviarCorreo.SelectedValue + "' ";
+                }
 
                 Session["Condicion"] = condicion;
                 cargaClientes();
@@ -1126,8 +1134,10 @@ namespace SistemaFarmacia
                 panelMsj.DefaultButton = btnBuscarF.ID;
 
                 divObservacionesNota.Visible = false;
-                if(ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0) { 
+                int temporal = ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1"));
+                if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) == -1) { 
                     ddlEnviarCorreo.Items.Add(new ListItem("Todos", "-1"));
+                    ddlEnviarCorreo.SelectedValue = "-1";
                 }
 
 
