@@ -24,7 +24,7 @@
                 <div class="align-items-center text-center Icono" id="iconoClientesMes" runat="server">
                     <asp:ImageButton runat="server" ID="ClientesMes" PostBackUrl="~/ConsultarClienteMes.aspx" ImageUrl="~/Imagenes/cumple.png" OnClick="ClientesMes_Click" CssClass="BotonMenu " />
                     <br />
-                    <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Clientes Mes</h5>
+                    <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Cumpleañeros</h5>
                 </div>
             </td>
             <td>

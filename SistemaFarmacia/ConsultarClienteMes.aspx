@@ -26,7 +26,7 @@
         
         <div runat="server" id="divFormularioG" class="FormGerente" visible="false">
             <div id="FCabecera" class="FCabecera">
-                <label id="FTitulo" class="FTitulo">Agregar usuario</label>
+                <label id="FTitulo" class="FTitulo">Buscar usuario</label>
             </div>
             <asp:Panel runat="server" ID="panelMsj">
                 <div id="FContenido" class="FContenido">
@@ -58,6 +58,9 @@
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
                     <label class="FGEtiqueta">Edad: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                    <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="FGColumna2 FGInput txtEdad2" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
+                    <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="true" CssClass="chkRango" AutoPostBack="true"/>
                     <br />
                     <label class="FGEtiqueta">Fecha ingreso: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
@@ -81,6 +84,7 @@
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
                     <br />
+                    <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
                     <br />
                     <div id="FBotonera">
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />

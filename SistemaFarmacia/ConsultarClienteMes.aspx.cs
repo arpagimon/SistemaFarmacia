@@ -65,11 +65,11 @@ namespace SistemaFarmacia
 
                     if (Session["Orden"] == null)
                     {
-                        Session.Add("Orden", "Nombre ASC");
+                        Session.Add("Orden", "ID_CLIENTE DESC");
                     }
                     else
                     {
-                        Session["Orden"] = "Nombre ASC";
+                        Session["Orden"] = "ID_CLIENTE DESC";
                     }
 
                     MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -81,7 +81,7 @@ namespace SistemaFarmacia
                     llenaEstados();
                     llenaPaises();
 
-                    master.cambiarLblTitle("<img src='Imagenes/cumple.png' alt='clientes'><h1>Clientes Mes</h1>");
+                    master.cambiarLblTitle("<img src='Imagenes/cumple.png' alt='clientes'><h1>Cumpleaños de clientes por Mes</h1>");
                 }
             }
         }
@@ -239,18 +239,21 @@ namespace SistemaFarmacia
                 }
                 catch { }
 
+
                 Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                 Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 
-                if (etiquetaFechaI.Text.Trim().Length > 0)
+                try
                 {
-                    etiquetaFechaI.Text = etiquetaFechaI.Text.Split(' ')[0];
+                    etiquetaFechaN.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("dd/MM/yyyy");
                 }
+                catch { }
 
-                if (etiquetaFechaN.Text.Trim().Length > 0)
+                try
                 {
-                    etiquetaFechaN.Text = etiquetaFechaN.Text.Split(' ')[0];
+                    etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
                 }
+                catch { }
 
             }
 
@@ -416,6 +419,21 @@ namespace SistemaFarmacia
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
+            if (chkRango.Checked)
+            {
+                TxtEdad.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                lblA.Visible = true;
+                txtEdad2.Visible = true;
+
+            }
+            else
+            {
+                ocultaRango();
+                TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                chkRango.Visible = true;
+            }
+
             panelMsj.DefaultButton = btnBuscarF.ID;
             btnLimpiarF.Visible = true;
             btnBuscarF.Visible = true;
@@ -432,6 +450,8 @@ namespace SistemaFarmacia
         {
             if (SesionViva())
             {
+                Boolean pasa = true;
+
                 String condicion = "";
 
                 if (TxtNombre.Text.Trim().Length > 0)
@@ -471,10 +491,48 @@ namespace SistemaFarmacia
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
                 }
 
-                if (TxtEdad.Text.Trim().Length > 0)
+                if (chkRango.Checked)
                 {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " edad like '%" + TxtEdad.Text.Trim() + "%' ";
+                    if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " edad between " + TxtEdad.Text.Trim() + " and " + txtEdad2.Text.Trim() + " ";
+
+                        TxtEdad.Attributes.Remove("style");
+                        txtEdad2.Attributes.Remove("style");
+                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                    }
+                    else
+                    {
+                        TxtEdad.Attributes.Remove("style");
+                        txtEdad2.Attributes.Remove("style");
+                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+
+                        if (TxtEdad.Text.Trim().Length == 0 && txtEdad2.Text.Trim().Length > 0)
+                        {
+                            TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+
+                        if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length == 0)
+                        {
+                            txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+
+                    }
                 }
+                else
+                {
+
+                    if (TxtEdad.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " edad like '%" + TxtEdad.Text.Trim() + "%' ";
+                    }
+
+                }
+
 
                 if (TxtFechaI.Text.Trim().Length > 0)
                 {
@@ -520,18 +578,25 @@ namespace SistemaFarmacia
                 }
 
 
-                Session["Condicion"] = condicion;
-                cargaClientes();
+                if (pasa)
+                {
+                    Session["Condicion"] = condicion;
+                    cargaClientes();
 
 
-                btnLimpiarF.Visible = false;
-                btnBuscarF.Visible = false;
-                btnCerrarF.Visible = false;
-                divFormularioG.Visible = false;
+                    btnLimpiarF.Visible = false;
+                    btnBuscarF.Visible = false;
+                    btnCerrarF.Visible = false;
+                    divFormularioG.Visible = false;
 
-                MasterFarmacia master = (MasterFarmacia)this.Master;
-                master.mostrarMensaje(false);
-                sombraMensaje.Visible = false;
+                    MasterFarmacia master = (MasterFarmacia)this.Master;
+                    master.mostrarMensaje(false);
+                    sombraMensaje.Visible = false;
+                }
+                else
+                {
+                    lblError.Text = "Favor de llenar los campos faltantes";
+                }
             }
         }
 
@@ -545,6 +610,7 @@ namespace SistemaFarmacia
             ddlMunicipio.SelectedIndex = -1;
             ddlEstado.SelectedIndex = -1;
             TxtEdad.Text = "";
+            txtEdad2.Text = "";
             TxtFechaI.Text = "";
             ddlMedio.SelectedIndex = -1;
             TxtTelFijo.Text = "";
@@ -554,6 +620,10 @@ namespace SistemaFarmacia
             TxtEmail.Text = "";
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
+
+            lblA.Visible = false;
+            TxtEdad.Attributes.Remove("style");
+            txtEdad2.Visible = false;
 
             ddlPais.SelectedIndex = -1;
             divPais.Visible = false;
@@ -698,6 +768,36 @@ namespace SistemaFarmacia
             ddlPais.DataBind();
 
             ddlPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+
+        protected void chkRango_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRango.Checked)
+            {
+                TxtEdad.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                lblA.Visible = true;
+                txtEdad2.Visible = true;
+
+            }
+            else
+            {
+                ocultaRango();
+                txtEdad2.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                chkRango.Visible = true;
+            }
+            panelMsj.DefaultButton = btnBuscarF.ID;
+        }
+        public void ocultaRango()
+        {
+            TxtEdad.Attributes.Remove("style");
+            txtEdad2.Text = "";
+            lblA.Visible = false;
+            txtEdad2.Visible = false;
+            chkRango.Visible = false;
+            chkRango.Checked = false;
         }
     }
 
