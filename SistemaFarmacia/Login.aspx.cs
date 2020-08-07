@@ -89,6 +89,7 @@ namespace SistemaFarmacia
             if (usuario == "" && email == "")
             {
                 lanzaScript("ModalUpdate('Error','Favor de proporcionar el nombre de usuario o correo electrónico para continuar.')");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
             }
             else if (usuario == "")
             {
@@ -96,6 +97,7 @@ namespace SistemaFarmacia
                 if (preguntaS == "")
                 {
                     lanzaScript("ModalUpdate('Error','No fue posible obtener la pregunta de seguridad del usuario/correo proporcionado.')");
+                    btnLimpiar_Click(sender, e);
                 }
                 else
                 {
@@ -106,7 +108,10 @@ namespace SistemaFarmacia
                     exampleInputPassword1.Enabled = true;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
                     @continue.Visible = false;
-                    btnCambiarPass.Enabled = true;
+                    btnValidar.Visible = true;
+                    divPreguntaS.Visible = true;
+                    divRespuestaS.Visible = true;
+
                 }
             }
             else if (email == "")
@@ -115,6 +120,7 @@ namespace SistemaFarmacia
                 if (preguntaS == "")
                 {
                     lanzaScript("ModalUpdate('Error','No fue posible obtener la pregunta de seguridad del usuario/correo proporcionado.')");
+                    btnLimpiar_Click(sender, e);
                 }
                 else
                 {
@@ -126,7 +132,9 @@ namespace SistemaFarmacia
                     //Volver a abrir modal
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
                     @continue.Visible = false;
-                    btnCambiarPass.Enabled = true;
+                    btnValidar.Visible = true;
+                    divPreguntaS.Visible = true;
+                    divRespuestaS.Visible = true;
                 }
             }
             else
@@ -135,6 +143,7 @@ namespace SistemaFarmacia
                 if (preguntaS == "")
                 {
                     lanzaScript("ModalUpdate('Error','No fue posible obtener la pregunta de seguridad del usuario/correo proporcionado.')");
+                    btnLimpiar_Click(sender, e);
                 }
                 else
                 {
@@ -145,28 +154,18 @@ namespace SistemaFarmacia
                     exampleInputPassword1.Enabled = true;
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
                     @continue.Visible = false;
-                    btnCambiarPass.Enabled = true;
+                    btnValidar.Visible = true;
+                    divPreguntaS.Visible = true;
+                    divRespuestaS.Visible = true;
                 }
             }
-            //Boolean update = false;
-
-            //update = conexion.ConsultaContraseña(usuarioModal.Text, nombreModal.Text, apellidoModal.Text, apellidoModal2.Text, exampleInputPassword1.Text);
-
-            //if (update)
-            //{
-            //    lanzaScript("ModalUpdate('Mensaje','La contraseña se modificó satisfactoriamente')");
-            //}
-            //else
-            //{
-            //    lanzaScript("ModalUpdate('Error','No fue posible modificar la contraseña')");
-            //}
         }
 
         protected void btnCambiarPass_Click(object sender, EventArgs e)
         {
             Boolean update = false;
 
-            update = conexion.CambiarContraseña(usuarioModal.Text, correoModal.Text, preguntaModal.Text, respuestaModal.Text, exampleInputPassword1.Text);
+            update = conexion.CambiarContraseña(usuarioModal.Text, correoModal.Text, exampleInputPassword1.Text);
 
             if (update)
             {
@@ -181,23 +180,57 @@ namespace SistemaFarmacia
                 respuestaModal.Enabled = false;
                 exampleInputPassword1.Enabled = false;
                 @continue.Visible = true;
-                btnCambiarPass.Enabled = false;
+                btnValidar.Visible = false;
+                btnCambiarPass.Visible = false;
+                divNContra.Visible = false;
+                divPreguntaS.Visible = false;
+                divRespuestaS.Visible = false;
             }
             else
             {
                 lanzaScript("ModalUpdate('Error','No fue posible modificar la contraseña')");
-                usuarioModal.Text = "";
-                correoModal.Text = "";
-                preguntaModal.Text = "";
-                respuestaModal.Text = "";
-                exampleInputPassword1.Text = "";
-                usuarioModal.Enabled = true;
-                correoModal.Enabled = true;
-                respuestaModal.Enabled = false;
-                exampleInputPassword1.Enabled = false;
-                @continue.Visible = true;
-                btnCambiarPass.Enabled = false;
+                btnLimpiar_Click(sender, e);
             }
+        }
+
+        protected void btnValidaPregunta_Click(object sender, EventArgs e)
+        {
+            String usuario = usuarioModal.Text;
+            String email = correoModal.Text;
+            String respuesta = respuestaModal.Text;
+            if (conexion.EvaluaRespuestaS(usuario, email, respuesta))
+            {
+                respuestaModal.Enabled = false;
+                btnValidar.Visible = false;
+                btnCambiarPass.Visible = true;
+                divNContra.Visible = true;
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
+            }
+            else
+            {
+                lanzaScript("ModalUpdate('Error','La respuesta a la pregunta de seguridad es erronea.')");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
+            }
+        }
+
+        protected void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            usuarioModal.Text = "";
+            correoModal.Text = "";
+            preguntaModal.Text = "";
+            respuestaModal.Text = "";
+            exampleInputPassword1.Text = "";
+            usuarioModal.Enabled = true;
+            correoModal.Enabled = true;
+            respuestaModal.Enabled = false;
+            exampleInputPassword1.Enabled = false;
+            @continue.Visible = true;
+            btnValidar.Visible = false;
+            btnCambiarPass.Visible = false;
+            divNContra.Visible = false;
+            divPreguntaS.Visible = false;
+            divRespuestaS.Visible = false;
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
         }
 
 

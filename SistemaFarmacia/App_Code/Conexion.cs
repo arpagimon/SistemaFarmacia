@@ -367,6 +367,7 @@ namespace SistemaFarmacia
         //    return respuesta;
         //}
 
+
         public String TraerPreguntaS(String id_usuario, String usuario, String email)
         {
             String resultado = "";
@@ -389,38 +390,31 @@ namespace SistemaFarmacia
             return resultado;
         }
 
-        public Boolean EvaluaRespuestaS(string pregunta, string respuesta)
+
+        //Método para evaluar respuesta a pregunta segura
+        public Boolean EvaluaRespuestaS(string usuario, string correo, string respuesta)
         {
-            return (EjecutaQueryString("select id_usuario from  " + esquema + ".empleado  where pregunta = '" + pregunta + "' and respuesta = '" + respuesta + "'").Length > 0 ? true : false);
+            return (EjecutaQueryString("select id_usuario from  " + esquema + ".empleado  where " + (usuario.Trim().Length > 0 ? "usuario = '" + usuario + "'" : "email = '" + correo + "'") + " and respuesta = '" + respuesta + "'").Length > 0 ? true : false);
         }
 
-
-        public Boolean CambiarContraseña(string usuario, string email, string pregunta, string respuesta, string contrasena)
+        //Método para cambiar la contraseña
+        public Boolean CambiarContraseña(string usuario, string email, string contrasena)
         {
             Boolean resultado = false;
-            if (EvaluaRespuestaS(pregunta, respuesta))
+            if (usuario == "" && email != "")
             {
-                if (usuario == "" && email != "")
-                {
-                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña = '" + contrasena + "' where email = '" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
-                }
-                else if (email == "" && usuario != "")
-                {
-                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' AND ESTATUS = '1'") == "OK" ? true : false);
-                }
-                else
-                {
-                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' and email='" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
-                }
+                resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña = '" + contrasena + "' where email = '" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
+            }
+            else if (email == "" && usuario != "")
+            {
+                resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' AND ESTATUS = '1'") == "OK" ? true : false);
             }
             else
             {
-                resultado = false;
+                resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' and email='" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
             }
-
             return resultado;
         }
-
 
 
         #endregion

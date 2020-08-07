@@ -11,7 +11,7 @@
         });
 
         
-        ///Version 1.37
+        ///Version 1.38
 
 
         function ModalUpdate(titulo, MSG) {
@@ -108,45 +108,33 @@
                     <form>
                         <div class="form-group">
                             <label for="usuario">Usuario:</label>
-                            <asp:TextBox runat="server" type="text" class="form-control" id="usuarioModal"></asp:TextBox>
+                            <asp:TextBox runat="server" type="text" CssClass="form-control" id="usuarioModal"></asp:TextBox>
                                     
                         </div>
-                        <%--<div class="form-group">
-                            <label for="nombre">Nombre:</label>
-                              <asp:TextBox runat="server"  type="text" class="form-control" id="nombreModal"></asp:TextBox>                                              
-                        </div>
-                        <div class="form-group">
-                            <label for="apellido">Primer Apellido:</label>
-                            <asp:TextBox runat="server" type="text" class="form-control" id="apellidoModal" ></asp:TextBox>    
-                        </div>
-                        <div class="form-group">
-                            <label for="apellido2">Segundo Apellido:</label>
-                            <asp:TextBox  runat="server" type="text" class="form-control" id="apellidoModal2" ></asp:TextBox>    
-                        </div>--%>
                         <div class="form-group">
                             <label for="correo">Correo electrónico:</label>
-                            <asp:TextBox runat="server" type="text" class="form-control" id="correoModal"></asp:TextBox>
+                            <asp:TextBox runat="server" type="text" CssClass="form-control" id="correoModal"></asp:TextBox>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" runat="server" id="divPreguntaS" visible="false">
                             <label for="preguntaS">Pregunta de seguridad:</label>
                             <asp:TextBox runat="server" type="text" CssClass="form-control" ID="preguntaModal" Enabled="false"></asp:TextBox>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" runat="server" id="divRespuestaS" visible="false">
                             <label for="respuestaS">Respuesta:</label>
                             <asp:TextBox runat="server" type="text" CssClass="form-control" ID="respuestaModal" Enabled="false"></asp:TextBox>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" runat="server" id="divNContra" visible="false">
                             <label for="exampleInputPassword1">Nueva Contraseña:</label>
-                            <asp:TextBox runat="server" type="password" class="form-control" id="exampleInputPassword1"></asp:TextBox>
+                            <asp:TextBox runat="server" type="password" CssClass="form-control" id="exampleInputPassword1" Enabled="false"></asp:TextBox>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-lg" id="cancelar" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    <%--<button type="button" class="btn btn-primary btn-lg" id="continuar" onclick="<%=btnCrearPass.ClientID%>.click();" ><i class="fa fa-check" aria-hidden="true"></i></button>--%>
-                    <button type="button" class="btn btn-primary btn-lg" title="continuar" ID="continue" onserverclick="btnCrearPass_Click" runat="server"><i class='fa fa-check' aria-hidden='true'></i></button>
-                    <%--<asp:Button runat="server" ID="btnCrearPass" Style="visibility:hidden;"  Text="Button" OnClick="btnCrearPass_Click"/>--%>
-                    <asp:Button runat="server" CssClass="btn btn-primary btn-lg" ID="btnCambiarPass" Text="Cambiar contraseña" Enabled="false" OnClick="btnCambiarPass_Click" />
+                    <button type="button" class="btn btn-info btn-lg" title="Limpiar campos" ID="clean" onserverclick="btnLimpiar_Click" runat="server"><i class='fa fa-undo' aria-hidden='true'></i></button>
+                    <button type="button" class="btn btn-primary btn-lg" title="Continuar" ID="continue" onserverclick="btnCrearPass_Click" runat="server"><i class='fa fa-check' aria-hidden='true'></i></button>
+                    <asp:Button runat="server" CssClass="btn btn-primary btn-lg" ID="btnValidar" Text="Validar" OnClick="btnValidaPregunta_Click" Visible="false"/>
+                    <asp:Button runat="server" CssClass="btn btn-primary btn-lg" ID="btnCambiarPass" Text="Cambiar contraseña" OnClick="btnCambiarPass_Click" Visible="false"/>
                 </div>
             </div>
         </div>

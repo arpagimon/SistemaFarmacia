@@ -58,6 +58,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox correoModal;
         
         /// <summary>
+        /// Control divPreguntaS.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPreguntaS;
+        
+        /// <summary>
         /// Control preguntaModal.
         /// </summary>
         /// <remarks>
@@ -65,6 +74,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox preguntaModal;
+        
+        /// <summary>
+        /// Control divRespuestaS.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divRespuestaS;
         
         /// <summary>
         /// Control respuestaModal.
@@ -76,6 +94,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox respuestaModal;
         
         /// <summary>
+        /// Control divNContra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNContra;
+        
+        /// <summary>
         /// Control exampleInputPassword1.
         /// </summary>
         /// <remarks>
@@ -85,6 +112,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox exampleInputPassword1;
         
         /// <summary>
+        /// Control clean.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlButton clean;
+        
+        /// <summary>
         /// Control continue.
         /// </summary>
         /// <remarks>
@@ -92,6 +128,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlButton @continue;
+        
+        /// <summary>
+        /// Control btnValidar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnValidar;
         
         /// <summary>
         /// Control btnCambiarPass.
