@@ -80,6 +80,8 @@ namespace SistemaFarmacia
                     llenarDropDownDlist();
                     llenaEstados();
                     llenaPaises();
+
+                    master.cambiarLblTitle("<img src='Imagenes/cumple.png' alt='clientes'><h1>Clientes Mes</h1>");
                 }
             }
         }
@@ -228,6 +230,15 @@ namespace SistemaFarmacia
 
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
+
+                Label lblNumeroFila = (Label)e.Row.FindControl("lblindice");
+
+                try
+                {
+                    lblNumeroFila.Text = ((e.Row.RowIndex + 1) + (gvGerentes.PageIndex * gvGerentes.PageSize)).ToString();
+                }
+                catch { }
+
                 Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                 Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 

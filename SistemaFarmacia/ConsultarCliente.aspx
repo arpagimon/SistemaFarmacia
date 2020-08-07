@@ -47,6 +47,8 @@
                     <div class="divApePat">
                         <label class="FGEtiqueta">Apellido Materno: </label>
                         <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                        <label class="FGEtiqueta">Medio: </label>
+                        <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput"></asp:DropDownList>
                     </div>
                     <label class="FGEtiqueta">Estado:</label>
                     <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado">
@@ -66,11 +68,15 @@
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
                     <label class="FGEtiqueta">Edad: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number"></asp:TextBox>
+                    <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="FGColumna2 FGInput txtEdad2" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
+                    <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="false" CssClass="chkRango" AutoPostBack="true"/>
                     <br />
                     <label class="FGEtiqueta">Fecha ingreso: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
-                    <label class="FGEtiqueta">Medio: </label>
-                    <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput"></asp:DropDownList>
+                    
+                    <label class="FGEtiqueta">Celular: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
                     
                     <br />
                     <label class="FGEtiqueta">Telefono fijo: </label>
@@ -78,16 +84,20 @@
                     <label class="FGEtiqueta">Extensión: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
                     <br />
-                    <label class="FGEtiqueta">Celular: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
                     <label class="FGEtiqueta">Email: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Email"></asp:TextBox>
+                    <label class="FGEtiqueta">Enviar correo:</label>
+                    <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlEnviarCorreo" >
+                        <asp:ListItem Value="1" Text="Si"></asp:ListItem>
+                        <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                    </asp:DropDownList>
                     <br />
                     <div runat="server" id="divObservacionesNota">
                         <label class="FGEtiqueta">Observaciones: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                        
                         <label class="FGEtiqueta">Nota: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                         <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
                         <br />
 
@@ -98,7 +108,9 @@
                         </asp:DropDownList>
 
                     </div>
-                    <br />
+                    <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
+                    <%--<br />--%>
+                    
                     <div id="FBotonera">
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
                         <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
@@ -127,8 +139,9 @@
                 <asp:ListItem Value="0">Inactivos</asp:ListItem>
                 <asp:ListItem Value="1">Activos</asp:ListItem>
             </asp:DropDownList>
-            <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />
-            <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+            <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
+            <%--<asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />--%>
+            <%--<asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />--%>
         </div>
         <div id="divGerentes2">
             <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
@@ -144,8 +157,12 @@
                 <PagerStyle CssClass="Paginador" />
 
                 <Columns>
+                    <asp:Templatefield HeaderText="indice" Visible ="true">
+                         <ItemTemplate>
+                                <asp:Label runat='server' ID='lblindice' CssClass="lblUsuario" ></asp:Label>
+                            </ItemTemplate>
+                    </asp:Templatefield>
                     <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
-
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>
                         </ItemTemplate>
@@ -235,90 +252,16 @@
                             <asp:Label runat='server' ID='lblPais' CssClass="lblGerentes" Text='<%# Bind("PAIS") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-
+                    <asp:TemplateField HeaderText="EnvCorreo" HeaderStyle-Width="20%" SortExpression="Enviar_Correo" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:CommandField ShowEditButton="true" ShowDeleteButton="false" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                 </Columns>
             </asp:GridView>
         </div>
-
-
-
-        <%--<div>
-        <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Style="height: 26px" Text="Button" />
-        <asp:TextBox ID="CONSULTA" runat="server"></asp:TextBox>
-        <asp:Button ID="buscar01" runat="server" Text="buscar"  OnClick="buscardatos"/>
-
-    </div>
-
-    <asp:GridView ID="tablaPrincipal" runat="server" AutoGenerateColumns="true" AllowPaging="true" PageSize="50">
-        <%--  <Columns>
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="appellidop" HeaderText="apellidoPaterno" />
-                <asp:BoundField DataField="apellidom" HeaderText="apellidoMaterno" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-                <asp:BoundField DataField="nombre" HeaderText="nombre" />
-            </Columns>
-    </asp:GridView>
-    
-        <div>
-            <asp:Button ID="GUARDARD" runat="server" Text="GUARDAR" OnClick="GUARDARD_Click" />
-        <asp:Label ID="Label1" runat="server" Text="nombre"></asp:Label> 
-        <asp:TextBox ID="Cnombre" runat="server"></asp:TextBox>
-         <br />
-        <asp:Label ID="Label2" runat="server" Text="apellido paterno"></asp:Label>
-          <asp:TextBox ID="cappellidopaterno" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label3" runat="server" Text="apellido materno"></asp:Label>
-          <asp:TextBox ID="cappelidomaterno" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label4" runat="server" Text="edad"></asp:Label>
-          <asp:TextBox ID="cedad" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label5" runat="server" Text="fecha_nacimiento"></asp:Label>
-          <asp:TextBox ID="cfechanacimiento" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label6" runat="server" Text="fecha_ingreso"></asp:Label>
-          <asp:TextBox ID="cfechaingreso" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label7" runat="server" Text="municipio"></asp:Label>
-          <asp:TextBox ID="cmunicipio" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label8" runat="server" Text="calle"></asp:Label>
-          <asp:TextBox ID="ccalle" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label9" runat="server" Text="no_int"></asp:Label>
-          <asp:TextBox ID="cnoint" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label10" runat="server" Text="no_ext"></asp:Label>
-          <asp:TextBox ID="cnoext" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label11" runat="server" Text="tel casa"></asp:Label>
-          <asp:TextBox ID="Ctelcasafija" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label12" runat="server" Text="extension"></asp:Label>
-          <asp:TextBox ID="cextension" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label13" runat="server" Text="celular"></asp:Label>
-          <asp:TextBox ID="ccelular" runat="server"></asp:TextBox>
-         <br />
-           <asp:Label ID="Label14" runat="server" Text="email"></asp:Label>
-          <asp:TextBox ID="cemail" runat="server"></asp:TextBox>
-           
-       
-
-
-
-        --%>
     </div>
 
 

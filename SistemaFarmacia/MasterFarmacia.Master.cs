@@ -46,7 +46,10 @@ namespace SistemaFarmacia
             btnRegresar.Visible = opcion;
         }
 
-        
+        public void cambiarLblTitle(string title)
+        {
+            lblTitle.Text = title;
+        }
 
     }
 }

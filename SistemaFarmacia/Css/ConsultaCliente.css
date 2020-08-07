@@ -2,6 +2,13 @@
 */
 
 
+.btnBuscar{
+    background-position: calc(100% - 20px) center;
+    background-image: url('Imagenes/imgBusqueda_opt.png');
+    background-repeat: no-repeat;
+    width: 140px;
+}
+
 #MenuAdmin {
     display: inline-block;
     margin: 10px;
@@ -262,6 +269,11 @@
     margin-bottom: 20px;
 }
 
+.lblError{
+    color: red;
+    /*font-size: small;*/
+}
+
 .FGInput input {
     vertical-align: top;
     margin-top: 10px;
@@ -409,6 +421,7 @@
     text-align: center;
     color: white;
     padding: 5px;
+    font-weight: bold;
 }
 
 .btnMenosMes{
@@ -757,6 +770,28 @@
 }
 
 /*              Fin Log Usuarios                */
+
+
+.txtObsNota{
+    width: calc(100% - 190px);
+    min-height: 50px;
+}
+
+
+.lblA{
+    width: 14px;
+    display: inline-block;
+}
+.chkRango{
+    width: 13px;
+    margin-right: 20px;
+}
+.txtEdad2{
+    width: 80px;
+    margin-right: 0px;
+}
+
+
 
 @media (min-width: 768px) {
     .gridview {

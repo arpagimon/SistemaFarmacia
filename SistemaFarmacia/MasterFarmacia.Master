@@ -27,7 +27,7 @@
                 <asp:ImageButton runat="server" ID="btnRegresar" ImageUrl="~/Imagenes/return.png" OnClick="btnRegresar_Click" data-toggle="tooltip" data-placement="bottom" title="Regresar" />
                 <%--<asp:Image runat="server" ID="imgLogo" ImageUrl="~/Imagenes/Logo.png" />--%>
                 <%--<asp:ImageButton runat="server" ID="btnSalida" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="ibtSalida_Click" />--%>
-                <h1>Farmacia</h1>
+                <asp:Label ID="lblTitle" runat="server" Text=""></asp:Label>    
             </div>
 
             <asp:ContentPlaceHolder ID="ContentPlaceMensaje" runat="server">

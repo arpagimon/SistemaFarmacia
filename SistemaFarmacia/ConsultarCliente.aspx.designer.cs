@@ -157,6 +157,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtApellidoM;
         
         /// <summary>
+        /// Control ddlMedio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMedio;
+        
+        /// <summary>
         /// Control ddlEstado.
         /// </summary>
         /// <remarks>
@@ -220,6 +229,33 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtEdad;
         
         /// <summary>
+        /// Control lblA.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblA;
+        
+        /// <summary>
+        /// Control txtEdad2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtEdad2;
+        
+        /// <summary>
+        /// Control chkRango.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkRango;
+        
+        /// <summary>
         /// Control TxtFechaI.
         /// </summary>
         /// <remarks>
@@ -229,13 +265,13 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtFechaI;
         
         /// <summary>
-        /// Control ddlMedio.
+        /// Control TxtCelular.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMedio;
+        protected global::System.Web.UI.WebControls.TextBox TxtCelular;
         
         /// <summary>
         /// Control TxtTelFijo.
@@ -256,15 +292,6 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtExtension;
         
         /// <summary>
-        /// Control TxtCelular.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtCelular;
-        
-        /// <summary>
         /// Control TxtEmail.
         /// </summary>
         /// <remarks>
@@ -272,6 +299,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtEmail;
+        
+        /// <summary>
+        /// Control ddlEnviarCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEnviarCorreo;
         
         /// <summary>
         /// Control divObservacionesNota.
@@ -317,6 +353,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlEstatus;
+        
+        /// <summary>
+        /// Control lblError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
         
         /// <summary>
         /// Control btnBuscarF.
@@ -407,15 +452,6 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnBuscar;
-        
-        /// <summary>
-        /// Control imgBusquedaG.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image imgBusquedaG;
         
         /// <summary>
         /// Control gvGerentes.
