@@ -49,31 +49,31 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox usuarioModal;
         
         /// <summary>
-        /// Control nombreModal.
+        /// Control correoModal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox nombreModal;
+        protected global::System.Web.UI.WebControls.TextBox correoModal;
         
         /// <summary>
-        /// Control apellidoModal.
+        /// Control preguntaModal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox apellidoModal;
+        protected global::System.Web.UI.WebControls.TextBox preguntaModal;
         
         /// <summary>
-        /// Control apellidoModal2.
+        /// Control respuestaModal.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox apellidoModal2;
+        protected global::System.Web.UI.WebControls.TextBox respuestaModal;
         
         /// <summary>
         /// Control exampleInputPassword1.
@@ -85,12 +85,21 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox exampleInputPassword1;
         
         /// <summary>
-        /// Control btnCrearPass.
+        /// Control continue.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCrearPass;
+        protected global::System.Web.UI.HtmlControls.HtmlButton @continue;
+        
+        /// <summary>
+        /// Control btnCambiarPass.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCambiarPass;
     }
 }

@@ -54,7 +54,8 @@ namespace SistemaFarmacia.Clases
                 AlternateView.CreateAlternateViewFromString(datosCorreo_.SMTP_MENSAJE, Encoding.UTF8, MediaTypeNames.Text.Plain);
 
             string html = "<h2>" + datosCorreo_.SMTP_MENSAJE + "</h2>" +
-               "<img src='cid:imagen' />";
+               "<img src='cid:imagen' /><br/>"+
+               "<h3 style='text-align: center;'>" + datosCorreo_.SMTP_FIRMA.Replace("\n","<br/>") + "</h3>";
 
             AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
 

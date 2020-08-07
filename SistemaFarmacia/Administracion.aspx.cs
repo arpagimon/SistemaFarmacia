@@ -44,6 +44,7 @@ namespace SistemaFarmacia
                     Response.Redirect("Principal.aspx");
                 }
 
+                master.mostrarLblUser("<p>Hola " + connMysql.ConsultarNombreUsuario(this.Session["usuario"].ToString()) + " </p>");
                 master.mostrarMensaje(false);
                 sombraMensaje.Visible = false;
 
@@ -139,6 +140,13 @@ namespace SistemaFarmacia
             lblId_usuario.Text = idUsuario.Text;
             ddlPerfil.SelectedValue = ddlPerfil.Items.FindByText(Perfil.Text).Value;
 
+            String Pregunta = connMysql.TraerPreguntaS(idUsuario.Text, "", "");
+            if (Pregunta != "")
+            {
+                ddlPreguntaS.SelectedValue = ddlPreguntaS.Items.FindByText(Pregunta).Value;
+            }
+
+
             FGAgregar.Visible = false;
             FGActualizar.Visible = true;
         }
@@ -221,6 +229,10 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = "";
             ddlPerfil.ClearSelection();
             txtContrasenia.Text = "";
+            ddlPreguntaS.SelectedIndex = 0;
+            txtContrasenia.Text = "";
+            txtRespuestaS.Text = "";
+            txtCorreoE.Text = "";
 
             gvGerentes.EditIndex = -1;
             cargaGerentes();
@@ -236,9 +248,12 @@ namespace SistemaFarmacia
             String ApellidoM = TxtApellidoM.Text;
             String Perfil = ddlPerfil.SelectedValue;
             String contrasenia = txtContrasenia.Text;
+            String correo = txtCorreoE.Text;
+            String preguntaS = ddlPreguntaS.SelectedItem.Text;
+            String respuestaS = txtRespuestaS.Text;
 
-
-            resultado = connMysql.GuardaUsuario(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia);
+            //resultado = connMysql.GuardaUsuario(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia);
+            resultado = connMysql.GuardaUsuario(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia, correo, preguntaS, respuestaS);
 
             TxtUsuario.Text = "";
             TxtNombre.Text = "";
@@ -247,6 +262,11 @@ namespace SistemaFarmacia
             ddlPerfil.SelectedIndex = 0;
             //ddlPerfil.SelectedValue = "";
             txtContrasenia.Text = "";
+
+            ddlPreguntaS.SelectedIndex = 0;
+            txtContrasenia.Text = "";
+            txtRespuestaS.Text = "";
+            txtCorreoE.Text = "";
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario guardado exitosamente" : resultado));
@@ -382,7 +402,15 @@ namespace SistemaFarmacia
             String contrasenia = txtContrasenia.Text;
             String idUsuario = lblId_usuario.Text;
 
-            String resultado = connMysql.ActualizaUsuario(idUsuario, Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia, CambioContrasenia);
+            String correo = txtCorreoE.Text;
+            String preguntaS = ddlPreguntaS.SelectedItem.Text;
+            String respuestaS = txtRespuestaS.Text;
+
+            //String resultado = connMysql.ActualizaUsuario(idUsuario, Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia, CambioContrasenia);
+
+            bool CambioRespuesta = !txtRespuestaS.Text.Trim().Equals("");
+
+            String resultado = connMysql.ActualizaUsuario(idUsuario, Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), usuario.ToUpper(), Perfil, contrasenia, CambioContrasenia, CambioRespuesta, correo, preguntaS, respuestaS);
 
             sombraMensaje.Visible = true;
             mostrarMensaje((resultado.Trim().Equals("OK") ? "Usuario actualizado exitosamente" : resultado));
@@ -395,6 +423,11 @@ namespace SistemaFarmacia
             txtContrasenia.Text = "";
             lblId_usuario.Text = "";
 
+
+            ddlPreguntaS.SelectedIndex = 0;
+            txtContrasenia.Text = "";
+            txtRespuestaS.Text = "";
+            txtCorreoE.Text = "";
 
             gvGerentes.EditIndex = -1;
             cargaGerentes();
@@ -787,45 +820,54 @@ namespace SistemaFarmacia
             
             txtCorreoPrueba.Text = datosCorreo.SMTP_CORREO_PRUEBA;
             ddlEnvCorreo.SelectedValue = datosCorreo.ENV_ESTADO;
+            txtFirma.Text = datosCorreo.SMTP_FIRMA;
         }
 
         protected void btnActualizarCorreo_Click(object sender, EventArgs e)
         {
+            if ((uploadImgCorreo.PostedFile.ContentLength / 1024) < 1024) {
 
-            
+                lblErrorImage.Text = "";
+                DatosCorreo datoscorreo = new DatosCorreo();
 
-            DatosCorreo datoscorreo = new DatosCorreo();
+                datoscorreo.SMTP_CORREO = txtCorreo.Text;
+                datoscorreo.SMTP_PASS = txtCorreoContraseña.Text;
+                datoscorreo.SMTP_MENSAJE = txtMensaje.Text;
+                //datoscorreo.SMTP_IMAGEN = txtImagen.Text;
+                datoscorreo.SMTP_SUJETO = txtSujeto.Text;
+                datoscorreo.SMTP_SSL = txtSSL.Text;
+                datoscorreo.SMTP_HOST = txtHost.Text;
+                datoscorreo.SMTP_PUERTO = txtPuerto.Text;
+                datoscorreo.UltimoEnvio = txtUltimoC.Text;
+                datoscorreo.DiasAntes = txtDiasAntes.Text;
+                datoscorreo.SMTP_CORREO_PRUEBA = txtCorreoPrueba.Text;
 
-            datoscorreo.SMTP_CORREO = txtCorreo.Text;
-            datoscorreo.SMTP_PASS = txtCorreoContraseña.Text;
-            datoscorreo.SMTP_MENSAJE = txtMensaje.Text;
-            //datoscorreo.SMTP_IMAGEN = txtImagen.Text;
-            datoscorreo.SMTP_SUJETO = txtSujeto.Text;
-            datoscorreo.SMTP_SSL = txtSSL.Text;
-            datoscorreo.SMTP_HOST = txtHost.Text;
-            datoscorreo.SMTP_PUERTO = txtPuerto.Text;
-            datoscorreo.UltimoEnvio = txtUltimoC.Text;
-            datoscorreo.DiasAntes = txtDiasAntes.Text;
-            datoscorreo.SMTP_CORREO_PRUEBA = txtCorreoPrueba.Text;
+                datoscorreo.PRUEBAS = (chkPruebas.Checked ? "1" : "0");
+                datoscorreo.ENV_ESTADO = ddlEnvCorreo.SelectedValue;    // cambie en Clase DatosCorreo.cs
+                datoscorreo.SMTP_FIRMA = txtFirma.Text;
 
-            datoscorreo.PRUEBAS = (chkPruebas.Checked ? "1" : "0");
-            datoscorreo.ENV_ESTADO = ddlEnvCorreo.SelectedValue;    // cambie en Clase DatosCorreo.cs
+                datoscorreo.SMTP_IMAGEN = "";
+                if (uploadImgCorreo.FileName.Trim().Length != 0)
+                {
+                    if (uploadImgCorreo.HasFile)
+                    {
+                        string nombreArchivo = uploadImgCorreo.FileName;
+                        string ruta = "Imagenes/Correo/" + nombreArchivo;
+                        uploadImgCorreo.SaveAs(Server.MapPath(ruta));
 
-            datoscorreo.SMTP_IMAGEN = "";
-            if (uploadImgCorreo.HasFile)
+                        datoscorreo.SMTP_IMAGEN = ruta;
+                    }
+                }
+
+                String resultado = connMysql.ActualizaDatosCorreo(datoscorreo);
+
+
+                sombraMensaje.Visible = true;
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Datos de correo actualizado exitosamente" : resultado));
+            }else
             {
-                string nombreArchivo = uploadImgCorreo.FileName;
-                string ruta = "Imagenes/Correo/" + nombreArchivo;
-                uploadImgCorreo.SaveAs(Server.MapPath(ruta));
-
-                datoscorreo.SMTP_IMAGEN = ruta;
+                lblErrorImage.Text = "* El tamaño de la imagen debe ser menor a 1 MB";
             }
-
-            String resultado = connMysql.ActualizaDatosCorreo(datoscorreo);
-
-
-            sombraMensaje.Visible = true;
-            mostrarMensaje((resultado.Trim().Equals("OK") ? "Datos de correo actualizado exitosamente" : resultado));
 
 
         }

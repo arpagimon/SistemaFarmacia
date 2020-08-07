@@ -11,7 +11,7 @@
         });
 
         
-        ///Version 1.36
+        ///Version 1.37
 
 
         function ModalUpdate(titulo, MSG) {
@@ -111,7 +111,7 @@
                             <asp:TextBox runat="server" type="text" class="form-control" id="usuarioModal"></asp:TextBox>
                                     
                         </div>
-                        <div class="form-group">
+                        <%--<div class="form-group">
                             <label for="nombre">Nombre:</label>
                               <asp:TextBox runat="server"  type="text" class="form-control" id="nombreModal"></asp:TextBox>                                              
                         </div>
@@ -122,6 +122,18 @@
                         <div class="form-group">
                             <label for="apellido2">Segundo Apellido:</label>
                             <asp:TextBox  runat="server" type="text" class="form-control" id="apellidoModal2" ></asp:TextBox>    
+                        </div>--%>
+                        <div class="form-group">
+                            <label for="correo">Correo electrónico:</label>
+                            <asp:TextBox runat="server" type="text" class="form-control" id="correoModal"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="preguntaS">Pregunta de seguridad:</label>
+                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="preguntaModal" Enabled="false"></asp:TextBox>
+                        </div>
+                        <div class="form-group">
+                            <label for="respuestaS">Respuesta:</label>
+                            <asp:TextBox runat="server" type="text" CssClass="form-control" ID="respuestaModal" Enabled="false"></asp:TextBox>
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Nueva Contraseña:</label>
@@ -131,8 +143,10 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger btn-lg" id="cancelar" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
-                    <button type="button" class="btn btn-primary btn-lg" id="continuar" onclick="<%=btnCrearPass.ClientID%>.click();" ><i class="fa fa-check" aria-hidden="true"></i></button>
-                    <asp:Button runat="server" ID="btnCrearPass" Style="visibility:hidden;"  Text="Button" OnClick="btnCrearPass_Click"/>
+                    <%--<button type="button" class="btn btn-primary btn-lg" id="continuar" onclick="<%=btnCrearPass.ClientID%>.click();" ><i class="fa fa-check" aria-hidden="true"></i></button>--%>
+                    <button type="button" class="btn btn-primary btn-lg" title="continuar" ID="continue" onserverclick="btnCrearPass_Click" runat="server"><i class='fa fa-check' aria-hidden='true'></i></button>
+                    <%--<asp:Button runat="server" ID="btnCrearPass" Style="visibility:hidden;"  Text="Button" OnClick="btnCrearPass_Click"/>--%>
+                    <asp:Button runat="server" CssClass="btn btn-primary btn-lg" ID="btnCambiarPass" Text="Cambiar contraseña" Enabled="false" OnClick="btnCambiarPass_Click" />
                 </div>
             </div>
         </div>

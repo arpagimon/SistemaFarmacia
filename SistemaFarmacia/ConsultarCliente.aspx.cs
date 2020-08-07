@@ -81,6 +81,7 @@ namespace SistemaFarmacia
                         ddlEstatusGeneral.SelectedValue = "1";
 
 
+                        master.mostrarLblUser("<p>Hola " + connMySql.ConsultarNombreUsuario(this.Session["usuario"].ToString()) + " </p>");
                         master.mostrarMensaje(false);
                         sombraMensaje.Visible = false;
 
@@ -775,7 +776,7 @@ namespace SistemaFarmacia
             recupera.Text = IdClienterefinado.ToString();
 
             sombraMensaje.Visible = true;
-            mostrarMensaje2();
+            mostrarMensaje2(e.Values[0] + " " + e.Values[1] + " " + e.Values[2] + "?");
         }
 
 
@@ -1375,8 +1376,10 @@ namespace SistemaFarmacia
 
 
 
-        public void mostrarMensaje2()
+        public void mostrarMensaje2(String Nombre)
         {
+            lblPregunta2.Text = Nombre.ToUpper() + "";
+
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(true);
             sombraMensaje.Visible = true;

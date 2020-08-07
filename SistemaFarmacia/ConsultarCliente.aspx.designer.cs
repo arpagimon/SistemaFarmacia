@@ -67,13 +67,22 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divmensaje2;
         
         /// <summary>
-        /// Control LABELPREGUNTA.
+        /// Control lblPregunta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LABELPREGUNTA;
+        protected global::System.Web.UI.WebControls.Label lblPregunta;
+        
+        /// <summary>
+        /// Control lblPregunta2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPregunta2;
         
         /// <summary>
         /// Control recupera.

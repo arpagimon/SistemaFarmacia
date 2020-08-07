@@ -35,7 +35,14 @@ namespace SistemaFarmacia
 
                 while (datareader.Read())
                 {
-                    respuesta = datareader.GetInt16(0).ToString();
+                    try
+                    {
+                        respuesta = datareader.GetInt16(0).ToString();
+                    }
+                    catch
+                    {
+                        respuesta = datareader.GetString(0);
+                    }
                 }
                 datareader.Dispose();
                 datareader.Close();
@@ -233,7 +240,7 @@ namespace SistemaFarmacia
 
         public DataSet TraerClientes(String condicion, String Estatus)
         {
-            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + (Estatus == "-1" ? "" : " and estatus = '" + Estatus + "'") : (Estatus =="-1"? "": " where estatus = '"+Estatus+"'")) + " order by ID_CLIENTE desc");
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + " and estatus " + (Estatus == "1,0" ? " in ('1','0')" : " and estatus = '" + Estatus + "'") : " where estatus " + (Estatus =="1,0"? " in ('1','0') ": " = '"+Estatus+"'")) + " order by ID_CLIENTE desc");
         }
 
         public String GuardaCliente(String NOMBRE, String APELLIDO_PATERNO, String APELLIDO_MATERNO, String EDAD, String FECHA_NACIMIENTO, String FECHA_INGRESO, String MUNICIPIO, String tel_casa_fijo, String extension, String celular, String EMAIL, String OBSERVACIONES, String NOTA, String MEDIO, String Estatus, String Estado, String Pais, String Enviar_Correo)
@@ -250,7 +257,7 @@ namespace SistemaFarmacia
 
         public String EliminaCliente(String Id_Cliente)
         {
-            return EjecutaQueryInsert("update " + esquema + ".cliente set estatus = 0 where id_cliente = " + Id_Cliente);
+            return EjecutaQueryInsert("update " + esquema + ".cliente set estatus = 3 where id_cliente = " + Id_Cliente);
         }
 
         public DataSet LLENAR_TABLA()
@@ -304,14 +311,21 @@ namespace SistemaFarmacia
             return EjecutaQueryDS("select id_usuario, nombre, apellido_paterno, apellido_materno, usuario,descripcion as Perfil from " + esquema + ".empleado left join " + esquema + ".perfil on empleado.id_perfil = perfil.id_perfil  where empleado.estatus = 1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") + " order by nombre asc, apellido_paterno asc, apellido_materno asc");
         }
 
-        public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia)
+        //public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia)
+        //{
+        //    return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1')");
+        //}
+        public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, String Email, String Pregunta, String Respuesta)
         {
-            return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1')");
+            return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus, email, pregunta, respuesta) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1','" + Email + "','" + Pregunta + "','" + Respuesta + "')");
         }
-
-        public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña)
+        //public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña)
+        //{
+        //    return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + " where id_usuario = '" + id_usuario + "'");
+        //}
+        public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña, bool CambiaRespuesta, String Email, String Pregunta, String Respuesta)
         {
-            return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + " where id_usuario = '" + id_usuario + "'");
+            return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + ", email = '" + Email + "', pregunta = '" + Pregunta + "'" + (CambiaRespuesta ? ", respuesta = '" + Respuesta + "'" : "") + " where id_usuario = '" + id_usuario + "'");
         }
         public DataSet TraerPerfilesddl(String condicion)
         {
@@ -322,6 +336,93 @@ namespace SistemaFarmacia
         {
             return EjecutaQueryInsert("update " + esquema + ".empleado set estatus = 0 where id_usuario= " + Id_Usuario);
         }
+
+        //public String EjecutaQueryString2(string cmd)
+        //{
+        //    String respuesta = "";
+
+        //    try
+        //    {
+        //        connMySql.Open();
+        //        MySqlCommand mysqlcommand = new MySqlCommand(cmd, connMySql);
+        //        MySqlDataReader datareader = mysqlcommand.ExecuteReader();
+
+        //        while (datareader.Read())
+        //        {
+        //            respuesta = datareader.GetValue(0).ToString();
+        //        }
+        //        datareader.Dispose();
+        //        datareader.Close();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+        //    finally
+        //    {
+        //        cerrar_conexion();
+        //    }
+
+        //    return respuesta;
+        //}
+
+        public String TraerPreguntaS(String id_usuario, String usuario, String email)
+        {
+            String resultado = "";
+            if (id_usuario != "" && usuario == "" && email == "")
+            {
+                resultado = EjecutaQueryString("select pregunta from " + esquema + ".empleado where id_usuario = '" + id_usuario + "'");
+            }
+            else if (usuario != "" && id_usuario == "" && email == "")
+            {
+                resultado = EjecutaQueryString("select pregunta from " + esquema + ".empleado where usuario = '" + usuario + "'");
+            }
+            else if (email != "" && usuario == "" && id_usuario == "")
+            {
+                resultado = EjecutaQueryString("select pregunta from " + esquema + ".empleado where email = '" + email + "'");
+            }
+            else if (usuario != "" && email != "" && id_usuario == "")
+            {
+                resultado = EjecutaQueryString("select pregunta from " + esquema + ".empleado where email = '" + email + "' and usuario = '" + usuario + "'");
+            }
+            return resultado;
+        }
+
+        public Boolean EvaluaRespuestaS(string pregunta, string respuesta)
+        {
+            return (EjecutaQueryString("select id_usuario from  " + esquema + ".empleado  where pregunta = '" + pregunta + "' and respuesta = '" + respuesta + "'").Length > 0 ? true : false);
+        }
+
+
+        public Boolean CambiarContraseña(string usuario, string email, string pregunta, string respuesta, string contrasena)
+        {
+            Boolean resultado = false;
+            if (EvaluaRespuestaS(pregunta, respuesta))
+            {
+                if (usuario == "" && email != "")
+                {
+                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña = '" + contrasena + "' where email = '" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
+                }
+                else if (email == "" && usuario != "")
+                {
+                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' AND ESTATUS = '1'") == "OK" ? true : false);
+                }
+                else
+                {
+                    resultado = (EjecutaQueryInsert("update  " + esquema + ".empleado  set contraseña ='" + contrasena + "' where usuario ='" + usuario + "' and email='" + email + "' AND ESTATUS = '1'") == "OK" ? true : false);
+                }
+            }
+            else
+            {
+                resultado = false;
+            }
+
+            return resultado;
+        }
+
+
+
         #endregion
 
 
@@ -406,6 +507,11 @@ namespace SistemaFarmacia
                             case "ENV_CORREO_A":
                                 resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
                                 break;
+                            case "SMTP_FIRMA":
+                                resultado.SMTP_FIRMA = mySqlDataReader.GetString(1);
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
@@ -480,16 +586,18 @@ namespace SistemaFarmacia
             return resultado;
         }
 
-        public DataSet TraerClientesDelMesSiguiente(String condicion)
+        public DataSet TraerClientesDelMesSiguiente(String condicion, String Estatus)
         {
-            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO from " + esquema + ".cliente where estatus = 1 and date_format(fecha_nacimiento,'%m') = date_format(sysdate(),'%m')+1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") );
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO,Enviar_Correo " +
+                " from " + esquema + ".cliente "+
+                " where estatus   " + (Estatus == "1,0" ? " in ('1','0')" : " = '" + Estatus + "' ") + " and Date_format(fecha_nacimiento,'%m') =  (case when date_format(sysdate(),'%m') = 12 then 1  else date_format(sysdate(),'%m')+1 end) " + (condicion.Trim().Length > 0 ? " and " + condicion : "") );
         }
 
-        public DataSet TraerClientesDelMes(String condicion, int mes)
+        public DataSet TraerClientesDelMes(String condicion, int mes, String estatus)
         {
             return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, " +
-                " FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO " +
-                " from " + esquema + ".cliente where estatus = 1 and date_format(fecha_nacimiento,'%m') = '" + mes.ToString().PadLeft(2,'0') + "' " + (condicion.Trim().Length > 0 ? " and " + condicion : ""));
+                " FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO, CHECK_EMAIL,Enviar_Correo " +
+                " from " + esquema + ".cliente where estatus " + (estatus == "1,0" ? " in ('1','0')" : " = '" + estatus + "' ") + " and date_format(fecha_nacimiento,'%m') = '" + mes.ToString().PadLeft(2,'0') + "' " + (condicion.Trim().Length > 0 ? " and " + condicion : ""));
         }
 
 
@@ -498,7 +606,16 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("update " + esquema + ".configuracion set valor = date_format(sysdate(),'%d/%m/%Y') where nombre = 'ULTIMOENVIO'");
         }
 
+        public String ActualizaCorreoEnvCliente(String IDS_Cliente)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".cliente set CHECK_EMAIL = date_format(sysdate(),'%Y') where ID_Cliente in (" + IDS_Cliente + ")");
+        }
 
+
+        public String TraerEnvioCorreo()
+        {
+            return EjecutaQueryString("Select valor from " + esquema + ".configuracion where nombre = 'ENV_CORREO_A'");
+        }
 
         public String ActualizaDatosCorreo(DatosCorreo datoscorreo)
         {
@@ -509,8 +626,12 @@ namespace SistemaFarmacia
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_CORREO + "' where nombre = 'SMTP_CORREO'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_PASS + "' where nombre = 'SMTP_PASS'");
 
+                
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_MENSAJE + "' where nombre = 'SMTP_MENSAJE'");
-                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_IMAGEN + "' where nombre = 'IMAGENCORREO'");
+                if (datoscorreo.SMTP_IMAGEN.Length > 0)
+                {
+                    EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_IMAGEN + "' where nombre = 'IMAGENCORREO'");
+                }
 
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_SUJETO + "' where nombre = 'SMTP_SUJETO'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_SSL + "' where nombre = 'SMTP_SSL'");
@@ -525,6 +646,7 @@ namespace SistemaFarmacia
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_CORREO_PRUEBA + "' where nombre = 'SMTP_CORREO_PRUEBA'");
                     
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.ENV_ESTADO + "' where nombre = 'ENV_CORREO_A'");
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_FIRMA + "' where nombre = 'SMTP_FIRMA'");
             }
             catch(Exception ex)
             {
@@ -536,6 +658,10 @@ namespace SistemaFarmacia
 
         #endregion
         #endregion
+        public string ConsultarNombreUsuario(string usuario)
+        {
+            return EjecutaQueryString("select concat(nombre, ' ', apellido_paterno, ' ', apellido_materno) from empleado where usuario = '" + usuario + "'");
+        }
 
     }
 }

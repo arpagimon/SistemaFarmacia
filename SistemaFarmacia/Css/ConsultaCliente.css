@@ -342,7 +342,7 @@
 
 .divMensaje {
     width: 500px;
-    height: 140px;
+    /*height: 140px;*/
     background: white;
     margin: auto;
     margin-top: 3%;
@@ -365,9 +365,11 @@
 }
 
 #MContenido, #MContenidoJS, #MContenido2 {
-    height: 110px;
+        
     text-align: center;
 }
+
+
 
 .MBoton {
     display: inline-block;
@@ -390,7 +392,7 @@
 }
 
 .divMensajeJS{
-    height: 210px;
+    /*height: 210px;*/
 }
 
 .CargaJS{
@@ -407,6 +409,13 @@
 
 .floatDerecha{
     float:right;
+}
+
+.MarginRightMin{
+    margin-right: 10px;
+}
+.MarginLeftMin{
+    margin-left: 10px;
 }
 /*----------      Fin Mensaje      --------*/
 
@@ -792,6 +801,43 @@
 }
 
 
+
+.lblMensajeT0{
+    margin-top: 0px;
+}
+.lblMensajeB0{
+    margin-bottom: 0px;
+}
+
+.lblEnviarA{
+    margin: 10px 10px 10px 10px;
+    display: inline-block;
+}
+.divFormularioCorreo{
+    /*padding: 10px;*/
+}
+.divFormCorreo{
+    padding-top: 10px;
+    padding-left: 20px;
+}
+.divFormCorreo input {
+    margin-right: 10px;
+}
+.divFormCorreo label{
+    margin-right: 10px;
+}
+.ddlMesActual{
+    padding-right: 20px;
+}
+
+.botonera{
+    text-align:center;
+    width: 100%;
+}
+
+.paddingCh{
+    padding: 10px;
+}
 
 @media (min-width: 768px) {
     .gridview {

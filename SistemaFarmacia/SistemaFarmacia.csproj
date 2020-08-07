@@ -75,6 +75,7 @@
     <Content Include="Imagenes\cargando-gif.gif" />
     <Content Include="Imagenes\CLIENTE.png" />
     <Content Include="Imagenes\clientes.png" />
+    <Content Include="Imagenes\Correo\1024_2000.jpg" />
     <Content Include="Imagenes\cumple.png" />
     <Content Include="Imagenes\Icono_salida.png" />
     <Content Include="Imagenes\imgBusqueda.png" />
@@ -86,6 +87,7 @@
     <Content Include="Imagenes\Loading_icon.gif" />
     <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\mail.png" />
+    <Content Include="Imagenes\palomita2.png" />
     <Content Include="Imagenes\return.png" />
     <Content Include="Imagenes\right-arrow.png" />
     <Content Include="MasterFarmacia.Master" />
@@ -200,9 +202,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Imagenes\Correo\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

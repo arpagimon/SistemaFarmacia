@@ -50,6 +50,9 @@ namespace SistemaFarmacia
         {
             lblTitle.Text = title;
         }
-
+        public void mostrarLblUser(string user)
+        {
+            lblUser.Text = user;
+        }
     }
 }

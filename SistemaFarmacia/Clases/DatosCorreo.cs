@@ -25,5 +25,6 @@ namespace SistemaFarmacia.Clases
         public String PRUEBAS { get; set; }
         public String SMTP_CORREO_PRUEBA { get; set; }
         public String ENV_ESTADO { get; set; }
+        public String SMTP_FIRMA { get; set; }
     }
 }

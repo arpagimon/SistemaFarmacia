@@ -8,7 +8,7 @@
     <div id="sombraMensaje" class="sombra" runat="server">
         <div runat="server" id="divMensaje" class="divMensaje" visible="false">
             <div id="MCabecera">
-                <label id="MTitulo">Mensaje</label>
+                <label id="MTitulo">¡Alerta!</label>
             </div>
             <div id="MContenido">
 
@@ -21,10 +21,10 @@
 
         <div runat="server" id="divmensaje2" class="divMensaje" visible="false">
             <div id="MCabecera2">
-                <label id="Preguntar" class="verificacion">Mensaje</label>
+                <label id="Preguntar" class="verificacion">¡Alerta!</label>
             </div>
             <div id="MContenido2">
-                <asp:Label runat="server" ID="LABELPREGUNTA" CssClass="lblMensaje">¿ESTA SEGURO QUE DESEA ELIMINAR EL REGISTRO?</asp:Label>
+                <asp:Label runat="server" ID="lblPregunta" CssClass="lblMensaje lblMensajeB0">¿Esta seguro que desea eliminar el registro del cliente </asp:Label><br /><asp:Label runat="server" ID="lblPregunta2" CssClass="lblMensaje lblMensajeT0"></asp:Label>
                 <br />
                 <asp:TextBox runat="server" ID="recupera" Visible="false" AutoComplete="off" />
                 <asp:Button runat="server" ID="BCancelar" CssClass="MBoton" Text="Cancelar" OnClick="BCancelar_Click" Visible="false" />
@@ -40,16 +40,16 @@
                 <div id="FContenido" class="FContenido">
                     <br />
                     <label class="FGEtiqueta">Nombre: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
                     <label class="FGEtiqueta">Apellido Paterno: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
                     <br />
-                    <div class="divApePat">
-                        <label class="FGEtiqueta">Apellido Materno: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                        <label class="FGEtiqueta">Medio: </label>
-                        <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput"></asp:DropDownList>
-                    </div>
+                    
+                    <label class="FGEtiqueta">Apellido Materno: </label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
+                    <label class="FGEtiqueta">Medio: </label>
+                    <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput"></asp:DropDownList>
+                    
                     <label class="FGEtiqueta">Estado:</label>
                     <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado">
                     </asp:DropDownList>
@@ -94,10 +94,10 @@
                     <br />
                     <div runat="server" id="divObservacionesNota">
                         <label class="FGEtiqueta">Observaciones: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                         
                         <label class="FGEtiqueta">Nota: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
                         <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
                         <br />
 
@@ -132,16 +132,12 @@
     <div runat="server" id="divGerentes" class="divContenido" visible="true">
         <div id="divGerentes1">
             <asp:Button runat="server" ID="btnAgrClienteG" Text="Agregar cliente" OnClick="btnAgrClienteG_Click" CssClass="btnAgrClienteG" />
-            <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusquedaC" placeholder="Nombre/Apellido/Email/Observación" CssClass="txtBusquedaG" OnTextChanged="txtBusquedaC_TextChanged" AutoPostBack="true"></asp:TextBox>--%>
-            <%--<asp:Button runat="server" ID="btnVerTodos" Text="Ver Todos" OnClick="btnVerTodos_Click" CssClass="btnAgrClienteG floatDerecha btnVerTodos" />--%>
             <asp:DropDownList runat="server" ID="ddlEstatusGeneral" OnSelectedIndexChanged="ddlEstatusGeneral_SelectedIndexChanged" AutoPostBack="true" CssClass="ddlEstatusGeneral floatDerecha">
-                <asp:ListItem Value="-1">Todos</asp:ListItem>
+                <asp:ListItem Value="1,0">Todos</asp:ListItem>
                 <asp:ListItem Value="0">Inactivos</asp:ListItem>
                 <asp:ListItem Value="1">Activos</asp:ListItem>
             </asp:DropDownList>
             <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
-            <%--<asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btnAgrClienteG floatDerecha" />--%>
-            <%--<asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />--%>
         </div>
         <div id="divGerentes2">
             <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
@@ -257,7 +253,7 @@
                             <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ShowEditButton="true" ShowDeleteButton="false" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
+                    <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                 </Columns>
             </asp:GridView>

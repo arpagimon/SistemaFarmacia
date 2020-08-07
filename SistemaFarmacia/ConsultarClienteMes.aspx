@@ -3,10 +3,32 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link href="Css/ConsultaCliente.css" type="text/css" rel="stylesheet" />
     <script type="text/javascript">
-        function mostrarMensajeJS() {
+        function mostrarmensajejs() {
+            try {
+                $("#<%=divFormCorreoCondicion.ClientID%>").hide();
+            } catch (error) { }
+
+            try {
+                $("#<%=divFormularioCorreo.ClientID%>").hide();
+            } catch (error) { }
+
+            try {
+                $("#<%=divCorreoMensajeConfirm.ClientID%>").hide();
+            } catch (error) { }
+
+            try {
+                $("#<%=MContenidoJS.ClientID%>").show();
+            } catch (error) { }
+
             $("#<%=sombraJS.ClientID%>").show();
-            $("#<%=btnOK.ClientID%>").hide();
+
+            try {
+                $("#<%=btnOK.ClientID%>").hide();
+            } catch (error) { }
+
+            
         }
+
     </script>
 </asp:Content>
 
@@ -14,7 +36,7 @@
     <div id="sombraMensaje" class="sombra" runat="server">
         <div runat="server" id="divMensaje" class="divMensaje" visible="false">
             <div id="MCabecera">
-                <label id="MTitulo">Mensaje</label>
+                <label id="MTitulo">¡Alerta!</label>
             </div>
             <div id="MContenido">
                 <asp:Label runat="server" ID="lblMensaje" CssClass="lblMensaje"></asp:Label>
@@ -32,13 +54,13 @@
                 <div id="FContenido" class="FContenido">
                     <br />
                     <label class="FGEtiqueta">Nombre: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     <label class="FGEtiqueta">Apellido Paterno: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     <br />
                     <div class="divApePat">
                         <label class="FGEtiqueta">Apellido Materno: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     </div>
                     <label class="FGEtiqueta">Estado:</label>                 
                     <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado" >
@@ -58,6 +80,9 @@
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
                     <label class="FGEtiqueta">Edad: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                    <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="FGColumna2 FGInput txtEdad2" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
+                    <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="false" CssClass="chkRango" AutoPostBack="true"/>
                     <br />
                     <label class="FGEtiqueta">Fecha ingreso: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
@@ -75,12 +100,15 @@
                     <label class="FGEtiqueta">Email: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     <br />
-                    <label class="FGEtiqueta">Observaciones: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput"></asp:TextBox>
-                    <label class="FGEtiqueta">Nota: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput"></asp:TextBox>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
+                    <div runat="server" id="divObsNota" visible="false">
+                        <label class="FGEtiqueta">Observaciones: </label>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                        <label class="FGEtiqueta">Nota: </label>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
+                    </div>
                     <br />
+                    <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
                     <br />
                     <div id="FBotonera">
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
@@ -91,16 +119,59 @@
             </asp:Panel>
         </div>
     </div>
-    <div id="sombraJS" class="sombra" runat="server" style="display:none">
+    <div id="sombraJS" class="sombra" runat="server" visible="false">
         <div runat="server" id="divMensajeJS" class="divMensaje divMensajeJS" >
             <div id="MCabeceraJS">
-                <label id="MTituloJS">Mensaje</label>
+                <label id="MTituloJS">Enviar correo</label>
             </div>
-            <div id="MContenidoJS">
-                <asp:Image runat="server" ID="CargaJS" ImageUrl="~/Imagenes/cargando-gif.gif" CssClass="CargaJS" />
-                <asp:Label runat="server" ID="lblMensajeJS" CssClass="lblMensaje" Text="Enviando correos a los festejados del mes actual"></asp:Label>
+            <div runat="server" id="divFormCorreoCondicion" visible ="false">
+                <asp:Label runat="server" ID="lblFormCorreoCon" CssClass="lblEnviarA">Se detecto una busqueda activa, ¿Desea enviar el correo solo a los clientes actuales?</asp:Label>
                 <br />
-                <asp:Button runat="server" ID="btnOK" CssClass="MBoton" Text="Aceptar" OnClick="btnOK_Click" />
+                <div class="botonera">
+                    <asp:Button runat="server" ID="btnFormCorreoConCancelar" CssClass="MBoton MarginRightMin" Text="Cancelar" OnClick="btnFormCorreoConCancelar_Click" />
+                    <asp:Button runat="server" ID="btnFormCorreoConAceptar" CssClass="MBoton MarginLeftMin" Text="Aceptar" OnClick="btnFormCorreoConAceptar_Click" OnClientClick="return mostrarmensajejs();" />
+                </div>
+            </div>
+            <div runat="server" id="divFormularioCorreo" class="divFormularioCorreo">
+                <asp:Label runat="server" ID="lblEnviarA" CssClass="lblEnviarA">Seleccione a quien se enviara correo</asp:Label>
+                <br />
+                <div runat="server" id="divMesActual" class="divFormCorreo">
+                    
+                    <asp:CheckBox runat="server" ID="chkMesActual" Text="Mes Seleccionado" OnCheckedChanged="chkMesActual_CheckedChanged" AutoPostBack="true" />
+                    <asp:DropDownList runat="server" ID="ddlMesActual" CssClass="ddlMesActual">
+                        <asp:ListItem Text="Todos" Value="-1"></asp:ListItem>
+                        <asp:ListItem Text="Faltantes" Value="0"></asp:ListItem>
+                    </asp:DropDownList>
+                </div>
+                <div runat="server" id="divMesAnterior" class="divFormCorreo" visible="false">
+                    <asp:CheckBox runat="server" ID="chkMesAnterior" Text="Mes Anterior" OnCheckedChanged="chkMesAnterior_CheckedChanged" AutoPostBack="true" />
+                    <asp:Label runat="server" ID="lblMesAnteriorFaltante">Solo faltantes</asp:Label>
+                </div>
+                <br />
+                <div class="botonera">
+                    <asp:Button runat="server" ID="btnCancelarCorreo" CssClass="MBoton MarginRightMin" Text="Cancelar" OnClick="btnCancelarCorreo_Click" />
+                    <asp:Button runat="server" ID="btnOkCorreo" CssClass="MBoton MarginLeftMin" Text="Aceptar" OnClick="btnOkCorreo_Click" />
+                </div>
+            </div>
+            <div runat="server" id="divCorreoMensajeConfirm" visible="false" class="paddingCh">
+                <div class="botonera">
+                    <asp:Label runat="server" ID="lblMensajeCorreo"></asp:Label>
+                    <br />
+                    <br />
+                    <asp:Button runat="server" ID="btnCorreoCancelEnv" CssClass="MBoton MarginRightMin" Text="Cancelar" OnClick="btnCorreoCancelEnv_Click" />
+                    <asp:Button runat="server" ID="btnCorreoAcepEnv" CssClass="MBoton MarginLeftMin" Text="Aceptar" OnClick="btnCorreoAcepEnv_Click" OnClientClick="return mostrarmensajejs();"/>
+                </div>
+            </div>
+            <div id="MContenidoJS" runat="server" style="display:none;">
+                <div class="botonera">
+                    <asp:Image runat="server" ID="CargaJS" ImageUrl="~/Imagenes/cargando-gif.gif" CssClass="CargaJS" />
+                    <asp:Label runat="server" ID="lblMensajeJS" CssClass="lblMensaje" Text="Enviando correos a los festejados del mes actual"></asp:Label>
+                    <br />
+                    <asp:Button runat="server" ID="btnOK" CssClass="MBoton" Text="Aceptar" OnClick="btnOK_Click" />
+                </div>
+            </div>
+            <div id="divFormCorreo">
+                <asp:Label runat="server"></asp:Label>
             </div>
         </div>
 
@@ -115,7 +186,7 @@
 
             <div id="divGerentes1">
                 <%--<div id="divEnviarCorreo">--%>
-                    <asp:Button OnClientClick="mostrarMensajeJS()" runat="server" ID="btnEnviarCorreo" CssClass="btnAgrClienteG" AutoPostBack="true" Text="Reenviar Correos" OnClick="btnEnviarCorreo_Click" Visible="false"></asp:Button>
+                    <asp:Button runat="server" ID="btnEnviarCorreo" CssClass="btnAgrClienteG" AutoPostBack="true" Text="Reenviar Correos" OnClick="btnEnviarCorreo_Click" Visible="true"></asp:Button>
                     
                     <%--<asp:Image runat="server" ID="imgEnviarCorreo" ImageUrl="~/Imagenes/mail.png" CssClass="imgBusquedaG" />--%>
                 <%--</div>--%>
@@ -228,6 +299,17 @@
                                 <asp:Label runat='server' ID='lblNota' CssClass="lblGerentes" Text='<%# Bind("NOTA") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
+                        <asp:TemplateField   HeaderStyle-Width="20%"  Visible="false">
+                            <ItemTemplate>
+                              <asp:Label runat='server' ID="lblcheck"  CssClass="lblGerentes" Text='<%# Bind("CHECK_EMAIL") %>'></asp:Label>
+                            </ItemTemplate>
+                       </asp:TemplateField>
+
+                         <asp:TemplateField  HeaderStyle-Width="20%"  Visible="true">
+                            <ItemTemplate>
+                              <asp:Image ID="imgImagen" runat="server" ImageUrl="~/Imagenes/palomita2.png" Visible="false"/>
+                            </ItemTemplate>
+                       </asp:TemplateField>
                     </Columns>
                 </asp:GridView>
             </div>

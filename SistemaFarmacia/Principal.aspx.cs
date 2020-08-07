@@ -11,11 +11,15 @@ namespace SistemaFarmacia
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Conexion connMysql = new Conexion();
             if (!IsPostBack)
             {
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarbtnRegresar(false);
                 master.cambiarLblTitle("<h1>Menú principal</h1>");
+                
+                master.mostrarLblUser("<p>Hola " + connMysql.ConsultarNombreUsuario(this.Session["usuario"].ToString()) + " </p>");
+
 
                 iconoClientes.Visible = false;
                 iconoClientesMes.Visible = false;
