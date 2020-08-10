@@ -373,6 +373,78 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Button btnFormCorreoConAceptar;
         
         /// <summary>
+        /// Control divConfirmarCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divConfirmarCorreoCon;
+        
+        /// <summary>
+        /// Control lblConfCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblConfCorreoCon;
+        
+        /// <summary>
+        /// Control btnCancelarConfCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelarConfCorreoCon;
+        
+        /// <summary>
+        /// Control btnAceptarConfCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarConfCorreoCon;
+        
+        /// <summary>
+        /// Control divCanCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCanCorreoCon;
+        
+        /// <summary>
+        /// Control lblCanCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCanCorreoCon;
+        
+        /// <summary>
+        /// Control btnCancelarCanCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnCancelarCanCorreoCon;
+        
+        /// <summary>
+        /// Control btnAceptarCanCorreoCon.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAceptarCanCorreoCon;
+        
+        /// <summary>
         /// Control divFormularioCorreo.
         /// </summary>
         /// <remarks>
@@ -407,6 +479,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox chkMesActual;
+        
+        /// <summary>
+        /// Control lblFormCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFormCorreo;
         
         /// <summary>
         /// Control ddlMesActual.

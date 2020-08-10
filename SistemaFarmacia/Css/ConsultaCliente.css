@@ -839,6 +839,13 @@
     padding: 10px;
 }
 
+
+.linkOpcion{
+    font-size:15px;
+    margin:0 1px;
+}
+
+
 @media (min-width: 768px) {
     .gridview {
         font-size: 10px;

@@ -15,13 +15,23 @@
             try {
                 $("#<%=divCorreoMensajeConfirm.ClientID%>").hide();
             } catch (error) { }
-
+            try {
+                $("#<%=divFormCorreoCondicion.ClientID%>").hide();
+            } catch (error) { }
+            try {
+                $("#<%=divConfirmarCorreoCon.ClientID%>").hide();
+            } catch (error) { }
+            
+            try {
+                $("#<%=divCanCorreoCon.ClientID%>").hide();
+            } catch (error) { }
+            
             try {
                 $("#<%=MContenidoJS.ClientID%>").show();
             } catch (error) { }
 
             $("#<%=sombraJS.ClientID%>").show();
-
+            
             try {
                 $("#<%=btnOK.ClientID%>").hide();
             } catch (error) { }
@@ -48,7 +58,7 @@
         
         <div runat="server" id="divFormularioG" class="FormGerente" visible="false">
             <div id="FCabecera" class="FCabecera">
-                <label id="FTitulo" class="FTitulo">Agregar usuario</label>
+                <label id="FTitulo" class="FTitulo">Buscar cliente</label>
             </div>
             <asp:Panel runat="server" ID="panelMsj">
                 <div id="FContenido" class="FContenido">
@@ -125,22 +135,39 @@
                 <label id="MTituloJS">Enviar correo</label>
             </div>
             <div runat="server" id="divFormCorreoCondicion" visible ="false">
-                <asp:Label runat="server" ID="lblFormCorreoCon" CssClass="lblEnviarA">Se detecto una busqueda activa, ¿Desea enviar el correo solo a los clientes actuales?</asp:Label>
+                <asp:Label runat="server" ID="lblFormCorreoCon" CssClass="lblEnviarA">La tabla de clientes que se visualiza es el resultado de una búsqueda parcial ¿Desea enviar correo únicamente a estos clientes?</asp:Label>
                 <br />
                 <div class="botonera">
                     <asp:Button runat="server" ID="btnFormCorreoConCancelar" CssClass="MBoton MarginRightMin" Text="Cancelar" OnClick="btnFormCorreoConCancelar_Click" />
-                    <asp:Button runat="server" ID="btnFormCorreoConAceptar" CssClass="MBoton MarginLeftMin" Text="Aceptar" OnClick="btnFormCorreoConAceptar_Click" OnClientClick="return mostrarmensajejs();" />
+                    <asp:Button runat="server" ID="btnFormCorreoConAceptar" CssClass="MBoton MarginLeftMin" Text="Si" OnClick="btnFormCorreoConAceptar_Click" />
+                </div>
+            </div>
+            <div runat="server" id="divConfirmarCorreoCon" visible ="false">
+                <asp:Label runat="server" ID="lblConfCorreoCon" CssClass="lblEnviarA">Confirmar envío de correos</asp:Label>
+                <br />
+                <div class="botonera">
+                    <asp:Button runat="server" ID="btnCancelarConfCorreoCon" CssClass="MBoton MarginRightMin" Text="Cancelar" OnClick="btnCancelarConfCorreoCon_Click" />
+                    <asp:Button runat="server" ID="btnAceptarConfCorreoCon" CssClass="MBoton MarginLeftMin" Text="Si" OnClick="btnAceptarConfCorreoCon_Click" OnClientClick="return mostrarmensajejs();" />
+                </div>
+            </div>
+            <div runat="server" id="divCanCorreoCon" visible ="false">
+                <asp:Label runat="server" ID="lblCanCorreoCon" CssClass="lblEnviarA">¿Desea visualizar todos los clientes del mes para reintentar el envío?</asp:Label>
+                <br />
+                <div class="botonera">
+                    <asp:Button runat="server" ID="btnCancelarCanCorreoCon" CssClass="MBoton MarginRightMin" Text="No" OnClick="btnCancelarCanCorreoCon_Click" />
+                    <asp:Button runat="server" ID="btnAceptarCanCorreoCon" CssClass="MBoton MarginLeftMin" Text="Si" OnClick="btnAceptarCanCorreoCon_Click" />
                 </div>
             </div>
             <div runat="server" id="divFormularioCorreo" class="divFormularioCorreo">
-                <asp:Label runat="server" ID="lblEnviarA" CssClass="lblEnviarA">Seleccione a quien se enviara correo</asp:Label>
+                <asp:Label runat="server" ID="lblEnviarA" CssClass="lblEnviarA">Seleccione a quién se enviará correo</asp:Label>
                 <br />
                 <div runat="server" id="divMesActual" class="divFormCorreo">
                     
-                    <asp:CheckBox runat="server" ID="chkMesActual" Text="Mes Seleccionado" OnCheckedChanged="chkMesActual_CheckedChanged" AutoPostBack="true" />
+                    <asp:CheckBox runat="server" ID="chkMesActual" Text="Mes Seleccionado" OnCheckedChanged="chkMesActual_CheckedChanged" AutoPostBack="true" Visible="false"/>
+                    <asp:Label runat="server" ID="lblFormCorreo"> Enviar correo a: </asp:Label>
                     <asp:DropDownList runat="server" ID="ddlMesActual" CssClass="ddlMesActual">
-                        <asp:ListItem Text="Todos" Value="-1"></asp:ListItem>
-                        <asp:ListItem Text="Faltantes" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="Clientes pendientes de envio" Value="0"></asp:ListItem>
+                        <asp:ListItem Text="Todos los clientes" Value="-1"></asp:ListItem>
                     </asp:DropDownList>
                 </div>
                 <div runat="server" id="divMesAnterior" class="divFormCorreo" visible="false">

@@ -66,11 +66,11 @@ namespace SistemaFarmacia
 
                     if (Session["Orden"] == null)
                     {
-                        Session.Add("Orden", "Nombre ASC");
+                        Session.Add("Orden", "ID_CLIENTE");
                     }
                     else
                     {
-                        Session["Orden"] = "Nombre ASC";
+                        Session["Orden"] = "ID_CLIENTE";
                     }
 
                     MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -166,11 +166,11 @@ namespace SistemaFarmacia
                         DataTable dttempora = (DataTable)gvGerentes.DataSource;
                         if (dttempora.DefaultView.Sort == "")
                         {
-                            if (lbSort.Text == "Nombre")
-                            {
-                                //lbSort.Text = imgOrd + lbSort.Text;
-                                lbSort.CssClass = "Seleccionada";
-                            }
+                            //if (lbSort.Text == "Nombre")
+                            //{
+                            //    //lbSort.Text = imgOrd + lbSort.Text;
+                            //    lbSort.CssClass = "Seleccionada";
+                            //}
                         }
                         else
                         {
@@ -543,6 +543,11 @@ namespace SistemaFarmacia
 
         protected void btnLimpiarF_Click(object sender, EventArgs e)
         {
+            limpiar();
+        }
+
+        public void limpiar()
+        {
 
             TxtIdCliente.Text = "";
             TxtNombre.Text = "";
@@ -551,6 +556,7 @@ namespace SistemaFarmacia
             ddlMunicipio.SelectedIndex = -1;
             ddlEstado.SelectedIndex = -1;
             TxtEdad.Text = "";
+            txtEdad2.Text = "";
             TxtFechaI.Text = "";
             ddlMedio.SelectedIndex = -1;
             TxtTelFijo.Text = "";
@@ -561,12 +567,12 @@ namespace SistemaFarmacia
             TxtObservaciones.Text = "";
             TxtNota.Text = "";
 
+            chkRango.Checked = false;
             ddlPais.SelectedIndex = -1;
             divPais.Visible = false;
             divMunicipio.Visible = true;
-            
-        }
 
+        }
         protected void gvGerentes_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvGerentes.PageIndex = e.NewPageIndex;
@@ -577,6 +583,8 @@ namespace SistemaFarmacia
         {
             if (SesionViva())
             {
+                gvGerentes.PageIndex = 0;
+                cargaClientes();
                 if (Session["Orden"].ToString() == e.SortExpression + " " + "ASC")
                 {
                     Session["Orden"] = e.SortExpression + " " + "DESC";
@@ -746,10 +754,40 @@ namespace SistemaFarmacia
 
         protected void btnFormCorreoConAceptar_Click(object sender, EventArgs e)
         {
+            divFormCorreoCondicion.Visible = false;
+            divConfirmarCorreoCon.Visible = true;
+        }
 
+        protected void btnFormCorreoConCancelar_Click(object sender, EventArgs e)
+        {
+            divFormCorreoCondicion.Visible = false;
+            divCanCorreoCon.Visible = true;
+        }
+
+
+        protected void btnAceptarCanCorreoCon_Click(object sender, EventArgs e)
+        {
+            divCanCorreoCon.Visible = false;
+            divFormularioCorreo.Visible = true;
+            sombraJS.Visible = false;
+
+            Session["Condicion"] = "";
+            limpiar();
+            cargaClientes();
+        }
+
+        protected void btnCancelarCanCorreoCon_Click(object sender, EventArgs e)
+        {
+            divCanCorreoCon.Visible = false;
+            divFormularioCorreo.Visible = true;
+            sombraJS.Visible = false;
+        }
+
+        protected void btnAceptarConfCorreoCon_Click(object sender, EventArgs e)
+        {
             List<String> listaCorreos = new List<string>();
             List<String> listaIDs = new List<string>();
-            DataSet datosCliente = connMySql.TraerClientesDelMes(Session["Condicion"].ToString().Trim(), DateTime.Now.AddMonths(int.Parse(Session["MasMenosMes"].ToString())).Month, connMySql.TraerEnvioCorreo());
+            DataSet datosCliente = connMySql.TraerClientesDelMes((Session["Condicion"].ToString().Trim().Length > 0 ? Session["Condicion"].ToString().Trim() + " and enviar_correo = '1'" : "enviar_correo = '1'"), DateTime.Now.AddMonths(int.Parse(Session["MasMenosMes"].ToString())).Month, connMySql.TraerEnvioCorreo());
             //DataSet datosCliente = connMySql.TraerClientesDelMesSiguiente(Session["Condicion"].ToString(), connMySql.TraerEnvioCorreo());
 
             foreach (DataRow dr in datosCliente.Tables[0].Rows)
@@ -762,19 +800,19 @@ namespace SistemaFarmacia
                     String temporal2 = dr["ID_CLIENTE"].ToString();
                     listaIDs.Add(temporal2);
                 }
-            
-        }
-
-            
+            }
 
             mandarCorreos(listaCorreos, listaIDs);
+            divConfirmarCorreoCon.Visible = false;
         }
 
-        protected void btnFormCorreoConCancelar_Click(object sender, EventArgs e)
+        protected void btnCancelarConfCorreoCon_Click(object sender, EventArgs e)
         {
-            divFormCorreoCondicion.Visible = false;
+            divConfirmarCorreoCon.Visible = false;
             divFormularioCorreo.Visible = true;
+            sombraJS.Visible = false;
         }
+
 
         protected void btnOkCorreo_Click(object sender, EventArgs e)
         {
@@ -789,7 +827,7 @@ namespace SistemaFarmacia
                 lblMensajeCorreo.Text = "¿Esta seguro de mandar correo a los clientes PENDIENTES DE CORREO que cumplen años el mes de " + MesConsultado(Session["MasMenosMes"].ToString()) + "?";
             }
 
-
+            cargaClientes();
             divFormularioCorreo.Visible = false;
             divCorreoMensajeConfirm.Visible = true;
         }
@@ -837,7 +875,7 @@ namespace SistemaFarmacia
 
             List<String> listaCorreos = new List<string>();
             List<String> listaIDs = new List<string>();
-            DataSet datosCliente = connMySql.TraerClientesDelMes(Session["condicionCorreo"].ToString().Trim(), DateTime.Now.AddMonths(int.Parse(Session["MasMenosMes"].ToString())).Month, connMySql.TraerEnvioCorreo());
+            DataSet datosCliente = connMySql.TraerClientesDelMes((Session["condicionCorreo"].ToString().Trim().Length > 0 ? Session["condicionCorreo"].ToString().Trim() + " and enviar_correo = '1'" : "enviar_correo = '1'"), DateTime.Now.AddMonths(int.Parse(Session["MasMenosMes"].ToString())).Month, connMySql.TraerEnvioCorreo());
             
             foreach (DataRow dr in datosCliente.Tables[0].Rows)
             {
@@ -886,9 +924,10 @@ namespace SistemaFarmacia
                 if (respuesta)
                 {
                     lblMensajeJS.Text = "Los correos se han enviado exitosamente";
-                    if (dCorreo.PRUEBAS == "0") { 
-                        connMySql.ActualizaCorreoEnvCliente(cadenaIDs);
-                    }
+                    //if (dCorreo.PRUEBAS == "0") { 
+                     connMySql.ActualizaCorreoEnvCliente(cadenaIDs);
+                    //}
+                    connMySql.GuardaBitacora(Session["usuario"].ToString(),listaIDs,dCorreo);
                 }
                 else
                 {

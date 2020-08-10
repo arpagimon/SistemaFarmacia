@@ -250,9 +250,10 @@ namespace SistemaFarmacia
 
                 EnviarCorreo enviaCorreo = new EnviarCorreo();
 
-                DataSet datosCliente = conexion.TraerClientesDelMesSiguiente("",conexion.TraerEnvioCorreo());
+                DataSet datosCliente = conexion.TraerClientesDelMesSiguiente(" enviar_correo = '1' ", conexion.TraerEnvioCorreo());
 
                 List<String> listaCorreos = new List<string>();
+                List<String> listaIDs = new List<string>();
                 String cadenaIDs = "";
 
                 foreach (DataRow dr in datosCliente.Tables[0].Rows)
@@ -267,6 +268,8 @@ namespace SistemaFarmacia
                     {
                         cadenaIDs += "," + temporal2;
                     }
+                    String temporalID = dr["ID_CLIENTE"].ToString();
+                    listaIDs.Add(temporalID);
 
                 }
                 if (listaCorreos.Count > 0)
@@ -277,6 +280,7 @@ namespace SistemaFarmacia
                     if (ok && dCorreo.PRUEBAS == "0")
                     {
                         conexion.ActualizaCorreoEnvCliente(cadenaIDs);
+                        conexion.GuardaBitacora(Session["usuario"].ToString(), listaIDs, dCorreo);
                     }
                 }
             }

@@ -65,9 +65,10 @@
                     </div>
                     <br />
                     <label class="FGEtiqueta">Fecha Nacimiento: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                    <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>--%>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" OnTextChanged="TxtFechaN_TextChanged" AutoPostBack="true"  ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
                     <label class="FGEtiqueta">Edad: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number"></asp:TextBox>
+                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number" Enabled="false"></asp:TextBox>
                     <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="FGColumna2 FGInput txtEdad2" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
                     <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="false" CssClass="chkRango" AutoPostBack="true"/>
@@ -253,7 +254,15 @@
                             <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
+                    
+                    <asp:TemplateField HeaderText="Opciones">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="linkEditG" ToolTip="Editar" OnClick="gvGerentes_RowEditing" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />
+                                <asp:LinkButton ID="linkConsultG" ToolTip="Ver detalle" OnClick="gvGerentes_RowConsult" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-eye' aria-hidden='true'></i>" />
+		                        <asp:LinkButton ID="linkDeleteG" ToolTip="Eliminar" OnClick="gvGerentes_RowDeleting" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-trash' aria-hidden='true'></i>" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    <%--<asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />--%>
 
                 </Columns>
             </asp:GridView>
