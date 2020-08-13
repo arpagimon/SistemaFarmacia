@@ -112,6 +112,24 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox exampleInputPassword1;
         
         /// <summary>
+        /// Control divRContra.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divRContra;
+        
+        /// <summary>
+        /// Control InputPasswordR.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox InputPasswordR;
+        
+        /// <summary>
         /// Control clean.
         /// </summary>
         /// <remarks>

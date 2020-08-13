@@ -1,8 +1,4 @@
-﻿/*Depurar
-*/
-
-
-.btnBuscar{
+﻿.btnBuscar{
     background-position: calc(100% - 20px) center;
     background-image: url('Imagenes/imgBusqueda_opt.png');
     background-repeat: no-repeat;
@@ -30,11 +26,9 @@
 .divContenido {
     vertical-align: top;
     width: 95%;
-    /*height: 100%;*/
     overflow: auto;
     display: inline-block;
     position: relative;
-    /*float: right;*/
     margin-top: 1.5%;
     margin-left: 2%;
 }
@@ -56,14 +50,10 @@
     display: inline-block;
     font-size: 14px;
     font-family: Verdana;
-    /*background: rgb(51,51,153);*/
-    /*color: white;*/
-    /*border: none;*/
     border-radius: 5px;
     padding: 5px 30px;
     margin-left: 10px;
 }
-
 
 .btnVerTodos{
     margin-left: 30px;
@@ -71,14 +61,12 @@
 
 .FormGerente {
     width: 750px;
-    /*height: 500px;*/
     background: white;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
     position: relative;
 }
-
 
 .txtBusquedaG {
     float: right;
@@ -100,8 +88,6 @@
     margin-right: 10px;
 }
 
-
-
 #divGerentes2, #Perfiles2 {
     display: inline-block;
     width: 100%;
@@ -119,62 +105,55 @@
     display: inline-block;
 }
 
-
 .gridview {
     border: none;
     font-family: Verdana;
-    /*font-size: 12px;*/
     font-size:large;
     border-color: white;
 }
 
-    .gridview th {
-        color: white ;
-        text-align: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-color: white;
-    }
-    .gridview th a{
-        color: white ;
-        margin: 0px;
-    }
+.gridview th {
+    color: white ;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
 
+.gridview th a{
+    color: white ;
+    margin: 0px;
+}
 
-    .gridview tr {
-        border: none;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-        border-color: white;
-    }
+.gridview tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
 
-    .gridview td {
-        /*text-align:right;*/
-    }
+.gridview td {
+}
 
-    .Paginador a {
-        color: #555555;
-        margin-left: 10px;
-    }
+.Paginador a {
+    color: #555555;
+    margin-left: 10px;
+}
 
-    .Paginador span{
-        margin-left: 10px;
-        margin-bottom: 2px;
-        color: black;
-        text-decoration: underline;
-        font-size: medium;
-    }
+.Paginador span{
+    margin-left: 10px;
+    margin-bottom: 2px;
+    color: black;
+    text-decoration: underline;
+    font-size: medium;
+}
 
-
-    .Seleccionada{
-        /*color: yellow !important;*/
-        color: #DFDFDF !important;
-        font-weight:bolder;
-        text-decoration: underline;
-    }
-
-
+.Seleccionada{
+    color: #DFDFDF !important;
+    font-weight:bolder;
+    text-decoration: underline;
+}
 
 .lblSinResultado {
     text-align: center !important;
@@ -239,7 +218,6 @@
 }
 
 #FContenido, #FContenidoP {
-    /*height: 450px;*/
     text-align: center;
 }
 
@@ -271,7 +249,6 @@
 
 .lblError{
     color: red;
-    /*font-size: small;*/
 }
 
 .FGInput input {
@@ -306,8 +283,6 @@
     padding: 0 0 0 2%;
 }
 
-
-
 .FGContenedorTerm {
     height: 80px;
     overflow-y: auto;
@@ -333,16 +308,10 @@
 }
 
 /*          Fin Agrega Gerente / Coorporativo       */
-
-
-
-
-
 /*----------      Mensaje      --------*/
 
 .divMensaje {
     width: 500px;
-    /*height: 140px;*/
     background: white;
     margin: auto;
     margin-top: 3%;
@@ -369,8 +338,6 @@
     text-align: center;
 }
 
-
-
 .MBoton {
     display: inline-block;
     width: 40%;
@@ -392,7 +359,6 @@
 }
 
 .divMensajeJS{
-    /*height: 210px;*/
 }
 
 .CargaJS{
@@ -420,10 +386,6 @@
 /*----------      Fin Mensaje      --------*/
 
 /*                  Fin Bloque Gerentes                 */
-
-
-
-
 /*      Titulo Mes Cliente del mes      */
 .divMes{
     background: #5b9bd5;
@@ -453,9 +415,6 @@
     border: solid 1px rgb(91,155,213);
 }
 
-
-
-
 .FormAdministrador {
     width: 600px;
     height: 170px;
@@ -465,7 +424,6 @@
     z-index: 6;
     position: relative;
 }
-
 
 /*      Agregar administrador       */
 
@@ -477,12 +435,6 @@
 /*      Fin agregar administrador   */
 
 /*          fin bloque Administrador*/
-
-
-
-
-
-
 /*      Bloque Parámetros          */
 
 .divParametros1 {
@@ -528,35 +480,33 @@
     margin-top: 5px;
 }
 
+.tblParametros :first-child th {
+    background: rgb(91,155,213);
+}
 
-    .tblParametros :first-child th {
-        background: rgb(91,155,213);
-    }
+.tblParametros th {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
 
-    .tblParametros th {
-        color: white;
-        text-align: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-color: white;
-    }
+.tblParametros tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
 
-    .tblParametros tr {
-        border: none;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-        border-color: white;
-    }
+.tblParametros td {
+}
 
-    .tblParametros td {
-        /*text-align:right;*/
-    }
-
-    .tblParametros:first-child a {
-        color: black;
-        margin-left: 10px;
-    }
+.tblParametros:first-child a {
+    color: black;
+    margin-left: 10px;
+}
 
 .ParamColumnaColor {
     min-width: 100px;
@@ -570,7 +520,6 @@
     margin: 2px 4px;
 }
 
-
 .lblTituloPTabla {
     font-weight: bold !important;
 }
@@ -581,8 +530,6 @@
     font-family: Verdana;
     font-weight: normal;
 }
-
-
 
 .btnGuardarParametros {
     display: inline-block;
@@ -596,19 +543,13 @@
     float: right;
 }
 
-
 /*          Fin bloque Parametros        */
 
-
-
-
 /*          Bloque Alertas          */
-
 
 .divAlerta1 {
     display: inline-block;
     width: 100%;
-    /*border: solid 1px rgb(91,155,213);*/
 }
 
 .divAlerta1 {
@@ -650,39 +591,39 @@
     margin-top: 5px;
 }
 
-    .tblAlertas label {
-        font-weight: normal !important;
-    }
+.tblAlertas label {
+    font-weight: normal !important;
+}
 
-    .tblAlertas :first-child th {
-        background: rgb(91,155,213);
-    }
+.tblAlertas :first-child th {
+    background: rgb(91,155,213);
+}
 
-    .tblAlertas th {
-        color: white;
-        text-align: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-color: white;
-    }
+.tblAlertas th {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
 
-    .tblAlertas tr {
-        border: none;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-        border-color: white;
-    }
+.tblAlertas tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
 
-    .tblAlertas td {
-        text-align: left;
-        padding: 2px 10px;
-    }
+.tblAlertas td {
+    text-align: left;
+    padding: 2px 10px;
+}
 
-    .tblAlertas:first-child a {
-        color: black;
-        margin-left: 10px;
-    }
+.tblAlertas:first-child a {
+    color: black;
+    margin-left: 10px;
+}
 
 .marginleft {
     margin-left: 20px;
@@ -1152,17 +1093,6 @@
         border: solid 1px rgb(91,155,213);
         overflow: auto;
     }
-
-    /*.divContenido {
-        vertical-align: top;
-        width: 84%;
-        height: 100%;
-        margin-top: 10px;
-        overflow: hidden;
-        display: inline-block;
-        position: relative;
-        float: right;
-    }*/
 
     .lblNotaEmail {
         vertical-align: top;

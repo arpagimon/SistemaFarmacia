@@ -76,7 +76,7 @@ namespace SistemaFarmacia
                     MasterFarmacia master = (MasterFarmacia)this.Master;
                     master.mostrarMensaje(false);
                     sombraMensaje.Visible = false;
-                    master.mostrarLblUser("<p>Hola " + connMySql.ConsultarNombreUsuario(this.Session["usuario"].ToString()) + " </p>");
+                    master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
 
                     cargaClientes();
                     llenarDropDownDlist();
@@ -726,7 +726,7 @@ namespace SistemaFarmacia
         {
             if (int.Parse(Session["MasMenosMes"].ToString()) > 1 || int.Parse(Session["MasMenosMes"].ToString()) < -1)
             {
-                mostrarMensaje("Solo se puede mandar correos al mes corriente, mes anterior o un mes futuro");
+                mostrarMensaje("Solo se puede mandar correos al mes corriente, mes anterior o siguiente mes");
             }
             else
             {
@@ -819,12 +819,12 @@ namespace SistemaFarmacia
             if(ddlMesActual.SelectedValue == "-1")
             {
                 Session["condicionCorreo"] = "";
-                lblMensajeCorreo.Text = "¿Esta seguro de mandar correo a TODOS los clientes que cumplen años el mes de " + MesConsultado(Session["MasMenosMes"].ToString()) + "?";
+                lblMensajeCorreo.Text = "¿Está seguro de mandar correo a TODOS los clientes que cumplen años el mes de " + MesConsultado(Session["MasMenosMes"].ToString()) + "?";
             }
             else
             {
                 Session["condicionCorreo"] = "  ( CHECK_EMAIL < date_format(DATE_ADD(sysdate(), INTERVAL " + Session["MasMenosMes"].ToString() + " MONTH),'%Y') or CHECK_EMAIL is null) ";
-                lblMensajeCorreo.Text = "¿Esta seguro de mandar correo a los clientes PENDIENTES DE CORREO que cumplen años el mes de " + MesConsultado(Session["MasMenosMes"].ToString()) + "?";
+                lblMensajeCorreo.Text = "¿Está seguro de mandar correo a los clientes PENDIENTES DE ENVIAR CORREO que cumplen años el mes de " + MesConsultado(Session["MasMenosMes"].ToString()) + "?";
             }
 
             cargaClientes();

@@ -1,13 +1,24 @@
-﻿.chkPruebas{
+﻿.subOpcion {
+    background-color: #555 !important;
+    font-size: 14px !important;
+    padding-left: 40px !important;
+    color: #aaa !important;
+    border-bottom: #333 1px solid !important;
+}
+
+.subOpcionSeleccionado {
+    background: #888 !important;
+    color: white !important;
+}
+
+.chkPruebas {
     height: 20px;
 }
 
-#divCorreo2{
+#divCorreo2 {
     background: rgba(200,200,200,0.9);
     border-radius: 11px;
-    /*padding: 10px;*/
     margin-top: 10px;
-
 }
 
 .sidenav {
@@ -25,7 +36,7 @@
 .sidenav input {
     padding: 6px 6px 6px 32px;
     text-decoration: none;
-    font-size: 25px;
+    font-size: 22px;
     color: #818181;
     display: block;
     width: 100%;
@@ -38,50 +49,43 @@
     color: #f1f1f1;
 }
 
-.seleccionado{
-    color:#f1f1f1 !important;
+.seleccionado {
+    color: #f1f1f1 !important;
     background: #333333 !important;
 }
 
-
 .main {
-    margin-left: 200px; /* Same as the width of the sidenav */
+    margin-left: 200px;
 }
 
-
-textarea.ParamInput{
-    width:100%;
+textarea.ParamInput {
+    width: 100%;
     padding: 3px;
     text-align: left;
 }
-
-
 
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
     }
 
-        .sidenav a {
-            font-size: 18px;
-        }
+    .sidenav a {
+        font-size: 18px;
+    }
 }
 
-
-
-.chkPrimer{
+.chkPrimer {
     margin-right: 120px;
     margin-left: 5px;
 }
 
 
-.chkSegundo{
+.chkSegundo {
     margin-right: 145px;
 }
 
 /*Depurar
 */
-
 
 #MenuAdmin {
     display: inline-block;
@@ -104,12 +108,10 @@ textarea.ParamInput{
 .divContenido {
     vertical-align: top;
     width: 84%;
-    /*height: 100%;*/
     margin-top: 10px;
     overflow: auto;
     display: inline-block;
     position: relative;
-    /*float: right;*/
     margin-left: 8%;
 }
 
@@ -128,7 +130,6 @@ textarea.ParamInput{
 
 .FormGerente {
     width: 600px;
-    /*height: 370px;*/
     background: white;
     margin: auto;
     margin-top: 0.5%;
@@ -136,6 +137,20 @@ textarea.ParamInput{
     position: relative;
 }
 
+.FormPerfil {
+    width: 700px;
+    background: white;
+    margin: auto;
+    margin-top: 0.5%;
+    z-index: 6;
+    position: relative;
+}
+
+.tdColumn1 {
+    width: 18%;
+    padding-left: 3%;
+    vertical-align: text-top;
+}
 
 .txtBusquedaG {
     float: right;
@@ -157,8 +172,6 @@ textarea.ParamInput{
     margin-right: 10px;
 }
 
-
-
 #divGerentes2, #Perfiles2 {
     display: inline-block;
     width: 100%;
@@ -168,7 +181,6 @@ textarea.ParamInput{
     overflow: auto;
 }
 
-
 .gridview {
     border: none;
     font-family: Verdana;
@@ -176,30 +188,30 @@ textarea.ParamInput{
     border-color: white;
 }
 
-    .gridview th {
-        color: white;
-        text-align: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-color: white;
-    }
+.gridview th {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
 
-    .gridview tr {
-        border: none;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-        border-color: white;
-    }
+.gridview tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
 
-    .gridview td {
-        /*text-align:right;*/
-    }
+.gridview td {
+    
+}
 
-    .gridview:first-child a {
-        color: black;
-        margin-left: 10px;
-    }
+.gridview:first-child a {
+    color: black;
+    margin-left: 10px;
+}
 
 .lblSinResultado {
     text-align: center !important;
@@ -264,7 +276,6 @@ textarea.ParamInput{
 }
 
 #FContenido, #FContenidoP {
-    /*height: 340px;*/
     text-align: center;
 }
 
@@ -323,7 +334,6 @@ textarea.ParamInput{
     height: auto;
     overflow-y: auto;
     overflow-x: hidden;
-    /*margin-left: 114px;*/
 }
 
 .FGBoton {
@@ -344,10 +354,6 @@ textarea.ParamInput{
 }
 
 /*          Fin Agrega Gerente / Coorporativo       */
-
-
-
-
 
 /*----------      Mensaje      --------*/
 
@@ -404,10 +410,6 @@ textarea.ParamInput{
 
 /*                  Fin Bloque Gerentes                 */
 
-
-
-
-
 /*                  Bloque Gerentes                 */
 
 #divAdministrador2 {
@@ -418,9 +420,6 @@ textarea.ParamInput{
     border: solid 1px rgb(91,155,213);
 }
 
-
-
-
 .FormAdministrador {
     width: 600px;
     height: 170px;
@@ -430,23 +429,15 @@ textarea.ParamInput{
     z-index: 6;
     position: relative;
 }
-
-
 /*      Agregar administrador       */
 
 #FAContenido {
     height: 140px;
     text-align: center;
 }
-
 /*      Fin agregar administrador   */
 
 /*          fin bloque Administrador*/
-
-
-
-
-
 
 /*      Bloque Parámetros          */
 
@@ -455,7 +446,6 @@ textarea.ParamInput{
     width: 100%;
     border: solid 1px rgb(91,155,213);
 }
-
 
 .divSubNvl1 {
     background: rgb(250,250,250);
@@ -485,17 +475,14 @@ textarea.ParamInput{
 }
 
 .tblParametros {
-    /*border: solid 1px rgb(91,155,213) !important;*/
     font-family: Verdana;
     font-size: 12px;
-    /*border-color: white;*/
     margin-left: 20px;
     margin-top: 1%;
     width: calc(100% - 30px);
     margin-bottom: 20px;
     text-align: left;
 }
-
 
 .tblParametros :first-child th {
     background: rgb(91,155,213);
@@ -518,7 +505,7 @@ textarea.ParamInput{
 }
 
 .tblParametros td {
-    text-align:left;
+    text-align: left;
 }
 
 .tblParametros:first-child a {
@@ -526,17 +513,12 @@ textarea.ParamInput{
     margin-left: 10px;
 }
 
-
-
 .tblParametros label {
     margin: 0px 10px;
-    /*font-size: 11px;*/
     font-family: Verdana;
-    /*font-weight: normal;*/
 }
 
 .tblParametros label {
-    /*font-size: 12px;*/
     font-size: small;
     font-weight: bolder;
 }
@@ -547,9 +529,6 @@ textarea.ParamInput{
     padding: 3px;
 }
 
-
-
-
 .ParamColumnaColor {
     min-width: 100px;
 }
@@ -558,15 +537,12 @@ textarea.ParamInput{
     width: 40px;
     text-align: center;
     font-family: Verdana;
-    /*font-size: 11px;*/
     margin: 2px 4px;
 }
-
 
 .lblTituloPTabla {
     font-weight: bold !important;
 }
-
 
 .btnGuardarParametros {
     display: inline-block;
@@ -579,27 +555,18 @@ textarea.ParamInput{
     padding: 5px 30px;
     float: right;
 }
-
-
 /*          Fin bloque Parametros        */
 
-
-
-
 /*          Bloque Alertas          */
-
-
 .divAlerta1 {
     display: inline-block;
     width: 100%;
-    /*border: solid 1px rgb(91,155,213);*/
 }
 
 .divAlerta1 {
     background: rgb(250,250,250);
     padding: 20px;
 }
-
 
 .divAlerta2 {
     background: rgb(245,245,245);
@@ -624,7 +591,6 @@ textarea.ParamInput{
     font-weight: bold;
 }
 
-
 .tblAlertas {
     border: solid 1px rgb(91,155,213) !important;
     font-family: Verdana;
@@ -634,49 +600,47 @@ textarea.ParamInput{
     margin-top: 5px;
 }
 
-    .tblAlertas label {
-        font-weight: normal !important;
-    }
+.tblAlertas label {
+    font-weight: normal !important;
+}
 
-    .tblAlertas :first-child th {
-        background: rgb(91,155,213);
-    }
+.tblAlertas :first-child th {
+    background: rgb(91,155,213);
+}
 
-    .tblAlertas th {
-        color: white;
-        text-align: center;
-        padding-left: 10px;
-        padding-right: 10px;
-        border-color: white;
-    }
+.tblAlertas th {
+    color: white;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
 
-    .tblAlertas tr {
-        border: none;
-        padding-bottom: 5px;
-        padding-top: 5px;
-        text-align: center;
-        border-color: white;
-    }
+.tblAlertas tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
 
-    .tblAlertas td {
-        text-align: left;
-        padding: 2px 10px;
-    }
+.tblAlertas td {
+    text-align: left;
+    padding: 2px 10px;
+}
 
-    .tblAlertas:first-child a {
-        color: black;
-        margin-left: 10px;
-    }
+.tblAlertas:first-child a {
+    color: black;
+    margin-left: 10px;
+}
 
 .marginleft {
     margin-left: 20px;
 }
 
-
 .borde {
     border: solid 1px rgb(91,155,213);
 }
-
 
 /*          Fin bloque alertas          */
 
@@ -728,7 +692,6 @@ textarea.ParamInput{
     width: 100px;
 }
 
-
 #divCifrasControl2 {
     display: inline-block;
     width: 98%;
@@ -755,23 +718,18 @@ textarea.ParamInput{
     width: 500px;
 }
 
-
 .imgExcel {
     height: 35px;
     float: right;
     margin-right: 15px;
 }
-
 /*              Fin Log Usuarios                */
 
-
-.lblError{
+.lblError {
     color: red;
-    /*font-size: small;*/
 }
 
-
-.divCorreoTitulo{
+.divCorreoTitulo {
     width: 100%;
     border-radius: 10px 10px 0px 0px;
     border-top: solid 1px #ffffff;
@@ -780,6 +738,35 @@ textarea.ParamInput{
     background: #f0f0f0;
 }
 
+.ddlEnvCorreo {
+    padding: 2px 15px;
+    text-align: center;
+}
+
+.divCheck {
+    width: 500px;
+}
+
+.lblDivisor1 {
+    border-bottom: solid 1px gray;
+    font-size: small;
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+    background: #eee;
+    padding-left: 5px;
+}
+
+.lblDivisor2 {
+    border-bottom: solid 1px gray;
+    border-top: solid 1px gray;
+    font-size: small;
+    font-weight: bold;
+    width: 100%;
+    display: inline-block;
+    background: #eee;
+    padding-left: 5px;
+}
 
 @media (min-width: 768px) {
     .gridview {
@@ -819,11 +806,9 @@ textarea.ParamInput{
         width: 200px;
     }
     /* Fin Log Usuario */
-
 }
 
 @media (min-width: 992px) {
-
     .gridview {
         font-size: 11px;
     }
@@ -865,7 +850,6 @@ textarea.ParamInput{
 
 
 @media (min-width: 1400px) {
-
     .gridview {
         font-size: 12px;
     }
@@ -931,9 +915,6 @@ textarea.ParamInput{
         width: 250px;
     }
 }
-
-
-
 
 @media(max-width:685px) {
     .gridview {

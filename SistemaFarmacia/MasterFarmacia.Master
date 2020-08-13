@@ -28,21 +28,24 @@
                 <%--<asp:Image runat="server" ID="imgLogo" ImageUrl="~/Imagenes/Logo.png" />--%>
                 <%--<asp:ImageButton runat="server" ID="btnSalida" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="ibtSalida_Click" />--%>
                 <%--<asp:Label ID="lblTitle" runat="server" Text=""></asp:Label>  --%>
-                <div class="row">
+                <%--<div class="row">
                     <div class="col-3 mt-2">
-                       
+                        <div class="col-8">--%>
+                            <asp:Label ID="lblUser" runat="server" Text="" CssClass="d-inline float-left"></asp:Label>
+                        <%--</div>
                     </div>
-                    <div class="col-6 ">
-                        <asp:Label ID="lblTitle" runat="server" Text="" Class="d-inline"></asp:Label>
-                    </div>
+                    <div class="col-6 ">--%>
+                        <asp:Label ID="lblTitle" runat="server" Text="" CssClass="d-inline"></asp:Label>
+                    <%--</div>
                     <div class="col-3 ">
                         <div class="row">
-                            <div class="col-8"><asp:Label ID="lblUser" runat="server" Text="" Class="d-inline"></asp:Label></div>
-                            <div class="col-4"> <asp:ImageButton runat="server" ID="btnSalir" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="btnSalir_Click" data-toggle="tooltip" data-placement="bottom" title="Salir"/>
-                        <asp:ImageButton runat="server" ID="btnRegresar" ImageUrl="~/Imagenes/return.png" OnClick="btnRegresar_Click" data-toggle="tooltip" data-placement="bottom" title="Regresar" /></div>
+                            <div class="col-4">--%>
+                                <asp:ImageButton runat="server" ID="btnSalir" ImageUrl="~/Imagenes/Icono_salida.png" OnClick="btnSalir_Click" data-toggle="tooltip" data-placement="bottom" title="Salir"/>
+                                <asp:ImageButton runat="server" ID="btnRegresar" ImageUrl="~/Imagenes/return.png" OnClick="btnRegresar_Click" data-toggle="tooltip" data-placement="bottom" title="Regresar" />
+                            <%--</div>
                         </div>
-                    </div>
-                </div>
+                    </div>--%>
+                <%--</div>--%>
             </div>
 
             <asp:ContentPlaceHolder ID="ContentPlaceMensaje" runat="server">

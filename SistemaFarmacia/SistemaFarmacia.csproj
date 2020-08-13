@@ -88,6 +88,7 @@
     <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\mail.png" />
     <Content Include="Imagenes\palomita2.png" />
+    <Content Include="Imagenes\palomita2Oscuro.png" />
     <Content Include="Imagenes\return.png" />
     <Content Include="Imagenes\right-arrow.png" />
     <Content Include="MasterFarmacia.Master" />

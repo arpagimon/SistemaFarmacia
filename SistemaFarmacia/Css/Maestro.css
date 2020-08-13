@@ -44,3 +44,10 @@
     display: inherit;
     line-height: 2.5rem;
 }
+
+
+@media (max-width: 740px) {
+    h1{
+        font-size: 20px;
+    }
+}

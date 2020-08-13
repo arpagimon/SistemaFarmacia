@@ -6,7 +6,6 @@
         window.onload = function () {
             $("#nuevoUsuario").hide();
             $("#divPerfiles").hide();
-
         };
     </script>
 </asp:Content>
@@ -24,7 +23,6 @@
                 <asp:Button runat="server" ID="btnOkSalir" CssClass="MBoton" Text="Aceptar" OnClick="btnOkSalir_Click" Visible="false" />
             </div>
         </div>
-
         <div runat="server" id="divFormularioG" class="FormGerente">
             <div id="FCabecera" class="FCabecera">
                 <label id="FTitulo" class="FTitulo">Agregar usuario</label>
@@ -53,7 +51,6 @@
                 <label class="FGEtiqueta">Correo electrónico: </label>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreoE" CssClass="FGColumna2 FGInput"></asp:TextBox>
                 <br />
-
                 <label class="FGEtiqueta">Pregunta de seguridad: </label>
                 <asp:DropDownList runat="server" ID="ddlPreguntaS" DataTextField="Pregunta" CssClass="FGColumna2 FGInput"> 
                     <asp:ListItem Text="Lugar de nacimiento de la madre" Value="1"></asp:ListItem>
@@ -75,41 +72,67 @@
                 </div>
             </div>
         </div>
-
-
-        <div runat="server" id="divFormularioP" class="FormGerente">
+        <div runat="server" id="divFormularioP" class="FormPerfil">
             <div id="FCabeceraP" class="FCabecera">
                 <label id="FTituloP" class="FTitulo">Agregar Perfil</label>
             </div>
             <div id="FContenidoP" class="FContenido">
                 <br />
-                <label class="FGEtiqueta">Perfil: </label>
-                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtPerfil" CssClass="columna2 FGInput"></asp:TextBox>
-                <br />
-                <br />
-                <label class="FGEtiqueta">Permisos   </label>
-                <br />
-                <label class="FGEtiqueta">Clientes:</label>
-                <div class="FGInput FGContenedorTerm">
-                    <asp:CheckBoxList runat="server"  id="CHKLCliente" CssClass="chbFG" RepeatColumns="3">
-                        <asp:ListItem Value="14">Ver</asp:ListItem>
-                        <asp:ListItem Value="11">Nuevo</asp:ListItem>
-                        <asp:ListItem Value="12">Actualizar</asp:ListItem>
-                        <asp:ListItem Value="13">Eliminar</asp:ListItem>
-                    </asp:CheckBoxList>
-                </div>
-                <br />
-                <br />
-                <label class="FGEtiqueta">Clientes del mes:</label>
-                <asp:CheckBox runat="server" ID="chkClienteMes" CssClass="chkPrimer" />
-
-                <label class="FGEtiqueta">Administracion:</label>
-                <asp:CheckBox runat="server" ID="chkAdministracion" CssClass="chkSegundo" />
-                <br />
-                
+                <table>
+                    <tr>
+                        <td class="tdColumn1" ><label class="FGEtiqueta">Perfil: </label></td> 
+                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtPerfil" CssClass="columna2 FGInput divCheck"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td class="tdColumn1" ><label class="FGEtiqueta">Clientes:</label></td>
+                        <td><%--<label class="FGEtiqueta">Permisos   </label>--%>
+                            <div class="FGInput FGContenedorTerm divCheck">
+                                <asp:CheckBoxList runat="server"  id="CHKLCliente" CssClass="chbFG" RepeatColumns="4">
+                                    <asp:ListItem Value="14">Ver</asp:ListItem>
+                                    <asp:ListItem Value="11">Nuevo</asp:ListItem>
+                                    <asp:ListItem Value="12">Actualizar</asp:ListItem>
+                                    <asp:ListItem Value="13">Eliminar</asp:ListItem>
+                                </asp:CheckBoxList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="tdColumn1" ><label class="FGEtiqueta">Clientes del mes:</label></td>
+                        <td><asp:CheckBox runat="server" ID="chkClienteMes" CssClass="chkPrimer" /></td>
+                    </tr>
+                    <tr>
+                        <td class="tdColumn1" ><label class="FGEtiqueta">Administracion:</label></td>
+                        <td>
+                            <div class="FGInput FGContenedorTerm divCheck">
+                                <asp:Label runat="server" id="lblUsuario" CssClass="lblDivisor1">Usuario</asp:Label>
+                                <asp:CheckBoxList runat="server"  id="chkPerforUsuario" CssClass="chbFG" RepeatColumns="4">
+                                    <asp:ListItem Value="31">Ver</asp:ListItem>
+                                    <asp:ListItem Value="32">Nuevo</asp:ListItem>
+                                    <asp:ListItem Value="33">Actualizar</asp:ListItem>
+                                    <asp:ListItem Value="34">Eliminar</asp:ListItem>
+                                </asp:CheckBoxList>
+                                <br />
+                                <asp:Label runat="server" id="lblPerfiles" CssClass="lblDivisor2">Perfiles</asp:Label>
+                                <asp:CheckBoxList runat="server"  id="chkPerforPerfiles" CssClass="chbFG" RepeatColumns="4">
+                                    <asp:ListItem Value="35">Ver</asp:ListItem>
+                                    <asp:ListItem Value="36">Nuevo</asp:ListItem>
+                                    <asp:ListItem Value="37">Actualizar</asp:ListItem>
+                                    <asp:ListItem Value="38">Eliminar</asp:ListItem>
+                                </asp:CheckBoxList>
+                                <br />
+                                <asp:Label runat="server" id="Label1" CssClass="lblDivisor2">Correo</asp:Label>
+                                <asp:CheckBoxList runat="server"  id="chkPerforCorreo" CssClass="chbFG" RepeatColumns="3">
+                                    <asp:ListItem Value="39">Técnico</asp:ListItem>
+                                    <asp:ListItem Value="310">Configuración</asp:ListItem>
+                                    <asp:ListItem Value="311">Contenido</asp:ListItem>
+                                </asp:CheckBoxList>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
                 <asp:Label runat="server" ID="lblId_perfil" Visible="false"></asp:Label>
                 <br />
-                <div id="FBotonera">
+                <div id="FBotonera2">
                     <asp:Button runat="server" ID="FPCancelar" CssClass="FGBoton" Text="Cancelar" OnClick="FPCancelar_Click" />
                     <asp:Button runat="server" ID="FPAgregar" CssClass="FGBoton" Text="Agregar" OnClick="FPAgregar_Click" />
                     <asp:Button runat="server" ID="FPActualizar" CssClass="FGBoton" Text="Actualizar" OnClick="FPActualizar_Click" />
@@ -119,22 +142,19 @@
     </div>
 </asp:Content>
 
-
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceBody" runat="server">
-
     <div id="mySidenav" class="sidenav">
-        <asp:Button runat="server" ID ="btnOpcionUsuairo" OnClick="btnOpcionUsuairo_Click" Text="Usuarios"/>
+        <asp:Button runat="server" ID ="btnOpcionUsuario" OnClick="btnOpcionUsuario_Click" Text="Usuarios"/>
         <br />
         <asp:Button runat="server" ID ="btnOpcionPerfil" OnClick="btnOpcionPerfil_Click" Text="Perfiles"/>
         <br />
         <asp:Button runat="server" ID ="btnOpcionCorreo" OnClick="btnOpcionCorreo_Click" Text="Correo" Visible="true"/>
+        <asp:Button runat="server" ID ="btnConfiguracionTecnica" OnClick="btnConfiguracionTecnica_Click" Text="Configuración técnica" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnConfiguracionCorreo" OnClick="btnConfiguracionCorreo_Click" Text="Configuración de correo" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnContenidCorreo" OnClick="btnContenidCorreo_Click" Text="Contenido de correo" Visible="false" CssClass="subOpcion"/>
         <br />
         <asp:Button runat="server" ID ="btnRegresar" OnClick="btnRegresar_Click" Text="Regresar" Visible="false"/>
-        <%--<a href="#" runat="server" id="opcionUsuairo" onclick="MostrarOpcionUsuario">Usuarios</a>
-        <a href="#" runat="server" id="opcionPerfil" onclick="MostrarOpcionPerfiles" >Perfiles</a>--%>
     </div>
-
     <div class="main">
         <div runat="server" id="divGerentes" class="divContenido" visible="true">
             <div id="divGerentes1">
@@ -186,9 +206,6 @@
                 </asp:GridView>
             </div>
         </div>
-
-
-
         <div runat="server" id="divPerfiles" class="divContenido" visible="false">
             <div id="divPerfiles1">
                 <asp:Button runat="server" ID="btnAgregarP" Text="Agregar perfil" OnClick="btnAgregarP_Click" CssClass="btnAgrUsuarioG" />
@@ -207,7 +224,7 @@
                                 <asp:Label runat='server' ID='lblIdPerfil' CssClass="lblUsuario" Text='<%# Bind("ID_PERFIL") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Usuario" HeaderStyle-Width="20%">
+                        <asp:TemplateField HeaderText="Perfil" HeaderStyle-Width="20%">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblDescripcion' CssClass="lblUsuario" Text='<%# Bind("DESCRIPCION") %>'></asp:Label>
                             </ItemTemplate>
@@ -222,96 +239,102 @@
                 </asp:GridView>
             </div>
         </div>
-
         <div runat="server" id="divCorreo" class="divContenido" visible="false">
             <div id="divCorreo1">
-                <asp:Button runat="server" ID="btnActualizarCorreo" Text="Actualizar datos" OnClick="btnActualizarCorreo_Click" CssClass="btnAgrUsuarioG" />
-                
+                <asp:Button runat="server" ID="btnActCorreoTecn" Text="Actualizar" OnClick="btnActCorreoTecn_Click" CssClass="btnAgrUsuarioG" />
+                <asp:Button runat="server" ID="btnActCorreoConf" Text="Actualizar" OnClick="btnActCorreoConf_Click" CssClass="btnAgrUsuarioG" />
+                <asp:Button runat="server" ID="btnActCorreoCont" Text="Actualizar" OnClick="btnActCorreoCont_Click" CssClass="btnAgrUsuarioG" />
             </div>
             <div id="divCorreo2">
-                <div class="divCorreoTitulo"><h5>Configuración técnica</h5></div>
-                <asp:Label runat="server" CssClass="lblTituloParametro"></asp:Label>
-                <table class="tblParametros">
-                     <tr>
-                        <td style="width: 15%;"><label>Host:</label></td>
-                        <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHost" CssClass="ParamInput"></asp:TextBox></td>
-                        <td style="width: 10%;"></td>
-                        <td style="width: 15%;"><label>Puerto:</label></td>
-                        <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtPuerto" CssClass="ParamInput" TextMode="Number"></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td><label>SSL:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtSSL" CssClass="ParamInput" ></asp:TextBox></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
+                <div runat="server" id="divCorreoConfTec">
+                    <div class="divCorreoTitulo"><h5>Configuración técnica</h5></div>
+                    <asp:Label runat="server" CssClass="lblTituloParametro"></asp:Label>
+                    <table class="tblParametros">
+                         <tr>
+                            <td style="width: 15%;"><label>Host:</label></td>
+                            <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHost" CssClass="ParamInput"></asp:TextBox></td>
+                            <td style="width: 10%;"></td>
+                            <td style="width: 15%;"><label>Puerto:</label></td>
+                            <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtPuerto" CssClass="ParamInput" TextMode="Number"></asp:TextBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>SSL:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtSSL" CssClass="ParamInput" ></asp:TextBox></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 15%;"><label>Cuenta de correo base:</label></td>
+                            <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreo" CssClass="ParamInput" TextMode="Email"></asp:TextBox></td>
+                            <td style="width: 10%;"></td>
+                            <td style="width: 15%;"><label>Contraseña:</label></td>
+                            <td style="width: 20%;"><asp:TextBox type="password" onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreoContraseña" CssClass="ParamInput" ></asp:TextBox></td>
+                        </tr>
+                    </table>
                 <br />
-                <div class="divCorreoTitulo"><h5>Configuración de correo</h5></div>
-                <table class="tblParametros">
-                    <tr>
-                        <td style="width: 15%;"><label>Cuenta de correo base:</label></td>
-                        <td style="width: 20%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreo" CssClass="ParamInput" TextMode="Email"></asp:TextBox></td>
-                        <td style="width: 10%;"></td>
-                        <td style="width: 15%;"><label>Contraseña:</label></t>
-                        <td style="width: 20%;"><asp:TextBox type="password" onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCorreoContraseña" CssClass="ParamInput" ></asp:TextBox></td>
-                    </tr>
-                    <tr>
-                        <td><label>Enviar antes de inicio de mes:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtDiasAntes" CssClass="ParamInput" TextMode="Number"></asp:TextBox></td>
-                        <td></td>
-                        <td><label>Enviar correo a:</label></td>
-                        <td>
-                            <div class="ml-1 mt-1">
-                            <asp:DropDownList runat="server" ID="ddlEnvCorreo" >
-                                <asp:ListItem Value="1,0">Todos</asp:ListItem>
-                                <asp:ListItem Value="0">Inactivos</asp:ListItem>
-                                <asp:ListItem Value="1">Activos</asp:ListItem>
-                            </asp:DropDownList>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Correo de prueba:</label></td>
-                        <td><asp:TextBox runat="server" ID="txtCorreoPrueba" CssClass="ParamInput" ></asp:TextBox></td>
-                        <td></td>
-                        <td><label>Pruebas:</label></td>
-                        <td><asp:CheckBox runat="server" ID="chkPruebas" CssClass="chkPruebas" ></asp:CheckBox></td>
-                    </tr>
-                    <tr>
-                        <td><label>Ultimo correo:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtUltimoC" CssClass="ParamInput"></asp:TextBox></td>
-                    </tr>
-                </table>
+                </div>
+                <div runat="server" id="divCorreoConfCorreo">
+                    <div class="divCorreoTitulo"><h5>Configuración de correo</h5></div>
+                    <table class="tblParametros">
+                        <tr>
+                            <td style="width: 20%;"><label>Enviar antes de inicio de mes:</label></td>
+                            <td style="width: 30%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtDiasAntes" CssClass="ParamInput" TextMode="Number"></asp:TextBox></td>
+                            <td style="width: 10%;"></td>
+                            <td style="width: 10%;"><label>Enviar correo a:</label></td>
+                            <td style="width: 20%;">
+                                <div class="ml-1 mt-1 text-center">
+                                <asp:DropDownList runat="server" ID="ddlEnvCorreo" CssClass="ddlEnvCorreo">
+                                    <asp:ListItem Value="1,0">Todos</asp:ListItem>
+                                    <asp:ListItem Value="0">Inactivos</asp:ListItem>
+                                    <asp:ListItem Value="1">Activos</asp:ListItem>
+                                </asp:DropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Correo de prueba:</label></td>
+                            <td><asp:TextBox runat="server" ID="txtCorreoPrueba" CssClass="ParamInput" ></asp:TextBox></td>
+                            <td></td>
+                            <td><label>Pruebas:</label></td>
+                            <td><asp:CheckBox runat="server" ID="chkPruebas" CssClass="chkPruebas" ></asp:CheckBox></td>
+                        </tr>
+                        <tr>
+                            <td><label>Ultimo correo:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtUltimoC" CssClass="ParamInput" Enabled="false"></asp:TextBox></td>
+                        </tr>
+                    </table>
                 <br />
-                <div class="divCorreoTitulo"><h5>Contenido del correo</h5></div>
-                <table class="tblParametros">
-                    <tr>
-                        <td style="width: 10%;"><label>Asunto:</label></td>
-                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtSujeto" CssClass="ParamInput"></asp:TextBox></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td><label>Mensaje:</label></td>
-                        <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput"></asp:TextBox>--%>
-                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label>Imagen correo:</label></td>
-                        <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtImagen" CssClass="ParamInput" TextMode="Url" ></asp:TextBox>--%>
-                            <asp:FileUpload runat="server" ID="uploadImgCorreo" CssClass="ParamInput"  accept="image/jpeg" />
-                            <asp:Label runat="server" ID="lblErrorImage" CssClass="lblError"></asp:Label>
-                        </td>
-                    </tr>
+                </div>
+                <div runat="server" id="divCorreoCont">
+                    <div class="divCorreoTitulo"><h5>Contenido del correo</h5></div>
+                    <table class="tblParametros">
+                        <tr>
+                            <td style="width: 10%;"><label>Asunto:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtSujeto" CssClass="ParamInput"></asp:TextBox></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label>Mensaje:</label></td>
+                            <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput"></asp:TextBox>--%>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Imagen correo:</label></td>
+                            <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtImagen" CssClass="ParamInput" TextMode="Url" ></asp:TextBox>--%>
+                                <asp:FileUpload runat="server" ID="uploadImgCorreo" CssClass="ParamInput"  accept="image/jpeg" />
+                                <asp:Label runat="server" ID="lblErrorImage" CssClass="lblError"></asp:Label>
+                            </td>
+                        </tr>
                     
-                    <tr>
-                        <td><label>Firma:</label></td>
-                        <td><asp:TextBox runat="server" ID="txtFirma" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
-                    </tr>
-                </table>
-                <br />
+                        <tr>
+                            <td><label>Firma:</label></td>
+                            <td><asp:TextBox runat="server" ID="txtFirma" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
             </div>
         </div>
     </div>

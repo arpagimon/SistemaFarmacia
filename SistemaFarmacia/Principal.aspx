@@ -11,7 +11,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceBody" runat="server">
-    <table class="row justify-content-center pt-5 mt-5 mr-1 align-items-center text-center">
+    <table class="row justify-content-center pt-5 mt-5 mr-1 align-items-center text-center c">
         <tr>
             <td>
                 <div class="align-items-center text-center Icono" id="iconoClientes" runat="server">

@@ -163,33 +163,47 @@ namespace SistemaFarmacia
 
         protected void btnCambiarPass_Click(object sender, EventArgs e)
         {
-            Boolean update = false;
-
-            update = conexion.CambiarContraseña(usuarioModal.Text, correoModal.Text, exampleInputPassword1.Text);
-
-            if (update)
+            if (exampleInputPassword1.Text == InputPasswordR.Text)
             {
-                lanzaScript("ModalUpdate('Mensaje','La contraseña se modificó satisfactoriamente')");
-                usuarioModal.Text = "";
-                correoModal.Text = "";
-                preguntaModal.Text = "";
-                respuestaModal.Text = "";
-                exampleInputPassword1.Text = "";
-                usuarioModal.Enabled = true;
-                correoModal.Enabled = true;
-                respuestaModal.Enabled = false;
-                exampleInputPassword1.Enabled = false;
-                @continue.Visible = true;
-                btnValidar.Visible = false;
-                btnCambiarPass.Visible = false;
-                divNContra.Visible = false;
-                divPreguntaS.Visible = false;
-                divRespuestaS.Visible = false;
+                Boolean update = false;
+
+                update = conexion.CambiarContraseña(usuarioModal.Text, correoModal.Text, exampleInputPassword1.Text);
+
+                if (update)
+                {
+                    lanzaScript("ModalUpdate('Mensaje','La contraseña se modificó satisfactoriamente')");
+                    usuarioModal.Text = "";
+                    correoModal.Text = "";
+                    preguntaModal.Text = "";
+                    respuestaModal.Text = "";
+                    exampleInputPassword1.Text = "";
+                    exampleInputPassword1.Attributes.Remove("style");
+                    InputPasswordR.Text = "";
+                    InputPasswordR.Attributes.Remove("style");
+                    usuarioModal.Enabled = true;
+                    correoModal.Enabled = true;
+                    respuestaModal.Enabled = false;
+                    exampleInputPassword1.Enabled = false;
+                    @continue.Visible = true;
+                    btnValidar.Visible = false;
+                    btnCambiarPass.Visible = false;
+                    divNContra.Visible = false;
+                    divPreguntaS.Visible = false;
+                    divRespuestaS.Visible = false;
+                    divRContra.Visible = false;
+                }
+                else
+                {
+                    lanzaScript("ModalUpdate('Error','No fue posible modificar la contraseña')");
+                    btnLimpiar_Click(sender, e);
+                }
             }
             else
             {
-                lanzaScript("ModalUpdate('Error','No fue posible modificar la contraseña')");
-                btnLimpiar_Click(sender, e);
+                lanzaScript("ModalUpdate('Error','Las contaseñas ingresadas no coinciden')");
+                exampleInputPassword1.Attributes.Add("style", "border: 1px red solid;");
+                InputPasswordR.Attributes.Add("style", "border: 1px red solid;");
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
             }
         }
 
@@ -204,6 +218,7 @@ namespace SistemaFarmacia
                 btnValidar.Visible = false;
                 btnCambiarPass.Visible = true;
                 divNContra.Visible = true;
+                divRContra.Visible = true;
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
             }
             else
@@ -220,6 +235,9 @@ namespace SistemaFarmacia
             preguntaModal.Text = "";
             respuestaModal.Text = "";
             exampleInputPassword1.Text = "";
+            exampleInputPassword1.Attributes.Remove("style");
+            InputPasswordR.Text = "";
+            InputPasswordR.Attributes.Remove("style");
             usuarioModal.Enabled = true;
             correoModal.Enabled = true;
             respuestaModal.Enabled = false;
@@ -230,6 +248,7 @@ namespace SistemaFarmacia
             divNContra.Visible = false;
             divPreguntaS.Visible = false;
             divRespuestaS.Visible = false;
+            divRContra.Visible = false;
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "ModalOlvide();", true);
         }
 

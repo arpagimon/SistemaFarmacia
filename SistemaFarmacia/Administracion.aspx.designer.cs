@@ -220,13 +220,58 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.CheckBox chkClienteMes;
         
         /// <summary>
-        /// Control chkAdministracion.
+        /// Control lblUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkAdministracion;
+        protected global::System.Web.UI.WebControls.Label lblUsuario;
+        
+        /// <summary>
+        /// Control chkPerforUsuario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chkPerforUsuario;
+        
+        /// <summary>
+        /// Control lblPerfiles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblPerfiles;
+        
+        /// <summary>
+        /// Control chkPerforPerfiles.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chkPerforPerfiles;
+        
+        /// <summary>
+        /// Control Label1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label1;
+        
+        /// <summary>
+        /// Control chkPerforCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chkPerforCorreo;
         
         /// <summary>
         /// Control lblId_perfil.
@@ -265,13 +310,13 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Button FPActualizar;
         
         /// <summary>
-        /// Control btnOpcionUsuairo.
+        /// Control btnOpcionUsuario.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnOpcionUsuairo;
+        protected global::System.Web.UI.WebControls.Button btnOpcionUsuario;
         
         /// <summary>
         /// Control btnOpcionPerfil.
@@ -290,6 +335,33 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnOpcionCorreo;
+        
+        /// <summary>
+        /// Control btnConfiguracionTecnica.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfiguracionTecnica;
+        
+        /// <summary>
+        /// Control btnConfiguracionCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnConfiguracionCorreo;
+        
+        /// <summary>
+        /// Control btnContenidCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnContenidCorreo;
         
         /// <summary>
         /// Control btnRegresar.
@@ -400,13 +472,40 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCorreo;
         
         /// <summary>
-        /// Control btnActualizarCorreo.
+        /// Control btnActCorreoTecn.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnActualizarCorreo;
+        protected global::System.Web.UI.WebControls.Button btnActCorreoTecn;
+        
+        /// <summary>
+        /// Control btnActCorreoConf.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActCorreoConf;
+        
+        /// <summary>
+        /// Control btnActCorreoCont.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnActCorreoCont;
+        
+        /// <summary>
+        /// Control divCorreoConfTec.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCorreoConfTec;
         
         /// <summary>
         /// Control txtHost.
@@ -454,6 +553,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox txtCorreoContraseña;
         
         /// <summary>
+        /// Control divCorreoConfCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCorreoConfCorreo;
+        
+        /// <summary>
         /// Control txtDiasAntes.
         /// </summary>
         /// <remarks>
@@ -497,6 +605,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtUltimoC;
+        
+        /// <summary>
+        /// Control divCorreoCont.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCorreoCont;
         
         /// <summary>
         /// Control txtSujeto.

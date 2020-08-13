@@ -326,7 +326,7 @@
                                 <asp:Label runat='server' ID='lblNota' CssClass="lblGerentes" Text='<%# Bind("NOTA") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField   HeaderStyle-Width="20%"  Visible="false">
+                        <asp:TemplateField  HeaderText="Correo enviado" HeaderStyle-Width="20%"  Visible="false">
                             <ItemTemplate>
                               <asp:Label runat='server' ID="lblcheck"  CssClass="lblGerentes" Text='<%# Bind("CHECK_EMAIL") %>'></asp:Label>
                             </ItemTemplate>
@@ -334,7 +334,7 @@
 
                          <asp:TemplateField  HeaderStyle-Width="20%"  Visible="true">
                             <ItemTemplate>
-                              <asp:Image ID="imgImagen" runat="server" ImageUrl="~/Imagenes/palomita2.png" Visible="false"/>
+                              <asp:Image ID="imgImagen" runat="server" ImageUrl="~/Imagenes/palomita2Oscuro.png" Visible="false"/>
                             </ItemTemplate>
                        </asp:TemplateField>
                     </Columns>

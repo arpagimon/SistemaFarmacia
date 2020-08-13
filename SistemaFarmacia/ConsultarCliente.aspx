@@ -24,11 +24,11 @@
                 <label id="Preguntar" class="verificacion">¡Alerta!</label>
             </div>
             <div id="MContenido2">
-                <asp:Label runat="server" ID="lblPregunta" CssClass="lblMensaje lblMensajeB0">¿Esta seguro que desea eliminar el registro del cliente </asp:Label><br /><asp:Label runat="server" ID="lblPregunta2" CssClass="lblMensaje lblMensajeT0"></asp:Label>
+                <asp:Label runat="server" ID="lblPregunta" CssClass="lblMensaje lblMensajeB0">¿Está seguro que desea eliminar el registro del cliente </asp:Label><br /><asp:Label runat="server" ID="lblPregunta2" CssClass="lblMensaje lblMensajeT0"></asp:Label>
                 <br />
                 <asp:TextBox runat="server" ID="recupera" Visible="false" AutoComplete="off" />
                 <asp:Button runat="server" ID="BCancelar" CssClass="MBoton" Text="Cancelar" OnClick="BCancelar_Click" Visible="false" />
-                <asp:Button runat="server" OnClick="BAceptar_Click" CssClass="MBoton" Visible="false" Text="Aceptar" ID="BAceptar" />
+                <asp:Button runat="server" OnClick="BAceptar_Click" CssClass="MBoton" Visible="false" Text="Eliminar" ID="BAceptar" />
             </div>
         </div>
 
@@ -107,7 +107,11 @@
                             <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
                             <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
                         </asp:DropDownList>
-
+                        <label class="FGEtiqueta">Requiere factura:</label>
+                        <asp:DropDownList runat="server" ID="ddlFactura" CssClass="FGColumna2 FGInput">
+                            <asp:ListItem Text="Sí" Value="1"></asp:ListItem>
+                            <asp:ListItem Text="No" Value="0"></asp:ListItem>
+                        </asp:DropDownList>
                     </div>
                     <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
                     <%--<br />--%>
@@ -254,7 +258,11 @@
                             <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    
+                    <asp:TemplateField HeaderText="Requiere Factura" HeaderStyle-Width="20%" SortExpression="Req_Factura">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblFactura' CssClass="lblGerentes" Text='<%# Bind("REQ_FACTURA") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Opciones">
                             <ItemTemplate>
                                 <asp:LinkButton ID="linkEditG" ToolTip="Editar" OnClick="gvGerentes_RowEditing" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />

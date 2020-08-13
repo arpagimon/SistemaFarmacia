@@ -18,12 +18,12 @@ namespace SistemaFarmacia
                 master.mostrarbtnRegresar(false);
                 master.cambiarLblTitle("<h1>Menú principal</h1>");
                 
-                master.mostrarLblUser("<p>Hola " + connMysql.ConsultarNombreUsuario(this.Session["usuario"].ToString()) + " </p>");
-
-
+                master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
+                
                 iconoClientes.Visible = false;
                 iconoClientesMes.Visible = false;
                 iconoAdministracion.Visible = false;
+
                 String permisos = "";
                 try
                 {
@@ -34,6 +34,7 @@ namespace SistemaFarmacia
                     Response.Redirect("Login.aspx");
 
                 }
+
                 foreach (String permiso in permisos.Split(','))
                 {
                     switch (permiso)
@@ -48,16 +49,23 @@ namespace SistemaFarmacia
                         case "21":
                             iconoClientesMes.Visible = true;
                             break;
-
-
+                            
                         case "31":
+                        case "32":
+                        case "33":
+                        case "34":
+                        case "35":
+                        case "36":
+                        case "37":
+                        case "38":
+                        case "39":
+                        case "310":
+                        case "311":
                             iconoAdministracion.Visible = true;
                             break;
                     }
                 }
             }
-            
-
         }
 
         protected void Clientes_Click(object sender, EventArgs e)

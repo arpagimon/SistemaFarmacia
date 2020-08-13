@@ -34,9 +34,7 @@
             CerrarModal.click(function () {
                 $(modalOlvide).fadeOut("1000");
             });
-
         }
-
 
         function LoginError() {
 
@@ -49,11 +47,6 @@
                 $(LogError).fadeOut('2000');
             })
         }
-
-
-
-
-
     </script>
 </asp:Content>
 
@@ -126,6 +119,10 @@
                         <div class="form-group" runat="server" id="divNContra" visible="false">
                             <label for="exampleInputPassword1">Nueva Contraseña:</label>
                             <asp:TextBox runat="server" type="password" CssClass="form-control" id="exampleInputPassword1" Enabled="false"></asp:TextBox>
+                        </div>
+                        <div class="form-group" runat="server" id="divRContra" visible="false">
+                            <label for="InputPassword2">Repita la nueva contraseña:</label>
+                            <asp:TextBox runat="server" type="password" CssClass="form-control" id="InputPasswordR"></asp:TextBox>
                         </div>
                     </form>
                 </div>
