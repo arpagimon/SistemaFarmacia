@@ -151,7 +151,7 @@ namespace SistemaFarmacia
             {
                 connMySql.Open();
 
-                MySqlCommand mySqlCommand = new MySqlCommand("select permisos from " + esquema + ".empleado join perfil on empleado.id_perfil = perfil.id_perfil where usuario= '" + usuario + "'", connMySql);
+                MySqlCommand mySqlCommand = new MySqlCommand("select permisos from " + esquema + ".empleado join " + esquema + ".perfil on empleado.id_perfil = perfil.id_perfil where usuario= '" + usuario + "'", connMySql);
                 MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
 
                 if (mySqlDataReader.HasRows)
@@ -262,13 +262,13 @@ namespace SistemaFarmacia
 
         public DataSet LLENAR_TABLA()
         {
-            return EjecutaQueryDS("select * from  " + esquema + ".cliente c join farmacia.contacto_cliente cl on  c.ID_CLIENTE=cl.ID_CLIENTE");
+            return EjecutaQueryDS("select * from  " + esquema + ".cliente c join " + esquema + ".contacto_cliente cl on  c.ID_CLIENTE=cl.ID_CLIENTE");
         }
 
         public DataSet consultarLlENAR(string nombre)
         {
 
-            return EjecutaQueryDS("select * from  " + esquema + ".cliente c join farmacia.contacto_cliente cl on  c.ID_CLIENTE=cl.ID_CLIENTE  where c.nombre like '%" + nombre + "%'");
+            return EjecutaQueryDS("select * from  " + esquema + ".cliente c join " + esquema + ".contacto_cliente cl on  c.ID_CLIENTE=cl.ID_CLIENTE  where c.nombre like '%" + nombre + "%'");
         }
 
         public void insertar(string nombre, string apellido_paterno, string apellido_marteno, string edad, string fecha_nacimiento, string fecha_ingreso, string municipio, string calle, string no_int, string no_ext, string tel_casa_fijo, string extension, string celular, string email)
