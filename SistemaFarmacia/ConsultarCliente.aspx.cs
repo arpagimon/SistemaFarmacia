@@ -981,25 +981,25 @@ namespace SistemaFarmacia
                         condicion += (condicion.Length > 0 ? " and " : "") + " (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) >= " + TxtEdad.Text.Trim() + " and  (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) <= " + txtEdad2.Text.Trim() + " ";
                         TxtEdad.Attributes.Remove("style");
                         txtEdad2.Attributes.Remove("style");
-                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
-                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
                     }
                     else
                     {
                         TxtEdad.Attributes.Remove("style");
                         txtEdad2.Attributes.Remove("style");
-                        TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
-                        txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                        TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                        txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
 
                         if (TxtEdad.Text.Trim().Length == 0 && txtEdad2.Text.Trim().Length > 0)
                         {
-                            TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
                             pasa = false;
                         }
 
                         if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length == 0)
                         {
-                            txtEdad2.Attributes.Add("style", "width:80px; margin-right: 0px; border: 1px red solid;");
+                            txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
                             pasa = false;
                         }
                     }
@@ -1116,7 +1116,7 @@ namespace SistemaFarmacia
                 lblA.Visible = false;
                 TxtEdad.Attributes.Remove("style");
                 txtEdad2.Visible = false;
-                TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
             }
@@ -1134,14 +1134,14 @@ namespace SistemaFarmacia
                 if (chkRango.Checked)
                 {
                     TxtEdad.Attributes.Remove("style");
-                    TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                    TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
                     lblA.Visible = true;
                     txtEdad2.Visible = true;
                 }
                 else
                 {
                     ocultaRango();
-                    TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                    TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
                     chkRango.Visible = true;
                 }
                 
@@ -1365,7 +1365,7 @@ namespace SistemaFarmacia
             if (chkRango.Checked)
             {
                 TxtEdad.Attributes.Remove("style");
-                TxtEdad.Attributes.Add("style", "width:80px; margin-right: 0px;");
+                TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
                 lblA.Visible = true;
                 txtEdad2.Visible = true;
             }
@@ -1373,7 +1373,7 @@ namespace SistemaFarmacia
             {
                 ocultaRango();
                 txtEdad2.Attributes.Remove("style");
-                TxtEdad.Attributes.Add("style", "width:186px; margin-right:0px;");
+                TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
                 chkRango.Visible = true;
             }
             panelMsj.DefaultButton = btnBuscarF.ID;

@@ -103,49 +103,13 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtApellidoM;
         
         /// <summary>
-        /// Control ddlEstado.
+        /// Control TxtFechaI.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
-        
-        /// <summary>
-        /// Control divMunicipio.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMunicipio;
-        
-        /// <summary>
-        /// Control ddlMunicipio.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMunicipio;
-        
-        /// <summary>
-        /// Control divPais.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPais;
-        
-        /// <summary>
-        /// Control ddlPais.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlPais;
+        protected global::System.Web.UI.WebControls.TextBox TxtFechaI;
         
         /// <summary>
         /// Control TxtFechaN.
@@ -193,24 +157,6 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.CheckBox chkRango;
         
         /// <summary>
-        /// Control TxtFechaI.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtFechaI;
-        
-        /// <summary>
-        /// Control ddlMedio.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMedio;
-        
-        /// <summary>
         /// Control TxtTelFijo.
         /// </summary>
         /// <remarks>
@@ -238,6 +184,24 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtCelular;
         
         /// <summary>
+        /// Control ddlMedio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMedio;
+        
+        /// <summary>
+        /// Control ddlEnviarCorreo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEnviarCorreo;
+        
+        /// <summary>
         /// Control TxtEmail.
         /// </summary>
         /// <remarks>
@@ -247,13 +211,76 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox TxtEmail;
         
         /// <summary>
-        /// Control divObsNota.
+        /// Control ddlFactura.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divObsNota;
+        protected global::System.Web.UI.WebControls.DropDownList ddlFactura;
+        
+        /// <summary>
+        /// Control ddlEstado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
+        
+        /// <summary>
+        /// Control divMunicipio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMunicipio;
+        
+        /// <summary>
+        /// Control ddlMunicipio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlMunicipio;
+        
+        /// <summary>
+        /// Control divPais.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPais;
+        
+        /// <summary>
+        /// Control ddlPais.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlPais;
+        
+        /// <summary>
+        /// Control ddlEstatus.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstatus;
+        
+        /// <summary>
+        /// Control divObservacionesNota.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divObservacionesNota;
         
         /// <summary>
         /// Control TxtObservaciones.

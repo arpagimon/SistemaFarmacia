@@ -62,7 +62,7 @@
             </div>
             <asp:Panel runat="server" ID="panelMsj">
                 <div id="FContenido" class="FContenido">
-                    <br />
+                    <%--<br />
                     <label class="FGEtiqueta">Nombre: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput"></asp:TextBox>
                     <label class="FGEtiqueta">Apellido Paterno: </label>
@@ -97,7 +97,7 @@
                     <label class="FGEtiqueta">Fecha ingreso: </label>
                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date"></asp:TextBox>
                     <label class="FGEtiqueta">Medio: </label>
-                    <%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtMedio" CssClass="FGColumna2 FGInput"></asp:TextBox>--%>
+                    
                     <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput" ></asp:DropDownList>
                     <br />
                     <label class="FGEtiqueta">Telefono fijo: </label>
@@ -124,7 +124,183 @@
                         <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
                         <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
                         <asp:Button runat="server" ID="btnCerrarF" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrarF_Click" Visible="false" />
+                    </div>--%>
+                    <div class="row justify-content-start">
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombre" CssClass="form-control " AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Apellido Paterno</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoP" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Apellido Materno</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoM" CssClass="form-control " AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Fecha Ingreso</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Fecha Nacimiento</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" ></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-4 px-2">
+                                <div class="form-group">
+                                    <label>Edad</label>
+                                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="form-control-edad" AutoComplete="off" TextMode="Number" ></asp:TextBox>
+                                    <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
+                                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="form-control-edad" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
+                                    <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="false" AutoPostBack="true" />
+                                </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start">
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Telefono Fijo</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtTelFijo" CssClass="form-control InpMediano" AutoComplete="off" TextMode="Phone"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-2 px-2">
+                            <div class="form-group">
+                                <label>Ext.</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="form-control InpExt" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Celular</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="form-control InpMediano " AutoComplete="off" TextMode="Phone"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Medio</label>
+                                <asp:DropDownList runat="server" ID="ddlMedio" CssClass="form-control InpGrande">
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start">
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <label>Enviar Email</label>
+                                <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlEnviarCorreo">
+                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
+                                    <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="form-control InpExtGrande" AutoComplete="off" TextMode="Email"></asp:TextBox>
+                            </div>
+                        </div>
+                        
+                        
+                        <!--Ingresar ID Para Factura-->
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <label>Factura:</label>
+                                <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlFactura">
+                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
+                                    <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start">
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <label class="FGEtiqueta">Estado:</label>
+                                <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="form-control " ID="ddlEstado">
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <div runat="server" id="divMunicipio" class="divCelda">
+                                    <label class="FGEtiqueta">Municipio: </label>
+                                    <asp:DropDownList runat="server" CssClass="form-control " ID="ddlMunicipio" Enabled="false">
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div runat="server" id="divPais" visible="false">
+                                    <label class="FGEtiqueta">Pais: </label>
+                                    <asp:DropDownList runat="server" CssClass="form-control InpGrande" ID="ddlPais">
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col px-2">
+                            <div class="form-group">
+                                <label>Estatus</label>
+                                <asp:DropDownList runat="server" ID="ddlEstatus" CssClass="form-control InpMediano">
+                                    <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start" runat="server" visible="false">
+                        <div class="col px-2">
+                            <div class="form-group" runat="server" id="divObservacionesNota">
+                                <label for="exampleFormControlTextarea1">Observaciones</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtObservaciones" CssClass="form-control" AutoComplete="off" TextMode="MultiLine">
+                                </asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-start" runat="server" visible="false">
+                        <div class="col-12 px-2">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Notas</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNota" CssClass="form-control" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="txtObsNota" Visible="false"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col-6 px-2">
+                            <div class="form-group">
+                                <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center">
+                        <div class="col px-2 text-center FBotonera">
+                            <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
+                            <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
+                            <asp:Button runat="server" ID="btnCerrarF" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrarF_Click" Visible="false" />
+                        </div>
+                    </div>
+                    <br />
                 </div>
             </asp:Panel>
         </div>

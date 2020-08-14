@@ -59,14 +59,114 @@
     margin-left: 30px;
 }
 
-.FormGerente {
+
+
+
+/*.FormGerente {
     width: 750px;
     background: white;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
     position: relative;
+}*/
+
+
+/* #################################################################################################### */
+
+.FormGerente {
+    width: 600px;
+    border-radius: 15px;
+    background: white;
+    margin: auto;
+    margin-top: 0.5%;
+    z-index: 6;
+    position: relative;
+    box-shadow: 0px 0px 15px black;
 }
+
+.FCabecera {
+    border-radius: 15px 15px 0px 0px;
+    background: #333f4f;
+    text-align: center;
+    color: white;
+    height: 40px;
+    padding: 6px;
+}
+.FTitulo {
+    font-family: Verdana;
+    font-size: 15px;
+}
+.FGContenido{
+    padding: 0px 15px;
+}
+
+.row, .form-group, .form-control {
+    margin: 2px 0px;
+}
+
+.form-group label{
+    display: block; /* #### */
+    margin: 0px 0px 0px 0px;
+}
+.form-control {
+    height: 25px;
+    font-size: 12px;
+    padding-top: 3px;
+}
+.form-control-edad {
+    width: 60px;
+    padding: 0px 4px;
+    height: 25px;
+    font-size: 12px;
+    padding-top: 2px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.InpExtGrande{
+    width: 300px;
+}
+.InpGrande {
+    width: 150px;
+}
+.InpMediano {
+    width: 110px;
+}
+.InpChico {
+    width: 64px;
+}
+.InpExt {
+    width: 60px;
+}
+.txtObsNota {
+    width: calc(100% - 164px);
+    min-height: 50px;
+}
+.lblError {
+    color: red;
+}
+.FGBoton {
+    display: inline-block;
+    font-size: 15px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 4px;
+    margin: 10px auto 10px 30px;
+    width: 25%;
+}
+
+/* ####################################################################################################  */
+
+
 
 .txtBusquedaG {
     float: right;
@@ -203,21 +303,21 @@
 }
 
 /*      Agrega Gerente / Coorporativo       */
-.FCabecera {
+/*.FCabecera {
     background: #333f4f;
     text-align: center;
     color: white;
     height: 30px;
-}
+}*/
 
-.FTitulo {
+/*.FTitulo {
     font-family: Verdana;
     vertical-align: sub;
     font-size: 15px;
     margin-top: 4px;
-}
+}*/
 
-#FContenido, #FContenidoP {
+/*#FContenido,*/ #FContenidoP {
     text-align: center;
 }
 
@@ -247,9 +347,9 @@
     margin-bottom: 20px;
 }
 
-.lblError{
+/*.lblError{
     color: red;
-}
+}*/
 
 .FGInput input {
     vertical-align: top;
@@ -290,7 +390,7 @@
     margin-left: 114px;
 }
 
-.FGBoton {
+/*.FGBoton {
     display: inline-block;
     font-size: 15px;
     font-family: Verdana;
@@ -301,7 +401,7 @@
     padding: 4px;
     margin: 10px auto 10px 30px;
     width: 25%;
-}
+}*/
 
 .FGFBoton:first-child {
     margin-right: 5%;
@@ -638,9 +738,7 @@
 /*          Fin bloque alertas          */
 
 #divGerentes2 > div, #Perfiles2 > div {
-    /*max-height: 450px;*/
-    /*overflow-x: hidden;
-    overflow-y: auto;*/
+ 
 }
 
 #divMotCan1 > div {
@@ -722,10 +820,10 @@
 /*              Fin Log Usuarios                */
 
 
-.txtObsNota{
+/*.txtObsNota{
     width: calc(100% - 190px);
     min-height: 50px;
-}
+}*/
 
 
 .lblA{
@@ -755,7 +853,7 @@
     display: inline-block;
 }
 .divFormularioCorreo{
-    /*padding: 10px;*/
+ 
 }
 .divFormCorreo{
     padding-top: 10px;
@@ -1000,17 +1098,6 @@
         border: solid 1px rgb(91,155,213);
         overflow: auto;
     }
-
-    /*.divContenido {
-        vertical-align: top;
-        width: 84%;
-        height: 100%;
-        margin-top: 10px;
-        overflow: hidden;
-        display: inline-block;
-        position: relative;
-        float: right;
-    }*/
 
     .lblNotaEmail {
         vertical-align: top;
