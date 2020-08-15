@@ -7,6 +7,10 @@
             $("#nuevoUsuario").hide();
             $("#divPerfiles").hide();
         };
+
+        function abrePreview() {
+            window.open('PreviewCorreo.aspx', 'location=no, toolbar=no');
+        }
     </script>
 </asp:Content>
 
@@ -244,6 +248,7 @@
                 <asp:Button runat="server" ID="btnActCorreoTecn" Text="Actualizar" OnClick="btnActCorreoTecn_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoConf" Text="Actualizar" OnClick="btnActCorreoConf_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoCont" Text="Actualizar" OnClick="btnActCorreoCont_Click" CssClass="btnAgrUsuarioG" />
+                <button runat="server" id="btnPreview" visible="false" class="btnAgrUsuarioG" onclick="abrePreview()">Preview</button>
             </div>
             <div id="divCorreo2">
                 <div runat="server" id="divCorreoConfTec">

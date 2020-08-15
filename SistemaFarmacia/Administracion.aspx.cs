@@ -123,6 +123,7 @@ namespace SistemaFarmacia
                                 {
                                     btnContenidCorreo.CssClass = "subOpcion subOpcionSeleccionado";
                                     divCorreoConfCorreo.Visible = true;
+                                    btnPreview.Visible = true;
                                 }
                             }
                         }
@@ -191,6 +192,7 @@ namespace SistemaFarmacia
             btnConfiguracionCorreo.Visible = false;
             btnConfiguracionTecnica.Visible = false;
             btnContenidCorreo.Visible = false;
+            btnPreview.Visible = false;
 
             cargaCorreo();
             
@@ -207,6 +209,7 @@ namespace SistemaFarmacia
             if (permisos.Contains("311"))
             {
                 btnContenidCorreo.Visible = true;
+                btnPreview.Visible = true;
             }
             
             if (permisos.Contains("39"))
@@ -254,6 +257,7 @@ namespace SistemaFarmacia
                         btnActCorreoTecn.Visible = false;
                         btnActCorreoConf.Visible = false;
                         btnActCorreoCont.Visible = true;
+                        btnPreview.Visible = true;
                     }
                 }
             }
@@ -1170,6 +1174,7 @@ namespace SistemaFarmacia
             divCorreoConfTec.Visible = true;
             divCorreoCont.Visible = false;
             divCorreoConfCorreo.Visible = false;
+            btnPreview.Visible = false;
         }
 
         protected void btnConfiguracionCorreo_Click(object sender, EventArgs e)
@@ -1184,6 +1189,7 @@ namespace SistemaFarmacia
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = false;
             divCorreoConfCorreo.Visible = true;
+            btnPreview.Visible = false;
         }
 
         protected void btnContenidCorreo_Click(object sender, EventArgs e)
@@ -1199,6 +1205,7 @@ namespace SistemaFarmacia
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = true;
             divCorreoConfCorreo.Visible = false;
+            btnPreview.Visible = true;
         }
 
         public void ocultarOpcionesCorreo()
@@ -1290,5 +1297,7 @@ namespace SistemaFarmacia
                 lblErrorImage.Text = "* El tamaño de la imagen debe ser menor a 1 MB";
             }
         }
+
+        
     }
 }

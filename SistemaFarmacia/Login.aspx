@@ -10,14 +10,13 @@
 
         });
 
-        
-        ///Version 1.43
+        ///Version 1.44
 
 
         function ModalUpdate(titulo, MSG) {
             var update = $('#alertas');
-            update.fadeIn('2000')
-             $('#headA > h5 > strong').html(titulo);
+            update.fadeIn('2000');
+            $('#headA > h5 > strong').html(titulo);
             $('#bodyA > p').html(MSG);
 
             var Close = $('#CerrarUpdate');

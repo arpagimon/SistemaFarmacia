@@ -92,6 +92,7 @@
     <Content Include="Imagenes\return.png" />
     <Content Include="Imagenes\right-arrow.png" />
     <Content Include="MasterFarmacia.Master" />
+    <Content Include="PreviewCorreo.aspx" />
     <Content Include="Principal.aspx" />
     <Content Include="resources\css\bootstrap-grid.css.map" />
     <Content Include="resources\css\bootstrap-grid.min.css.map" />
@@ -193,6 +194,14 @@
     </Compile>
     <Compile Include="MasterFarmacia.Master.designer.cs">
       <DependentUpon>MasterFarmacia.Master</DependentUpon>
+    </Compile>
+    <Compile Include="NavigatedWindow.cs" />
+    <Compile Include="PreviewCorreo.aspx.cs">
+      <DependentUpon>PreviewCorreo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PreviewCorreo.aspx.designer.cs">
+      <DependentUpon>PreviewCorreo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.aspx.cs">
       <DependentUpon>Principal.aspx</DependentUpon>
