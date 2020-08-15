@@ -192,7 +192,6 @@ namespace SistemaFarmacia
             btnConfiguracionCorreo.Visible = false;
             btnConfiguracionTecnica.Visible = false;
             btnContenidCorreo.Visible = false;
-            btnPreview.Visible = false;
 
             cargaCorreo();
             
@@ -209,7 +208,7 @@ namespace SistemaFarmacia
             if (permisos.Contains("311"))
             {
                 btnContenidCorreo.Visible = true;
-                btnPreview.Visible = true;
+                //btnPreview.Visible = true;
             }
             
             if (permisos.Contains("39"))
