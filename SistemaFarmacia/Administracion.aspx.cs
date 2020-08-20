@@ -2139,6 +2139,8 @@ namespace SistemaFarmacia
 
             Session["EnvioClientes"] = new List<ClienteCorreo>();
 
+            cargaClientes();
+
             MContenidoJS.Attributes.Remove("Style");
             CargaJS.Visible = false;
             

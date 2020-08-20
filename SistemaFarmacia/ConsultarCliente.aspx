@@ -146,14 +146,14 @@
                         <div class="col-12 px-2">
                             <div class="form-group">
                                 <label>Nombre o Razón Social:</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtNmR" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtNmR" CssClass="form-control" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="col-4 px-2">
                             <div class="form-group">
                                 <label>RFC</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtRfc" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtRfc" CssClass="form-control" AutoComplete="off"></asp:TextBox>
                                 
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                         <div class="col-12 px-2">
                             <div class="form-group">
                                 <label>Dirección fiscal:</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtDirFiscal" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtDirFiscal" CssClass="form-control" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
                     </div>
