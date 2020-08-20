@@ -181,14 +181,14 @@ textarea.ParamInput {
     overflow: auto;
 }
 
-.gridview {
+.gridview, .gridview2 {
     border: none;
     font-family: Verdana;
     font-size: 12px;
     border-color: white;
 }
 
-.gridview th {
+.gridview th , .gridview2 th {
     color: white;
     text-align: center;
     padding-left: 10px;
@@ -196,7 +196,7 @@ textarea.ParamInput {
     border-color: white;
 }
 
-.gridview tr {
+.gridview tr, .gridview2 tr {
     border: none;
     padding-bottom: 5px;
     padding-top: 5px;
@@ -204,14 +204,17 @@ textarea.ParamInput {
     border-color: white;
 }
 
-.gridview td {
-    
-}
 
-.gridview:first-child a {
+.gridview:first-child a  {
     color: black;
     margin-left: 10px;
 }
+
+.gridview2:first-child a  {
+    color: white;
+    /*margin-left: 10px;*/
+}
+
 
 .lblSinResultado {
     text-align: center !important;
@@ -768,8 +771,158 @@ textarea.ParamInput {
     padding-left: 5px;
 }
 
+
+
+/*      Region Envio Correo     */
+
+.divContenido2 {
+    vertical-align: top;
+    width: 95%;
+    margin-top: 10px;
+    overflow: auto;
+    display: inline-block;
+    position: relative;
+    margin-left: 2%;
+}
+
+.btnAgrClienteG {
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 30px;
+}
+
+.floatDerecha{
+    float:right;
+}
+
+.btnBuscar{
+    background-position: calc(100% - 20px) center;
+    background-image: url('Imagenes/imgBusqueda_opt.png');
+    background-repeat: no-repeat;
+    width: 140px;
+    margin: 10px 0px;
+}
+
+.btnEnviarCorreo {
+    display: inline-block;
+    font-size: 14px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 30px;
+    margin: 10px;
+}
+
+
+.Paginador a {
+    color: #555555 !important;
+    margin-left: 10px;
+}
+
+.Paginador span {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    color: black;
+    text-decoration: underline;
+    font-size: medium;
+}
+
+
+
+.btnEnviarCorreo label{
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+
+
+.FormClienteCorreo {
+    width: 700px;
+    border-radius: 15px;
+    background: white;
+    margin: auto;
+    margin-top: 0.5%;
+    z-index: 6;
+    position: relative;
+    box-shadow: 0px 0px 15px black;
+}
+
+
+.FCCBoton{
+    width: 25%;
+    margin: 0px 10px;
+}
+
+.FCCContenido{
+    padding: 15px;
+}
+
+.row, .form-group, .form-control {
+    margin: 2px 0px;
+}
+
+.form-group label{
+    display: block; /* #### */
+    margin: 0px 0px 0px 0px;
+}
+
+.form-control {
+    height: 25px;
+    font-size: 12px;
+    padding-top: 3px;
+}
+
+.form-control-edad {
+    width: 60px;
+    padding: 0px 4px;
+    height: 25px;
+    font-size: 12px;
+    padding-top: 2px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+
+/*Mensaje confirmación de envío correo*/
+.divMensajeConfirmacion{
+    width: max-content;
+    height: auto;
+    text-align: center;
+    margin-top: 1%;
+    min-width: 450px;
+}
+
+.divConfCorreoContenido{
+    padding: 5px 15px;
+}
+
+
+.CargaJS{
+    width: 100px;
+    margin: auto;
+    display: block;
+    margin-top: 20px;
+}
+
+.oculto{
+    display:none;
+}
+
 @media (min-width: 768px) {
-    .gridview {
+    .gridview, .gridview2 {
         font-size: 10px;
     }
 
@@ -809,7 +962,7 @@ textarea.ParamInput {
 }
 
 @media (min-width: 992px) {
-    .gridview {
+    .gridview, .gridview2 {
         font-size: 11px;
     }
 
@@ -850,7 +1003,7 @@ textarea.ParamInput {
 
 
 @media (min-width: 1400px) {
-    .gridview {
+    .gridview, .gridview2 {
         font-size: 12px;
     }
 
@@ -917,7 +1070,7 @@ textarea.ParamInput {
 }
 
 @media(max-width:685px) {
-    .gridview {
+    .gridview, .gridview2 {
         border: none;
         font-family: Verdana;
         font-size: 10px;
@@ -1010,7 +1163,7 @@ textarea.ParamInput {
 }
 
 @media(max-width:400px) {
-    .gridview {
+    .gridview, .gridview2 {
         border: none;
         font-family: Verdana;
         font-size: 10px;

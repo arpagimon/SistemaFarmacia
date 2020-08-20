@@ -38,92 +38,6 @@
             </div>
             <asp:Panel runat="server" ID="panelMsj">
                 <div id="FContenido" class="FContenido">
-                    <%--<br />
-                    <label class="FGEtiqueta">Nombre: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                    <label class="FGEtiqueta">Apellido Paterno: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                    <br />
-                    
-                    <label class="FGEtiqueta">Apellido Materno: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoM" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                    <label class="FGEtiqueta">Medio: </label>
-                    <asp:DropDownList runat="server" ID="ddlMedio" CssClass="FGColumna2 FGInput"></asp:DropDownList>
-                    
-                    <label class="FGEtiqueta">Estado:</label>
-                    <asp:DropDownList OnSelectedIndexChanged="ddlEstado_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="FGColumna2 FGInput" ID="ddlEstado">
-                    </asp:DropDownList>
-                    <div runat="server" id="divMunicipio" class="divCelda">
-                        <label class="FGEtiqueta">Municipio: </label>
-                        <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlMunicipio" Enabled="false">
-                        </asp:DropDownList>
-                    </div>
-                    <div runat="server" id="divPais" visible="false" class="divCelda">
-                        <label class="FGEtiqueta" >Pais: </label>
-                        <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlPais" >
-                        </asp:DropDownList>
-                    </div>
-                    <br />
-                    <label class="FGEtiqueta">Fecha Nacimiento: </label>
-                    
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" OnTextChanged="TxtFechaN_TextChanged" AutoPostBack="true"  ID="TxtFechaN" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
-                    <label class="FGEtiqueta">Edad: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Number" Enabled="false"></asp:TextBox>
-                    <asp:Label runat="server" id="lblA" Visible="false" CssClass="lblA"> a </asp:Label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtEdad2" CssClass="FGColumna2 FGInput txtEdad2" AutoComplete="off" TextMode="Number" Visible="false"></asp:TextBox>
-                    <asp:CheckBox runat="server" ID="chkRango" OnCheckedChanged="chkRango_CheckedChanged" Visible="false" CssClass="chkRango" AutoPostBack="true"/>
-                    <br />
-                    <label class="FGEtiqueta">Fecha ingreso: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="FGColumna2 FGInput" TextMode="Date" AutoComplete="off"></asp:TextBox>
-                    
-                    <label class="FGEtiqueta">Celular: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtCelular" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
-                    
-                    <br />
-                    <label class="FGEtiqueta">Telefono fijo: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtTelFijo" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Phone"></asp:TextBox>
-                    <label class="FGEtiqueta">Extensión: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtExtension" CssClass="FGColumna2 FGInput" AutoComplete="off"></asp:TextBox>
-                    <br />
-                    <label class="FGEtiqueta">Email: </label>
-                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEmail" CssClass="FGColumna2 FGInput" AutoComplete="off" TextMode="Email"></asp:TextBox>
-                    <label class="FGEtiqueta">Enviar correo:</label>
-                    <asp:DropDownList runat="server" CssClass="FGColumna2 FGInput" ID="ddlEnviarCorreo" >
-                        <asp:ListItem Value="1" Text="Si"></asp:ListItem>
-                        <asp:ListItem Value="0" Text="No"></asp:ListItem>
-                    </asp:DropDownList>
-                    <br />
-                    <div runat="server" id="divObservacionesNota">
-                        <label class="FGEtiqueta">Observaciones: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtObservaciones" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
-                        
-                        <label class="FGEtiqueta">Nota: </label>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNota" CssClass="FGColumna2 FGInput txtObsNota" AutoComplete="off" TextMode="MultiLine"></asp:TextBox>
-                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtIdCliente" CssClass="FGColumna2 FGInput" Visible="false"></asp:TextBox>
-                        <br />
-
-                        <label class="FGEtiqueta">Estatus: </label>
-                        <asp:DropDownList runat="server" ID="ddlEstatus" CssClass="FGColumna2 FGInput">
-                            <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
-                            <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
-                        </asp:DropDownList>
-                        <label class="FGEtiqueta">Requiere factura:</label>
-                        <asp:DropDownList runat="server" ID="ddlFactura" CssClass="FGColumna2 FGInput">
-                            <asp:ListItem Text="Sí" Value="1"></asp:ListItem>
-                            <asp:ListItem Text="No" Value="0"></asp:ListItem>
-                        </asp:DropDownList>
-                    </div>
-                    <asp:Label runat="server" ID="lblError" CssClass="lblError"></asp:Label>
-                    
-                    
-                    <div id="FBotonera">
-                        <asp:Button runat="server" ID="btnBuscarF" CssClass="FGBoton" Text="Buscar" OnClick="btnBuscarF_Click" Visible="false" />
-                        <asp:Button runat="server" ID="btnLimpiarF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarF_Click" Visible="false" />
-                        <asp:Button runat="server" ID="btnCerrarF" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrarF_Click" Visible="false" />
-                        <asp:Button runat="server" ID="FGCancelar" CssClass="FGBoton" Text="Cancelar" OnClick="FGCancelar_Click" />
-                        <asp:Button runat="server" ID="FGAgregar" CssClass="FGBoton" Text="Agregar" OnClick="FGAgregar_Click" />
-                        <asp:Button runat="server" ID="FGActualizar" CssClass="FGBoton" Text="Actualizar" OnClick="FGActualizar_Click" />
-                    </div>--%>
                     <div class="row justify-content-start">
                         <div class="col-4 px-2">
                             <div class="form-group">
@@ -204,7 +118,7 @@
                         <div class="col px-2">
                             <div class="form-group">
                                 <label>Enviar Email</label>
-                                <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlEnviarCorreo">
+                                <asp:DropDownList runat="server" CssClass="form-control InpMediano" ID="ddlEnviarCorreo">
                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                 </asp:DropDownList>
@@ -217,18 +131,49 @@
                             </div>
                         </div>
                         
-                        <!--Ingresar ID Para Factura-->
                         <div class="col px-2">
                             <div class="form-group">
                                 <label>Factura:</label>
-                                <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlFactura">
+                                <asp:DropDownList runat="server" CssClass="form-control InpMediano" OnSelectedIndexChanged="ddlFactura_SelectedIndexChanged" AutoPostBack="true" ID="ddlFactura">
                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                 </asp:DropDownList>
                             </div>
                         </div>
                     </div>
+                    <div class="row justify-content-start" id="divDatosFactura" visible="false" runat="server">
+                        
+                        <div class="col-12 px-2">
+                            <div class="form-group">
+                                <label>Nombre o Razón Social:</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtNmR" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
 
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>RFC</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtRfc" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                
+                            </div>
+                        </div>
+                        <div class="col-4 px-2">
+                            <div class="form-group">
+                                <label>Entidad</label>
+                                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlEntidad">
+                                    <asp:ListItem Value="1" Text="Persona moral"></asp:ListItem>
+                                    <asp:ListItem Value="0" Text="Persona física"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 px-2">
+                            <div class="form-group">
+                                <label>Dirección fiscal:</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtDirFiscal" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row justify-content-start">
                         <div class="col px-2">
                             <div class="form-group">
@@ -444,12 +389,32 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Opciones">
-                            <ItemTemplate>
-                                <asp:LinkButton ID="linkEditG" ToolTip="Editar" OnClick="gvGerentes_RowEditing" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />
-                                <asp:LinkButton ID="linkConsultG" ToolTip="Ver detalle" OnClick="gvGerentes_RowConsult" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-eye' aria-hidden='true'></i>" />
-		                        <asp:LinkButton ID="linkDeleteG" ToolTip="Eliminar" OnClick="gvGerentes_RowDeleting" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-trash' aria-hidden='true'></i>" />
-                            </ItemTemplate>
-                        </asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="linkEditG" ToolTip="Editar" OnClick="gvGerentes_RowEditing" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />
+                            <asp:LinkButton ID="linkConsultG" ToolTip="Ver detalle" OnClick="gvGerentes_RowConsult" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-eye' aria-hidden='true'></i>" />
+		                    <asp:LinkButton ID="linkDeleteG" ToolTip="Eliminar" OnClick="gvGerentes_RowDeleting" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-trash' aria-hidden='true'></i>" />
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Nombre o Razón Fiscal" HeaderStyle-Width="20%" SortExpression="NombRazon_Factura" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblNomRazon' CssClass="lblGerentes" Text='<%# Bind("NOMBRAZON_FACTURA") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="RFC" HeaderStyle-Width="20%" SortExpression="rfc" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblRfc' CssClass="lblGerentes" Text='<%# Bind("RFC") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Entidad" HeaderStyle-Width="20%" SortExpression="entidad" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblEntidad' CssClass="lblGerentes" Text='<%# Bind("ENTIDAD") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Dirección fiscal" HeaderStyle-Width="20%" SortExpression="Dir_factura" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblDirFactura' CssClass="lblGerentes" Text='<%# Bind("DIR_FACTURA") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <%--<asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />--%>
 
                 </Columns>

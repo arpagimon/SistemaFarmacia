@@ -14,140 +14,265 @@ namespace SistemaFarmacia
         Conexion connMysql = new Conexion();
         String permisos = "";
 
+        
+        ListItem lITodos = new ListItem("Todos", "-1");
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            try
-            {
-                permisos = Session["Permisos"].ToString();
+            try {
+
+                MasterFarmacia master = (MasterFarmacia)this.Master;
+                
+                try
+                {
+                    permisos = Session["Permisos"].ToString();
+                }
+                catch (Exception ex)
+                {
+                    sombraMensaje.Visible = true;
+                    mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
+                    divGerentes.Visible = false;
+                    divPerfiles.Visible = false;
+                    divCorreo.Visible = false;
+                    divEnvioCorreo.Visible = false;
+
+                    btnOkSalir.Visible = true;
+                    MOk.Visible = false;
+                }
+
+                if (SesionViva())
+                {
+                    if (!IsPostBack)
+                    {
+
+                        master.cambiarLblTitle("<img src='Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
+
+                        if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311")))
+                        {
+                            Response.Redirect("Principal.aspx");
+                        }
+
+                        master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
+                        master.mostrarMensaje(false);
+                        sombraMensaje.Visible = false;
+
+                        divGerentes.Visible = true;
+                        divPerfiles.Visible = false;
+                        divCorreo.Visible = false;
+                        divEnvioCorreo.Visible = false;
+
+                        btnOpcionUsuario.CssClass = "seleccionado";
+                        btnOpcionPerfil.CssClass = "";
+                        btnOpcionCorreo.CssClass = "";
+                        cargaGerentes();
+
+                        btnOpcionUsuario.Visible = false;
+                        btnOpcionPerfil.Visible = false;
+                        btnOpcionCorreo.Visible = false;
+                        btnEnvioCorreo.Visible = false;
+
+                        String PrimeraOpcion = "";
+
+                        if (Session["CondicionClientes"] == null)
+                        {
+                            Session.Add("CondicionClientes", " Enviar_Correo = '1' ");
+                        }
+                        else
+                        {
+                            Session["CondicionClientes"] = " Enviar_Correo = '1' ";
+                        }
+
+
+                        if (Session["OrdenClientes"] == null)
+                        {
+                            Session.Add("OrdenClientes", "");
+                        }
+                        else
+                        {
+                            Session["OrdenClientes"] = "";
+                        }
+
+
+                        if (Session["EnvioClientes"] == null)
+                        {
+                            Session.Add("EnvioClientes", new List<ClienteCorreo>());
+                        }
+                        else
+                        {
+                            Session["EnvioClientes"] = new List<ClienteCorreo>();
+                        }
+
+                        if (Session["OrdenConfirCorreos"] == null)
+                        {
+                            Session.Add("OrdenConfirCorreos", "");
+                        }
+                        else
+                        {
+                            Session["OrdenConfirCorreos"] = "";
+                        }
+                        
+
+
+
+                        if (permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34"))
+                        {
+                            PrimeraOpcion = "Usuario";
+                            btnOpcionUsuario.Visible = true;
+                            if (!permisos.Contains("32"))
+                            {
+                                btnAgrUsuarioG.Visible = false;
+                            }
+                        }
+
+                        if (permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38"))
+                        {
+                            if (PrimeraOpcion.Length == 0)
+                            {
+                                PrimeraOpcion = "Perfil";
+                            }
+                            btnOpcionPerfil.Visible = true;
+
+                            if (!permisos.Contains("36"))
+                            {
+                                btnAgregarP.Visible = false;
+                            }
+                        }
+
+                        if (permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311"))
+                        {
+                            if (PrimeraOpcion.Length == 0)
+                            {
+                                PrimeraOpcion = "Correo";
+
+                                if (permisos.Contains("39"))
+                                {
+                                    btnActCorreoTecn.Visible = true;
+                                }
+                                if (permisos.Contains("310"))
+                                {
+                                    btnActCorreoConf.Visible = true;
+                                }
+
+                                if (permisos.Contains("311"))
+                                {
+                                    btnActCorreoCont.Visible = true;
+                                }
+
+                                if (permisos.Contains("39"))
+                                {
+                                    btnConfiguracionTecnica.CssClass = "subOpcion subOpcionSeleccionado";
+                                    divCorreoConfTec.Visible = true;
+                                }
+                                else
+                                {
+                                    if (permisos.Contains("310"))
+                                    {
+                                        btnConfiguracionCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+                                        divCorreoCont.Visible = true;
+                                    }
+                                    else
+                                    {
+                                        if (permisos.Contains("311"))
+                                        {
+                                            btnContenidCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+                                            divCorreoConfCorreo.Visible = true;
+                                            btnPreview.Visible = true;
+                                        }
+                                    }
+                                }
+                            }
+                            btnOpcionCorreo.Visible = true;
+                        }
+
+                        if (permisos.Contains("312"))
+                        {
+                            if (PrimeraOpcion.Length == 0)
+                            {
+                                PrimeraOpcion = "EnvioCorreo";
+                                divEnvioCorreo.Visible = true;
+                                
+                            }
+                            llenaEstados();
+                            llenaPaises();
+                            llenarEstados();
+                            btnEnvioCorreo.Visible = true;
+                        }
+
+
+                        switch (PrimeraOpcion)
+                        {
+                            case "Usuario":
+                                btnOpcionUsuario.CssClass = "seleccionado";
+                                break;
+
+                            case "Perfil":
+                                btnOpcionPerfil.CssClass = "seleccionado";
+                                break;
+
+                            case "Correo":
+                                btnOpcionCorreo.CssClass = "seleccionado";
+                                break;
+
+                            case "EnvioCorreo":
+                                btnEnvioCorreo.CssClass = "seleccionado";
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
                 sombraMensaje.Visible = true;
                 mostrarMensaje("Su sesión ha caducado, vuelva a hacer login.");
-                divGerentes.Visible = false;
-                divPerfiles.Visible = false;
-                divCorreo.Visible = false;
-
                 btnOkSalir.Visible = true;
                 MOk.Visible = false;
             }
-            
-            MasterFarmacia master = (MasterFarmacia)this.Master;
-            if (!IsPostBack)
+        }
+
+        public void SeleccionaBtn(String boton)
+        {
+            divGerentes.Visible = false;
+            divPerfiles.Visible = false;
+            divCorreo.Visible = false;
+            divEnvioCorreo.Visible = false;
+
+            btnOpcionUsuario.CssClass = "";
+            btnOpcionPerfil.CssClass = "";
+            btnOpcionCorreo.CssClass = "";
+            btnEnvioCorreo.CssClass = "";
+
+            switch (boton)
             {
-                master.cambiarLblTitle("<img src='Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
+                case "btnOpcionUsuario":
+                    divGerentes.Visible = true;
+                    btnOpcionUsuario.CssClass = "seleccionado";
 
-                if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311")))
-                {
-                    Response.Redirect("Principal.aspx");
-                }
+                    cargaGerentes();
+                    ocultarOpcionesCorreo();
+                    break;
 
-                master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
-                master.mostrarMensaje(false);
-                sombraMensaje.Visible = false;
+                case "btnOpcionPerfil":
+                    divPerfiles.Visible = true;
+                    btnOpcionPerfil.CssClass = "seleccionado";
 
-                divGerentes.Visible = true;
-                divPerfiles.Visible = false;
-                divCorreo.Visible = false;
+                    cargaPerfiles();
+                    ocultarOpcionesCorreo();
+                    break;
 
-                btnOpcionUsuario.CssClass = "seleccionado";
-                btnOpcionPerfil.CssClass = "";
-                btnOpcionCorreo.CssClass = "";
-                cargaGerentes();
+                case "btnOpcionCorreo":
+                    divCorreo.Visible = true;
+                    btnOpcionCorreo.CssClass = "seleccionado";
 
-                btnOpcionUsuario.Visible = false;
-                btnOpcionPerfil.Visible = false;
-                btnOpcionCorreo.Visible = false;
+                    break;
 
-                String PrimeraOpcion = "";
+                case "btnEnvioCorreo":
+                    break;
 
-                if (permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34"))
-                {
-                    PrimeraOpcion = "Usuario";
-                    btnOpcionUsuario.Visible = true;
-                    if (!permisos.Contains("32"))
-                    {
-                        btnAgrUsuarioG.Visible = false;
-                    }
-                }
-
-                if(permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38"))
-                {
-                    if(PrimeraOpcion.Length == 0)
-                    {
-                        PrimeraOpcion = "Perfil";
-                    }
-                    btnOpcionPerfil.Visible = true;
-
-                    if (!permisos.Contains("36"))
-                    {
-                        btnAgregarP.Visible = false;
-                    }
-                }
-
-                if(permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311"))
-                {
-                    if (PrimeraOpcion.Length == 0)
-                    {
-                        PrimeraOpcion = "Correo";
-
-                        if (permisos.Contains("39"))
-                        {
-                            btnActCorreoTecn.Visible = true;
-                        }
-                        if (permisos.Contains("310"))
-                        {
-                            btnActCorreoConf.Visible = true;
-                        }
-
-                        if (permisos.Contains("311"))
-                        {
-                            btnActCorreoCont.Visible = true;
-                        }
-                        
-                        if (permisos.Contains("39"))
-                        {
-                            btnConfiguracionTecnica.CssClass = "subOpcion subOpcionSeleccionado";
-                            divCorreoConfTec.Visible = true;
-                        }
-                        else
-                        {
-                            if (permisos.Contains("310"))
-                            {
-                                btnConfiguracionCorreo.CssClass = "subOpcion subOpcionSeleccionado";
-                                divCorreoCont.Visible = true;
-                            }
-                            else
-                            {
-                                if (permisos.Contains("311"))
-                                {
-                                    btnContenidCorreo.CssClass = "subOpcion subOpcionSeleccionado";
-                                    divCorreoConfCorreo.Visible = true;
-                                    btnPreview.Visible = true;
-                                }
-                            }
-                        }
-                    }
-                    btnOpcionCorreo.Visible = true;
-                }
-                
-                switch (PrimeraOpcion)
-                {
-                    case "Usuario":
-                        btnOpcionUsuario.CssClass = "seleccionado";
-                        break;
-
-                    case "Perfil":
-                        btnOpcionPerfil.CssClass = "seleccionado";
-                        break;
-
-                    case "Correo":
-                        btnOpcionCorreo.CssClass = "seleccionado";
-                        break;
-
-                    default:
-                        break;
-                }
+                default:
+                    break;
             }
         }
 
@@ -156,10 +281,12 @@ namespace SistemaFarmacia
             divGerentes.Visible = true;
             divPerfiles.Visible = false;
             divCorreo.Visible = false;
+            divEnvioCorreo.Visible = false;
 
             btnOpcionUsuario.CssClass = "seleccionado";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
+            btnEnvioCorreo.CssClass = "";
 
             cargaGerentes();
             ocultarOpcionesCorreo();
@@ -170,10 +297,12 @@ namespace SistemaFarmacia
             divGerentes.Visible = false;
             divPerfiles.Visible = true;
             divCorreo.Visible = false;
+            divEnvioCorreo.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "seleccionado";
             btnOpcionCorreo.CssClass = "";
+            btnEnvioCorreo.CssClass = "";
 
             cargaPerfiles();
             ocultarOpcionesCorreo();
@@ -184,10 +313,12 @@ namespace SistemaFarmacia
             divGerentes.Visible = false;
             divPerfiles.Visible = false;
             divCorreo.Visible = true;
+            divEnvioCorreo.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "seleccionado";
+            btnEnvioCorreo.CssClass = "";
 
             btnConfiguracionCorreo.Visible = false;
             btnConfiguracionTecnica.Visible = false;
@@ -261,7 +392,25 @@ namespace SistemaFarmacia
                 }
             }
         }
-        
+
+
+        protected void btnEnvioCorreo_Click(object sender, EventArgs e)
+        {
+            divGerentes.Visible = false;
+            divPerfiles.Visible = false;
+            divCorreo.Visible = false;
+            divEnvioCorreo.Visible = true;
+
+            btnOpcionUsuario.CssClass = "";
+            btnOpcionPerfil.CssClass = "";
+            btnOpcionCorreo.CssClass = "";
+            btnEnvioCorreo.CssClass = "seleccionado";
+
+            cargaClientes();
+            ocultarOpcionesCorreo();
+        }
+
+
         protected void gvGerentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             bool editar = false;
@@ -319,6 +468,7 @@ namespace SistemaFarmacia
             sombraMensaje.Visible = true;
             divFormularioG.Visible = true;
             divFormularioP.Visible = false;
+            divFormCliente.Visible = false;
 
             ddlPerfil.DataSource = connMysql.TraerPerfilesddl("");
             ddlPerfil.DataBind();
@@ -406,6 +556,7 @@ namespace SistemaFarmacia
 
             divFormularioP.Visible = false;
             divFormularioG.Visible = false;
+            divFormCliente.Visible = false;
 
             TxtUsuario.Text = "";
             TxtNombre.Text = "";
@@ -463,6 +614,8 @@ namespace SistemaFarmacia
             sombraMensaje.Visible = true;
             divFormularioG.Visible = false;
             divFormularioP.Visible = false;
+            divFormCliente.Visible = false;
+
             divMensaje.Visible = true;
             lblMensaje.Text = mensaje;
         }
@@ -483,6 +636,7 @@ namespace SistemaFarmacia
 
             divFormularioG.Visible = true;
             divFormularioP.Visible = false;
+            divFormCliente.Visible = false;
 
             FGActualizar.Visible = false;
             FGAgregar.Visible = true;
@@ -709,6 +863,7 @@ namespace SistemaFarmacia
 
             divFormularioG.Visible = false;
             divFormularioP.Visible = true;
+            divFormCliente.Visible = false;
 
             FPActualizar.Visible = false;
             FPAgregar.Visible = true;
@@ -830,6 +985,7 @@ namespace SistemaFarmacia
             sombraMensaje.Visible = true;
             divFormularioG.Visible = false;
             divFormularioP.Visible = true;
+            divFormCliente.Visible = false;
 
             TxtPerfil.Text = Descripcion.Text;
             lblId_perfil.Text = IdPerfil.Text;
@@ -869,6 +1025,7 @@ namespace SistemaFarmacia
 
             divFormularioP.Visible = false;
             divFormularioG.Visible = false;
+            divFormCliente.Visible = false;
 
             TxtPerfil.Text = "";
             lblId_perfil.Text = "";
@@ -1297,6 +1454,782 @@ namespace SistemaFarmacia
             }
         }
 
+
+
+    #region EnvioCorreo
+        protected void chkECSelectTodo_CheckedChanged(object sender, EventArgs e)
+        {
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+
+            foreach (DataRow dr in (connMysql.TraerClientes(Session["CondicionClientes"].ToString(), "1,0")).Tables[0].Rows)
+            {
+                ClienteCorreo temporal = new ClienteCorreo() { ID_CLIENTE = int.Parse(dr["ID_CLIENTE"].ToString()), Nombre = dr["Nombre"].ToString(), Apellido_paterno = dr["Apellido_paterno"].ToString(), Apellido_materno = dr["Apellido_materno"].ToString(), EMAIL = dr["EMAIL"].ToString() };
+
+                if (chkECSelectTodo.Checked)
+                {
+                    if(temporal.EMAIL != "") { 
+                        if (!lsEnvCorreo.Exists(x => x.ID_CLIENTE == temporal.ID_CLIENTE))
+                        {
+                            lsEnvCorreo.Add(temporal);
+                        }
+                    }
+                }
+                else
+                {
+                    if (lsEnvCorreo.Exists(x => x.ID_CLIENTE == temporal.ID_CLIENTE))
+                    {
+                        lsEnvCorreo.RemoveAll(x => x.ID_CLIENTE == temporal.ID_CLIENTE);
+                    }
+                }
+            }
+            
+            Session["EnvioClientes"] = lsEnvCorreo;
+
+            cargaClientes();
+        }
+
         
+        protected void gvClientesCorreo_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+
+            if (SesionViva())
+            {
+                if (e.Row.RowType == DataControlRowType.Header)
+                {
+                    foreach (TableCell cell in e.Row.Cells)
+                    {
+                        try
+                        {
+                            LinkButton lbSort = (LinkButton)cell.Controls[0];
+                            DataTable dttempora = (DataTable)gvClientesCorreo.DataSource;
+                            if (dttempora.DefaultView.Sort == "")
+                            {
+                            }
+                            else
+                            {
+                                if (lbSort.CommandArgument == dttempora.DefaultView.Sort.Substring(0, dttempora.DefaultView.Sort.IndexOf(" ")))
+                                {
+                                    lbSort.CssClass = "Seleccionada";
+                                }
+                            }
+                        }
+                        catch
+                        {
+                        }
+                    }
+                }
+
+                
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    CheckBox chkSeleccionado = (CheckBox)e.Row.FindControl("chkSeleccionado");
+
+                    ClienteCorreo temporal = new ClienteCorreo() {
+                        ID_CLIENTE = int.Parse(((DataRowView)e.Row.DataItem).Row.ItemArray[0].ToString()),
+                        Nombre = ((DataRowView)e.Row.DataItem).Row.ItemArray[1].ToString(),
+                        Apellido_paterno = ((DataRowView)e.Row.DataItem).Row.ItemArray[2].ToString(),
+                        Apellido_materno = ((DataRowView)e.Row.DataItem).Row.ItemArray[3].ToString(),
+                        EMAIL = ((DataRowView)e.Row.DataItem).Row.ItemArray[12].ToString() };
+                    
+                    if (chkSeleccionado.Attributes.Count == 0) {
+                        chkSeleccionado.Attributes.Add("ID_CLIENTE", ((DataRowView)e.Row.DataItem).Row.ItemArray[0].ToString());
+                    }
+
+                    if (lsEnvCorreo.Exists(x => x.ID_CLIENTE == temporal.ID_CLIENTE)) {
+                        chkSeleccionado.Checked = true;
+                    }
+
+                    if(temporal.EMAIL == "")
+                    {
+                        chkSeleccionado.Visible = false;
+                        chkSeleccionado.Checked = false;
+                    }
+
+                    Label lblNumeroFila = (Label)e.Row.FindControl("lblindice");
+
+                    try
+                    {
+                        lblNumeroFila.Text = ((e.Row.RowIndex + 1) + (gvClientesCorreo.PageIndex * gvClientesCorreo.PageSize)).ToString();
+                    }
+                    catch { }
+
+                    Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
+                    Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
+
+                    try
+                    {
+                        etiquetaFechaN.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("dd/MM/yyyy");
+                    }
+                    catch { }
+
+                    try
+                    {
+                        etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
+                    }
+                    catch { }
+                }
+            }   
+        }
+
+
+        protected void gvClientesCorreo_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvClientesCorreo.PageIndex = e.NewPageIndex;
+            cargaClientes();
+        }
+
+        protected void gvClientesCorreo_Sorting(object sender, GridViewSortEventArgs e)
+        {
+            if (SesionViva())
+            {
+                if (Session["OrdenClientes"].ToString() == e.SortExpression + " " + "ASC")
+                {
+                    Session["OrdenClientes"] = e.SortExpression + " " + "DESC";
+                }
+                else
+                {
+                    Session["OrdenClientes"] = e.SortExpression + " " + "ASC";
+                }
+
+                gvClientesCorreo.PageIndex = 0;
+                cargaClientes();
+            }
+        }
+
+        protected void chkSeleccionado_CheckedChanged(object sender, EventArgs e)
+        {
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+
+            String id_cliente =((CheckBox)sender).Attributes["ID_CLIENTE"].ToString();
+            DataSet DatosCliente = connMysql.TraerClienteCorreo(id_cliente);
+
+            ClienteCorreo datosClienteCorreo = new ClienteCorreo() { ID_CLIENTE = int.Parse(DatosCliente.Tables[0].Rows[0].ItemArray[0].ToString()), Nombre = DatosCliente.Tables[0].Rows[0].ItemArray[1].ToString(), Apellido_paterno = DatosCliente.Tables[0].Rows[0].ItemArray[2].ToString(), Apellido_materno = DatosCliente.Tables[0].Rows[0].ItemArray[3].ToString(), EMAIL = DatosCliente.Tables[0].Rows[0].ItemArray[12].ToString()};
+            
+            if (((CheckBox)sender).Checked)
+            {
+                if (!lsEnvCorreo.Exists(x => x.ID_CLIENTE == datosClienteCorreo.ID_CLIENTE))
+                {
+                    lsEnvCorreo.Add(datosClienteCorreo);
+                }
+            }
+            else
+            {
+                if (lsEnvCorreo.Exists(x => x.ID_CLIENTE == datosClienteCorreo.ID_CLIENTE))
+                {
+                    lsEnvCorreo.RemoveAll(x => x.ID_CLIENTE == datosClienteCorreo.ID_CLIENTE);
+                }
+            }
+
+            Session["EnvioClientes"] = lsEnvCorreo;
+        }
+
+        public void cargaClientes()
+        {
+            if (SesionViva())
+            {
+                DataSet ds = connMysql.TraerClientes(Session["CondicionClientes"].ToString(), "1,0");
+
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    ds.Tables[0].DefaultView.Sort = Session["OrdenClientes"].ToString();
+
+                    gvClientesCorreo.DataSource = ds.Tables[0];
+                    gvClientesCorreo.DataBind();
+                }
+                else
+                {
+                    gvClientesCorreo.DataSource = ds.Tables[0];
+                    gvClientesCorreo.DataBind();
+
+                    int totalColumnas = ds.Tables[0].Columns.Count;
+
+                    if (gvClientesCorreo.Rows.Count == 0)
+                    {
+                        DataTable dtTemporal = new DataTable();
+                        dtTemporal.Columns.Add("ID_CLIENTE");
+                        dtTemporal.Columns.Add("Nombre");
+                        dtTemporal.Columns.Add("Apellido_paterno");
+                        dtTemporal.Columns.Add("Apellido_materno");
+                        dtTemporal.Columns.Add("EDAD");
+                        dtTemporal.Columns.Add("FECHA_NACIMIENTO");
+                        dtTemporal.Columns.Add("FECHA_INGRESO");
+                        dtTemporal.Columns.Add("ESTADO");
+                        dtTemporal.Columns.Add("MUNICIPIO");
+                        dtTemporal.Columns.Add("PAIS");
+                        dtTemporal.Columns.Add("tel_casa_fijo");
+                        dtTemporal.Columns.Add("extension");
+                        dtTemporal.Columns.Add("celular");
+                        dtTemporal.Columns.Add("EMAIL");
+                        dtTemporal.Columns.Add("OBSERVACIONES");
+                        dtTemporal.Columns.Add("NOTA");
+                        dtTemporal.Columns.Add("MEDIO");
+                        dtTemporal.Columns.Add("estatus");
+                        dtTemporal.Columns.Add("Enviar_Correo");
+                        dtTemporal.NewRow();
+                        DataRow drTemporal = dtTemporal.NewRow();
+                        dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                        gvClientesCorreo.DataSource = dtTemporal;
+                        gvClientesCorreo.DataBind();
+                    }
+
+                    gvClientesCorreo.Rows[0].Cells.Clear();
+                    gvClientesCorreo.Rows[0].Cells.Add(new TableCell());
+                    gvClientesCorreo.Rows[0].Cells[0].ColumnSpan = 15;
+                    gvClientesCorreo.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                    gvClientesCorreo.Rows[0].Cells[0].Text = "Sin resultados";
+
+                    gvClientesCorreo.Visible = true;
+                }
+            }
+        }
+
+        protected void chkFormCliRango_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkFormCliRango.Checked)
+            {
+                TxtFormCliEdad.Attributes.Remove("style");
+                TxtFormCliEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                lblFormCliA.Visible = true;
+                txtFormCliEdad2.Visible = true;
+            }
+            else
+            {
+                ocultaRango();
+                txtFormCliEdad2.Attributes.Remove("style");
+                TxtFormCliEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+                chkFormCliRango.Visible = true;
+            }
+            panelMsj.DefaultButton = btnFormCliBuscar.ID;
+        }
+        protected void llenarEstados()
+        {
+            DataSet ds = connMysql.consultarmedios();
+            ddlFormCliMedio.DataSource = ds;
+            ddlFormCliMedio.DataTextField = "MEDIO";
+            ddlFormCliMedio.DataValueField = "MEDIO";
+            ddlFormCliMedio.DataBind();
+
+            ddlFormCliMedio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaEstados()
+        {
+            ddlFormCliEstado.DataTextField = "estado";
+            ddlFormCliEstado.DataValueField = "ID";
+            ddlFormCliEstado.DataSource = connMysql.traerEstado();
+            ddlFormCliEstado.DataBind();
+
+            ddlFormCliEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaPaises()
+        {
+            ddlFormCliPais.DataTextField = "pais";
+            ddlFormCliPais.DataValueField = "pais";
+            ddlFormCliPais.DataSource = connMysql.traerPaises();
+            ddlFormCliPais.DataBind();
+
+            ddlFormCliPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void ddlFormCliEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlFormCliEstado.SelectedValue == "33")
+            {
+                divFormCliMunicipio.Visible = false;
+                divFormCliPais.Visible = true;
+            }
+            else
+            {
+                divFormCliMunicipio.Visible = true;
+                divFormCliPais.Visible = false;
+                llenaMunicipio(ddlFormCliEstado.SelectedValue);
+            }
+        }
+
+        public void llenaMunicipio(String Estado)
+        {
+            ddlFormCliMunicipio.Enabled = true;
+            ddlFormCliMunicipio.DataTextField = "MUNICIPIO";
+            ddlFormCliMunicipio.DataValueField = "MUNICIPIO";
+            ddlFormCliMunicipio.DataSource = connMysql.traerMunicipio(Estado);
+            ddlFormCliMunicipio.DataBind();
+            ddlFormCliMunicipio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            if (SesionViva())
+            {
+                MasterFarmacia master = (MasterFarmacia)this.Master;
+                master.mostrarMensaje(true);
+                sombraMensaje.Visible = true;
+
+                divMensaje.Visible = false;
+                divFormularioG.Visible = false;
+                divFormularioP.Visible = false;
+                divFormCliente.Visible = true;
+                
+                panelMsj.DefaultButton = btnFormCliBuscar.ID;
+
+                if (chkFormCliRango.Checked)
+                {
+                    TxtFormCliEdad.Attributes.Remove("style");
+                    TxtFormCliEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                    lblFormCliA.Visible = true;
+                    txtFormCliEdad2.Visible = true;
+                }
+                else
+                {
+                    ocultaRango();
+                    TxtFormCliEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+                    chkFormCliRango.Visible = true;
+                }
+
+                divFormCliObservacionesNota.Visible = false;
+                int temporal = ddlFormCliEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1"));
+                if (ddlFormCliEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+                {
+                    ddlFormCliEnviarCorreo.Items.Add(new ListItem("Todos", "-1"));
+                    ddlFormCliEnviarCorreo.SelectedValue = "-1";
+                }
+
+                if (ddlFormCliEstatus.Items.IndexOf(lITodos) == -1)
+                {
+                    ddlFormCliEstatus.Items.Insert(0, lITodos);
+                    ddlFormCliEstatus.SelectedIndex = 0;
+                }
+
+                if (ddlFormCliFactura.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+                {
+                    ddlFormCliFactura.Items.Add(new ListItem("Todos", "-1"));
+                    ddlFormCliFactura.SelectedValue = "-1";
+                }
+                
+                chkFormCliRango.Visible = true;
+            }
+        }
+
+        public void ocultaRango()
+        {
+            TxtFormCliEdad.Attributes.Remove("style");
+            txtFormCliEdad2.Text = "";
+            lblFormCliA.Visible = false;
+            txtFormCliEdad2.Visible = false;
+            chkFormCliRango.Visible = false;
+            chkFormCliRango.Checked = false;
+        }
+
+        protected void btnFormCliBuscar_Click(object sender, EventArgs e)
+        {
+            if (SesionViva())
+            {
+                Boolean pasa = true;
+                String condicion = "";
+
+                if (TxtFormCliNombre.Text.Trim().Length > 0)
+                {
+                    condicion += " nombre like '%" + TxtFormCliNombre.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliApellidoP.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " apellido_paterno like '%" + TxtFormCliApellidoP.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliApellidoM.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtFormCliApellidoM.Text.Trim() + "%' ";
+                }
+
+                if (ddlFormCliEstado.SelectedIndex > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Estado like '%" + ddlFormCliEstado.Items[ddlFormCliEstado.SelectedIndex].Text.Trim() + "%' ";
+                    if (ddlFormCliMunicipio.SelectedIndex > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " Municipio like '%" + ddlFormCliMunicipio.Items[ddlFormCliMunicipio.SelectedIndex].Text.Trim() + "%' ";
+                    }
+                }
+
+                if (ddlFormCliPais.SelectedIndex > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Pais like '%" + ddlFormCliPais.Items[ddlFormCliPais.SelectedIndex].Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliFechaN.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFormCliFechaN.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliFechaN.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFormCliFechaN.Text.Trim() + "%' ";
+                }
+
+                if (chkFormCliRango.Checked)
+                {
+                    if (TxtFormCliEdad.Text.Trim().Length > 0 && txtFormCliEdad2.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) >= " + TxtFormCliEdad.Text.Trim() + " and  (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) <= " + txtFormCliEdad2.Text.Trim() + " ";
+                        TxtFormCliEdad.Attributes.Remove("style");
+                        txtFormCliEdad2.Attributes.Remove("style");
+                        TxtFormCliEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                        txtFormCliEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                    }
+                    else
+                    {
+                        TxtFormCliEdad.Attributes.Remove("style");
+                        txtFormCliEdad2.Attributes.Remove("style");
+                        TxtFormCliEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                        txtFormCliEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
+
+                        if (TxtFormCliEdad.Text.Trim().Length == 0 && txtFormCliEdad2.Text.Trim().Length > 0)
+                        {
+                            TxtFormCliEdad.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+
+                        if (TxtFormCliEdad.Text.Trim().Length > 0 && txtFormCliEdad2.Text.Trim().Length == 0)
+                        {
+                            txtFormCliEdad2.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
+                            pasa = false;
+                        }
+                    }
+                }
+                else
+                {
+                    if (TxtFormCliEdad.Text.Trim().Length > 0)
+                    {
+                        condicion += (condicion.Length > 0 ? " and " : "") + " (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1))=" + TxtFormCliEdad.Text.Trim() + " ";
+                    }
+                }
+
+
+                if (TxtFormCliFechaI.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFormCliFechaI.Text.Trim() + "%' ";
+                }
+
+                if (ddlFormCliMedio.SelectedValue != "0")
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlFormCliMedio.SelectedValue.Trim() + "%' ";
+                }
+
+                if (TxtFormCliTelFijo.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " tel_casa_fijo like '%" + TxtFormCliTelFijo.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliExtension.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Extension like '%" + TxtFormCliExtension.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliCelular.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " celular like '%" + TxtFormCliCelular.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliEmail.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " email like '%" + TxtFormCliEmail.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliObservaciones.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " observaciones like '%" + TxtFormCliObservaciones.Text.Trim() + "%' ";
+                }
+
+                if (TxtFormCliNota.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " nota like '%" + TxtFormCliNota.Text.Trim() + "%' ";
+                }
+
+                if (ddlFormCliEstatus.SelectedValue == "0" || ddlFormCliEstatus.SelectedValue == "1")
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " estatus LIKE '%" + ddlFormCliEstatus.SelectedValue + "%' ";
+                }
+
+                if (ddlFormCliEnviarCorreo.SelectedValue != "-1")
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Enviar_Correo = '" + ddlFormCliEnviarCorreo.SelectedValue + "' ";
+                }
+                
+
+                if (pasa)
+                {
+                    lblFormCliError.Text = "";
+                    Session["CondicionClientes"] = condicion;
+                    cargaClientes();
+                    
+                    divFormularioG.Visible = false;
+
+                    MasterFarmacia master = (MasterFarmacia)this.Master;
+                    master.mostrarMensaje(false);
+                    sombraMensaje.Visible = false;
+                }
+                else
+                {
+                    lblFormCliError.Text = "Favor de llenar los campos faltantes";
+                }
+            }
+        }
+
+        protected void btnFormCliLimpiar_Click(object sender, EventArgs e)
+        {
+            if (SesionViva())
+            {
+                TxtFormCliIdCliente.Text = "";
+                TxtFormCliNombre.Text = "";
+                TxtFormCliApellidoP.Text = "";
+                TxtFormCliApellidoM.Text = "";
+                ddlFormCliEstado.SelectedIndex = -1;
+                ddlFormCliMunicipio.SelectedIndex = -1;
+                TxtFormCliEdad.Text = "";
+                txtFormCliEdad2.Text = "";
+                TxtFormCliFechaI.Text = "";
+                chkFormCliRango.Checked = false;
+                ddlFormCliMedio.SelectedIndex = -1;
+                TxtFormCliTelFijo.Text = "";
+                TxtFormCliExtension.Text = "";
+                TxtFormCliCelular.Text = "";
+                TxtFormCliFechaN.Text = "";
+                TxtFormCliEmail.Text = "";
+                TxtFormCliObservaciones.Text = "";
+                TxtFormCliNota.Text = "";
+                ddlFormCliEstatus.SelectedIndex = 0;
+                ddlFormCliPais.SelectedIndex = -1;
+
+                lblFormCliA.Visible = false;
+                TxtFormCliEdad.Attributes.Remove("style");
+                txtFormCliEdad2.Visible = false;
+                TxtFormCliEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+                divFormCliPais.Visible = false;
+                divFormCliMunicipio.Visible = true;
+            }
+        }
+
+        protected void btnFormCliCerrar_Click(object sender, EventArgs e)
+        {
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+
+            divFormCliente.Visible = false;
+        }
+
+
+
+        protected void btnEnviarCorreo_Click(object sender, EventArgs e)
+        {
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+            if (lsEnvCorreo.Count > 0)
+            {
+                sombraMensaje.Visible = true;
+                divConfirmacionCorreo.Visible = true;
+                cargaDestinoCorreo();
+            }else
+            {
+                mostrarMensaje("Favor de seleccionar al menos a un cliente");
+            }
+        }
+
+
+    #region confirmacionCorreo
+
+        protected void gvDestinoCorreo_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label lblNumeroFila = (Label)e.Row.FindControl("lblindice");
+
+                try
+                {
+                    lblNumeroFila.Text = ((e.Row.RowIndex + 1) + (gvClientesCorreo.PageIndex * gvClientesCorreo.PageSize)).ToString();
+                }
+                catch { }
+            }
+        }
+
+        protected void gvDestinoCorreo_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvDestinoCorreo.PageIndex = e.NewPageIndex;
+            cargaDestinoCorreo();
+        }
+
+        protected void gvDestinoCorreo_Sorting(object sender, GridViewSortEventArgs e)
+        {
+
+            if (SesionViva())
+            {
+                if (Session["OrdenConfirCorreos"].ToString() == e.SortExpression + " " + "ASC")
+                {
+                    Session["OrdenConfirCorreos"] = e.SortExpression + " " + "DESC";
+                }
+                else
+                {
+                    Session["OrdenConfirCorreos"] = e.SortExpression + " " + "ASC";
+                }
+
+                gvDestinoCorreo.PageIndex = 0;
+                cargaDestinoCorreo();
+            }
+        }
+
+        public void cargaDestinoCorreo()
+        {
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+
+            if (SesionViva())
+            {
+                
+                if (lsEnvCorreo.Count > 0)
+                {
+                    
+                    gvDestinoCorreo.DataSource = lsEnvCorreo;
+                    if(Session["OrdenConfirCorreos"].ToString().Trim().Length > 0) { 
+                        gvDestinoCorreo.Sort(Session["OrdenConfirCorreos"].ToString().Split(' ')[0], (Session["OrdenConfirCorreos"].ToString().Split(' ')[1] == "ASC" ? SortDirection.Ascending : SortDirection.Descending));
+                    }else
+                    {
+                        
+                    }
+                    gvDestinoCorreo.DataBind();
+                }
+                else
+                {
+                    gvDestinoCorreo.DataSource = lsEnvCorreo;
+                    gvDestinoCorreo.DataBind();
+
+                    gvDestinoCorreo.Rows[0].Cells.Clear();
+                    gvDestinoCorreo.Rows[0].Cells.Add(new TableCell());
+                    gvDestinoCorreo.Rows[0].Cells[0].ColumnSpan = 7;
+                    gvDestinoCorreo.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                    gvDestinoCorreo.Rows[0].Cells[0].Text = "Sin resultados";
+
+                    gvDestinoCorreo.Visible = true;
+                }
+            }
+        }
+
+        protected void btnConfcorreoCancelar_Click(object sender, EventArgs e)
+        {
+
+            sombraMensaje.Visible = false;
+            divConfirmacionCorreo.Visible = false;
+            cargaDestinoCorreo();
+        }
+
+        protected void btnConfCorreoOK_Click(object sender, EventArgs e)
+        {
+            divConfirmacionCorreo.Visible = false;
+
+            List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+            List<String> listaCorreos = new List<string>();
+            List<String> listaIDs = new List<string>();
+
+            foreach (ClienteCorreo cliente in lsEnvCorreo)
+            {
+                listaCorreos.Add(cliente.EMAIL);
+                listaIDs.Add(cliente.ID_CLIENTE.ToString());
+            }
+
+            mandarCorreos(listaCorreos, listaIDs);
+
+            Session["EnvioClientes"] = new List<ClienteCorreo>();
+
+            MContenidoJS.Attributes.Remove("Style");
+            CargaJS.Visible = false;
+            
+            lblMensajeJS.Text = "Los correos han sido enviados exitosamente";
+            btnCorreoEnviadoOK.Visible = true;
+
+
+        }
+
+
+        protected void btnCorreoEnviadoOK_Click(object sender, EventArgs e)
+        {
+            sombraMensaje.Visible = false;
+
+            MContenidoJS.Attributes.Add("Style", "display:none;");
+            CargaJS.Visible = true;
+            lblMensajeJS.Text = "Enviando correos a los clientes seleccionados";
+            btnCorreoEnviadoOK.Visible = false;
+        }
+
+        public void mandarCorreos(List<String> listaCorreos, List<String> listaIDs)
+        {
+            DatosCorreo dCorreo = connMysql.ConsultaDatosCorreo();
+
+            connMysql.ActualizaUltimoCorreo();
+
+            EnviarCorreo enviaCorreo = new EnviarCorreo();
+
+            String cadenaIDs = "";
+            foreach (String id in listaIDs)
+            {
+                if (cadenaIDs.Length == 0)
+                {
+                    cadenaIDs += id;
+                }
+                else
+                {
+                    cadenaIDs += "," + id;
+                }
+            }
+
+            if (listaCorreos.Count > 0)
+            {
+                //String direccionImagen = Server.MapPath("Imagenes/Correo/image.jpg");
+                bool respuesta = enviaCorreo.Enviar(listaCorreos, Server.MapPath(dCorreo.SMTP_IMAGEN));
+
+                if (respuesta)
+                {
+                    lblMensajeJS.Text = "Los correos se han enviado exitosamente";
+                    //if (dCorreo.PRUEBAS == "0") { 
+                    connMysql.ActualizaCorreoEnvCliente(cadenaIDs);
+                    //}
+                    connMysql.GuardaBitacora(Session["usuario"].ToString(), listaIDs, dCorreo);
+                }
+                else
+                {
+                    lblMensajeJS.Text = "Ocurrio un problema al enviar los correo, favor de intentarlo nuevamente.";
+                }
+            }
+
+            //sombraJS.Visible = true;
+            //MContenidoJS.Style.Remove("display");
+            //divFormularioCorreo.Visible = false;
+            //divFormCorreoCondicion.Visible = false;
+
+            //CargaJS.Visible = false;
+            //lblMensajeJS.Text = "Los correos se han enviado exitosamente";
+            //divMensajeJS.Style.Add("Height", "125px");
+
+            //cargaClientes();
+        }
+
+
+
+        #endregion
+        #endregion
+
+        public Boolean SesionViva()
+        {
+            Boolean vive = true;
+            try
+            {
+                var temporal = Session["Permisos"].ToString();
+            }
+            catch (Exception ex)
+            {
+                vive = false;
+            }
+
+            return vive;
+        }
+
     }
 }

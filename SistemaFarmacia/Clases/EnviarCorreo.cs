@@ -90,6 +90,7 @@ namespace SistemaFarmacia.Clases
             }
             catch (System.Net.Mail.SmtpException Ex){
                 String error1 = Ex.Message;
+                connMysql.guardaError("EnviarCorreo","Send",error1);
                 enviado = false;
             }
             _SMTP.Dispose();
