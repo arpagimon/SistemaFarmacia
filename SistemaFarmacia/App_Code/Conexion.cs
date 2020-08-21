@@ -752,5 +752,17 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("Insert into " + esquema + ".LogErrores(Modulo,Evento,msjError,Fecha) values('"+Modulo+"','"+Evento+"','"+Error+"',sysdate())");
         }
 
+
+
+        public DataSet TraerClEliminados(String Condicion)
+        {
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo, CASE WHEN REQ_FACTURA = 1 THEN 'Sí' else 'No' end REQ_FACTURA, RFC, ENTIDAD, DIR_FACTURA, NOMBRAZON_FACTURA from " + esquema + ".cliente where estatus = 3 " + (Condicion.Length > 0 ? " and " + Condicion: "" ) + " order by ID_CLIENTE desc");
+        }
+
+        public String ReactivaCliente(String Id_Cliente, String ID_Empleado)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".cliente set estatus = 1, Fecha_Modificacion = sysdate(), Id_Empleado_Modificacion = " + ID_Empleado + " where id_cliente = " + Id_Cliente);
+        }
+
     }
 }

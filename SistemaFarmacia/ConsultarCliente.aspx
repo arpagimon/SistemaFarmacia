@@ -159,7 +159,7 @@
                         </div>
                         <div class="col-4 px-2">
                             <div class="form-group">
-                                <label>Entidad</label>
+                                <label>Tipo de persona</label>
                                 <asp:DropDownList runat="server" CssClass="form-control" ID="ddlEntidad">
                                     <asp:ListItem Value="1" Text="Persona moral"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="Persona física"></asp:ListItem>

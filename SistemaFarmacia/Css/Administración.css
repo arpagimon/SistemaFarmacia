@@ -34,7 +34,7 @@
 }
 
 .sidenav input {
-    padding: 6px 6px 6px 32px;
+    padding: 6px 6px 6px 20px;
     text-decoration: none;
     font-size: 22px;
     color: #818181;
@@ -362,7 +362,8 @@ textarea.ParamInput {
 
 .divMensaje {
     width: 500px;
-    height: 140px;
+    /*height: 140px;*/
+    height:auto;
     background: white;
     margin: auto;
     margin-top: 10%;
@@ -370,22 +371,22 @@ textarea.ParamInput {
     position: relative;
 }
 
-#MCabecera {
+#MCabecera, #MCabecera2 {
     background: rgb(68,84,106);
     text-align: center;
     color: white;
     height: 30px;
 }
 
-#MTitulo {
+#MTitulo, #MPreguntar {
     font-family: Verdana;
     vertical-align: sub;
     font-size: 15px;
     margin-top: 4px;
 }
 
-#MContenido {
-    height: 110px;
+#MContenido, #MContenido2 {
+    /*height: 110px;*/
     text-align: center;
 }
 
@@ -920,6 +921,13 @@ textarea.ParamInput {
 .oculto{
     display:none;
 }
+
+
+.FGCliente {
+    width: 100% !important; 
+}
+
+
 
 @media (min-width: 768px) {
     .gridview, .gridview2 {

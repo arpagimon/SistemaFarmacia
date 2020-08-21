@@ -35,6 +35,7 @@ namespace SistemaFarmacia
                     divPerfiles.Visible = false;
                     divCorreo.Visible = false;
                     divEnvioCorreo.Visible = false;
+                    divClientes.Visible = false;
 
                     btnOkSalir.Visible = true;
                     MOk.Visible = false;
@@ -60,10 +61,12 @@ namespace SistemaFarmacia
                         divPerfiles.Visible = false;
                         divCorreo.Visible = false;
                         divEnvioCorreo.Visible = false;
+                        divClientes.Visible = false;
 
                         btnOpcionUsuario.CssClass = "seleccionado";
                         btnOpcionPerfil.CssClass = "";
                         btnOpcionCorreo.CssClass = "";
+                        btnOpcionClientes.CssClass = "";
                         cargaGerentes();
 
                         btnOpcionUsuario.Visible = false;
@@ -194,10 +197,18 @@ namespace SistemaFarmacia
                             }
                             llenaEstados();
                             llenaPaises();
-                            llenarEstados();
+                            llenarMedio();
                             btnEnvioCorreo.Visible = true;
                         }
 
+                        if (permisos.Contains("313"))
+                        {
+                            if (PrimeraOpcion.Length == 0)
+                            {
+                                PrimeraOpcion = "Clientes";
+                            }
+                            btnOpcionClientes.Visible = true;
+                        }
 
                         switch (PrimeraOpcion)
                         {
@@ -215,6 +226,10 @@ namespace SistemaFarmacia
 
                             case "EnvioCorreo":
                                 btnEnvioCorreo.CssClass = "seleccionado";
+                                break;
+
+                            case "Clientes":
+                                btnOpcionClientes.CssClass = "seleccionado";
                                 break;
 
                             default:
@@ -282,11 +297,14 @@ namespace SistemaFarmacia
             divPerfiles.Visible = false;
             divCorreo.Visible = false;
             divEnvioCorreo.Visible = false;
+            divClientes.Visible = false;
 
             btnOpcionUsuario.CssClass = "seleccionado";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
             btnEnvioCorreo.CssClass = "";
+            btnOpcionClientes.CssClass = "";
+            //btnOpcionClientes.Visible = false;
 
             cargaGerentes();
             ocultarOpcionesCorreo();
@@ -298,11 +316,14 @@ namespace SistemaFarmacia
             divPerfiles.Visible = true;
             divCorreo.Visible = false;
             divEnvioCorreo.Visible = false;
+            divClientes.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "seleccionado";
             btnOpcionCorreo.CssClass = "";
             btnEnvioCorreo.CssClass = "";
+            btnOpcionClientes.CssClass = "";
+            //btnOpcionClientes.Visible = false;
 
             cargaPerfiles();
             ocultarOpcionesCorreo();
@@ -314,12 +335,15 @@ namespace SistemaFarmacia
             divPerfiles.Visible = false;
             divCorreo.Visible = true;
             divEnvioCorreo.Visible = false;
+            divClientes.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "seleccionado";
             btnEnvioCorreo.CssClass = "";
+            btnOpcionClientes.CssClass = "";
 
+            //btnOpcionClientes.Visible = false;
             btnConfiguracionCorreo.Visible = false;
             btnConfiguracionTecnica.Visible = false;
             btnContenidCorreo.Visible = false;
@@ -400,12 +424,15 @@ namespace SistemaFarmacia
             divPerfiles.Visible = false;
             divCorreo.Visible = false;
             divEnvioCorreo.Visible = true;
+            divClientes.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
             btnEnvioCorreo.CssClass = "seleccionado";
+            btnOpcionClientes.CssClass = "";
 
+            //btnOpcionClientes.Visible = false;
             cargaClientes();
             ocultarOpcionesCorreo();
         }
@@ -469,6 +496,7 @@ namespace SistemaFarmacia
             divFormularioG.Visible = true;
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             ddlPerfil.DataSource = connMysql.TraerPerfilesddl("");
             ddlPerfil.DataBind();
@@ -557,6 +585,7 @@ namespace SistemaFarmacia
             divFormularioP.Visible = false;
             divFormularioG.Visible = false;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             TxtUsuario.Text = "";
             TxtNombre.Text = "";
@@ -615,6 +644,7 @@ namespace SistemaFarmacia
             divFormularioG.Visible = false;
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             divMensaje.Visible = true;
             lblMensaje.Text = mensaje;
@@ -637,6 +667,7 @@ namespace SistemaFarmacia
             divFormularioG.Visible = true;
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             FGActualizar.Visible = false;
             FGAgregar.Visible = true;
@@ -864,6 +895,7 @@ namespace SistemaFarmacia
             divFormularioG.Visible = false;
             divFormularioP.Visible = true;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             FPActualizar.Visible = false;
             FPAgregar.Visible = true;
@@ -977,6 +1009,16 @@ namespace SistemaFarmacia
                             }
                         }
                         break;
+                    case "312":
+                    case "313":
+                        foreach (ListItem lsItem in chkAdmin.Items)
+                        {
+                            if (lsItem.Value.Equals(Permiso.Trim()))
+                            {
+                                lsItem.Selected = true;
+                            }
+                        }
+                        break; 
                 }
             }
             
@@ -986,6 +1028,7 @@ namespace SistemaFarmacia
             divFormularioG.Visible = false;
             divFormularioP.Visible = true;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             TxtPerfil.Text = Descripcion.Text;
             lblId_perfil.Text = IdPerfil.Text;
@@ -1026,6 +1069,7 @@ namespace SistemaFarmacia
             divFormularioP.Visible = false;
             divFormularioG.Visible = false;
             divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
 
             TxtPerfil.Text = "";
             lblId_perfil.Text = "";
@@ -1120,6 +1164,22 @@ namespace SistemaFarmacia
                 }
             }
 
+            foreach (ListItem item in chkAdmin.Items)
+            {
+                if (item.Selected)
+                {
+                    if (Permisos.Length == 0)
+                    {
+                        Permisos = item.Value;
+                    }
+                    else
+                    {
+                        Permisos += "," + item.Value;
+                    }
+                }
+            }
+
+
             resultado = connMysql.Guardaperfiles(Descripcion.ToUpper(), Permisos);
 
             TxtPerfil.Text = "";
@@ -1205,6 +1265,21 @@ namespace SistemaFarmacia
 
 
             foreach (ListItem item in chkPerforCorreo.Items)
+            {
+                if (item.Selected)
+                {
+                    if (Permisos.Length == 0)
+                    {
+                        Permisos = item.Value;
+                    }
+                    else
+                    {
+                        Permisos += "," + item.Value;
+                    }
+                }
+            }
+
+            foreach (ListItem item in chkAdmin.Items)
             {
                 if (item.Selected)
                 {
@@ -1666,6 +1741,11 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("MEDIO");
                         dtTemporal.Columns.Add("estatus");
                         dtTemporal.Columns.Add("Enviar_Correo");
+                        dtTemporal.Columns.Add("REQ_FACTURA");
+                        dtTemporal.Columns.Add("NOMBRAZON_FACTURA");
+                        dtTemporal.Columns.Add("RFC");
+                        dtTemporal.Columns.Add("ENTIDAD");
+                        dtTemporal.Columns.Add("DIR_FACTURA");
                         dtTemporal.NewRow();
                         DataRow drTemporal = dtTemporal.NewRow();
                         dtTemporal.Rows.InsertAt(drTemporal, 0);
@@ -1703,7 +1783,7 @@ namespace SistemaFarmacia
             }
             panelMsj.DefaultButton = btnFormCliBuscar.ID;
         }
-        protected void llenarEstados()
+        protected void llenarMedio()
         {
             DataSet ds = connMysql.consultarmedios();
             ddlFormCliMedio.DataSource = ds;
@@ -2025,6 +2105,7 @@ namespace SistemaFarmacia
         protected void btnEnviarCorreo_Click(object sender, EventArgs e)
         {
             List<ClienteCorreo> lsEnvCorreo = (List<ClienteCorreo>)Session["EnvioClientes"];
+            divFormCliente.Visible = false;
             if (lsEnvCorreo.Count > 0)
             {
                 sombraMensaje.Visible = true;
@@ -2218,6 +2299,585 @@ namespace SistemaFarmacia
         #endregion
         #endregion
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        #region reactivarCliente
+        protected void btnOpcionClientes_Click(object sender, EventArgs e)
+        {
+            divClientes.Visible = true;
+            divGerentes.Visible = false;
+            divPerfiles.Visible = false;
+            divEnvioCorreo.Visible = false;
+            divCorreo.Visible = false;
+
+            btnOpcionUsuario.CssClass = "";
+            btnOpcionPerfil.CssClass = "";
+            btnOpcionCorreo.CssClass = "";
+            btnEnvioCorreo.CssClass = "";
+            btnOpcionClientes.CssClass = "seleccionado";
+
+            cargaClientesE("estatus = 3");
+            ocultarOpcionesCorreo();
+        }
+
+        public void cargaClientesE(String condicion)
+        {
+
+            DataSet ds = connMysql.TraerClEliminados(condicion);
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                gvClientes.DataSource = ds.Tables[0];
+                gvClientes.DataBind();
+            }
+            else
+            {
+                gvClientes.DataSource = ds.Tables[0];
+                gvClientes.DataBind();
+
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (gvClientes.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_CLIENTE");
+                    dtTemporal.Columns.Add("Nombre");
+                    dtTemporal.Columns.Add("Apellido_paterno");
+                    dtTemporal.Columns.Add("Apellido_materno");
+                    dtTemporal.Columns.Add("EDAD");
+                    dtTemporal.Columns.Add("FECHA_NACIMIENTO");
+                    dtTemporal.Columns.Add("FECHA_INGRESO");
+                    dtTemporal.Columns.Add("ESTADO");
+                    dtTemporal.Columns.Add("MUNICIPIO");
+                    dtTemporal.Columns.Add("PAIS");
+                    dtTemporal.Columns.Add("tel_casa_fijo");
+                    dtTemporal.Columns.Add("extension");
+                    dtTemporal.Columns.Add("celular");
+                    dtTemporal.Columns.Add("EMAIL");
+                    dtTemporal.Columns.Add("OBSERVACIONES");
+                    dtTemporal.Columns.Add("NOTA");
+                    dtTemporal.Columns.Add("MEDIO");
+                    dtTemporal.Columns.Add("estatus");
+                    dtTemporal.Columns.Add("Enviar_Correo");
+                    dtTemporal.Columns.Add("REQ_FACTURA");
+                    dtTemporal.Columns.Add("NOMBRAZON_FACTURA");
+                    dtTemporal.Columns.Add("RFC");
+                    dtTemporal.Columns.Add("ENTIDAD");
+                    dtTemporal.Columns.Add("DIR_FACTURA");
+                    dtTemporal.NewRow();
+
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvClientes.DataSource = dtTemporal;
+                    gvClientes.DataBind();
+                }
+
+                gvClientes.Rows[0].Cells.Clear();
+                gvClientes.Rows[0].Cells.Add(new TableCell());
+                gvClientes.Rows[0].Cells[0].ColumnSpan = 17;
+                gvClientes.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvClientes.Rows[0].Cells[0].Text = "Sin resultados";
+
+                //gvGerentes.Visible = false;
+                //gvPerfiles.Visible = false;
+                gvClientes.Visible = true;
+            }
+        }
+        protected void ddlFactura_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlFactura.SelectedValue == "1")
+            {
+                divDatosFactura.Visible = true;
+            }
+            else
+            {
+                divDatosFactura.Visible = false;
+            }
+        }
+
+        protected void ddlEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlEstado.SelectedValue == "33")
+            {
+                divMunicipio.Visible = false;
+                divPais.Visible = true;
+            }
+            else
+            {
+                divMunicipio.Visible = true;
+                divPais.Visible = false;
+                llenaMunicipio2(ddlEstado.SelectedValue);
+            }
+        }
+
+        public void llenaMunicipio2(String Estado)
+        {
+            ddlMunicipio.Enabled = true;
+            ddlMunicipio.DataTextField = "MUNICIPIO";
+            ddlMunicipio.DataValueField = "MUNICIPIO";
+            ddlMunicipio.DataSource = connMysql.traerMunicipio(Estado);
+            ddlMunicipio.DataBind();
+            ddlMunicipio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void btnBuscarCl_Click(object sender, EventArgs e)
+        {
+            Boolean pasa = true;
+            String condicion = "";
+
+            if (TxtNombre.Text.Trim().Length > 0)
+            {
+                condicion += " nombre like '%" + TxtNombre.Text.Trim() + "%' ";
+            }
+
+            if (TxtApellidoP.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_paterno like '%" + TxtApellidoP.Text.Trim() + "%' ";
+            }
+
+            if (TxtApellidoM.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtApellidoM.Text.Trim() + "%' ";
+            }
+
+            if (ddlEstado.SelectedIndex > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " Estado like '%" + ddlEstado.Items[ddlEstado.SelectedIndex].Text.Trim() + "%' ";
+                if (ddlMunicipio.SelectedIndex > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " Municipio like '%" + ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text.Trim() + "%' ";
+                }
+            }
+
+            if (ddlPais.SelectedIndex > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " Pais like '%" + ddlPais.Items[ddlPais.SelectedIndex].Text.Trim() + "%' ";
+            }
+
+            if (TxtFechaN.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
+            }
+
+            if (TxtFechaN.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " fecha_nacimiento like '%" + TxtFechaN.Text.Trim() + "%' ";
+            }
+
+
+            if (chkRango.Checked)
+            {
+                if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) >= " + TxtEdad.Text.Trim() + " and  (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) <= " + txtEdad2.Text.Trim() + " ";
+                    TxtEdad.Attributes.Remove("style");
+                    txtEdad2.Attributes.Remove("style");
+                    TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                    txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                }
+                else
+                {
+                    TxtEdad.Attributes.Remove("style");
+                    txtEdad2.Attributes.Remove("style");
+                    TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                    txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px;");
+
+                    if (TxtEdad.Text.Trim().Length == 0 && txtEdad2.Text.Trim().Length > 0)
+                    {
+                        TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
+                        pasa = false;
+                    }
+
+                    if (TxtEdad.Text.Trim().Length > 0 && txtEdad2.Text.Trim().Length == 0)
+                    {
+                        txtEdad2.Attributes.Add("style", "width:70px; margin-right: 0px; border: 1px red solid;");
+                        pasa = false;
+                    }
+                }
+            }
+            else
+            {
+                if (TxtEdad.Text.Trim().Length > 0)
+                {
+                    condicion += (condicion.Length > 0 ? " and " : "") + " (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1))=" + TxtEdad.Text.Trim() + " ";
+                }
+            }
+
+            if (TxtFechaI.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFechaI.Text.Trim() + "%' ";
+            }
+
+            if (ddlMedio.SelectedValue != "0")
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlMedio.SelectedValue.Trim() + "%' ";
+            }
+
+            if (TxtTelFijo.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " tel_casa_fijo like '%" + TxtTelFijo.Text.Trim() + "%' ";
+            }
+
+            if (TxtExtension.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " Extension like '%" + TxtExtension.Text.Trim() + "%' ";
+            }
+
+            if (TxtCelular.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " celular like '%" + TxtCelular.Text.Trim() + "%' ";
+            }
+
+            if (TxtEmail.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " email like '%" + TxtEmail.Text.Trim() + "%' ";
+            }
+
+            if (TxtObservaciones.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " observaciones like '%" + TxtObservaciones.Text.Trim() + "%' ";
+            }
+
+            if (TxtNota.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " nota like '%" + TxtNota.Text.Trim() + "%' ";
+            }
+
+            if (ddlEnviarCorreo.SelectedValue != "-1")
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " Enviar_Correo = '" + ddlEnviarCorreo.SelectedValue + "' ";
+            }
+            if (ddlFactura.SelectedValue != "-1")
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " req_factura like '%" + ddlFactura.SelectedValue.Trim() + "%' ";
+            }
+            if (txtDirFiscal.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " dir_factura like '%" + txtDirFiscal.Text.Trim() + "%' ";
+            }
+            if (ddlEntidad.SelectedValue != "-1")
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " entidad like '%" + ddlEntidad.SelectedItem.Text.Trim() + "%' ";
+            }
+            if (txtRfc.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " rfc like '%" + txtRfc.Text.Trim() + "%' ";
+            }
+            if (txtNmR.Text.Trim().Length > 0)
+            {
+                condicion += (condicion.Length > 0 ? " and " : "") + " NombRazon_factura like '%" + txtNmR.Text.Trim() + "%' ";
+            }
+            if (pasa)
+            {
+                lblError.Text = "";
+                //Session["Condicion"] = condicion;
+                cargaClientesE(condicion);
+
+                btnLimpiarCl.Visible = true;
+                btnBuscarCl.Visible = true;
+                divFormBusqCl.Visible = false;
+                divFormularioG.Visible = false;
+
+                MasterFarmacia master = (MasterFarmacia)this.Master;
+                master.mostrarMensaje(false);
+                sombraMensaje.Visible = false;
+            }
+            else
+            {
+                lblError.Text = "Favor de llenar los campos faltantes";
+            }
+        }
+
+        protected void btnLimpiarCl_Click(object sender, EventArgs e)
+        {
+            TxtIdCliente.Text = "";
+            TxtNombre.Text = "";
+            TxtApellidoP.Text = "";
+            TxtApellidoM.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
+            TxtEdad.Text = "";
+            txtEdad2.Text = "";
+            TxtFechaI.Text = "";
+            chkRango.Checked = false;
+            ddlMedio.SelectedIndex = -1;
+            TxtTelFijo.Text = "";
+            TxtExtension.Text = "";
+            TxtCelular.Text = "";
+            TxtFechaN.Text = "";
+            TxtEmail.Text = "";
+            TxtObservaciones.Text = "";
+            TxtNota.Text = "";
+            ddlPais.SelectedIndex = -1;
+            txtRfc.Text = "";
+            txtDirFiscal.Text = "";
+            txtNmR.Text = "";
+            divDatosFactura.Visible = false;
+            ddlFactura.SelectedValue = "0";
+            ddlEntidad.SelectedValue = "0";
+
+            lblA.Visible = false;
+            TxtEdad.Attributes.Remove("style");
+            txtEdad2.Visible = false;
+            TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
+        }
+
+        protected void FGCancelarCl_Click(object sender, EventArgs e)
+        {
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+
+            divFormularioG.Visible = false;
+            divFormBusqCl.Visible = false;
+
+
+            TxtIdCliente.Text = "";
+            TxtNombre.Text = "";
+            TxtApellidoP.Text = "";
+            TxtApellidoM.Text = "";
+            ddlEstado.SelectedIndex = -1;
+            ddlMunicipio.SelectedIndex = -1;
+
+            TxtEdad.Text = "";
+            TxtFechaI.Text = "";
+            ddlMedio.SelectedIndex = -1;
+
+            TxtTelFijo.Text = "";
+            TxtExtension.Text = "";
+            TxtCelular.Text = "";
+            TxtFechaN.Text = "";
+            TxtEmail.Text = "";
+            TxtObservaciones.Text = "";
+            TxtNota.Text = "";
+
+            ddlPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
+
+            ddlEntidad.SelectedIndex = 0;
+            txtDirFiscal.Text = "";
+            ddlFactura.SelectedIndex = 1;
+            txtNmR.Text = "";
+            txtRfc.Text = "";
+            divDatosFactura.Visible = false;
+
+            lblError.Text = "";
+
+            try
+            {
+                TxtNombre.Attributes.Remove("style");
+                TxtApellidoP.Attributes.Remove("style");
+                TxtApellidoM.Attributes.Remove("style");
+                ddlEstado.Attributes.Remove("style");
+                ddlMunicipio.Attributes.Remove("style");
+                TxtEdad.Attributes.Remove("style");
+                TxtFechaI.Attributes.Remove("style");
+                ddlMedio.Attributes.Remove("style");
+                TxtTelFijo.Attributes.Remove("style");
+                TxtCelular.Attributes.Remove("style");
+                TxtFechaN.Attributes.Remove("style");
+                TxtEmail.Attributes.Remove("style");
+                ddlPais.Attributes.Remove("style");
+            }
+            catch { }
+
+            gvGerentes.EditIndex = -1;
+            cargaClientesE("");
+        }
+
+        protected void btnBuscarCli_Click(object sender, EventArgs e)
+        {
+            TxtEdad.Enabled = true;
+            divFormBusqCl.Visible = true;
+            divFormCliente.Visible = false;
+
+            if (chkRango.Checked)
+            {
+                TxtEdad.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                lblA.Visible = true;
+                txtEdad2.Visible = true;
+            }
+            else
+            {
+                ocultaRango2();
+                TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+                chkRango.Visible = true;
+            }
+
+            int temporal = ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1"));
+            if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+            {
+                ddlEnviarCorreo.Items.Add(new ListItem("Todos", "-1"));
+                ddlEnviarCorreo.SelectedValue = "-1";
+            }
+
+            if (ddlFactura.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+            {
+                ddlFactura.Items.Add(new ListItem("Todos", "-1"));
+                ddlFactura.SelectedValue = "-1";
+            }
+
+            if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+            {
+                ddlEntidad.Items.Add(new ListItem("Todos", "-1"));
+                ddlEntidad.SelectedValue = "-1";
+            }
+
+            divFormBusqCl.Visible = true;
+            divFormularioG.Visible = false;
+            divFormularioP.Visible = false;
+
+            chkRango.Visible = true;
+
+            llenaEstados2();
+            llenarMedio2();
+
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+        }
+
+        public void ocultaRango2()
+        {
+            TxtEdad.Attributes.Remove("style");
+            txtEdad2.Text = "";
+            lblA.Visible = false;
+            txtEdad2.Visible = false;
+            chkRango.Visible = false;
+            chkRango.Checked = false;
+        }
+
+        protected void chkRango_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkRango.Checked)
+            {
+                TxtEdad.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                lblA.Visible = true;
+                txtEdad2.Visible = true;
+            }
+            else
+            {
+                ocultaRango2();
+                txtEdad2.Attributes.Remove("style");
+                TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
+                chkRango.Visible = true;
+            }
+            //panelMsj.DefaultButton = btnBuscarCl.ID;
+        }
+
+        public void llenaEstados2()
+        {
+            ddlEstado.DataTextField = "estado";
+            ddlEstado.DataValueField = "ID";
+            ddlEstado.DataSource = connMysql.traerEstado();
+            ddlEstado.DataBind();
+
+            ddlEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void llenarMedio2()
+        {
+            DataSet ds = connMysql.consultarmedios();
+            ddlMedio.DataSource = ds;
+            ddlMedio.DataTextField = "MEDIO";
+            ddlMedio.DataValueField = "MEDIO";
+            ddlMedio.DataBind();
+
+            ddlMedio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void gvClientes_RowDeleting(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+            Label Id_Cliente = (Label)row.FindControl("lblIdCliente");
+            String IdClienterefinado = Id_Cliente.Text;
+            recupera.Text = IdClienterefinado.ToString();
+
+            sombraMensaje.Visible = true;
+            mostrarMensaje2(((Label)row.FindControl("lblNombreC")).Text + " " + ((Label)row.FindControl("lblApellidoP")).Text + " " + ((Label)row.FindControl("lblApellidoM")).Text + "?");
+        }
+
+        public void mostrarMensaje2(String Nombre)
+        {
+            lblPregunta2.Text = Nombre.ToUpper() + "";
+
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+            divFormularioG.Visible = false;
+            divFormularioP.Visible = false;
+            divFormBusqCl.Visible = false;
+            divMensaje.Visible = false;
+            divmensaje2.Visible = true;
+            BAceptar.Visible = true;
+            BCancelar.Visible = true;
+        }
+
+        protected void BCancelar_Click(object sender, EventArgs e)
+        {
+            divMensaje.Visible = false;
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+            divmensaje2.Visible = false;
+            BAceptar.Visible = false;
+            BCancelar.Visible = false;
+        }
+
+        protected void BAceptar_Click(object sender, EventArgs e)
+        {
+            String idcliente = recupera.Text;
+            String resultado = connMysql.ReactivaCliente(idcliente, connMysql.traerIDEmpleado(Session["usuario"].ToString()));
+
+            sombraMensaje.Visible = true;
+            divmensaje2.Visible = false;
+            mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente reactivado exitosamente" : resultado));
+
+            cargaClientesE("");
+        }
+
+        #endregion
+
         public Boolean SesionViva()
         {
             Boolean vive = true;
@@ -2232,6 +2892,28 @@ namespace SistemaFarmacia
 
             return vive;
         }
+        
 
+        protected void gvClientes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
+                Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
+
+                try
+                {
+                    etiquetaFechaN.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("dd/MM/yyyy");
+                }
+                catch { }
+
+                try
+                {
+                    etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
+                }
+                catch { }
+            }
+
+        }
     }
 }
