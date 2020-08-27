@@ -884,6 +884,25 @@
     margin:0 1px;
 }
 
+.AddDatosF{
+    padding: 5px 10px;
+}
+
+.divBtnDatosF{
+    float: left;
+    display: block;
+    margin: 0 6px;
+}
+
+.ddlFactura{
+    float: left;
+}
+
+.AddDatosF:hover {
+    color: #d0d0d0;
+}
+
+
 
 @media (min-width: 768px) {
     .gridview {

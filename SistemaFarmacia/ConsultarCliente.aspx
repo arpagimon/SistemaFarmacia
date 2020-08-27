@@ -134,14 +134,17 @@
                         <div class="col px-2">
                             <div class="form-group">
                                 <label>Factura:</label>
-                                <asp:DropDownList runat="server" CssClass="form-control InpMediano" OnSelectedIndexChanged="ddlFactura_SelectedIndexChanged" AutoPostBack="true" ID="ddlFactura">
+                                <asp:DropDownList runat="server" CssClass="form-control InpChico ddlFactura" OnSelectedIndexChanged="ddlFactura_SelectedIndexChanged" AutoPostBack="true" ID="ddlFactura">
                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                 </asp:DropDownList>
+                                <div id="divBtnDatosF" class="divBtnDatosF" runat="server" visible="false">
+                                    <asp:LinkButton ID="btnAddDatosF" ToolTip="Añadir datos de facturación" OnClick="btnAddDatosF_Click" CssClass="btnAgrClienteG AddDatosF" runat="server" Text="<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>" />
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="row justify-content-start" id="divDatosFactura" visible="false" runat="server">
+                    <%--<div class="row justify-content-start" id="divDatosFactura" visible="false" runat="server">
                         
                         <div class="col-12 px-2">
                             <div class="form-group">
@@ -173,7 +176,7 @@
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtDirFiscal" CssClass="form-control" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
-                    </div>
+                    </div>--%>
                     <div class="row justify-content-start">
                         <div class="col px-2">
                             <div class="form-group">
@@ -253,7 +256,109 @@
             </asp:Panel>
         </div>
 
+        <div id="divMensajeDF" class="FormGerente" runat="server" visible="false">
+            <div id="MDFCabecera" class="FCabecera">
+                <label id="MDFTitulo">Cliente - Datos de Facturación</label>
+            </div>
+            <div id="MDFContenido">
+                <div class="row">
+                    <div class="col-12 px-2">
+                            <div class="form-group">
+                                <label>Nombre o Razón Social</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtNombRDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                            </div>
+                    </div>
 
+                    <div class="col-4 px-2">
+                        <div class="form-group">
+                            <label>RFC</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtRfcDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                                
+                        </div>
+                    </div>
+                    <div class="col-4 px-2">
+                        <div class="form-group">
+                            <label>Entidad</label>
+                            <asp:DropDownList runat="server" CssClass="form-control" ID="ddlEntidadDFa">
+                                <asp:ListItem Value="1" Text="Persona moral"></asp:ListItem>
+                                <asp:ListItem Value="0" Text="Persona física"></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 px-2">
+                        <hr style="color:#e0e0e0" />
+                        <h5>Dirección Fiscal</h5>
+                    </div>
+                    <div class="col-4 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">Calle</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCalleDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                        </div>
+                    </div>   
+                    <div class="col-3 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">No. Exterior</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtNoExtDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                        </div>
+                    </div>                         
+                    <div class="col-3 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">No. Interior</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtNoIntDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="col-4 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">Colonia</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtColoniaDFa" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="col-4 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">Estado</label>
+                            <asp:DropDownList OnSelectedIndexChanged="ddlEstadoDFa_SelectedIndexChanged" AutoPostBack="true" runat="server" CssClass="form-control " ID="ddlEstadoDFa">
+                        </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="col-4 px-2" id="divMunicipioDFa" runat="server">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">Municipio</label>
+                            <asp:DropDownList runat="server" CssClass="form-control " ID="ddlMunicipioDFa" Enabled="false">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="col-4 px-2" id="divPaisDFa" runat="server" visible="false">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">País</label>
+                            <asp:DropDownList runat="server" CssClass="form-control InpGrande" ID="ddlPaisDFa">
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="col-3 px-2">
+                        <div class="form-group">
+                            <label class="FGEtiqueta">Código Postal</label>
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCPdfA" CssClass="form-control" AutoComplete="off"></asp:TextBox>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                        <div class="col-6 px-2">
+                            <div class="form-group">
+                                <asp:Label runat="server" ID="lblErrorDF" CssClass="lblError"></asp:Label>
+                            </div>
+                        </div>
+                    </div>
+                <div class="row justify-content-center">
+                    <div class="col px-2 text-center FBotonera">
+                        <asp:Button runat="server" ID="btnCancelaDF" CssClass="FGBoton" Text="Cancelar" OnClick="FGCancelarDF_Click" />
+                        <asp:Button runat="server" ID="btnLimpiaDF" CssClass="FGBoton" Text="Limpiar" OnClick="btnLimpiarDF_Click" />
+                        <asp:Button runat="server" ID="btnGuardaDF" CssClass="FGBoton" Text="Aceptar" OnClick="FGAgregarDF_Click" />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </asp:Content>
 
@@ -410,11 +515,51 @@
                             <asp:Label runat='server' ID='lblEntidad' CssClass="lblGerentes" Text='<%# Bind("ENTIDAD") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Dirección fiscal" HeaderStyle-Width="20%" SortExpression="Dir_factura" Visible="false">
+                    <asp:TemplateField HeaderText="Calle" HeaderStyle-Width="20%" SortExpression="calle_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblCalleF' CssClass="lblGerentes" Text='<%# Bind("CALLE_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="No. Interior" HeaderStyle-Width="20%" SortExpression="nointerior_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblNoInteriorF' CssClass="lblGerentes" Text='<%# Bind("NOINTERIOR_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="No. Exterior" HeaderStyle-Width="20%" SortExpression="noexterior_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblNoExteriorF' CssClass="lblGerentes" Text='<%# Bind("NOEXTERIOR_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Colonia" HeaderStyle-Width="20%" SortExpression="colonia_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblColoniaF' CssClass="lblGerentes" Text='<%# Bind("COLONIA_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="CP" HeaderStyle-Width="20%" SortExpression="cp_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblCPf' CssClass="lblGerentes" Text='<%# Bind("CP_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Estado" HeaderStyle-Width="20%" SortExpression="estado_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblEstadoF' CssClass="lblGerentes" Text='<%# Bind("ESTADO_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Municipio" HeaderStyle-Width="20%" SortExpression="municipio_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblMunicipioF' CssClass="lblGerentes" Text='<%# Bind("MUNICIPIO_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="País" HeaderStyle-Width="20%" SortExpression="pais_dirf" Visible="false">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblPaisF' CssClass="lblGerentes" Text='<%# Bind("PAIS_DIRF") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <%--<asp:TemplateField HeaderText="Dirección fiscal" HeaderStyle-Width="20%" SortExpression="Dir_factura" Visible="false">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblDirFactura' CssClass="lblGerentes" Text='<%# Bind("DIR_FACTURA") %>'></asp:Label>
                         </ItemTemplate>
-                    </asp:TemplateField>
+                    </asp:TemplateField>--%>
                     <%--<asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />--%>
 
                 </Columns>

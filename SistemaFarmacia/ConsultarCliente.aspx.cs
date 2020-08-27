@@ -87,6 +87,9 @@ namespace SistemaFarmacia
                         cargaClientes();
                         llenaEstados();
                         llenaPaises();
+                        llenaEstadosDFa();
+                        llenaPaisesDFa();
+
                         master.cambiarLblTitle("<img src='Imagenes/CLIENTE.png' alt='clientes'><h1>Clientes</h1>");
                     }
                 }
@@ -317,8 +320,18 @@ namespace SistemaFarmacia
 
             Label RFC = (Label)row.FindControl("lblRfc");
             Label Entidad = (Label)row.FindControl("lblEntidad");
-            Label DirFiscal = (Label)row.FindControl("lblDirFactura");
+            //Label DirFiscal = (Label)row.FindControl("lblDirFactura");
             Label NomRazon = (Label)row.FindControl("lblNomRazon");
+
+            Label Calle = (Label)row.FindControl("lblCalleF");
+            Label NoInterior = (Label)row.FindControl("lblNoInteriorF");
+            Label NoExterior = (Label)row.FindControl("lblNoExteriorF");
+            Label Colonia = (Label)row.FindControl("lblColoniaF");
+            Label EstadoF = (Label)row.FindControl("lblEstadoF");
+            Label MunicipioF = (Label)row.FindControl("lblMunicipioF");
+            Label PaisF = (Label)row.FindControl("lblPaisF");
+            Label CPF = (Label)row.FindControl("lblCPf");
+
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(true);
@@ -394,24 +407,73 @@ namespace SistemaFarmacia
             ddlEstatus.SelectedIndex = (Estatus.Text == "Activo" ? 0 : 1);
             ddlFactura.SelectedIndex = (R_Factura.Text == "Sí" ? 0 : 1);
 
-            if (R_Factura.Text == "Sí")
-            {
-                divDatosFactura.Visible = true;
-            }
-            txtNmR.Text = NomRazon.Text;
-            ddlEntidad.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
-            txtRfc.Text = RFC.Text;
-            txtDirFiscal.Text = DirFiscal.Text;
+            //if (R_Factura.Text == "Sí")
+            //{
+            //    divDatosFactura.Visible = true;
+            //}
+            //txtNmR.Text = NomRazon.Text;
+            //ddlEntidad.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
+            //txtRfc.Text = RFC.Text;
+            //txtDirFiscal.Text = DirFiscal.Text;
 
-            if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
-            {
-                ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
-            }
+            //if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
+            //{
+            //    ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
+            //}
 
             if (ddlFactura.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
             {
                 ddlFactura.Items.RemoveAt(ddlFactura.Items.IndexOf(new ListItem("Todos", "-1")));
             }
+
+            if (R_Factura.Text == "Sí")
+            {
+                divBtnDatosF.Visible = true;
+            }
+            btnAddDatosF.Text = "<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-pencil' aria-hidden='true'></i>";
+            btnAddDatosF.ToolTip = "Editar datos de facturación";
+            txtNombRDFa.Text = NomRazon.Text;
+            ddlEntidadDFa.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
+            txtRfcDFa.Text = RFC.Text;
+            txtCalleDFa.Text = Calle.Text;
+            txtNoExtDFa.Text = NoExterior.Text;
+            txtNoIntDFa.Text = NoInterior.Text;
+            txtColoniaDFa.Text = Colonia.Text;
+            txtCPdfA.Text = CPF.Text;
+
+            try
+            {
+                ddlEstadoDFa.SelectedValue = connMySql.traerIdEstado(EstadoF.Text.Trim());
+                if (EstadoF.Text != "--OTRO--")
+                {
+                    divMunicipioDFa.Visible = true;
+                    divPaisDFa.Visible = false;
+
+                    llenaMunicipioDFa(ddlEstadoDFa.SelectedValue);
+                    try
+                    {
+                        ddlMunicipioDFa.SelectedValue = MunicipioF.Text.Trim();
+                    }
+                    catch { }
+                }
+                else
+                {
+                    divMunicipioDFa.Visible = false;
+                    divPaisDFa.Visible = true;
+                    try
+                    {
+                        ddlPaisDFa.SelectedValue = PaisF.Text.Trim();
+                        divPaisDFa.Visible = true;
+                        divMunicipioDFa.Visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            catch { }
+
         }
 
         protected void gvGerentes_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -471,15 +533,42 @@ namespace SistemaFarmacia
                 TxtFechaN.Attributes.Remove("style");
                 TxtEmail.Attributes.Remove("style");
                 ddlPais.Attributes.Remove("style");
+                btnAddDatosF.Attributes.Remove("style");
+                txtNombRDFa.Attributes.Remove("style");
+                txtRfcDFa.Attributes.Remove("style");
+                txtCalleDFa.Attributes.Remove("style");
+                txtNoExtDFa.Attributes.Remove("style");
+                txtNoIntDFa.Attributes.Remove("style");
+                txtColoniaDFa.Attributes.Remove("style");
+                ddlEstadoDFa.Attributes.Remove("style");
+                ddlMunicipioDFa.Attributes.Remove("style");
+                ddlPaisDFa.Attributes.Remove("style");
+                ddlEntidadDFa.Attributes.Remove("style");
+                txtCPdfA.Attributes.Remove("style");
             }
             catch { }
 
-            ddlEntidad.SelectedIndex = 0;
-            txtDirFiscal.Text = "";
+            //ddlEntidad.SelectedIndex = 0;
+            //txtDirFiscal.Text = "";
             ddlFactura.SelectedIndex = 1;
-            txtNmR.Text = "";
-            txtRfc.Text = "";
-            divDatosFactura.Visible = false;
+            //txtNmR.Text = "";
+            //txtRfc.Text = "";
+            //divDatosFactura.Visible = false;
+
+            divBtnDatosF.Visible = false;
+            divPaisDFa.Visible = false;
+            divMunicipioDFa.Visible = true;
+            txtNombRDFa.Text = "";
+            txtRfcDFa.Text = "";
+            txtCalleDFa.Text = "";
+            txtNoExtDFa.Text = "";
+            txtNoIntDFa.Text = "";
+            txtColoniaDFa.Text = "";
+            ddlPaisDFa.SelectedIndex = -1;
+            ddlMunicipioDFa.SelectedIndex = -1;
+            ddlEstadoDFa.SelectedIndex = -1;
+            ddlEntidadDFa.SelectedIndex = 1;
+            txtCPdfA.Text = "";
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
@@ -640,38 +729,129 @@ namespace SistemaFarmacia
             String Dir_Factura = "";
             String NomRazon = "";
 
-            if (ddlFactura.SelectedValue == "1")
+            String CalleF = "";
+            String NoIntF = "";
+            String NoExtF = "";
+            String ColoniaF = "";
+            String CpF = "";
+            String EstadoF = "";
+            String MunicipioF = "";
+            String PaisF = "";
+
+            if (Req_Factura == "1")
             {
-                RFC = txtRfc.Text;
-                if (RFC == "")
+                Boolean pasaFactura = true;
+                RFC = txtRfcDFa.Text;
+                if (RFC.Trim().Length == 0)
                 {
-                    txtRfc.Attributes.Add("style", "border: 1px red solid;");
-                    pasa = false;
+                    txtRfcDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
                 }
                 else
                 {
-                    txtRfc.Attributes.Remove("style");
+                    txtRfcDFa.Attributes.Remove("style");
                 }
-                Entidad = ddlEntidad.SelectedItem.Text;
-                Dir_Factura = txtDirFiscal.Text;
-                if (Dir_Factura == "")
+                Entidad = ddlEntidadDFa.SelectedItem.Text;
+                NomRazon = txtNombRDFa.Text;
+                if (NomRazon.Trim().Length == 0)
                 {
-                    txtDirFiscal.Attributes.Add("style", "border: 1px red solid;");
-                    pasa = false;
-                }
-                else
-                {
-                    txtDirFiscal.Attributes.Remove("style");
-                }
-                NomRazon = txtNmR.Text;
-                if (NomRazon == "")
-                {
-                    txtNmR.Attributes.Add("style", "border: 1px red solid;");
-                    pasa = false;
+                    txtNombRDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
                 }
                 else
                 {
-                    txtNmR.Attributes.Remove("style");
+                    txtNombRDFa.Attributes.Remove("style");
+                }
+
+                CalleF = txtCalleDFa.Text;
+                if (CalleF.Trim().Length == 0)
+                {
+                    txtCalleDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCalleDFa.Attributes.Remove("style");
+                }
+
+                NoExtF = txtNoExtDFa.Text;
+                if (NoExtF.Trim().Length == 0)
+                {
+                    txtNoExtDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtNoExtDFa.Attributes.Remove("style");
+                }
+                NoIntF = txtNoIntDFa.Text;
+                //if (NoIntF.Trim().Length == 0)
+                //{
+                //    txtNoIntDFa.Attributes.Add("style", "border: 1px red solid;");
+                //    pasaFactura = false;
+                //}
+                //else
+                //{
+                //    txtNoIntDFa.Attributes.Remove("style");
+                //}
+                ColoniaF = txtColoniaDFa.Text;
+                if (ColoniaF.Trim().Length == 0)
+                {
+                    txtColoniaDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtColoniaDFa.Attributes.Remove("style");
+                }
+                CpF = txtCPdfA.Text;
+                if (CpF.Trim().Length == 0)
+                {
+                    txtCPdfA.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCPdfA.Attributes.Remove("style");
+                }
+                EstadoF = (ddlEstadoDFa.SelectedIndex < 1 ? "" : ddlEstadoDFa.Items[ddlEstadoDFa.SelectedIndex].Text);
+                if (EstadoF.Trim().Length == 0)
+                {
+                    ddlEstadoDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlEstadoDFa.Attributes.Remove("style");
+                }
+                MunicipioF = (ddlMunicipioDFa.SelectedIndex < 1 ? "" : ddlMunicipioDFa.Items[ddlMunicipioDFa.SelectedIndex].Text);
+                if ((EstadoF != "--OTRO--" ? (MunicipioF.Trim().Length == 0 || MunicipioF == "0") : false))
+                {
+                    ddlMunicipioDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlMunicipioDFa.Attributes.Remove("style");
+                }
+                PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPais.SelectedIndex].Text);
+                if ((EstadoF == "--OTRO--" ? (PaisF.Trim().Length == 0 || PaisF == "0") : false))
+                {
+                    ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlPaisDFa.Attributes.Remove("style");
+                }
+                if (pasaFactura)
+                {
+                    btnAddDatosF.Attributes.Remove("Style");
+                }
+                else
+                {
+                    pasa = false;
+                    btnAddDatosF.Attributes.Add("style", "border: 2px red solid;");
                 }
             }
 
@@ -681,8 +861,8 @@ namespace SistemaFarmacia
             if (pasa)
             {
                 lblError.Text = "";
-                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura,RFC,Entidad,Dir_Factura,NomRazon);
-                
+                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon);
+
                 //Limpia las opciones
                 TxtIdCliente.Text = "";
                 TxtNombre.Text = "";
@@ -705,13 +885,26 @@ namespace SistemaFarmacia
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
 
-                ddlEntidad.SelectedIndex = 0;
-                txtDirFiscal.Text = "";
-                txtRfc.Text = "";
-                txtNmR.Text = "";
+                //ddlEntidad.SelectedIndex = 0;
+                //txtDirFiscal.Text = "";
+                //txtRfc.Text = "";
+                //txtNmR.Text = "";
 
-                divDatosFactura.Visible = false;
-
+                //divDatosFactura.Visible = false;
+                txtNombRDFa.Text = "";
+                txtNoExtDFa.Text = "";
+                txtNoIntDFa.Text = "";
+                txtCalleDFa.Text = "";
+                txtRfcDFa.Text = "";
+                txtColoniaDFa.Text = "";
+                txtCPdfA.Text = "";
+                ddlEntidadDFa.SelectedValue = "1";
+                ddlEstadoDFa.SelectedIndex = -1;
+                ddlMunicipioDFa.SelectedIndex = -1;
+                ddlPaisDFa.SelectedIndex = -1;
+                divPaisDFa.Visible = false;
+                divMunicipioDFa.Visible = true;
+                divMensajeDF.Visible = false;
 
                 sombraMensaje.Visible = true;
                 mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente guardado exitosamente" : resultado));
@@ -762,6 +955,8 @@ namespace SistemaFarmacia
 
             ocultaRango();
             llenaEstados();
+            llenaEstadosDFa();
+
 
             if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
             {
@@ -805,16 +1000,32 @@ namespace SistemaFarmacia
             ddlEstatus.SelectedIndex = 0;
 
             ddlFactura.SelectedIndex = 1;
-            ddlEntidad.SelectedIndex = 0;
-            txtRfc.Text = "";
-            txtDirFiscal.Text = "";
-            txtNmR.Text = "";
-            divDatosFactura.Visible = false;
+            //ddlEntidad.SelectedIndex = 0;
+            //txtRfc.Text = "";
+            //txtDirFiscal.Text = "";
+            //txtNmR.Text = "";
+            //divDatosFactura.Visible = false;
 
-            if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
-            {
-                ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
-            }
+            //if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
+            //{
+            //    ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
+            //}
+
+            btnAddDatosF.Text = "<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>";
+            btnAddDatosF.ToolTip = "Editar datos de facturación";
+            txtNombRDFa.Text = "";
+            txtRfcDFa.Text = "";
+            ddlEntidadDFa.SelectedIndex = 1;
+            txtCalleDFa.Text = "";
+            txtNoIntDFa.Text = "";
+            txtNoExtDFa.Text = "";
+            txtColoniaDFa.Text = "";
+            ddlEstadoDFa.SelectedIndex = -1;
+            ddlMunicipioDFa.SelectedIndex = -1;
+            ddlPaisDFa.SelectedIndex = -1;
+            divPaisDFa.Visible = false;
+            divMunicipioDFa.Visible = true;
+            txtCPdfA.Text = "";
 
             if (ddlFactura.Items.IndexOf(new ListItem("Todos", "-1")) > 0)
             {
@@ -995,41 +1206,130 @@ namespace SistemaFarmacia
 
             String RFC = "";
             String Entidad = "";
-            String Dir_Fiscal = "";
+            //String Dir_Fiscal = "";
             String NomRazon = "";
+            String CalleF = "";
+            String NoExtF = "";
+            String NoIntF = "";
+            String ColoniaF = "";
+            String CpF = "";
+            String EstadoF = "";
+            String MunicipioF = "";
+            String PaisF = "";
+
+            Boolean pasaFactura = true;
             if (Req_Factura == "1")
             {
-                RFC = txtRfc.Text;
+                RFC = txtRfcDFa.Text;
                 if (RFC.Trim().Length == 0)
                 {
-                    txtRfc.Attributes.Add("Style", "border: red 1px solid;");
-                    Pasa = false;
+                    txtRfcDFa.Attributes.Add("Style", "border: red 1px solid;");
+                    pasaFactura = false;
                 }
                 else
                 {
-                    txtRfc.Attributes.Remove("Style");
+                    txtRfcDFa.Attributes.Remove("Style");
                 }
-                Entidad = ddlEntidad.SelectedItem.Text;
-                Dir_Fiscal = txtDirFiscal.Text;
-                if (Dir_Fiscal.Trim().Length == 0)
-                {
-                    txtDirFiscal.Attributes.Add("Style", "border: red 1px solid;");
-                    Pasa = false;
-                }
-                else
-                {
-                    txtDirFiscal.Attributes.Remove("Style");
-                }
-                NomRazon = txtNmR.Text;
+                Entidad = ddlEntidadDFa.SelectedItem.Text;
+                NomRazon = txtNombRDFa.Text;
                 if (NomRazon.Trim().Length == 0)
                 {
-                    txtNmR.Attributes.Add("Style", "border: red 1px solid;");
-                    Pasa = false;
+                    txtNombRDFa.Attributes.Add("Style", "border: red 1px solid;");
+                    pasaFactura = false;
                 }
                 else
                 {
-                    txtNmR.Attributes.Remove("Style");
+                    txtNombRDFa.Attributes.Remove("Style");
                 }
+                CalleF = txtCalleDFa.Text;
+                if (CalleF.Trim().Length == 0)
+                {
+                    txtCalleDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCalleDFa.Attributes.Remove("style");
+                }
+                NoExtF = txtNoExtDFa.Text;
+                if (NoExtF.Trim().Length == 0)
+                {
+                    txtNoExtDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtNoExtDFa.Attributes.Remove("style");
+                }
+                NoIntF = txtNoIntDFa.Text;
+                //if (NoIntF.Trim().Length == 0)
+                //{
+                //    txtNoIntDFa.Attributes.Add("style", "border: 1px red solid;");
+                //    pasaFactura = false;
+                //}
+                //else
+                //{
+                //    txtNoIntDFa.Attributes.Remove("style");
+                //}
+                ColoniaF = txtColoniaDFa.Text;
+                if (ColoniaF.Trim().Length == 0)
+                {
+                    txtColoniaDFa.Attributes.Add("style", "border: 1px red solid;");
+                    Pasa = pasaFactura;
+                }
+                else
+                {
+                    txtColoniaDFa.Attributes.Remove("style");
+                }
+                CpF = txtCPdfA.Text;
+                if (CpF.Trim().Length == 0)
+                {
+                    txtCPdfA.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCPdfA.Attributes.Remove("style");
+                }
+                EstadoF = (ddlEstadoDFa.SelectedIndex < 1 ? "" : ddlEstadoDFa.Items[ddlEstadoDFa.SelectedIndex].Text);
+                if (EstadoF.Trim().Length == 0)
+                {
+                    ddlEstadoDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlEstadoDFa.Attributes.Remove("style");
+                }
+                MunicipioF = (ddlMunicipioDFa.SelectedIndex < 1 ? "" : ddlMunicipioDFa.Items[ddlMunicipioDFa.SelectedIndex].Text);
+                if (Estado != "--OTRO--" ? (Municipio.Trim().Length == 0 || Municipio == "0") : false)
+                {
+                    ddlMunicipioDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlMunicipioDFa.Attributes.Remove("style");
+                }
+                PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPaisDFa.SelectedIndex].Text);
+                if (Estado == "--OTRO--" ? (Pais.Trim().Length == 0 || Pais == "0") : false)
+                {
+                    ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlPaisDFa.Attributes.Remove("style");
+                }
+            }
+            if (pasaFactura)
+            {
+                btnAddDatosF.Attributes.Remove("Style");
+            }
+            else
+            {
+                Pasa = false;
+                btnAddDatosF.Attributes.Add("Style", "border: red 1px solid;");
             }
 
 
@@ -1037,7 +1337,7 @@ namespace SistemaFarmacia
             {
                 lblError.Text = "";
 
-                String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Env_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, Dir_Fiscal, NomRazon);
+                String resultado = connMySql.ActualizaCliente(IDCliente, Nombre, ApellidoP, ApellidoM, Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Env_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon);
 
                 sombraMensaje.Visible = true;
                 mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente actualizado exitosamente" : resultado));
@@ -1062,12 +1362,20 @@ namespace SistemaFarmacia
                 ddlPais.SelectedIndex = -1;
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
-                ddlEntidad.SelectedIndex = 0;
-
-                txtDirFiscal.Text = "";
-                txtRfc.Text = "";
-                txtNmR.Text = "";
-                divDatosFactura.Visible = false;
+                txtNombRDFa.Text = "";
+                txtNoExtDFa.Text = "";
+                txtNoIntDFa.Text = "";
+                txtCalleDFa.Text = "";
+                txtRfcDFa.Text = "";
+                txtColoniaDFa.Text = "";
+                txtCPdfA.Text = "";
+                ddlEntidadDFa.SelectedValue = "1";
+                ddlEstadoDFa.SelectedIndex = -1;
+                ddlMunicipioDFa.SelectedIndex = -1;
+                ddlPaisDFa.SelectedIndex = -1;
+                divPaisDFa.Visible = false;
+                divMunicipioDFa.Visible = true;
+                divMensajeDF.Visible = false;
 
                 gvGerentes.EditIndex = -1;
                 cargaClientes();
@@ -1217,25 +1525,7 @@ namespace SistemaFarmacia
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " req_factura like '%" + ddlFactura.SelectedValue.Trim() + "%' ";
                 }
-                if (txtDirFiscal.Text.Trim().Length > 0)
-                {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " dir_factura like '%" + txtDirFiscal.Text.Trim() + "%' ";
-                }
-                if (ddlEntidad.SelectedValue != "-1")
-                {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " entidad like '%" + ddlEntidad.SelectedItem.Text.Trim() + "%' ";
-                }
-                if (txtRfc.Text.Trim().Length > 0)
-                {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " rfc like '%" + txtRfc.Text.Trim() + "%' ";
-                }
-                if (txtNmR.Text.Trim().Length > 0)
-                {
-                    condicion += (condicion.Length > 0 ? " and " : "") + " NombRazon_factura like '%" + txtNmR.Text.Trim() + "%' ";
-                }
-
-
-
+                
 
                 if (pasa)
                 {
@@ -1351,11 +1641,11 @@ namespace SistemaFarmacia
                     ddlFactura.SelectedValue = "-1";
                 }
 
-                if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
-                {
-                    ddlEntidad.Items.Add(new ListItem("Todos", "-1"));
-                    ddlEntidad.SelectedValue = "-1";
-                }
+                //if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
+                //{
+                //    ddlEntidad.Items.Add(new ListItem("Todos", "-1"));
+                //    ddlEntidad.SelectedValue = "-1";
+                //}
 
                 MasterFarmacia master = (MasterFarmacia)this.Master;
                 master.mostrarMensaje(true);
@@ -1627,9 +1917,16 @@ namespace SistemaFarmacia
             Label R_Factura = (Label)row.FindControl("lblFactura");
             Label RFC = (Label)row.FindControl("lblRfc");
             Label Entidad = (Label)row.FindControl("lblEntidad");
-            Label DirFiscal = (Label)row.FindControl("lblDirFactura");
+            
             Label NomRazon = (Label)row.FindControl("lblNomRazon");
-
+            Label Calle = (Label)row.FindControl("lblCalleF");
+            Label NoInterior = (Label)row.FindControl("lblNoInteriorF");
+            Label NoExterior = (Label)row.FindControl("lblNoExteriorF");
+            Label Colonia = (Label)row.FindControl("lblColoniaF");
+            Label EstadoF = (Label)row.FindControl("lblEstadoF");
+            Label MunicipioF = (Label)row.FindControl("lblMunicipioF");
+            Label PaisF = (Label)row.FindControl("lblPaisF");
+            Label CPF = (Label)row.FindControl("lblCPf");
 
             MasterFarmacia master = (MasterFarmacia)this.Master;
             master.mostrarMensaje(true);
@@ -1704,13 +2001,13 @@ namespace SistemaFarmacia
 
             if (R_Factura.Text == "Sí")
             {
-                divDatosFactura.Visible = true;
+                divBtnDatosF.Visible = true;
             }
 
-            if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
-            {
-                ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
-            }
+            //if (ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
+            //{
+            //    ddlEntidad.Items.RemoveAt(ddlEntidad.Items.IndexOf(new ListItem("Todos", "-1")));
+            //}
 
             if (ddlFactura.Items.IndexOf(new ListItem("Todos", "-1")) > -1)
             {
@@ -1718,10 +2015,10 @@ namespace SistemaFarmacia
             }
 
 
-            ddlEntidad.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
-            txtDirFiscal.Text = DirFiscal.Text;
-            txtRfc.Text = RFC.Text;
-            txtNmR.Text = NomRazon.Text;
+            //ddlEntidad.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
+            //txtDirFiscal.Text = DirFiscal.Text;
+            //txtRfc.Text = RFC.Text;
+            //txtNmR.Text = NomRazon.Text;
 
             TxtNombre.Enabled = false;
             TxtApellidoM.Enabled = false;
@@ -1743,10 +2040,68 @@ namespace SistemaFarmacia
             ddlEnviarCorreo.Enabled = false;
             ddlFactura.Enabled = false;
 
-            ddlEntidad.Enabled = false;
-            txtDirFiscal.Enabled = false;
-            txtRfc.Enabled = false;
-            txtNmR.Enabled = false;
+            txtRfcDFa.Enabled = false;
+            txtNombRDFa.Enabled = false;
+            txtCalleDFa.Enabled = false;
+            txtNoIntDFa.Enabled = false;
+            txtNoExtDFa.Enabled = false;
+            txtColoniaDFa.Enabled = false;
+            ddlEstadoDFa.Enabled = false;
+            ddlMunicipioDFa.Enabled = false;
+            ddlPaisDFa.Enabled = false;
+            txtCPdfA.Enabled = false;
+            ddlEntidadDFa.Enabled = false;
+            
+
+            //ddlEntidad.Enabled = false;
+            //txtDirFiscal.Enabled = false;
+            //txtRfc.Enabled = false;
+            //txtNmR.Enabled = false;
+
+            btnAddDatosF.Text = "<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-eye' aria-hidden='true'></i>";
+            btnAddDatosF.ToolTip = "Ver datos de facturación";
+            txtNombRDFa.Text = NomRazon.Text;
+            ddlEntidadDFa.SelectedIndex = (Entidad.Text == "Persona moral" ? 0 : 1);
+            txtRfcDFa.Text = RFC.Text;
+            txtCalleDFa.Text = Calle.Text;
+            txtNoExtDFa.Text = NoExterior.Text;
+            txtNoIntDFa.Text = NoInterior.Text;
+            txtColoniaDFa.Text = Colonia.Text;
+            txtCPdfA.Text = CPF.Text;
+
+            try
+            {
+                ddlEstadoDFa.SelectedValue = connMySql.traerIdEstado(EstadoF.Text.Trim());
+                if (EstadoF.Text != "--OTRO--")
+                {
+                    divMunicipioDFa.Visible = true;
+                    divPaisDFa.Visible = false;
+
+                    llenaMunicipioDFa(ddlEstadoDFa.SelectedValue);
+                    try
+                    {
+                        ddlMunicipioDFa.SelectedValue = MunicipioF.Text.Trim();
+                    }
+                    catch { }
+                }
+                else
+                {
+                    divMunicipioDFa.Visible = false;
+                    divPaisDFa.Visible = true;
+                    try
+                    {
+                        ddlPaisDFa.SelectedValue = PaisF.Text.Trim();
+                        divPaisDFa.Visible = true;
+                        divMunicipioDFa.Visible = false;
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
+            }
+            catch { }
+            ddlMunicipioDFa.Enabled = false;
         }
         
         public void HabilitaCampos()
@@ -1774,11 +2129,26 @@ namespace SistemaFarmacia
                 ddlFactura.Enabled = true;
 
                 ddlFactura.Enabled = true;
-                ddlEntidad.Enabled = true;
-                txtDirFiscal.Enabled = true;
-                txtRfc.Enabled = true;
-                txtNmR.Enabled = true;
-                divDatosFactura.Visible = false;
+                //ddlEntidad.Enabled = true;
+                //txtDirFiscal.Enabled = true;
+                //txtRfc.Enabled = true;
+                //txtNmR.Enabled = true;
+                //divDatosFactura.Visible = false;
+
+                divBtnDatosF.Visible = false;
+                ddlEntidadDFa.Enabled = true;
+                txtRfcDFa.Enabled = true;
+                txtNombRDFa.Enabled = true;
+                txtCalleDFa.Enabled = true;
+                txtNoIntDFa.Enabled = true;
+                txtNoExtDFa.Enabled = true;
+                txtColoniaDFa.Enabled = true;
+                ddlEstadoDFa.Enabled = true;
+                ddlMunicipioDFa.Enabled = false;
+                ddlPaisDFa.Enabled = true;
+                divMunicipioDFa.Visible = true;
+                divPaisDFa.Visible = false;
+                txtCPdfA.Enabled = true;
             }
         }
 
@@ -1832,12 +2202,239 @@ namespace SistemaFarmacia
         {
             if (ddlFactura.SelectedValue == "1")
             {
-                divDatosFactura.Visible = true;
+                //divDatosFactura.Visible = true;
+                if (FTitulo.Text == "Buscar clientes")
+                {
+                    divBtnDatosF.Visible = false;
+                }
+                else
+                {
+                    divBtnDatosF.Visible = true;
+                }
             }
             else
             {
-                divDatosFactura.Visible = false;
+                //divDatosFactura.Visible = false;
+                divBtnDatosF.Visible = false;
             }
         }
+
+        protected void btnAddDatosF_Click(object sender, EventArgs e)
+        {
+            divFormularioG.Visible = false;
+            divMensajeDF.Visible = true;
+            if (FTitulo.Text == "Detalle de cliente")
+            {
+                btnLimpiaDF.Visible = false;
+                btnGuardaDF.Visible = false;
+            }
+        }
+
+        protected void FGCancelarDF_Click(object sender, EventArgs e)
+        {
+            divFormularioG.Visible = true;
+            btnLimpiaDF.Visible = true;
+            divMensajeDF.Visible = false;
+            btnGuardaDF.Visible = true;
+        }
+
+        protected void btnLimpiarDF_Click(object sender, EventArgs e)
+        {
+            txtNombRDFa.Text = "";
+            txtNoExtDFa.Text = "";
+            txtNoIntDFa.Text = "";
+            txtCalleDFa.Text = "";
+            txtRfcDFa.Text = "";
+            txtColoniaDFa.Text = "";
+            txtCPdfA.Text = "";
+            ddlEntidadDFa.SelectedValue = "1";
+            ddlEstadoDFa.SelectedIndex = -1;
+            ddlMunicipioDFa.SelectedIndex = -1;
+            ddlPaisDFa.SelectedIndex = -1;
+            divPaisDFa.Visible = false;
+            divMunicipioDFa.Visible = true;
+        }
+
+        protected void FGAgregarDF_Click(object sender, EventArgs e)
+        {
+            Boolean pasa = true;
+            String NombreF = txtNombRDFa.Text;
+            String NoExtF = txtNoExtDFa.Text;
+            String NoIntF = txtNoIntDFa.Text;
+            String CalleF = txtCalleDFa.Text;
+            String RFCF = txtRfcDFa.Text;
+            String ColoniaF = txtColoniaDFa.Text;
+            String CPF = txtCPdfA.Text;
+            String EntidadF = ddlEntidadDFa.SelectedItem.Text; ;
+            String EstadoF = (ddlEstadoDFa.SelectedIndex < 1 ? "" : ddlEstadoDFa.Items[ddlEstadoDFa.SelectedIndex].Text);
+            String MunicipioF = (ddlMunicipioDFa.SelectedIndex < 1 ? "" : ddlMunicipioDFa.Items[ddlMunicipioDFa.SelectedIndex].Text);
+            String PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPaisDFa.SelectedIndex].Text);
+
+            if (NombreF.Trim().Length == 0)
+            {
+                txtNombRDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtNombRDFa.Attributes.Remove("style");
+            }
+            if (NoExtF.Trim().Length == 0)
+            {
+                txtNoExtDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtNoExtDFa.Attributes.Remove("style");
+            }
+            //if (NoIntF.Trim().Length == 0)
+            //{
+            //    txtNoIntDFa.Attributes.Add("style", "border: 1px red solid;");
+            //    pasa = false;
+            //}
+            //else
+            //{
+            //    txtNoIntDFa.Attributes.Remove("style");
+            //}
+            if (CalleF.Trim().Length == 0)
+            {
+                txtCalleDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtCalleDFa.Attributes.Remove("style");
+            }
+            if (RFCF.Trim().Length == 0)
+            {
+                txtRfcDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtRfcDFa.Attributes.Remove("style");
+            }
+            if (ColoniaF.Trim().Length == 0)
+            {
+                txtColoniaDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtColoniaDFa.Attributes.Remove("style");
+            }
+            if (CPF.Trim().Length == 0)
+            {
+                txtCPdfA.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtCPdfA.Attributes.Remove("style");
+            }
+            if (EntidadF.Trim().Length == 0)
+            {
+                ddlEntidadDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlEntidadDFa.Attributes.Remove("style");
+            }
+            if (EstadoF.Trim().Length == 0)
+            {
+                ddlEstadoDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlEstadoDFa.Attributes.Remove("style");
+            }
+
+
+            if ((EstadoF != "--OTRO--" ? (MunicipioF.Trim().Length == 0 || MunicipioF == "0") : false))
+            {
+                ddlMunicipioDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlMunicipioDFa.Attributes.Remove("style");
+            }
+
+            if ((EstadoF == "--OTRO--" ? (PaisF.Trim().Length == 0 || PaisF == "0") : false))
+            {
+                ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlPaisDFa.Attributes.Remove("style");
+            }
+
+            if (pasa)
+            {
+                lblErrorDF.Text = "";
+                divFormularioG.Visible = true;
+                //divDatosFactura.Visible = false;
+                divMensajeDF.Visible = false;
+                btnAddDatosF.Attributes.Remove("Style");
+            }
+            else
+            {
+                lblErrorDF.Text = "Favor de llenar los campos faltantes.";
+            }
+        }
+
+        public void ddlEstadoDFa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlEstadoDFa.SelectedValue == "33")
+            {
+                divMunicipioDFa.Visible = false;
+                divPaisDFa.Visible = true;
+
+                llenaPaisesDFa();
+            }
+            else
+            {
+                divMunicipioDFa.Visible = true;
+                divPaisDFa.Visible = false;
+                llenaMunicipioDFa(ddlEstadoDFa.SelectedValue);
+            }
+        }
+
+        public void llenaMunicipioDFa(String Estado)
+        {
+            ddlMunicipioDFa.Enabled = true;
+            ddlMunicipioDFa.DataTextField = "MUNICIPIO";
+            ddlMunicipioDFa.DataValueField = "MUNICIPIO";
+            ddlMunicipioDFa.DataSource = connMySql.traerMunicipio(Estado);
+            ddlMunicipioDFa.DataBind();
+            ddlMunicipioDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaEstadosDFa()
+        {
+            ddlEstadoDFa.DataTextField = "estado";
+            ddlEstadoDFa.DataValueField = "ID";
+            ddlEstadoDFa.DataSource = connMySql.traerEstado();
+            ddlEstadoDFa.DataBind();
+
+            ddlEstadoDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaPaisesDFa()
+        {
+            ddlPaisDFa.DataTextField = "pais";
+            ddlPaisDFa.DataValueField = "pais";
+            ddlPaisDFa.DataSource = connMySql.traerPaises();
+            ddlPaisDFa.DataBind();
+
+            ddlPaisDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+
+
     }
 }
