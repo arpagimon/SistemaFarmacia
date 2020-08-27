@@ -1,13 +1,12 @@
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\SistemaFarmacia.dll.config
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\SistemaFarmacia.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\SistemaFarmacia.pdb
-C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\DayPilot.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\MySql.Data.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\Google.Protobuf.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\BouncyCastle.Crypto.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\Ubiety.Dns.Core.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\Renci.SshNet.dll
-C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\DayPilot.xml
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\bin\MySql.Data.xml
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.dll
 C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.pdb
+C:\Users\UNYII\source\repos\Sistema_Farmacia\SistemaFarmacia\SistemaFarmacia\obj\Debug\SistemaFarmacia.csprojResolveAssemblyReference.cache

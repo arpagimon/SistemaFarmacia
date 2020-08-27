@@ -16,22 +16,10 @@ namespace SistemaFarmacia
         {
             if (!IsPostBack)
             {
-
-                //calendario.HeightSpec = DayPilot.Web.Ui.Enums.HeightSpecEnum.Full;
-                //calendario.Days = 7;
                 CargarCitas("1","08");
             }
         }
-
-        protected void calendario_EventClick(object sender, DayPilot.Web.Ui.Events.EventClickEventArgs e)
-        {
-
-        }
-
-        protected void calendario_BeforeEventRender(object sender, DayPilot.Web.Ui.Events.Calendar.BeforeEventRenderEventArgs e)
-        {
-
-        }
+        
 
         public void CargarCitas(String Doctor, String Mes)
         {
@@ -45,11 +33,11 @@ namespace SistemaFarmacia
                 {
                     if(eventos.Length > 1)
                     {
-                        eventos += ",{id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "', Nombre='" + dRow["nombre"].ToString() + "', ApellidoPaterno:'" + dRow["apellido_paterno "].ToString() + "', ApellidoMaterno:'" + dRow["apellido_materno "].ToString() + "'}";
                     }
                     else
                     {
-                        eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() +" "+ dRow["apellido_paterno"].ToString() +" "+ dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "', Nombre='"+ dRow["nombre"].ToString() +"', ApellidoPaterno:'"+ dRow["apellido_paterno "].ToString()+ "', ApellidoMaterno:'" + dRow["apellido_materno "].ToString() + "'}";
                     }
                 }
             }
@@ -59,26 +47,13 @@ namespace SistemaFarmacia
             ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + ");</script>", false);
         }
 
-        protected void calendario_EventAdd(object sender, DayPilot.Web.Ui.Events.Calendar.EventAddEventArgs e)
-        {
-
-        }
         protected void ButtonOK_Click(object sender, EventArgs e)
         {
             // do your job here
             //Modal.Close(this);
         }
 
-        protected void calendario_EventDoubleClick(object sender, DayPilot.Web.Ui.Events.EventClickEventArgs e)
-        {
-
-        }
-
-        protected void calendario_Command(object sender, DayPilot.Web.Ui.Events.CommandEventArgs e)
-        {
-
-        }
-
+        
         protected void btnCancelarCita_Click(object sender, EventArgs e)
         {
 

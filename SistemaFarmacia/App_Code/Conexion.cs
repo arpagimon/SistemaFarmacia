@@ -767,7 +767,7 @@ namespace SistemaFarmacia
 
         public DataSet traerCitasDoctor(String Mes, String Doctor)
         {
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, concat(nombre,' ', apellido_paterno, ' ', apellido_materno) nombre from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
         }
     }
 }
