@@ -14,8 +14,17 @@ namespace SistemaFarmacia
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            DatosCorreo datosCorreo_ = connMySql.ConsultaDatosCorreo();
+            DatosCorreo datosCorreo_ = null;
+            if (Session["TipoPreview"].ToString() == "mensual")
+            {
+                datosCorreo_ = connMySql.ConsultaDatosCorreo();
+            }
+            else
+            {
+                datosCorreo_ = connMySql.ConsultaDatosCorreoSelec();
+            }
 
+            
             divCorreo.InnerHtml = "<div style='solid 1px #eceff1'>"+
                 "<h2 style='font - weight: 400;'>" + datosCorreo_.SMTP_SUJETO + "</h2>" +
                 "<h3 style='font-weight: bold;font-size: .875rem;'>" + datosCorreo_.SMTP_CORREO+ "</h3>"+

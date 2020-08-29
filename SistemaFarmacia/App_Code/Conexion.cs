@@ -315,24 +315,17 @@ namespace SistemaFarmacia
         #region Usuario
         public DataSet TraerUsuarios(String condicion)
         {
-            return EjecutaQueryDS("select id_usuario, nombre, apellido_paterno, apellido_materno, usuario,descripcion as Perfil from " + esquema + ".empleado left join " + esquema + ".perfil on empleado.id_perfil = perfil.id_perfil  where empleado.estatus = 1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") + " order by nombre asc, apellido_paterno asc, apellido_materno asc");
+            return EjecutaQueryDS("select id_usuario, nombre, apellido_paterno, apellido_materno, usuario,descripcion as Perfil, medico from " + esquema + ".empleado left join " + esquema + ".perfil on empleado.id_perfil = perfil.id_perfil  where empleado.estatus = 1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") + " order by nombre asc, apellido_paterno asc, apellido_materno asc");
         }
 
-        //public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia)
-        //{
-        //    return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1')");
-        //}
-        public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, String Email, String Pregunta, String Respuesta)
+        public String GuardaUsuario(String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, String Email, String Pregunta, String Respuesta, String doctor)
         {
-            return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus, email, pregunta, respuesta) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1','" + Email + "','" + Pregunta + "','" + Respuesta + "')");
+            return EjecutaQueryInsert("Insert into " + esquema + ".empleado (nombre, apellido_paterno, apellido_materno, usuario, contraseña, id_perfil, estatus, email, pregunta, respuesta, medico) values('" + Nombre + "','" + ApellidoP + "','" + ApellidoM + "','" + Usuario + "','" + Contrasenia + "','" + Perfil + "','1','" + Email + "','" + Pregunta + "','" + Respuesta + "','" + doctor + "')");
         }
-        //public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña)
-        //{
-        //    return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + " where id_usuario = '" + id_usuario + "'");
-        //}
-        public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña, bool CambiaRespuesta, String Email, String Pregunta, String Respuesta)
+
+        public String ActualizaUsuario(String id_usuario, String Nombre, String ApellidoP, String ApellidoM, String Usuario, String Perfil, String Contrasenia, bool CambiaContraseña, bool CambiaRespuesta, String Email, String Pregunta, String Respuesta, String doctor)
         {
-            return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + ", email = '" + Email + "', pregunta = '" + Pregunta + "'" + (CambiaRespuesta ? ", respuesta = '" + Respuesta + "'" : "") + " where id_usuario = '" + id_usuario + "'");
+            return EjecutaQueryInsert("Update " + esquema + ".empleado set nombre = '" + Nombre + "', apellido_paterno = '" + ApellidoP + "', apellido_materno='" + ApellidoM + "', usuario='" + Usuario + "', id_perfil='" + Perfil + "' " + (CambiaContraseña ? ", contraseña = '" + Contrasenia + "'" : "") + ", email = '" + Email + "', pregunta = '" + Pregunta + "'" + (CambiaRespuesta ? ", respuesta = '" + Respuesta + "'" : "") + ", medico = '" + doctor + "' where id_usuario = '" + id_usuario + "'");
         }
         public DataSet TraerPerfilesddl(String condicion)
         {
@@ -724,6 +717,13 @@ namespace SistemaFarmacia
 
         #endregion
         #endregion
+
+
+
+
+
+
+
         public string ConsultarNombreUsuario(string usuario)
         {
             return EjecutaQueryString("select concat(nombre, ' ', apellido_paterno, ' ', apellido_materno) from " + esquema + ".empleado where usuario = '" + usuario + "'");
@@ -765,9 +765,202 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("update " + esquema + ".cliente set estatus = 1, Fecha_Modificacion = sysdate(), Id_Empleado_Modificacion = " + ID_Empleado + " where id_cliente = " + Id_Cliente);
         }
 
+
+
+
         public DataSet traerCitasDoctor(String Mes, String Doctor)
         {
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
+        }
+
+        public DataSet traerDatosCitas(String ID_Cita)
+        {
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(fecha,'%Y-%m-%d %H:%i:%s') fecha_cita, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, EMAIL, DATE_FORMAT(FECHA_NACIMIENTO,'%Y-%m-%d %H:%i:%s') Fecha_Nacimiento, ID_usuario, Citas.nota from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_Cita =" + ID_Cita  );
+        }
+        
+        public DataSet consultaMedico()
+        {
+            return EjecutaQueryDS("select id_usuario, concat(nombre, ' ', apellido_paterno, ' ', apellido_materno) Nombre from " + esquema + ".empleado  where estatus = 1 and medico = 1");
+        }
+
+        public String cancelarCita(String Id_Cita, String id_EmpleadoCancela)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".Citas set estatus_cita= '0', fecha_Modifica = sysdate(), ID_Empleado_Modifica='" + id_EmpleadoCancela + "' where id_cita = " + Id_Cita);
+        }
+
+        public String ActualizaCita(String Id_Cita, String id_EmpleadoActualiza, String Fecha_Cita, String Hora_inicio, String Hora_fin)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".Citas set fecha_Modifica = sysdate(), ID_Empleado_Modifica='" + id_EmpleadoActualiza + "', Fecha = '"+ Fecha_Cita + " 00:00:00', hora_inicio='" + Fecha_Cita + " " + Hora_inicio + "', hora_fin='" + Fecha_Cita + " " + Hora_fin + "' where id_cita = " + Id_Cita);
+        }
+
+        public String AgregarCita(String id_EmpleadoCrea, String Fecha_Cita, String Hora_inicio, String Hora_fin, String ID_Cliente, String Nota, String ID_Doctor)
+        {
+            return EjecutaQueryInsert("Insert into " + esquema + ".Citas(fecha_Modifica, ID_Empleado_Modifica, ID_Empleado_Crea, fecha_Crea, Fecha, hora_inicio, hora_fin, ID_Cliente, nota, ID_usuario)   values(sysdate(), '" + id_EmpleadoCrea + "', '" + id_EmpleadoCrea + "', sysdate(), '" + Fecha_Cita + " 00:00:00', '" + Fecha_Cita + " " + Hora_inicio + "', '" + Fecha_Cita + " " + Hora_fin + "'," + ID_Cliente + ",'" + Nota + "'," + ID_Doctor + ") ");
+        }
+
+
+
+
+
+
+        public DatosCorreo ConsultaDatosCorreoSelec()
+        {
+            DatosCorreo resultado = new DatosCorreo();
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select nombre, valor from " + esquema + ".configuracion ", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    while (mySqlDataReader.Read())
+                    {
+                        switch (mySqlDataReader.GetString(0))
+                        {
+                            case "SMTP_SSL":
+                                resultado.SMTP_SSL = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO":
+                                resultado.SMTP_CORREO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_PASS":
+                                resultado.SMTP_PASS = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_HOST":
+                                resultado.SMTP_HOST = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_PUERTO":
+                                resultado.SMTP_PUERTO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_SUJETO_S":
+                                resultado.SMTP_SUJETO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_MSJ_S":
+                                resultado.SMTP_MENSAJE = mySqlDataReader.GetString(1);
+                                break;
+                            case "ULTIMOENVIO":
+                                resultado.UltimoEnvio = mySqlDataReader.GetString(1);
+                                break;
+                            case "DIASANTESDEENVIO":
+                                resultado.DiasAntes = mySqlDataReader.GetString(1);
+                                break;
+                            case "IMGCORREO_S":
+                                resultado.SMTP_IMAGEN = mySqlDataReader.GetString(1);
+                                break;
+                            case "PRUEBAS":
+                                resultado.PRUEBAS = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO_PRUEBA":
+                                resultado.SMTP_CORREO_PRUEBA = mySqlDataReader.GetString(1);
+                                break;
+                            case "ENV_CORREO_A":
+                                resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_FIRMA_S":
+                                resultado.SMTP_FIRMA = mySqlDataReader.GetString(1);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                mySqlDataReader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+
+        public String ActualizaContCorreoSelec(DatosCorreo datoscorreo)
+        {
+            string resultado = "OK";
+            try
+            {
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_SUJETO + "' where nombre = 'SMTP_SUJETO_S'");
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_MENSAJE + "' where nombre = 'SMTP_MSJ_S'");
+                if (datoscorreo.SMTP_IMAGEN.Length > 0)
+                {
+                    EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_IMAGEN + "' where nombre = 'IMGCORREO_S'");
+                }
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_FIRMA + "' where nombre = 'SMTP_FIRMA_S'");
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = DATE_FORMAT(sysdate(),'%d-%m-%Y %H:%i:%s') where nombre = 'fechaCorreoCont'");
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.InnerException.Message;
+            }
+
+            return resultado;
+        }
+
+
+        public string GuardaDiasInhabilesSemana(string diasSemana)
+        {
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + diasSemana + "' WHERE NOMBRE='no_Inhabiles_Semana';");
+        }
+
+        public string GuardaHorarioLaboralA(string hora_Apertura)
+        {
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Apertura + "' WHERE NOMBRE='hora_Apertura';");
+        }
+        public string GuardaHorarioLaboralC(string hora_Cierre)
+        {
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Cierre + "' WHERE NOMBRE='hora_Cierre';");
+        }
+        public string GuardaFechasInhabiles(string FechasInhabiles)
+        {
+            return EjecutaQueryInsert("INSERT " + esquema + ".fechas_inhabiles(fechas_inhabiles)  values ('" + FechasInhabiles + "');");
+        }
+        public DataSet TraerFechaInhabiles()
+        {
+            return EjecutaQueryDS("SELECT fechas_inhabiles FROM " + esquema + ".fechas_inhabiles;");
+        }
+        public string TraerHrApertura()
+        {
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Apertura';");
+        }
+        public string TraerHrCierre()
+        {
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Cierre';");
+        }
+        public string TraerDiasSemana()
+        {
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'no_Inhabiles_Semana';");
+        }
+        public String EliminaFecha(String Fecha)
+        {
+            return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = '" + Fecha + "';");
+        }
+
+
+
+
+
+        public bool ValidaCitaCorreo()
+        {
+            return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where Fecha =  DATE_SUB(CURDATE(), INTERVAL -1 DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0 ;
+        }
+
+
+        public DataSet TraerClientesConCitaM()
+        {
+            return EjecutaQueryDS("Select ID_Cita, DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin, '%H:%i:%s') hora_fin, DATE_FORMAT(fecha, '%Y-%m-%d') fecha, cliente.ID_CLIENTE," +
+                " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
+                " where citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - 1 DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
+        }
+
+        public String ActualizaRecordatorio(int id_cita)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".citas set CorreoEnviado = '1' where ID_Cita = " + id_cita);
         }
     }
 }

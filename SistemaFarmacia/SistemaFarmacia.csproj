@@ -79,6 +79,7 @@
     <Content Include="Imagenes\add_cliente.png" />
     <Content Include="Imagenes\Administracion.png" />
     <Content Include="Imagenes\cargando-gif.gif" />
+    <Content Include="Imagenes\citas.png" />
     <Content Include="Imagenes\CLIENTE.png" />
     <Content Include="Imagenes\clientes.png" />
     <Content Include="Imagenes\Correo\1024_2000.jpg" />
@@ -181,6 +182,7 @@
     <Compile Include="Citas.aspx.designer.cs">
       <DependentUpon>Citas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Clases\DatosCita.cs" />
     <Compile Include="Clases\DatosCorreo.cs" />
     <Compile Include="Clases\EnviarCorreo.cs" />
     <Compile Include="Clases\ClientesCorreo.cs" />

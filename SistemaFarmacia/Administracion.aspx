@@ -9,8 +9,25 @@
         };
 
         function abrePreview() {
-            window.open('PreviewCorreo.aspx', 'Correo previo', 'location=no, toolbar=no, Top=0, Left=0');
+            var dualScreenLeft = window.screenLeft != undefined ? window.screenLeft : window.screenX;
+            var dualScreenTop = window.screenTop != undefined ? window.screenTop : window.screenY;
+
+            var width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+            var height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+            var w = 900;
+
+            var left = ((width / 2) - (w / 2)) + dualScreenLeft;
+            var top = dualScreenTop;
+            //window.open('PreviewCorreo.aspx', 'Correo previo', 'location=no, toolbar=no, Top=0, Left=0');
+            var windowPreview = window.open('PreviewCorreo.aspx', 'Correo previo', 'location=no, toolbar=no, width=' + w + ', height=' + height + ' Top=' + top + ', Left=' + left);
+
+            if (window.focus) {
+                windowPreview.focus();
+            }
         }
+
+
 
         function mostrarmensajejs() {
             try {
@@ -92,6 +109,12 @@
                 <br />
                 <label class="FGEtiqueta">Respuesta: </label>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" MaxLength="50" runat="server" ID="txtRespuestaS" CssClass="FGColumna2 FGInput"></asp:TextBox>
+                <br />
+                <label class="FGEtiqueta">Doctor: </label>
+                <asp:DropDownList runat="server" ID="ddlDoctor" CssClass="FGInput">
+                    <asp:ListItem Text="No" Value="0"></asp:ListItem>
+                    <asp:ListItem Text="Sí" Value="1"></asp:ListItem>
+                </asp:DropDownList>
                 <br />
                 <br />
                 <div id="FBotonera">
@@ -721,10 +744,14 @@
         <asp:Button runat="server" ID ="btnConfiguracionTecnica" OnClick="btnConfiguracionTecnica_Click" Text="Configuración técnica" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnConfiguracionCorreo" OnClick="btnConfiguracionCorreo_Click" Text="Configuración de correo" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnContenidCorreo" OnClick="btnContenidCorreo_Click" Text="Contenido de correo" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnContenidCorreoSelec" OnClick="btnContenidCorreoSelec_Click" Text="Contenido de correo selectivo" Visible="false" CssClass="subOpcion"/>
         <br />
         <asp:Button runat="server" ID ="btnEnvioCorreo" OnClick="btnEnvioCorreo_Click" Text="Envio selectivo de correo" Visible="true" />
         <br />
         <asp:Button runat="server" ID ="btnOpcionClientes" OnClick="btnOpcionClientes_Click" Text="Reactivar clientes" />
+        <br />
+        <asp:Button runat="server" ID="btnConfigCitas" OnClick="btnConfigCitas_Click" Text="Config. de citas" />
+        <br />
         <asp:Button runat="server" ID ="btnRegresar" OnClick="btnRegresar_Click" Text="Regresar" Visible="false"/>
     </div>
     <div class="main">
@@ -771,7 +798,11 @@
                                 <asp:Label runat='server' ID='lblPerfil' CssClass="lblGerentes" Text='<%# Bind("Perfil") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-
+                        <asp:TemplateField HeaderText="Doctor" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblDoctor' CssClass="lblGerentes" Text='<%# Bind("Medico") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />
 
                     </Columns>
@@ -816,6 +847,7 @@
                 <asp:Button runat="server" ID="btnActCorreoTecn" Text="Actualizar" OnClick="btnActCorreoTecn_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoConf" Text="Actualizar" OnClick="btnActCorreoConf_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoCont" Text="Actualizar" OnClick="btnActCorreoCont_Click" CssClass="btnAgrUsuarioG" />
+                <asp:Button runat="server" ID="btnActCorreoContSelec" Text="Actualizar" OnClick="btnActCorreoContSelec_Click" CssClass="btnAgrUsuarioG" />
                 <button runat="server" id="btnPreview" visible="false" class="btnAgrUsuarioG" onclick="abrePreview()">Preview</button>
             </div>
             <div id="divCorreo2">
@@ -908,12 +940,42 @@
                     </table>
                     <br />
                 </div>
+                <div runat="server" id="divCorreoContSelec">
+                    <div class="divCorreoTitulo"><h5>Contenido del correo selectivo</h5></div>
+                    <table class="tblParametros">
+                        <tr>
+                            <td style="width: 10%;"><label>Asunto:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtAsuntoSelec" CssClass="ParamInput"></asp:TextBox></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label>Mensaje:</label></td>
+                            <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMensaje" CssClass="ParamInput"></asp:TextBox>--%>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMsjSelec" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label>Imagen correo:</label></td>
+                            <td><%--<asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtImagen" CssClass="ParamInput" TextMode="Url" ></asp:TextBox>--%>
+                                <asp:FileUpload runat="server" ID="uploadImgSelec" CssClass="ParamInput"  accept="image/jpeg" />
+                                <asp:Label runat="server" ID="lblErrorSelec" CssClass="lblError"></asp:Label>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><label>Firma:</label></td>
+                            <td><asp:TextBox runat="server" ID="txtFirmaSelec" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <br />
+                </div>
             </div>
         </div>
 
         <div runat="server" id="divEnvioCorreo" class="divContenido2" visible="false">
             <div id="divEnvioCorreo1">
                 <div class="btnEnviarCorreo"><asp:CheckBox runat="server" ID="chkECSelectTodo" Text="Todos" OnCheckedChanged="chkECSelectTodo_CheckedChanged" AutoPostBack="true"/></div>
+                <asp:Button runat="server" ID="btnLimipiaS" CssClass="btnAgrClienteG" Text="Limpiar Selección" OnClick="btnLimpiaS_Click" Visible="false" />
                 <asp:Button runat="server" ID="btnEnviarCorreo" CssClass="btnEnviarCorreo" AutoPostBack="true" Text="Enviar correos" OnClick="btnEnviarCorreo_Click" Visible="true"></asp:Button>
                 <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
             </div>
@@ -1195,5 +1257,120 @@
                 </div>         
             </div>
         </div>
+
+        
+        <div runat="server" id="divConfigCitas" class="mx-5 px-5" visible="false">
+            <div class="divCorreo2">
+                <div class="divCorreoTitulo text-center">
+                    <h5>Configuración de citas</h5>
+                </div>
+                <div class=" container px-5 py-2">
+                    <div>
+                        <div class="row ">
+                            <div class="col-3">
+                                <div class="">
+                                    <label>Horario de atención :</label>
+                                    <input type="text" runat="server" id="actualHorario" disabled />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="">
+                                    <label>Hora de apertura :</label><br /><input type="time" value="07:30" runat="server" id="horaApertura" />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="">
+                                    <label>Hora de cierre :</label><br /><input type="time" value="19:30" id="horaCierre" runat="server" />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="">
+                                    <asp:Button runat="server" ID="yyyy" CssClass="btnAgrUsuarioG" Text="Actualizar" OnClick="btnActualizarCitasHrsSemana" />
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row ">
+                            <div class="col">
+                                Dias no hábiles
+                            </div>
+                            <div class="col-6">
+                                <div class="form-check form-check-inline">
+                                    <asp:CheckBox class="form-check-input" type="checkbox" ID="DiaCheckbox1" runat="server"></asp:CheckBox>
+                                    <label class="form-check-label" for="DiaCheckbox1">Lunes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox2" runat="server" value="option2">
+                                    <label class="form-check-label" for="DiaCheckbox2">Martes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox3" runat="server" value="option3">
+                                    <label class="form-check-label" for="DiaCheckbox3">Miercoles</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox4" runat="server" value="option1">
+                                    <label class="form-check-label" for="DiaCheckbox4">Jueves</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox5" runat="server" value="option1">
+                                    <label class="form-check-label" for="DiaCheckbox5">Viernes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox6" runat="server" value="option1">
+                                    <label class="form-check-label" for="DiaCheckbox6">Sábado</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="DiaCheckbox7" runat="server" value="option1">
+                                    <label class="form-check-label" for="DiaCheckbox7">Domingo</label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row ">
+                            <div class="col">
+                                <div>
+                                    Fechas inhábiles para citas:
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div>
+                                    <input type="date" id="nuevaFecha" runat="server" />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div>
+                                    <asp:Button runat="server" ID="xxxx" CssClass="btnAgrUsuarioG" Text="Agregar" OnClick="FAgregarFechasInhabiles" />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div id="FechaInhabiles">
+                                    <asp:GridView ID="TbFechas" runat="server" AllowPaging="true" PageSize="6" OnPageIndexChanging="TbFechas_PageIndexChanging" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                                        CssClass="gridview" CellPadding="5" Width="100%" OnRowDeleting="TbFechas_RowDeleting">
+                                        <AlternatingRowStyle BackColor="#f2f2f2" />
+                                        <RowStyle BackColor="#FFFFFF" />
+                                        <Columns>
+                                            <asp:TemplateField HeaderText="Fecha" HeaderStyle-Width="100%">
+                                                <ItemTemplate>
+                                                    <asp:Label runat='server' ID='lblIdFecha' CssClass="lblUsuario" Text='<%# Bind("fechas_inhabiles") %>'></asp:Label>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
+                                            <asp:CommandField ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="100%" />
+                                        </Columns>
+                                    </asp:GridView>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </asp:Content>

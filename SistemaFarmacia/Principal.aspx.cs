@@ -82,5 +82,10 @@ namespace SistemaFarmacia
         {
             Response.Redirect("ConsultarClienteMes.aspx");
         }
+
+        protected void Citas_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("Citas.aspx");
+        }
     }
 }

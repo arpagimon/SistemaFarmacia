@@ -18,6 +18,7 @@ namespace SistemaFarmacia
             if (!IsPostBack)
             {
                 //ValidaCorreo();
+                ValidaCitasManana();
 
                 Session.Clear();
 
@@ -306,6 +307,58 @@ namespace SistemaFarmacia
 
         }
 
+        public void ValidaCitasManana()
+        {
+            DatosCorreo dCorreo = conexion.ConsultaDatosCorreo();
 
+            //Se valida que sea momento de enviar recordatorio de las citas de mañana
+            if (conexion.ValidaCitaCorreo())
+            {
+
+                EnviarCorreo enviaCorreo = new EnviarCorreo();
+
+                DataSet datosCliente = conexion.TraerClientesConCitaM();
+
+                List<DatosCita> listaDatosCita = new List<DatosCita>();
+
+                foreach (DataRow dr in datosCliente.Tables[0].Rows)
+                {
+                    String id_cita = dr["ID_cita"].ToString();
+                    String id_cliente = dr["ID_CLIENTE"].ToString();
+                    String nombre_Cliente = dr["nombre"].ToString();
+                    String appaterno_cliente = dr["apellido_paterno"].ToString();
+                    String apmaterno_cliente = dr["apellido_materno"].ToString();
+                    String email = dr["email"].ToString();
+                    String fecha = dr["fecha"].ToString();
+                    String hora_in = dr["hora_inicio"].ToString();
+
+                    DatosCita citaTemporal = new DatosCita();
+                    citaTemporal.ID_Cliente = int.Parse(id_cliente);
+                    citaTemporal.ID_Cita = int.Parse(id_cita);
+                    citaTemporal.Nombre = nombre_Cliente;
+                    citaTemporal.ApMaterno = apmaterno_cliente;
+                    citaTemporal.ApPaterno = appaterno_cliente;
+                    citaTemporal.Correo = email;
+                    citaTemporal.Fecha = fecha;
+                    citaTemporal.Hora_Inicio = hora_in;
+
+                    listaDatosCita.Add(citaTemporal);
+
+                }
+                if (listaDatosCita.Count > 0)
+                {
+                    bool ok = enviaCorreo.EnviarRecordatorio(listaDatosCita);
+                    //if (ok && dCorreo.PRUEBAS == "0")
+                    //{
+                        foreach (DatosCita item in listaDatosCita)
+                        {
+                            //Marca que ya se evió el recordatorio al cliente
+                            conexion.ActualizaRecordatorio(item.ID_Cita);
+                        }
+                    //}
+                }
+            }
+
+        }
     }
 }

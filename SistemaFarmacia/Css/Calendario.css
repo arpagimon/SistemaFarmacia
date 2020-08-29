@@ -1,19 +1,26 @@
 ﻿.divCalendario {
-    width: 55%;
+    width: 65%;
+    
+    /*margin-left: calc(35% - 415px);*/
     height: 30%;
     /*float:right;*/
     background: white;
-    margin: 1% auto;
+    /*margin: 1% auto;*/
     padding: 1%;
+    vertical-align: top;
+    display: inline-block !important;
+
+    /*margin: 0px;*/
+
 }
 
 .sombra{
-    display: none;
+    /*display: none;*/
 }
 
 
 .FormGerente {
-    width: 600px;
+    width: 650px;
     border-radius: 15px;
     background: white;
     margin: auto;
@@ -68,7 +75,7 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 .InpExtGrande{
-    width: 300px;
+    width: 415px;
 }
 .InpGrande {
     width: 150px;
@@ -121,4 +128,123 @@
     display: inline-block;
     text-align: left;
     border: solid 1px rgb(170,170,170);
+}
+
+.divMensaje {
+    width: 500px;
+    background: white;
+    margin: auto;
+    margin-top: 3%;
+    z-index: 6;
+    position: relative;
+}
+
+
+
+
+#MCabecera{
+    /*background: rgb(68,84,106);*/
+    text-align: center;
+    /*color: white;
+    height: 30px;*/
+}
+
+#MTitulo{
+    font-family: Verdana;
+    vertical-align: sub;
+    font-size: 15px;
+    margin-top: 4px;
+}
+
+#MContenido{
+        
+    text-align: center;
+}
+
+.MBoton {
+    display: inline-block;
+    width: 40%;
+    font-size: 15px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px;
+    position: relative;
+    bottom: 10px;
+    margin: 20px auto 0px auto;
+}
+
+.lblMensaje {
+    margin: 10px;
+    display: inline-block;
+}
+
+
+.divSeleccionCliente{
+    text-align:center;
+}
+
+.divContenedorPrincipal{
+    background: white;
+    width: calc(55% + 550px);
+    margin: 1% auto;
+}
+
+.divCalendarioChico{
+    /*width: 34%;*/
+    height: 500px;
+    margin-left: 1%;
+    font-size:12px !important;
+    line-height:1;
+}
+
+#divIzquierdo{
+    width: fit-content;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.hDoctor{
+    margin-top:5%;
+}
+
+.ddlDoctor {
+    margin: 0% 1% 5%;
+    width: 98%;
+}
+
+
+
+.gridview2 {
+    border: none;
+    font-family: Verdana;
+    font-size: 12px;
+    border-color: white;
+
+}
+
+.gridview2 th {
+    color: white ;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-color: white;
+}
+
+.gridview2 th a{
+    color: white ;
+    margin: 0px;
+}
+
+.gridview2 tr {
+    border: none;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    text-align: center;
+    border-color: white;
+}
+
+.gridview2 td {
 }
