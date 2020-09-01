@@ -834,7 +834,7 @@ namespace SistemaFarmacia
                 {
                     ddlMunicipioDFa.Attributes.Remove("style");
                 }
-                PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPais.SelectedIndex].Text);
+                PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPaisDFa.SelectedIndex].Text);
                 if ((EstadoF == "--OTRO--" ? (PaisF.Trim().Length == 0 || PaisF == "0") : false))
                 {
                     ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
@@ -2164,13 +2164,10 @@ namespace SistemaFarmacia
                 String edad;
                 if (now.Month < before.Month)
                 {
-                    if (now.Day < before.Day)
-                    {
-                        age = age - 1;
-                        edad = age.ToString();
+                    age = age - 1;
+                    edad = age.ToString();
 
-                        TxtEdad.Text = edad;
-                    }
+                    TxtEdad.Text = edad;
                 }
                 else
                 {

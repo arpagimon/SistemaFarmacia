@@ -119,8 +119,8 @@
                             <div class="form-group">
                                 <label>Enviar Email</label>
                                 <asp:DropDownList runat="server" CssClass="form-control InpMediano" ID="ddlEnviarCorreo">
-                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                 </asp:DropDownList>
                             </div>
                         </div>
@@ -135,8 +135,8 @@
                             <div class="form-group">
                                 <label>Factura:</label>
                                 <asp:DropDownList runat="server" CssClass="form-control InpChico ddlFactura" OnSelectedIndexChanged="ddlFactura_SelectedIndexChanged" AutoPostBack="true" ID="ddlFactura">
-                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
+                                    <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                 </asp:DropDownList>
                                 <div id="divBtnDatosF" class="divBtnDatosF" runat="server" visible="false">
                                     <asp:LinkButton ID="btnAddDatosF" ToolTip="Añadir datos de facturación" OnClick="btnAddDatosF_Click" CssClass="btnAgrClienteG AddDatosF" runat="server" Text="<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>" />

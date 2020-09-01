@@ -20,7 +20,7 @@
 
 
 .FormGerente {
-    width: 650px;
+    width: 700px;
     border-radius: 15px;
     background: white;
     margin: auto;
@@ -247,4 +247,41 @@
 }
 
 .gridview2 td {
+}
+
+
+.ddlFormCliFactura{
+    display: inline-block;
+}
+
+
+.AddDatosF{
+    padding: 5px 10px;
+}
+
+.btnAgrClienteG {
+        display: inline-block;
+        font-size: 11px;
+        font-family: Verdana;
+        background: rgb(51,51,153);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 30px;
+    }
+
+
+.divBtnDatosF{
+    float: left;
+    display: block;
+    margin: 0 6px;
+}
+
+
+.fc-event-time{
+    font-weight:bold;
+}
+
+.fc-timegrid-event{
+    cursor: pointer;
 }

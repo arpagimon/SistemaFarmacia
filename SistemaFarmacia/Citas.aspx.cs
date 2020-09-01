@@ -23,6 +23,9 @@ namespace SistemaFarmacia
                 if (!IsPostBack)
                 {
                     llenaDropMedicos();
+                    llenaEstadosDFa();
+                    llenaEstados();
+                    llenaPaises();
                     master.cambiarLblTitle("<img src='Imagenes/citas.png' alt='Citas'><h1>Citas</h1>");
                     master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
                 }
@@ -236,6 +239,24 @@ namespace SistemaFarmacia
 
         protected void bntNuevoCliente_Click(object sender, EventArgs e)
         {
+            divFormularioCita.Visible = false;
+            llenarMedio();
+            llenaEstados();
+            divFormularioCliente.Visible = true;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         }
 
@@ -500,5 +521,765 @@ namespace SistemaFarmacia
         {
             CargarCitas("08");
         }
+
+
+
+        protected void llenarMedio()
+        {
+            DataSet ds = connMySql.consultarmedios();
+            ddlFormCliMedio.DataSource = ds;
+            ddlFormCliMedio.DataTextField = "MEDIO";
+            ddlFormCliMedio.DataValueField = "MEDIO";
+            ddlFormCliMedio.DataBind();
+
+            ddlFormCliMedio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void txtFormCliFecNac_TextChanged(object sender, EventArgs e)
+        {
+            String f = txtFormCliFecNac.Text;
+            DateTime now = DateTime.Today;
+            DateTime before = DateTime.Parse(f);
+            int age = now.Year - before.Year;
+            String edad;
+            if (now.Month < before.Month)
+            {
+                age = age - 1;
+                edad = age.ToString();
+
+                TxtFormCliEdad.Text = edad;
+                
+            }
+            else
+            {
+                if (now.Month == before.Month)
+                {
+                    if (now.Day < before.Day)
+                    {
+                        age = age - 1;
+                        edad = age.ToString();
+
+                        TxtFormCliEdad.Text = edad;
+                    }
+                    else
+                    {
+                        edad = age.ToString();
+                        TxtFormCliEdad.Text = edad;
+                    }
+                }
+                else
+                {
+                    edad = age.ToString();
+                    TxtFormCliEdad.Text = edad;
+                }
+            }
+        }
+
+        protected void btnAddDatosF_Click(object sender, EventArgs e)
+        {
+            divFormularioCliente.Visible = false;
+            divMensajeDF.Visible = true;
+            if (FTitulo.Text == "Detalle de cliente")
+            {
+                btnLimpiaDF.Visible = false;
+                btnGuardaDF.Visible = false;
+            }
+        }
+
+        public void llenaEstados()
+        {
+            ddlFormCliEstado.DataTextField = "estado";
+            ddlFormCliEstado.DataValueField = "ID";
+            ddlFormCliEstado.DataSource = connMySql.traerEstado();
+            ddlFormCliEstado.DataBind();
+
+            ddlFormCliEstado.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void ddlFormCliEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlFormCliEstado.SelectedValue == "33")
+            {
+                divMunicipio.Visible = false;
+                divPais.Visible = true;
+            }
+            else
+            {
+                divMunicipio.Visible = true;
+                divPais.Visible = false;
+                llenaMunicipio(ddlFormCliEstado.SelectedValue);
+            }
+        }
+
+        public void llenaMunicipio(String Estado)
+        {
+            ddlFormCliMunicipio.Enabled = true;
+            ddlFormCliMunicipio.DataTextField = "MUNICIPIO";
+            ddlFormCliMunicipio.DataValueField = "MUNICIPIO";
+            ddlFormCliMunicipio.DataSource = connMySql.traerMunicipio(Estado);
+            ddlFormCliMunicipio.DataBind();
+            ddlFormCliMunicipio.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void FormCliCancelar_Click(object sender, EventArgs e)
+        {
+            divFormularioCliente.Visible = false;
+
+            txtFormCliNombre.Text = "";
+            txtFormCliApePat.Text = "";
+            txtFormCliApeMat.Text = "";
+            ddlFormCliEstado.SelectedIndex = -1;
+            ddlFormCliMunicipio.SelectedIndex = -1;
+
+            TxtFormCliEdad.Text = "";
+            txtFormCliFecIngreso.Text = "";
+            ddlFormCliMedio.SelectedIndex = -1;
+
+            txtFormCliTelFijo.Text = "";
+            txtFormCliExtension.Text = "";
+            txtFormCliCelular.Text = "";
+            txtFormCliFecNac.Text = "";
+            txtFormCliEmail.Text = "";
+            TxtFormCliObservaciones.Text = "";
+            TxtFormCliNota.Text = "";
+            ddlFormCliEstatus.SelectedIndex = 0;
+
+            ddlFormCliPais.SelectedIndex = -1;
+            divPais.Visible = false;
+            divMunicipio.Visible = true;
+
+            lblFormCliError.Text = "";
+
+            try
+            {
+                txtFormCliNombre.Attributes.Remove("style");
+                txtFormCliApePat.Attributes.Remove("style");
+                txtFormCliApeMat.Attributes.Remove("style");
+                ddlFormCliEstado.Attributes.Remove("style");
+                ddlFormCliMunicipio.Attributes.Remove("style");
+                TxtFormCliEdad.Attributes.Remove("style");
+                txtFormCliFecIngreso.Attributes.Remove("style");
+                ddlFormCliMedio.Attributes.Remove("style");
+                txtFormCliTelFijo.Attributes.Remove("style");
+                txtFormCliCelular.Attributes.Remove("style");
+                txtFormCliFecNac.Attributes.Remove("style");
+                txtFormCliEmail.Attributes.Remove("style");
+                ddlFormCliPais.Attributes.Remove("style");
+                btnAddDatosF.Attributes.Remove("style");
+                txtNombRDFa.Attributes.Remove("style");
+                txtRfcDFa.Attributes.Remove("style");
+                txtCalleDFa.Attributes.Remove("style");
+                txtNoExtDFa.Attributes.Remove("style");
+                txtNoIntDFa.Attributes.Remove("style");
+                txtColoniaDFa.Attributes.Remove("style");
+                ddlEstadoDFa.Attributes.Remove("style");
+                ddlMunicipioDFa.Attributes.Remove("style");
+                ddlPaisDFa.Attributes.Remove("style");
+                ddlEntidadDFa.Attributes.Remove("style");
+                txtCPdfA.Attributes.Remove("style");
+            }
+            catch { }
+
+
+            ddlFormCliFactura.SelectedIndex = 1;
+            
+            divBtnDatosF.Visible = false;
+            divPaisDFa.Visible = false;
+            divMunicipioDFa.Visible = true;
+            txtNombRDFa.Text = "";
+            txtRfcDFa.Text = "";
+            txtCalleDFa.Text = "";
+            txtNoExtDFa.Text = "";
+            txtNoIntDFa.Text = "";
+            txtColoniaDFa.Text = "";
+            ddlPaisDFa.SelectedIndex = -1;
+            ddlMunicipioDFa.SelectedIndex = -1;
+            ddlEstadoDFa.SelectedIndex = -1;
+            ddlEntidadDFa.SelectedIndex = 1;
+            txtCPdfA.Text = "";
+
+            
+            divFormularioCita.Visible = true;
+            divFormularioCliente.Visible = false;
+
+        }
+
+        protected void FormCliAgregar_Click(object sender, EventArgs e)
+        {
+            String resultado = "";
+            Boolean pasa = true;
+
+            String Nombre = txtFormCliNombre.Text;
+            if (Nombre.Trim().Length == 0)
+            {
+                txtFormCliNombre.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliNombre.Attributes.Remove("style");
+            }
+
+            String ApellidoP = txtFormCliApePat.Text;
+            if (ApellidoP.Trim().Length == 0)
+            {
+                txtFormCliApePat.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliApePat.Attributes.Remove("style");
+            }
+
+            String ApellidoM = txtFormCliApeMat.Text;
+            if (ApellidoM.Trim().Length == 0)
+            {
+                txtFormCliApeMat.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliApeMat.Attributes.Remove("style");
+            }
+
+            String Estado = (ddlFormCliEstado.SelectedIndex < 1 ? "" : ddlFormCliEstado.Items[ddlFormCliEstado.SelectedIndex].Text);
+            if (Estado.Trim().Length == 0)
+            {
+                ddlFormCliEstado.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlFormCliEstado.Attributes.Remove("style");
+            }
+
+            String Municipio = (ddlFormCliMunicipio.SelectedIndex < 1 ? "" : ddlFormCliMunicipio.Items[ddlFormCliMunicipio.SelectedIndex].Text);
+            if ((Estado != "--OTRO--" ? (Municipio.Trim().Length == 0 || Municipio == "0") : false))
+            {
+                ddlFormCliMunicipio.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlFormCliMunicipio.Attributes.Remove("style");
+            }
+
+            String Edad = TxtFormCliEdad.Text;
+            if (Edad.Trim().Length == 0)
+            {
+                TxtFormCliEdad.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                TxtFormCliEdad.Attributes.Remove("style");
+            }
+
+            String FechaI = txtFormCliFecIngreso.Text;
+            if (FechaI.Trim().Length == 0)
+            {
+                txtFormCliFecIngreso.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliFecIngreso.Attributes.Remove("style");
+            }
+
+            String Medio = ddlFormCliMedio.SelectedValue;
+            if (Medio.Trim().Length == 0 || Medio.Equals("0"))
+            {
+                ddlFormCliMedio.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlFormCliMedio.Attributes.Remove("style");
+            }
+
+            String TelFijo = txtFormCliTelFijo.Text;
+
+            String Extension = txtFormCliExtension.Text;
+            String Celular = txtFormCliCelular.Text;
+            if (TelFijo.Trim().Length > 0 || Celular.Trim().Length > 0)
+            {
+                txtFormCliTelFijo.Attributes.Remove("style");
+                txtFormCliCelular.Attributes.Remove("style");
+            }
+            else
+            {
+                txtFormCliTelFijo.Attributes.Add("style", "border: 1px red solid;");
+                txtFormCliCelular.Attributes.Add("style", "border: 1px red solid;");
+            }
+
+            String FechaN = txtFormCliFecNac.Text;
+            if (FechaN.Trim().Length == 0)
+            {
+                txtFormCliFecNac.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliFecNac.Attributes.Remove("style");
+            }
+
+            String Enviar_Correo = ddlFormCliEnviarCorreo.SelectedValue;
+            String Email = txtFormCliEmail.Text;
+
+            if (Enviar_Correo == "1" && Email.Trim().Length == 0)
+            {
+                txtFormCliEmail.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtFormCliEmail.Attributes.Remove("style");
+            }
+
+            String Observaciones = TxtFormCliObservaciones.Text;
+            String Nota = TxtFormCliNota.Text;
+            String Estatus = ddlFormCliEstatus.SelectedValue;
+            String Pais = (ddlFormCliPais.SelectedIndex < 1 ? "" : ddlFormCliPais.Items[ddlFormCliPais.SelectedIndex].Text);
+            if ((Estado == "--OTRO--" ? (Pais.Trim().Length == 0 || Pais == "0") : false))
+            {
+                ddlFormCliPais.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlFormCliPais.Attributes.Remove("style");
+            }
+
+            String Req_Factura = ddlFormCliFactura.SelectedValue;
+
+            String RFC = "";
+            String Entidad = "";
+            String Dir_Factura = "";
+            String NomRazon = "";
+
+            String CalleF = "";
+            String NoIntF = "";
+            String NoExtF = "";
+            String ColoniaF = "";
+            String CpF = "";
+            String EstadoF = "";
+            String MunicipioF = "";
+            String PaisF = "";
+
+            if (Req_Factura == "1")
+            {
+                Boolean pasaFactura = true;
+                RFC = txtRfcDFa.Text;
+                if (RFC.Trim().Length == 0)
+                {
+                    txtRfcDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtRfcDFa.Attributes.Remove("style");
+                }
+                Entidad = ddlEntidadDFa.SelectedItem.Text;
+                NomRazon = txtNombRDFa.Text;
+                if (NomRazon.Trim().Length == 0)
+                {
+                    txtNombRDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtNombRDFa.Attributes.Remove("style");
+                }
+
+                CalleF = txtCalleDFa.Text;
+                if (CalleF.Trim().Length == 0)
+                {
+                    txtCalleDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCalleDFa.Attributes.Remove("style");
+                }
+
+                NoExtF = txtNoExtDFa.Text;
+                if (NoExtF.Trim().Length == 0)
+                {
+                    txtNoExtDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtNoExtDFa.Attributes.Remove("style");
+                }
+                NoIntF = txtNoIntDFa.Text;
+                
+
+                ColoniaF = txtColoniaDFa.Text;
+                if (ColoniaF.Trim().Length == 0)
+                {
+                    txtColoniaDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtColoniaDFa.Attributes.Remove("style");
+                }
+
+                CpF = txtCPdfA.Text;
+                if (CpF.Trim().Length == 0)
+                {
+                    txtCPdfA.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    txtCPdfA.Attributes.Remove("style");
+                }
+
+                EstadoF = (ddlEstadoDFa.SelectedIndex < 1 ? "" : ddlEstadoDFa.Items[ddlEstadoDFa.SelectedIndex].Text);
+                if (EstadoF.Trim().Length == 0)
+                {
+                    ddlEstadoDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlEstadoDFa.Attributes.Remove("style");
+                }
+
+                MunicipioF = (ddlMunicipioDFa.SelectedIndex < 1 ? "" : ddlMunicipioDFa.Items[ddlMunicipioDFa.SelectedIndex].Text);
+                if ((EstadoF != "--OTRO--" ? (MunicipioF.Trim().Length == 0 || MunicipioF == "0") : false))
+                {
+                    ddlMunicipioDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlMunicipioDFa.Attributes.Remove("style");
+                }
+
+                PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPaisDFa.SelectedIndex].Text);
+                if ((EstadoF == "--OTRO--" ? (PaisF.Trim().Length == 0 || PaisF == "0") : false))
+                {
+                    ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
+                    pasaFactura = false;
+                }
+                else
+                {
+                    ddlPaisDFa.Attributes.Remove("style");
+                }
+
+                if (pasaFactura)
+                {
+                    btnAddDatosF.Attributes.Remove("Style");
+                }
+                else
+                {
+                    pasa = false;
+                    btnAddDatosF.Attributes.Add("style", "border: 2px red solid;");
+                }
+            }
+
+
+
+
+            if (pasa)
+            {
+                lblFormCliError.Text = "";
+                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon);
+
+
+
+                divFormularioCita.Visible = true;
+                divFormularioCliente.Visible = false;
+
+                divSeleccionCliente.Visible = false;
+                divDatosCliente.Visible = true;
+
+                btnAgendarCita.Visible = true;
+
+                TxtIDCliente.Text = connMySql.traeUltimoID();
+                TxtNombre.Text = txtFormCliNombre.Text;
+                TxtApellidoP.Text = txtFormCliApePat.Text;
+                TxtApellidoM.Text = txtFormCliApeMat.Text;
+                TxtEmail.Text = txtFormCliEmail.Text;
+                TxtFechaN.Text = txtFormCliFecNac.Text;
+
+
+                //Limpia las opciones
+                
+                txtFormCliNombre.Text = "";
+                txtFormCliApePat.Text = "";
+                txtFormCliApeMat.Text = "";
+                ddlFormCliEstado.SelectedIndex = -1;
+                ddlFormCliMunicipio.SelectedIndex = -1;
+                TxtFormCliEdad.Text = "";
+                txtFormCliFecIngreso.Text = "";
+                ddlFormCliMedio.SelectedIndex = -1;
+                txtFormCliTelFijo.Text = "";
+                txtFormCliExtension.Text = "";
+                txtFormCliCelular.Text = "";
+                txtFormCliFecNac.Text = "";
+                txtFormCliEmail.Text = "";
+                TxtFormCliObservaciones.Text = "";
+                TxtFormCliNota.Text = "";
+                ddlFormCliEstatus.SelectedIndex = 0;
+                ddlFormCliPais.SelectedIndex = -1;
+                divPais.Visible = false;
+                divMunicipio.Visible = true;
+
+                txtNombRDFa.Text = "";
+                txtNoExtDFa.Text = "";
+                txtNoIntDFa.Text = "";
+                txtCalleDFa.Text = "";
+                txtRfcDFa.Text = "";
+                txtColoniaDFa.Text = "";
+                txtCPdfA.Text = "";
+                ddlEntidadDFa.SelectedValue = "1";
+                ddlEstadoDFa.SelectedIndex = -1;
+                ddlMunicipioDFa.SelectedIndex = -1;
+                ddlPaisDFa.SelectedIndex = -1;
+                divPaisDFa.Visible = false;
+                divMunicipioDFa.Visible = true;
+                divMensajeDF.Visible = false;
+
+
+            }
+            else
+            {
+                lblFormCliError.Text = "Favor de llenar los campos faltantes";
+            }
+        }
+
+        protected void ddlFormCliFactura_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlFormCliFactura.SelectedValue == "1")
+            {
+                divBtnDatosF.Visible = true;
+            }
+            else
+            {
+                divBtnDatosF.Visible = false;
+            }
+        }
+
+        protected void ddlEstadoDFa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ddlEstadoDFa.SelectedValue == "33")
+            {
+                divMunicipioDFa.Visible = false;
+                divPaisDFa.Visible = true;
+
+                llenaPaisesDFa();
+            }
+            else
+            {
+                divMunicipioDFa.Visible = true;
+                divPaisDFa.Visible = false;
+                llenaMunicipioDFa(ddlEstadoDFa.SelectedValue);
+            }
+        }
+
+
+        public void llenaMunicipioDFa(String Estado)
+        {
+            ddlMunicipioDFa.Enabled = true;
+            ddlMunicipioDFa.DataTextField = "MUNICIPIO";
+            ddlMunicipioDFa.DataValueField = "MUNICIPIO";
+            ddlMunicipioDFa.DataSource = connMySql.traerMunicipio(Estado);
+            ddlMunicipioDFa.DataBind();
+            ddlMunicipioDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaEstadosDFa()
+        {
+            ddlEstadoDFa.DataTextField = "estado";
+            ddlEstadoDFa.DataValueField = "ID";
+            ddlEstadoDFa.DataSource = connMySql.traerEstado();
+            ddlEstadoDFa.DataBind();
+
+            ddlEstadoDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        public void llenaPaisesDFa()
+        {
+            ddlPaisDFa.DataTextField = "pais";
+            ddlPaisDFa.DataValueField = "pais";
+            ddlPaisDFa.DataSource = connMySql.traerPaises();
+            ddlPaisDFa.DataBind();
+
+            ddlPaisDFa.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void btnCancelaDF_Click(object sender, EventArgs e)
+        {
+            divFormularioCliente.Visible = true;
+            divMensajeDF.Visible = false;
+
+            btnLimpiaDF.Visible = true;
+            btnGuardaDF.Visible = true;
+        }
+
+        protected void btnLimpiaDF_Click(object sender, EventArgs e)
+        {
+            txtNombRDFa.Text = "";
+            txtNoExtDFa.Text = "";
+            txtNoIntDFa.Text = "";
+            txtCalleDFa.Text = "";
+            txtRfcDFa.Text = "";
+            txtColoniaDFa.Text = "";
+            txtCPdfA.Text = "";
+
+            ddlEntidadDFa.SelectedValue = "1";
+            ddlEstadoDFa.SelectedIndex = -1;
+            ddlMunicipioDFa.SelectedIndex = -1;
+            ddlPaisDFa.SelectedIndex = -1;
+            divPaisDFa.Visible = false;
+            divMunicipioDFa.Visible = true;
+        }
+
+        protected void btnGuardaDF_Click(object sender, EventArgs e)
+        {
+            Boolean pasa = true;
+            String NombreF = txtNombRDFa.Text;
+            String NoExtF = txtNoExtDFa.Text;
+            String NoIntF = txtNoIntDFa.Text;
+            String CalleF = txtCalleDFa.Text;
+            String RFCF = txtRfcDFa.Text;
+            String ColoniaF = txtColoniaDFa.Text;
+            String CPF = txtCPdfA.Text;
+            String EntidadF = ddlEntidadDFa.SelectedItem.Text; ;
+            String EstadoF = (ddlEstadoDFa.SelectedIndex < 1 ? "" : ddlEstadoDFa.Items[ddlEstadoDFa.SelectedIndex].Text);
+            String MunicipioF = (ddlMunicipioDFa.SelectedIndex < 1 ? "" : ddlMunicipioDFa.Items[ddlMunicipioDFa.SelectedIndex].Text);
+            String PaisF = (ddlPaisDFa.SelectedIndex < 1 ? "" : ddlPaisDFa.Items[ddlPaisDFa.SelectedIndex].Text);
+
+            if (NombreF.Trim().Length == 0)
+            {
+                txtNombRDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtNombRDFa.Attributes.Remove("style");
+            }
+
+            if (NoExtF.Trim().Length == 0)
+            {
+                txtNoExtDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtNoExtDFa.Attributes.Remove("style");
+            }
+
+            if (CalleF.Trim().Length == 0)
+            {
+                txtCalleDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtCalleDFa.Attributes.Remove("style");
+            }
+
+            if (RFCF.Trim().Length == 0)
+            {
+                txtRfcDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtRfcDFa.Attributes.Remove("style");
+            }
+
+            if (ColoniaF.Trim().Length == 0)
+            {
+                txtColoniaDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtColoniaDFa.Attributes.Remove("style");
+            }
+
+            if (CPF.Trim().Length == 0)
+            {
+                txtCPdfA.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                txtCPdfA.Attributes.Remove("style");
+            }
+
+            if (EntidadF.Trim().Length == 0)
+            {
+                ddlEntidadDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlEntidadDFa.Attributes.Remove("style");
+            }
+
+            if (EstadoF.Trim().Length == 0)
+            {
+                ddlEstadoDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlEstadoDFa.Attributes.Remove("style");
+            }
+
+            if ((EstadoF != "--OTRO--" ? (MunicipioF.Trim().Length == 0 || MunicipioF == "0") : false))
+            {
+                ddlMunicipioDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlMunicipioDFa.Attributes.Remove("style");
+            }
+
+            if ((EstadoF == "--OTRO--" ? (PaisF.Trim().Length == 0 || PaisF == "0") : false))
+            {
+                ddlPaisDFa.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlPaisDFa.Attributes.Remove("style");
+            }
+
+            if (pasa)
+            {
+                lblErrorDF.Text = "";
+                divFormularioCliente.Visible = true;
+                divMensajeDF.Visible = false;
+
+                btnAddDatosF.Attributes.Remove("Style");
+            }
+            else
+            {
+                lblErrorDF.Text = "Favor de llenar los campos faltantes.";
+            }
+        }
+
+
+
+        public void llenaPaises()
+        {
+            ddlFormCliPais.DataTextField = "pais";
+            ddlFormCliPais.DataValueField = "pais";
+            ddlFormCliPais.DataSource = connMySql.traerPaises();
+            ddlFormCliPais.DataBind();
+
+            ddlFormCliPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+
     }
 }

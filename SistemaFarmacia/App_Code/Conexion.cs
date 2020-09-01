@@ -770,7 +770,8 @@ namespace SistemaFarmacia
 
         public DataSet traerCitasDoctor(String Mes, String Doctor)
         {
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
+            //return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
         }
 
         public DataSet traerDatosCitas(String ID_Cita)
@@ -798,7 +799,15 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("Insert into " + esquema + ".Citas(fecha_Modifica, ID_Empleado_Modifica, ID_Empleado_Crea, fecha_Crea, Fecha, hora_inicio, hora_fin, ID_Cliente, nota, ID_usuario)   values(sysdate(), '" + id_EmpleadoCrea + "', '" + id_EmpleadoCrea + "', sysdate(), '" + Fecha_Cita + " 00:00:00', '" + Fecha_Cita + " " + Hora_inicio + "', '" + Fecha_Cita + " " + Hora_fin + "'," + ID_Cliente + ",'" + Nota + "'," + ID_Doctor + ") ");
         }
 
+        public String traeUltimoID()
+        {
+            return EjecutaQueryString("select last_insert_id()");
+        }
 
+        public String validaCitaColisionada(String ID_Doctor, String Fecha, String Hora_Inicio, String Hora_Fin)
+        {
+            return EjecutaQueryString("Select hora_inicio, hora_fin from " + esquema + ".citas where ((hora_inicio <= '" + Fecha + " " + Hora_Inicio + "' or hora_inicio >= '" + Fecha + " " + Hora_Inicio + "') and hora_fin > '2020-08-29 15:30:00' and (hora_fin <= '2020-08-29 16:30:00' or hora_fin >= '2020-08-29 16:30:00') and hora_inicio < '2020-08-29 16:30:00')  and ID_usuario = 1; ");
+        }
 
 
 
@@ -962,5 +971,7 @@ namespace SistemaFarmacia
         {
             return EjecutaQueryInsert("update " + esquema + ".citas set CorreoEnviado = '1' where ID_Cita = " + id_cita);
         }
+
+
     }
 }
