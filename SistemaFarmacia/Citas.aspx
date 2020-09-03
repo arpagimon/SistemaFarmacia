@@ -7,13 +7,13 @@
     <script type="text/javascript" src="FullCalendar/locales-all.js"></script>
     <script type="text/javascript">
 
-        function cargaCalendario(eventos) {
+        function cargaCalendario(eventos,eventosBloqueos,tipoVista) {
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
 
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     //Tipo de vista inicial
-                    initialView: 'timeGridWeek',
+                    initialView: tipoVista,
                     //Idiona
                     locale: 'es',
                     //Elementos de la cabecera
@@ -23,9 +23,9 @@
                         right: 'timeGridWeek,timeGridDay'
                     },
                     //Horarios y dias laborales
-                    businessHours: {
-                        daysOfWeek: [1, 2, 3, 4, 5, 6]
-                    },
+                    //businessHours: {
+                    //    daysOfWeek: [1, 2, 3, 4, 5, 6]
+                    //},
                     editable: false,
                     dayMaxEventRows: true, // for all non-TimeGrid views
                     views: {
@@ -39,6 +39,13 @@
                     
                         color: '#cdf0ea',
                         textColor: 'black',
+                        borderColor: '#8db0aa'
+                    },
+                    {
+                        events: eventosBloqueos,
+                        color: 'white',
+                        textColor: 'black',
+                        borderColor: '#8db0aa'
                     }],
 
                     windowResize: function (arg) {
@@ -96,8 +103,10 @@
                 <asp:Button runat="server" ID="btnConfCancelarCita" CssClass="MBoton" Text="Confirmar" OnClick="btnConfCancelarCita_Click" />
                 <asp:Button runat="server" ID="btnCancModifCita" CssClass="MBoton" Text="Cancelar" OnClick="btnCancModifCita_Click" />
                 <asp:Button runat="server" ID="btnConfModifCita" CssClass="MBoton" Text="Confirmar" OnClick="btnConfModifCita_Click" />
+                <asp:Button runat="server" ID="btnContCitas" CssClass="MBoton" Text="Continuar" OnClick="btnContCitas_Click" />
                 <asp:Button runat="server" ID="btnCerrarMensaje" CssClass="MBoton" Text="Cerrar" OnClick="btnCerrarMensaje_Click" />
                 <asp:Button runat="server" ID="btnOkSalir" CssClass="MBoton" Text="Aceptar" OnClick="btnOkSalir_Click" Visible="false" />
+                <asp:Button runat="server" ID="btnOKClienteGuardado" CssClass="MBoton" Text="Cerrar" OnClick="btnOKClienteGuardado_Click" />
             </div>
         </div>
 
@@ -110,8 +119,9 @@
                     <asp:TextBox runat="server" ID="TxtIDCita" Visible="false" ></asp:TextBox>
                     <asp:TextBox runat="server" ID="TxtIDCliente" Visible="false" ></asp:TextBox>
                     <div runat="server" id="divSeleccionCliente" visible="false" class="divSeleccionCliente">
-                        <asp:Button runat="server" ID="btnBuscarCliente" CssClass="MBoton" Text="Cliente registrado" OnClick="btnBuscarCliente_Click" />
-                        <asp:Button runat="server" ID="bntNuevoCliente" CssClass="MBoton" Text="Cliente nuevo" OnClick="bntNuevoCliente_Click"/>
+                        <asp:Button runat="server" ID="btnBuscarCliente" CssClass="MBoton2" Text="Cliente registrado" OnClick="btnBuscarCliente_Click" />
+                        <asp:Button runat="server" ID="bntNuevoCliente" CssClass="MBoton2" Text="Cliente nuevo" OnClick="bntNuevoCliente_Click"/>
+                        <asp:Button runat="server" ID="btnOpcionInhabilitar" CssClass="MBoton2" Text="Inhabilitar horario" OnClick="btnOpcionInhabilitar_Click"/>
                     </div>
                     <div runat="server" id="divDatosCliente">
                         <div class="row justify-content-start">
@@ -188,10 +198,14 @@
                         </div>
                     </div>
                     <div class="row justify-content-center">
+                        <div class="col-12 px-2">
+                            <asp:Label runat="server" ID="lblErrorFormCita" CssClass="lblError"></asp:Label>
+                        </div>
                         <div class="col px-2 text-center FBotonera">
                             <asp:Button runat="server" ID="btnCancelarCita" CssClass="FGBoton" Text="Cancelar cita" OnClick="btnCancelarCita_Click" />
                             <asp:Button runat="server" ID="btnModificarCita" CssClass="FGBoton" Text="Modificar cita" OnClick="btnModificarCita_Click" />
                             <asp:Button runat="server" ID="btnAgendarCita" CssClass="FGBoton" Text="Agendar cita" OnClick="btnAgendarCita_Click" />
+                            <asp:Button runat="server" ID="btnInhabiliarHorario" CssClass="FGBoton" Text="Inhabilitar horario" OnClick="btnInhabiliarHorario_Click" />
                             <asp:Button runat="server" ID="btnCerrar" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
                         </div>
                     </div>
@@ -199,6 +213,7 @@
             </asp:Panel>
         </div>
 
+         
         <div runat="server" id="divFormBusqCliente" class="FormClienteCorreo FormGerente" visible="false">
             <div id="divFormCliCabecera" class="FCabecera">
                 <label id="lblFormCliTitulo" class="FTitulo">Buscar cliente</label>
@@ -603,7 +618,7 @@
     <div class="divContenedorPrincipal row justify-content-start">
         <div id="divIzquierdo" class="col-4">
             <h4 class="hDoctor">Doctor</h4>
-            <asp:DropDownList runat="server" ID="ddlDoctor" OnSelectedIndexChanged="ddlDoctor_SelectedIndexChanged" CssClass="ddlDoctor"></asp:DropDownList>
+            <asp:DropDownList runat="server" ID="ddlDoctor" OnSelectedIndexChanged="ddlDoctor_SelectedIndexChanged" CssClass="ddlDoctor" AutoPostBack="true"></asp:DropDownList>
             <div id="calendarioChico" class="divCalendarioChico"></div>
         </div>
         <div id='calendar' class="divCalendario col-8"></div>

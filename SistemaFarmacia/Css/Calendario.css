@@ -202,6 +202,7 @@
 
 #divIzquierdo{
     width: fit-content;
+    width: -moz-fit-content;
     display: inline-block;
     vertical-align: top;
 }
@@ -285,3 +286,32 @@
 .fc-timegrid-event{
     cursor: pointer;
 }
+
+
+.MBoton2 {
+    display: inline-block;
+    width: fit-content;
+    width: -moz-fit-content;
+    font-size: 15px;
+    font-family: Verdana;
+    background: rgb(51,51,153);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 4px 6px;
+    position: relative;
+    bottom: 10px;
+    margin: 20px auto 0px auto;
+}
+
+
+
+.fc-daygrid-day-number{
+    font-size: 19px;
+}
+/*.fc-daygrid-day{
+    border: solid 1px gray !important;
+}
+.fc-scrollgrid-sync-table{
+    border: soid 1 px gray !important;
+}*/

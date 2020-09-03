@@ -144,39 +144,6 @@
                             </div>
                         </div>
                     </div>
-                    <%--<div class="row justify-content-start" id="divDatosFactura" visible="false" runat="server">
-                        
-                        <div class="col-12 px-2">
-                            <div class="form-group">
-                                <label>Nombre o Razón Social:</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtNmR" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                            </div>
-                        </div>
-
-                        <div class="col-4 px-2">
-                            <div class="form-group">
-                                <label>RFC</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtRfc" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                                
-                            </div>
-                        </div>
-                        <div class="col-4 px-2">
-                            <div class="form-group">
-                                <label>Tipo de persona</label>
-                                <asp:DropDownList runat="server" CssClass="form-control" ID="ddlEntidad">
-                                    <asp:ListItem Value="1" Text="Persona moral"></asp:ListItem>
-                                    <asp:ListItem Value="0" Text="Persona física"></asp:ListItem>
-                                </asp:DropDownList>
-                            </div>
-                        </div>
-                        
-                        <div class="col-12 px-2">
-                            <div class="form-group">
-                                <label>Dirección fiscal:</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="txtDirFiscal" CssClass="form-control" AutoComplete="off"></asp:TextBox>
-                            </div>
-                        </div>
-                    </div>--%>
                     <div class="row justify-content-start">
                         <div class="col px-2">
                             <div class="form-group">
@@ -555,13 +522,6 @@
                             <asp:Label runat='server' ID='lblPaisF' CssClass="lblGerentes" Text='<%# Bind("PAIS_DIRF") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <%--<asp:TemplateField HeaderText="Dirección fiscal" HeaderStyle-Width="20%" SortExpression="Dir_factura" Visible="false">
-                        <ItemTemplate>
-                            <asp:Label runat='server' ID='lblDirFactura' CssClass="lblGerentes" Text='<%# Bind("DIR_FACTURA") %>'></asp:Label>
-                        </ItemTemplate>
-                    </asp:TemplateField>--%>
-                    <%--<asp:CommandField ShowEditButton="true" ShowDeleteButton="true" HeaderText="Opciones" HeaderStyle-Width="15%" ShowCancelButton="true" />--%>
-
                 </Columns>
             </asp:GridView>
         </div>

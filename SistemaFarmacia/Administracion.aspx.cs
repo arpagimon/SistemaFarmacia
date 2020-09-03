@@ -48,7 +48,7 @@ namespace SistemaFarmacia
 
                         //master.cambiarLblTitle("<img src='Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
 
-                        if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314")))
+                        if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316")) )
                         {
                             Response.Redirect("Principal.aspx");
                         }
@@ -143,7 +143,7 @@ namespace SistemaFarmacia
                             }
                         }
 
-                        if (permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314"))
+                        if (permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316"))
                         {
                             if (PrimeraOpcion.Length == 0)
                             {
@@ -167,6 +167,12 @@ namespace SistemaFarmacia
                                 {
                                     btnActCorreoContSelec.Visible = true;
                                 }
+
+                                if (permisos.Contains("315"))
+                                {
+                                    btnActCorreoRecordatorio.Visible = true;
+                                }
+                                
 
                                 if (permisos.Contains("39"))
                                 {
@@ -195,6 +201,21 @@ namespace SistemaFarmacia
                                                 btnContenidCorreoSelec.CssClass = "subOpcion subOpcionSeleccionado";
                                                 btnContenidCorreoSelec.Visible = true;
                                                 divCorreoContSelec.Visible = true;
+                                            }
+                                            else
+                                            {
+                                                if (permisos.Contains("315"))
+                                                {
+                                                    btnCorreoRecordatorio.CssClass = "subOpcion subOpcionSeleccionado";
+                                                    btnCorreoRecordatorio.Visible = true;
+                                                    divCorreoRecordatorio.Visible = true;
+                                                }
+                                                else if (permisos.Contains("316"))
+                                                {
+                                                    btnTiposCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+                                                    btnTiposCorreo.Visible = true;
+                                                    divTiposCorreo.Visible = true;
+                                                }
                                             }
                                         }
                                     }
@@ -383,6 +404,9 @@ namespace SistemaFarmacia
             btnContenidCorreoSelec.Visible = false;
             cargaCorreoSelec();
 
+            btnCorreoRecordatorio.Visible = true;
+            cargaCorreoRec();
+
             cargaCorreo();
             
             if (permisos.Contains("39"))
@@ -407,22 +431,40 @@ namespace SistemaFarmacia
                 //btnPreview.Visible = true;
             }
 
+            if (permisos.Contains("315"))
+            {
+                btnCorreoRecordatorio.Visible = true;
+            }
+
+            if (permisos.Contains("316"))
+            {
+                btnTiposCorreo.Visible = true;
+                CargarTipoCorreo("");
+            }
+
+
             if (permisos.Contains("39"))
             {
                 btnConfiguracionTecnica.CssClass = "subOpcion subOpcionSeleccionado";
                 btnConfiguracionCorreo.CssClass = "subOpcion";
                 btnContenidCorreo.CssClass = "subOpcion";
                 btnContenidCorreoSelec.CssClass = "subOpcion";
-                
+                btnCorreoRecordatorio.CssClass = "subOpcion";
+                btnTiposCorreo.CssClass = "subOpcion";
+
                 divCorreoConfTec.Visible = true;
                 divCorreoConfCorreo.Visible = false;
                 divCorreoCont.Visible = false;
                 divCorreoContSelec.Visible = false;
+                divCorreoRecordatorio.Visible = false;
+                divTiposCorreo.Visible = false;
 
                 btnActCorreoTecn.Visible = true;
                 btnActCorreoConf.Visible = false;
                 btnActCorreoCont.Visible = false;
                 btnActCorreoContSelec.Visible = false;
+                btnActCorreoRecordatorio.Visible = false;
+                btnActTipo.Visible = false;
             }
             else
             {
@@ -432,16 +474,22 @@ namespace SistemaFarmacia
                     btnConfiguracionCorreo.CssClass = "subOpcion subOpcionSeleccionado";
                     btnContenidCorreo.CssClass = "subOpcion";
                     btnContenidCorreoSelec.CssClass = "subOpcion";
+                    btnCorreoRecordatorio.CssClass = "subOpcion";
+                    btnTiposCorreo.CssClass = "subOpcion";
 
                     divCorreoConfTec.Visible = false;
                     divCorreoConfCorreo.Visible = true;
                     divCorreoCont.Visible = false;
                     divCorreoContSelec.Visible = false;
+                    divCorreoRecordatorio.Visible = false;
+                    divTiposCorreo.Visible = false;
 
                     btnActCorreoTecn.Visible = false;
                     btnActCorreoConf.Visible = true;
                     btnActCorreoCont.Visible = false;
                     btnActCorreoContSelec.Visible = false;
+                    btnActCorreoRecordatorio.Visible = false;
+                    btnActTipo.Visible = false;
                 }
                 else
                 {
@@ -451,35 +499,99 @@ namespace SistemaFarmacia
                         btnConfiguracionCorreo.CssClass = "subOpcion";
                         btnContenidCorreo.CssClass = "subOpcion subOpcionSeleccionado";
                         btnContenidCorreoSelec.CssClass = "subOpcion";
+                        btnCorreoRecordatorio.CssClass = "subOpcion";
+                        btnTiposCorreo.CssClass = "subOpcion";
 
                         divCorreoConfTec.Visible = false;
                         divCorreoConfCorreo.Visible = false;
                         divCorreoCont.Visible = true;
                         divCorreoContSelec.Visible = false;
+                        divCorreoRecordatorio.Visible = false;
+                        divTiposCorreo.Visible = false;
 
                         btnActCorreoTecn.Visible = false;
                         btnActCorreoConf.Visible = false;
                         btnActCorreoCont.Visible = true;
                         btnPreview.Visible = true;
                         btnActCorreoContSelec.Visible = false;
+                        btnActCorreoRecordatorio.Visible = false;
+                        btnActTipo.Visible = false;
                     }
                     else
                     {
-                        btnConfiguracionTecnica.CssClass = "subOpcion";
-                        btnConfiguracionCorreo.CssClass = "subOpcion";
-                        btnContenidCorreo.CssClass = "subOpcion";
-                        btnContenidCorreoSelec.CssClass = "subOpcion subOpcionSeleccionado";
+                        if (permisos.Contains("314"))
+                        {
+                            btnConfiguracionTecnica.CssClass = "subOpcion";
+                            btnConfiguracionCorreo.CssClass = "subOpcion";
+                            btnContenidCorreo.CssClass = "subOpcion";
+                            btnContenidCorreoSelec.CssClass = "subOpcion subOpcionSeleccionado";
+                            btnCorreoRecordatorio.CssClass = "subOpcion";
+                            btnTiposCorreo.CssClass = "subOpcion";
 
-                        divCorreoConfTec.Visible = false;
-                        divCorreoConfCorreo.Visible = false;
-                        divCorreoCont.Visible = true;
-                        divCorreoContSelec.Visible = false;
+                            divCorreoConfTec.Visible = false;
+                            divCorreoConfCorreo.Visible = false;
+                            divCorreoCont.Visible = false;
+                            divCorreoContSelec.Visible = true;
+                            divCorreoRecordatorio.Visible = false;
+                            divTiposCorreo.Visible = false;
 
-                        btnActCorreoTecn.Visible = false;
-                        btnActCorreoConf.Visible = false;
-                        btnActCorreoCont.Visible = true;
-                        btnPreview.Visible = true;
-                        btnActCorreoContSelec.Visible = false;
+                            btnActCorreoTecn.Visible = false;
+                            btnActCorreoConf.Visible = false;
+                            btnActCorreoCont.Visible = true;
+                            btnPreview.Visible = true;
+                            btnActCorreoContSelec.Visible = true;
+                            btnActCorreoRecordatorio.Visible = false;
+                            btnActTipo.Visible = false;
+                        }
+                        else if (permisos.Contains("315"))
+                        {
+                            btnConfiguracionTecnica.CssClass = "subOpcion";
+                            btnConfiguracionCorreo.CssClass = "subOpcion";
+                            btnContenidCorreo.CssClass = "subOpcion";
+                            btnContenidCorreoSelec.CssClass = "subOpcion";
+                            btnCorreoRecordatorio.CssClass = "subOpcion subOpcionSeleccionado";
+                            btnTiposCorreo.CssClass = "subOpcion";
+
+                            divCorreoConfTec.Visible = false;
+                            divCorreoConfCorreo.Visible = false;
+                            divCorreoCont.Visible = false;
+                            divCorreoContSelec.Visible = false;
+                            divCorreoRecordatorio.Visible = true;
+                            divTiposCorreo.Visible = false;
+
+                            btnActCorreoTecn.Visible = false;
+                            btnActCorreoConf.Visible = false;
+                            btnActCorreoCont.Visible = true;
+                            btnPreview.Visible = true;
+                            btnActCorreoContSelec.Visible = false;
+                            btnActCorreoRecordatorio.Visible = true;
+                            btnActTipo.Visible = false;
+
+                        }
+                        else if (permisos.Contains("316"))
+                        {
+                            btnConfiguracionTecnica.CssClass = "subOpcion";
+                            btnConfiguracionCorreo.CssClass = "subOpcion";
+                            btnContenidCorreo.CssClass = "subOpcion";
+                            btnContenidCorreoSelec.CssClass = "subOpcion";
+                            btnCorreoRecordatorio.CssClass = "subOpcion";
+                            btnTiposCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+
+                            divCorreoConfTec.Visible = false;
+                            divCorreoConfCorreo.Visible = false;
+                            divCorreoCont.Visible = false;
+                            divCorreoContSelec.Visible = false;
+                            divCorreoRecordatorio.Visible = false;
+                            divTiposCorreo.Visible = true;
+
+                            btnActCorreoTecn.Visible = false;
+                            btnActCorreoConf.Visible = false;
+                            btnActCorreoCont.Visible = true;
+                            btnPreview.Visible = true;
+                            btnActCorreoContSelec.Visible = false;
+                            btnActCorreoRecordatorio.Visible = true;
+                            btnActTipo.Visible = true;
+                        }
                     }
                 }
             }
@@ -570,6 +682,8 @@ namespace SistemaFarmacia
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             ddlPerfil.DataSource = connMysql.TraerPerfilesddl("");
             ddlPerfil.DataBind();
@@ -661,6 +775,8 @@ namespace SistemaFarmacia
             divFormularioG.Visible = false;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             TxtUsuario.Text = "";
             TxtNombre.Text = "";
@@ -676,6 +792,7 @@ namespace SistemaFarmacia
 
             gvGerentes.EditIndex = -1;
             cargaGerentes();
+
         }
 
         protected void FGAgregar_Click(object sender, EventArgs e)
@@ -723,6 +840,8 @@ namespace SistemaFarmacia
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             divMensaje.Visible = true;
             lblMensaje.Text = mensaje;
@@ -746,6 +865,8 @@ namespace SistemaFarmacia
             divFormularioP.Visible = false;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             FGActualizar.Visible = false;
             FGAgregar.Visible = true;
@@ -976,6 +1097,8 @@ namespace SistemaFarmacia
             divFormularioP.Visible = true;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             FPActualizar.Visible = false;
             FPAgregar.Visible = true;
@@ -1110,6 +1233,8 @@ namespace SistemaFarmacia
             divFormularioP.Visible = true;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             TxtPerfil.Text = Descripcion.Text;
             lblId_perfil.Text = IdPerfil.Text;
@@ -1151,6 +1276,8 @@ namespace SistemaFarmacia
             divFormularioG.Visible = false;
             divFormCliente.Visible = false;
             divFormBusqCl.Visible = false;
+            divFormTipo.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
 
             TxtPerfil.Text = "";
             lblId_perfil.Text = "";
@@ -1480,11 +1607,14 @@ namespace SistemaFarmacia
             btnActCorreoCont.Visible = false;
             btnActCorreoTecn.Visible = true;
             btnActCorreoContSelec.Visible = false;
+            btnActTipo.Visible = false;
 
             btnConfiguracionTecnica.CssClass = "subOpcion subOpcionSeleccionado";
             btnConfiguracionCorreo.CssClass = "subOpcion";
             btnContenidCorreo.CssClass = "subOpcion";
             btnContenidCorreoSelec.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion";
 
             divConfigCitas.Visible = false;
             btnConfigCitas.CssClass = "";
@@ -1493,8 +1623,14 @@ namespace SistemaFarmacia
             divCorreoCont.Visible = false;
             divCorreoConfCorreo.Visible = false;
             divCorreoContSelec.Visible = false;
+            divCorreoRecordatorio.Visible = false;
 
             btnPreview.Visible = false;
+            btnActCorreoRecordatorio.Visible = false;
+
+            divTiposCorreo.Visible = false;
+            txtBusqTipo.Visible = false;
+            imgBusqTipo.Visible = false;
 
             CambiaTitulo("Configuración Técnica");
         }
@@ -1505,20 +1641,30 @@ namespace SistemaFarmacia
             btnActCorreoCont.Visible = false;
             btnActCorreoTecn.Visible = false;
             btnActCorreoContSelec.Visible = false;
+            btnActTipo.Visible = false;
 
             btnConfiguracionTecnica.CssClass = "subOpcion";
             btnConfiguracionCorreo.CssClass = "subOpcion subOpcionSeleccionado";
             btnContenidCorreo.CssClass = "subOpcion";
             btnContenidCorreoSelec.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion";
 
             divConfigCitas.Visible = false;
+            divCorreoRecordatorio.Visible = false;
             btnConfigCitas.CssClass = "";
 
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = false;
             divCorreoConfCorreo.Visible = true;
             divCorreoContSelec.Visible = false;
+            divTiposCorreo.Visible = false;
+
+            btnActCorreoRecordatorio.Visible = false;
             btnPreview.Visible = false;
+
+            txtBusqTipo.Visible = false;
+            imgBusqTipo.Visible = false;
 
             CambiaTitulo("Configuración de correo");
         }
@@ -1529,11 +1675,14 @@ namespace SistemaFarmacia
             btnActCorreoCont.Visible = true;
             btnActCorreoTecn.Visible = false;
             btnActCorreoContSelec.Visible = false;
+            btnActTipo.Visible = false;
 
             btnConfiguracionTecnica.CssClass = "subOpcion";
             btnConfiguracionCorreo.CssClass = "subOpcion";
             btnContenidCorreoSelec.CssClass = "subOpcion";
             btnContenidCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion";
 
             divConfigCitas.Visible = false;
             btnConfigCitas.CssClass = "";
@@ -1544,8 +1693,16 @@ namespace SistemaFarmacia
             divCorreoConfCorreo.Visible = false;
             btnPreview.Visible = true;
 
+
+            divTiposCorreo.Visible = false;
+            txtBusqTipo.Visible = false;
+            imgBusqTipo.Visible = false;
+
+            divCorreoRecordatorio.Visible = false;
+            btnActCorreoRecordatorio.Visible = false;
             CambiaTitulo("Contenido de correo mensual");
             Session.Add("TipoPreview", "mensual");
+
         }
 
         public void ocultarOpcionesCorreo()
@@ -2051,7 +2208,9 @@ namespace SistemaFarmacia
                 divFormularioG.Visible = false;
                 divFormularioP.Visible = false;
                 divFormCliente.Visible = true;
-                
+                divFormTipo.Visible = false;
+                divConfirmaDeleteTipo.Visible = false;
+
                 panelMsj.DefaultButton = btnFormCliBuscar.ID;
 
                 if (chkFormCliRango.Checked)
@@ -3128,11 +3287,14 @@ namespace SistemaFarmacia
             btnActCorreoCont.Visible = false;
             btnActCorreoTecn.Visible = false;
             btnActCorreoContSelec.Visible = true;
+            btnActTipo.Visible = false;
 
             btnConfiguracionTecnica.CssClass = "subOpcion";
             btnConfiguracionCorreo.CssClass = "subOpcion";
             btnContenidCorreoSelec.CssClass = "subOpcion subOpcionSeleccionado";
             btnContenidCorreo.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion";
 
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = false;
@@ -3140,8 +3302,16 @@ namespace SistemaFarmacia
             divCorreoConfCorreo.Visible = false;
             btnPreview.Visible = true;
 
+            divCorreoRecordatorio.Visible = false;
+            btnActCorreoRecordatorio.Visible = false;
+
+            divTiposCorreo.Visible = false;
+            txtBusqTipo.Visible = false;
+            imgBusqTipo.Visible = false;
+
             CambiaTitulo("Contenido de correo selectivo");
             Session.Add("TipoPreview", "selectivo");
+
         }
 
 
@@ -3212,7 +3382,7 @@ namespace SistemaFarmacia
             var editHorarioA = connMysql.GuardaHorarioLaboralA(Apertura);
             var esitHorarioC = connMysql.GuardaHorarioLaboralC(Cierre);
             var consultDiasIbha = connMysql.TraerDiasSemana();
-            string diasInhabilesSemana = "" + Checkbox1 + "," + Checkbox2 + "," + Checkbox3 + "," + Checkbox4 + "," + Checkbox5 + "," + Checkbox6 + "," + Checkbox7 + "";
+            string diasInhabilesSemana = Checkbox7 + "," + Checkbox1 + "," + Checkbox2 + "," + Checkbox3 + "," + Checkbox4 + "," + Checkbox5 + "," + Checkbox6  ;
 
             if (Apertura != consultHorarioA)
             {
@@ -3244,13 +3414,13 @@ namespace SistemaFarmacia
             var diasSemanaIbhabiles = connMysql.TraerDiasSemana();
             var fooArray = diasSemanaIbhabiles.Split(',');
 
-            DiaCheckbox1.Checked = Convert.ToBoolean(fooArray[0]);
-            DiaCheckbox2.Checked = Convert.ToBoolean(fooArray[1]);
-            DiaCheckbox3.Checked = Convert.ToBoolean(fooArray[2]);
-            DiaCheckbox4.Checked = Convert.ToBoolean(fooArray[3]);
-            DiaCheckbox5.Checked = Convert.ToBoolean(fooArray[4]);
-            DiaCheckbox6.Checked = Convert.ToBoolean(fooArray[5]);
-            DiaCheckbox7.Checked = Convert.ToBoolean(fooArray[6]);
+            DiaCheckbox1.Checked = Convert.ToBoolean(fooArray[1]);
+            DiaCheckbox2.Checked = Convert.ToBoolean(fooArray[2]);
+            DiaCheckbox3.Checked = Convert.ToBoolean(fooArray[3]);
+            DiaCheckbox4.Checked = Convert.ToBoolean(fooArray[4]);
+            DiaCheckbox5.Checked = Convert.ToBoolean(fooArray[5]);
+            DiaCheckbox6.Checked = Convert.ToBoolean(fooArray[6]);
+            DiaCheckbox7.Checked = Convert.ToBoolean(fooArray[0]);
         }
 
         protected void Horario()
@@ -3330,6 +3500,456 @@ namespace SistemaFarmacia
             TraerFechasInhabiles();
         }
 
+        protected void btnActCorreoRecordatorio_Click(object sender, EventArgs e)
+        {
+            DatosCorreo datoscorreo = new DatosCorreo();
 
+            if ((fuploadRec.PostedFile.ContentLength / 1024) < 1024)
+            {
+                lblErrorImage.Text = "";
+
+                datoscorreo.SMTP_SUJETO = txtAsuntoRec.Text;
+                datoscorreo.SMTP_MENSAJE = txtMesajeRec.Text;
+                datoscorreo.SMTP_FIRMA = txtFirmaRec.Text;
+                datoscorreo.SMTP_IMAGEN = "";
+                datoscorreo.DiasAntes = txtDiasAntesCita.Text;
+
+                if (fuploadRec.FileName.Trim().Length != 0)
+                {
+                    if (fuploadRec.HasFile)
+                    {
+                        string nombreArchivo = fuploadRec.FileName;
+                        string ruta = "Imagenes/Correo/" + nombreArchivo;
+                        fuploadRec.SaveAs(Server.MapPath(ruta));
+
+                        datoscorreo.SMTP_IMAGEN = ruta;
+                    }
+                }
+                String resultado = connMysql.ActualizaContCorreoRec(datoscorreo, datoscorreo.DiasAntes);
+
+                if (resultado == "OK")
+                {
+                    sombraMensaje.Visible = true;
+                    mostrarMensaje((resultado.Trim().Equals("OK") ? "Datos de correo recordatorio actualizado exitosamente" : resultado));
+                }
+            }
+            else
+            {
+                lblErrorImage.Text = "* El tamaño de la imagen debe ser menor a 1 MB";
+            }
+        }
+
+        protected void cargaCorreoRec()
+        {
+            DatosCorreo datosCorreo = connMysql.ConsultaDatosCorreoRec();
+
+            txtDiasAntesCita.Text = datosCorreo.DiasAntes;
+            txtMesajeRec.Text = datosCorreo.SMTP_MENSAJE;
+            txtAsuntoRec.Text = datosCorreo.SMTP_SUJETO;
+            txtFirmaRec.Text = datosCorreo.SMTP_FIRMA;
+        }
+
+        protected void btnCorreoRecordatorio_Click(object sender, EventArgs e)
+        {
+            btnActCorreoConf.Visible = false;
+            btnActCorreoCont.Visible = false;
+            btnActCorreoTecn.Visible = false;
+            btnActCorreoContSelec.Visible = false;
+            btnActCorreoRecordatorio.Visible = true;
+            btnActTipo.Visible = false;
+
+            btnConfiguracionTecnica.CssClass = "subOpcion";
+            btnConfiguracionCorreo.CssClass = "subOpcion";
+            btnContenidCorreoSelec.CssClass = "subOpcion";
+            btnContenidCorreo.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion subOpcionSeleccionado";
+            btnTiposCorreo.CssClass = "subOpcion";
+
+            divCorreoConfTec.Visible = false;
+            divCorreoCont.Visible = false;
+            divCorreoContSelec.Visible = false;
+            divCorreoConfCorreo.Visible = false;
+            divCorreoRecordatorio.Visible = true;
+            btnPreview.Visible = true;
+
+            divTiposCorreo.Visible = false;
+            txtBusqTipo.Visible = false;
+            imgBusqTipo.Visible = false;
+
+            CambiaTitulo("Configuración de correo recordatorio");
+            Session.Add("TipoPreview", "recordatorio");
+        }
+
+        protected void txtBusqTipoC_TextChanged(object sender, EventArgs e)
+        {
+            String condicion = txtBusqTipo.Text.Trim().ToUpper();
+
+            if (condicion.Length > 0)
+            {
+                condicion = " (Nombre_tipo like '%" + condicion + "%')";
+            }
+
+            DataSet ds = connMysql.TraerTipoCorreo(condicion);
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                gvTiposCorreo.DataSource = ds.Tables[0];
+                gvTiposCorreo.DataBind();
+            }
+            else
+            {
+                gvTiposCorreo.DataSource = ds.Tables[0];
+                gvTiposCorreo.DataBind();
+
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (gvTiposCorreo.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_tipo");
+                    dtTemporal.Columns.Add("NOMBRE_TIPO");
+                    dtTemporal.Columns.Add("SUJETO");
+                    dtTemporal.Columns.Add("Mensaje");
+                    dtTemporal.Columns.Add("IMGCORREO");
+                    dtTemporal.Columns.Add("FIRMA");
+                    dtTemporal.NewRow();
+
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvTiposCorreo.DataSource = dtTemporal;
+                    gvTiposCorreo.DataBind();
+                }
+
+                gvTiposCorreo.Rows[0].Cells.Clear();
+                gvTiposCorreo.Rows[0].Cells.Add(new TableCell());
+                gvTiposCorreo.Rows[0].Cells[0].ColumnSpan = 3;
+                gvTiposCorreo.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvTiposCorreo.Rows[0].Cells[0].Text = "Sin resultados";
+
+                gvTiposCorreo.Visible = true;
+            }
+        }
+        public void CargarTipoCorreo(String condicion)
+        {
+            DataSet ds = connMysql.TraerTipoCorreo("");
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                gvTiposCorreo.DataSource = ds.Tables[0];
+                gvTiposCorreo.DataBind();
+            }
+            else
+            {
+                gvTiposCorreo.DataSource = ds.Tables[0];
+                gvTiposCorreo.DataBind();
+
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (gvTiposCorreo.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_tipo");
+                    dtTemporal.Columns.Add("NOMBRE_TIPO");
+                    dtTemporal.Columns.Add("SUJETO");
+                    dtTemporal.Columns.Add("Mensaje");
+                    dtTemporal.Columns.Add("IMGCORREO");
+                    dtTemporal.Columns.Add("FIRMA");
+                    dtTemporal.NewRow();
+
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvTiposCorreo.DataSource = dtTemporal;
+                    gvTiposCorreo.DataBind();
+                }
+
+                gvGerentes.Rows[0].Cells.Clear();
+                gvGerentes.Rows[0].Cells.Add(new TableCell());
+                gvGerentes.Rows[0].Cells[0].ColumnSpan = 6;
+                gvGerentes.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvGerentes.Rows[0].Cells[0].Text = "Sin resultados";
+
+                gvPerfiles.Visible = false;
+                gvGerentes.Visible = true;
+
+            }
+        }
+        protected void btnTiposCorreo_Click(object sender, EventArgs e)
+        {
+            btnActCorreoConf.Visible = false;
+            btnActCorreoCont.Visible = false;
+            btnActCorreoTecn.Visible = false;
+            btnActCorreoContSelec.Visible = false;
+            btnActCorreoRecordatorio.Visible = false;
+            btnActTipo.Visible = true;
+            txtBusqTipo.Visible = true;
+            imgBusqTipo.Visible = true;
+
+            btnConfiguracionTecnica.CssClass = "subOpcion";
+            btnConfiguracionCorreo.CssClass = "subOpcion";
+            btnContenidCorreoSelec.CssClass = "subOpcion";
+            btnContenidCorreo.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion subOpcionSeleccionado";
+
+            divCorreoConfTec.Visible = false;
+            divCorreoCont.Visible = false;
+            divCorreoContSelec.Visible = false;
+            divCorreoConfCorreo.Visible = false;
+            divCorreoRecordatorio.Visible = false;
+            divTiposCorreo.Visible = true;
+            btnPreview.Visible = false;
+
+            CambiaTitulo("Tipos de correo");
+            Session.Add("TipoPreview", "tipo");
+        }
+        protected void btnAgregarTipo_Click(object sender, EventArgs e)
+        {
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+            divFormularioP.Visible = false;
+            divFormularioG.Visible = false;
+            divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
+            divFormTipo.Visible = true;
+
+            btnLimpiaTipo.Visible = true;
+            btnTipoAgregar.Visible = true;
+            btnTipoModificar.Visible = false;
+            btnLimpiaTipo.Visible = true;
+            imgCorreoTipo.Visible = true;
+
+            lblTipoTitulo.InnerText = "Agregar Tipo de Correo";
+        }
+        protected void btnTipoCerrar_Click(object sender, EventArgs e)
+        {
+            //Limpia campos
+            txtAsuntoTipo.Text = "";
+            txtTipo.Text = "";
+            txtMsjTipo.Text = "";
+            txtFirmaTipo.Text = "";
+
+            //Habilita campos
+            txtAsuntoTipo.Enabled = true;
+            txtTipo.Enabled = true;
+            txtMsjTipo.Enabled = true;
+            txtFirmaTipo.Enabled = true;
+
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(false);
+            sombraMensaje.Visible = false;
+
+            divFormTipo.Visible = false;
+        }
+        protected void btnTipoLimpiar_Click(object sender, EventArgs e)
+        {
+            txtAsuntoTipo.Text = "";
+            txtTipo.Text = "";
+            txtMsjTipo.Text = "";
+            txtFirmaTipo.Text = "";
+
+        }
+        protected void gvTipo_Consult(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+
+            Label TipoCorreo = (Label)row.FindControl("lblTipo");
+            Label Asunto = (Label)row.FindControl("lblSujeto");
+            Label Mensaje = (Label)row.FindControl("lblMensaje");
+            Label Firma = (Label)row.FindControl("lblFirma");
+            Label Img = (Label)row.FindControl("lblImagen");
+
+            Session["AsuntoTipo"] = Asunto.Text;
+            Session["MensajeTipo"] = Mensaje.Text;
+            Session["FirmaTipo"] = Firma.Text;
+            Session["ImgTipo"] = Img.Text;
+
+
+        }
+
+        protected void gvTipo_Edit(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+
+            Label IdTipo = (Label)row.FindControl("lblIdTipo");
+            Label TipoCorreo = (Label)row.FindControl("lblTipo");
+            Label Asunto = (Label)row.FindControl("lblSujeto");
+            Label Mensaje = (Label)row.FindControl("lblMensaje");
+            Label Firma = (Label)row.FindControl("lblFirma");
+            Label Img = (Label)row.FindControl("lblImagen");
+
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+            divFormularioP.Visible = false;
+            divFormularioG.Visible = false;
+            divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
+            divConfirmaDeleteTipo.Visible = false;
+            divFormTipo.Visible = true;
+
+            txtTipo.Text = TipoCorreo.Text;
+            txtAsuntoTipo.Text = Asunto.Text;
+            lblIDTipo.Text = IdTipo.Text;
+            txtMsjTipo.Text = Mensaje.Text;
+            txtFirmaTipo.Text = Firma.Text;
+            lblRutaImgTipo.Text = Img.Text;
+            imgCorreoTipo.Visible = true;
+
+            btnTipoAgregar.Visible = false;
+            btnTipoModificar.Visible = true;
+            btnLimpiaTipo.Visible = true;
+
+            lblTipoTitulo.InnerText = "Actualizar Tipo de Correo";
+        }
+
+        protected void gvTipo_Delete(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+
+            Label IDtipo = (Label)row.FindControl("lblIdTipo");
+            Label TipoCorreo = (Label)row.FindControl("lblTipo");
+
+            MasterFarmacia master = (MasterFarmacia)this.Master;
+            master.mostrarMensaje(true);
+            sombraMensaje.Visible = true;
+            divFormularioP.Visible = false;
+            divFormularioG.Visible = false;
+            divFormCliente.Visible = false;
+            divFormBusqCl.Visible = false;
+            divConfirmaDeleteTipo.Visible = true;
+            divFormTipo.Visible = false;
+
+            lblIDtipoDelete.Text = IDtipo.Text;
+            lblMsjDeleteTipo.Text = "¿Está seguro que desea eliminar el tipo de correo\n'" + TipoCorreo.Text + "' ?";
+        }
+        protected void btnFormTipoAgregar_Click(object sender, EventArgs e)
+        {
+            String resultado = "";
+
+            String Tipo = "";
+            String Asunto = "";
+            String Mensaje = "";
+            String Firma = "";
+            String ImgCorreo = "";
+
+            if ((fuploadTipo.PostedFile.ContentLength / 1024) < 1024)
+            {
+                lblErrorImage.Text = "";
+
+                Tipo = txtTipo.Text;
+                Asunto = txtAsuntoTipo.Text;
+                Mensaje = txtMsjTipo.Text;
+                Firma = txtFirmaTipo.Text;
+
+                if (fuploadTipo.FileName.Trim().Length != 0)
+                {
+                    if (fuploadTipo.HasFile)
+                    {
+                        string nombreArchivo = fuploadTipo.FileName;
+                        string ruta = "Imagenes/Correo/" + nombreArchivo;
+                        fuploadTipo.SaveAs(Server.MapPath(ruta));
+
+                        ImgCorreo = ruta;
+                    }
+                }
+                resultado = connMysql.GuardaTipoCorreo(Tipo, Asunto, Mensaje, ImgCorreo, Firma);
+
+
+                sombraMensaje.Visible = true;
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Tipo de correo guardado exitosamente" : resultado));
+
+                txtAsuntoTipo.Text = "";
+                txtTipo.Text = "";
+                txtMsjTipo.Text = "";
+                txtFirmaTipo.Text = "";
+
+                gvTiposCorreo.EditIndex = -1;
+                CargarTipoCorreo("");
+            }
+            else
+            {
+                lblErrorUploadTipo.Text = "* El tamaño de la imagen debe ser menor a 1 MB";
+            }
+
+
+        }
+
+        protected void btnOKDeleteTipo_Click(object sender, EventArgs e)
+        {
+            String id_tipo = lblIDtipoDelete.Text;
+            String resultado = "";
+
+            resultado = connMysql.EliminaTipoCorreo(id_tipo);
+
+            sombraMensaje.Visible = true;
+            mostrarMensaje((resultado.Trim().Equals("OK") ? "Tipo de correo eliminado exitosamente" : resultado));
+
+            gvTiposCorreo.EditIndex = -1;
+            CargarTipoCorreo("");
+        }
+        protected void btnCancelarDeleteTipo_Click(object sender, EventArgs e)
+        {
+            divConfirmaDeleteTipo.Visible = false;
+            sombraMensaje.Visible = false;
+        }
+        protected void btnFormTipoModificar_Click(object sender, EventArgs e)
+        {
+            String resultado = "";
+
+            String id_tipo = lblIDTipo.Text; bool CambiaImg = false;
+            String Tipo = "";
+            String Asunto = "";
+            String Mensaje = "";
+            String Firma = "";
+            String ImgCorreo = "";
+
+            if ((fuploadTipo.PostedFile.ContentLength / 1024) < 1024)
+            {
+                lblErrorImage.Text = "";
+
+                Tipo = txtTipo.Text;
+                Asunto = txtAsuntoTipo.Text;
+                Mensaje = txtMsjTipo.Text;
+                Firma = txtFirmaTipo.Text;
+
+                if (fuploadTipo.FileName.Trim().Length != 0)
+                {
+                    if (fuploadTipo.HasFile)
+                    {
+                        string nombreArchivo = fuploadTipo.FileName;
+                        string ruta = "Imagenes/Correo/" + nombreArchivo;
+                        fuploadTipo.SaveAs(Server.MapPath(ruta));
+
+                        ImgCorreo = ruta;
+                    }
+                }
+                resultado = connMysql.ActualizaTipoCorreo(id_tipo, Tipo, Asunto, Mensaje, CambiaImg, ImgCorreo, Firma);
+
+
+                sombraMensaje.Visible = true;
+                mostrarMensaje((resultado.Trim().Equals("OK") ? "Tipo de correo guardado exitosamente" : resultado));
+                txtAsuntoTipo.Text = "";
+                txtTipo.Text = "";
+                txtMsjTipo.Text = "";
+                txtFirmaTipo.Text = "";
+                lblIDTipo.Text = "";
+
+                gvTiposCorreo.EditIndex = -1;
+                CargarTipoCorreo("");
+            }
+            else
+            {
+                lblErrorUploadTipo.Text = "* El tamaño de la imagen debe ser menor a 1 MB";
+            }
+
+
+
+        }
     }
 }

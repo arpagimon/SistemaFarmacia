@@ -18,7 +18,7 @@ namespace SistemaFarmacia
             if (!IsPostBack)
             {
                 //ValidaCorreo();
-                ValidaCitasManana();
+                ValidaCitasEnvio();
 
                 Session.Clear();
 
@@ -47,13 +47,10 @@ namespace SistemaFarmacia
                         String permisos = conexion.ConsultaPermisos(Usuario.Text);
                         if (permisos.Length > 0)
                         {
-
-                            ///////Esto va a cambiar/////
                             Session["usuario"] = Usuario.Text;
-                            ///////Esto va a cambiar/////
-
-
+                            
                             Session.Add("Permisos", permisos);
+                            Session.Add("Doctor", conexion.ConsultaDoctor(Usuario.Text));
                             String direccion = HttpContext.Current.Request.Url.ToString();
                             Response.Redirect("Principal.aspx");
                         }
@@ -66,7 +63,6 @@ namespace SistemaFarmacia
                     {
                         Pass.Text = "";
                         lanzaScript("ModalUpdate('Mensaje','El usuario o contraseña son incorrectos, favor de intentarlo nuevamente')");
-                        //Response.Redirect("Login.aspx");
                     }
                 }
             }
@@ -307,17 +303,17 @@ namespace SistemaFarmacia
 
         }
 
-        public void ValidaCitasManana()
+        public void ValidaCitasEnvio()
         {
-            DatosCorreo dCorreo = conexion.ConsultaDatosCorreo();
+            DatosCorreo dCorreo = conexion.ConsultaDatosCorreoRec();
 
             //Se valida que sea momento de enviar recordatorio de las citas de mañana
-            if (conexion.ValidaCitaCorreo())
+            if (conexion.ValidaCitaCorreo(dCorreo.DiasAntes))
             {
 
                 EnviarCorreo enviaCorreo = new EnviarCorreo();
 
-                DataSet datosCliente = conexion.TraerClientesConCitaM();
+                DataSet datosCliente = conexion.TraerClientesConCitaM(dCorreo.DiasAntes);
 
                 List<DatosCita> listaDatosCita = new List<DatosCita>();
 

@@ -202,11 +202,10 @@ namespace SistemaFarmacia.Clases
             MailMessage Message = new MailMessage();
             Message.From = new System.Net.Mail.MailAddress(datosCorreo.SMTP_CORREO); //Quien lo envía
 
-
-                if (cita.Count > 0)
+            if (cita.Count > 0)
+            {
+                foreach (DatosCita item in cita)
                 {
-                    foreach (DatosCita item in cita)
-                    {
 
                     if (datosCorreo.PRUEBAS.Equals(0))
                     {
@@ -215,111 +214,60 @@ namespace SistemaFarmacia.Clases
                     {
                         Message.To.Add(datosCorreo.SMTP_CORREO_PRUEBA);
                     }
-                        Message.Subject = "Recordatorio de cita para el día de mañana";  //'Sujeto del e-mail
 
+                    Message.Subject = "Recordatorio de cita para el día de mañana";  //'Asunto del e-mail
 
+                    String datos_cita = "<h3>Datos de la cita: </h3>" +
+                        "<p>Nombre del paciente: <strong>" + item.Nombre + " " + item.ApPaterno + " " + item.ApMaterno + "</strong><br/>" +
+                        "Fecha: <strong>" + item.Fecha + "</strong><br/>Hora: <strong>" + item.Hora_Inicio + "</strong></p>";
 
-                        AlternateView plainView =
+                    AlternateView plainView =
                             AlternateView.CreateAlternateViewFromString("Esto es un recordatorio de su cita", Encoding.UTF8, MediaTypeNames.Text.Plain);
 
-                        string html = "<div style='text-align:center; background:rgb(65,97,156, 0.9); color: #fff; padding: 10px 0'><h2>Recordatorio de cita</h2></div>" +
-                           "<br/>" +
-                           "<div>  <h3> Hola,  " + item.Nombre + " " + item.ApPaterno + " " + item.ApMaterno + ":</h3>" +
-                           "<p> Le recordamos que tiene una cita para el d&iacute;a <strong>" + item.Fecha +
-                           "</strong> a las <strong>" + item.Hora_Inicio + "</strong>.Le mandamos un cordial saludo.</p> </div>" +
-                           "<hr>" +
-                           "<h3 style = 'text-align: center;'> " + datosCorreo.SMTP_FIRMA + " </h3> ";
+                    string html = "<div style='text-align:center;'><h2>" + datosCorreo.SMTP_MENSAJE + "</h2>" +
+                       datos_cita + "< img src = 'cid:imagen' /><br/>" +
+                       "<h3 style='text-align: center;'>" + datosCorreo.SMTP_FIRMA.Replace("\n", "<br/>") + "</h3></div>";
+                    
 
+                    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
 
-                        AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
+                    LinkedResource img = new LinkedResource(datosCorreo.SMTP_IMAGEN, MediaTypeNames.Image.Jpeg);
+                    img.ContentId = "imagen";
+                    htmlView.LinkedResources.Add(img);
+                    Message.AlternateViews.Add(plainView);
+                    Message.AlternateViews.Add(htmlView);
+                    Message.IsBodyHtml = true;
+                    Message.Priority = System.Net.Mail.MailPriority.Normal;
+                    Message.Attachments.Add(new Attachment(datosCorreo.SMTP_IMAGEN));
 
-                        Message.AlternateViews.Add(plainView);
-                        Message.AlternateViews.Add(htmlView);
-                        Message.IsBodyHtml = true;
-                        Message.Priority = System.Net.Mail.MailPriority.Normal;
-
-
-                        //CONFIGURACIÓN DEL STMP
-                        try
-                        {
-                            puerto = int.Parse(datosCorreo.SMTP_PUERTO);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
-
-                        SmtpClient SMTP = new SmtpClient(datosCorreo.SMTP_HOST, puerto);
-                        SMTP.Credentials = new System.Net.NetworkCredential(datosCorreo.SMTP_CORREO, datosCorreo.SMTP_PASS);
-                        SMTP.EnableSsl = Boolean.Parse(datosCorreo.SMTP_SSL);
-
-                        //'ENVIO
-                        try
-                        {
-                            SMTP.Send(Message);
-                        }
-                        catch (System.Net.Mail.SmtpException Ex)
-                        {
-                            String error1 = Ex.Message;
-                            connMysql.guardaError("EnviarCorreo", "Send", error1);
-                            enviado = false;
-                        }
-                        SMTP.Dispose();
+                    //CONFIGURACIÓN DEL STMP
+                    try
+                    {
+                        puerto = int.Parse(datosCorreo.SMTP_PUERTO);
                     }
+                    catch (Exception ex)
+                    {
+                    }
+
+                    SmtpClient SMTP = new SmtpClient(datosCorreo.SMTP_HOST, puerto);
+                    SMTP.Credentials = new System.Net.NetworkCredential(datosCorreo.SMTP_CORREO, datosCorreo.SMTP_PASS);
+                    SMTP.EnableSsl = Boolean.Parse(datosCorreo.SMTP_SSL);
+
+                    //'ENVIO
+                    try
+                    {
+                        SMTP.Send(Message);
+                    }
+                    catch (System.Net.Mail.SmtpException Ex)
+                    {
+                        String error1 = Ex.Message;
+                        connMysql.guardaError("EnviarCorreo", "Send", error1);
+                        enviado = false;
+                    }
+
+                    SMTP.Dispose();
                 }
-            //}
-            //else
-            //{
-            //    Message.To.Add(datosCorreo.SMTP_CORREO_PRUEBA);
-
-            //    Message.Subject = "Recordatorio de cita para el día de mañana";  //'Sujeto del e-mail
-
-
-
-            //    AlternateView plainView =
-            //        AlternateView.CreateAlternateViewFromString("Esto es un recordatorio de su cita", Encoding.UTF8, MediaTypeNames.Text.Plain);
-
-            //    string html = "<div style='text - align: center; background: rgb(65, 97, 156, 0.9); color: #fff; padding: 10px 0;'>" +
-            //            "<h2> Recordatorio de cita</h2></div>" +
-            //            "<div> <h3> Hola, (Nombre)(Apellido Paterno) (Apellido Materno):</h3>" +
-            //            "<p> Le recordamos que tiene una cita para el d&iacute;a <strong>(Fecha) </strong> a las <strong>(Hora de inicio) </strong>." +
-            //            "Le mandamos un cordial saludo.</p> </div> <hr/> <h3 style = 'text-align: center;'> " + datosCorreo.SMTP_FIRMA + " </h3> ";
-
-            //    AlternateView htmlView = AlternateView.CreateAlternateViewFromString(html, Encoding.UTF8, MediaTypeNames.Text.Html);
-
-            //    Message.AlternateViews.Add(plainView);
-            //    Message.AlternateViews.Add(htmlView);
-            //    Message.IsBodyHtml = true;
-            //    Message.Priority = System.Net.Mail.MailPriority.Normal;
-                
-            //    //CONFIGURACIÓN DEL STMP
-            //    try
-            //    {
-            //        puerto = int.Parse(datosCorreo.SMTP_PUERTO);
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //    }
-
-            //    SmtpClient SMTP = new SmtpClient(datosCorreo.SMTP_HOST, puerto);
-            //    SMTP.Credentials = new System.Net.NetworkCredential(datosCorreo.SMTP_CORREO, datosCorreo.SMTP_PASS);
-            //    SMTP.EnableSsl = Boolean.Parse(datosCorreo.SMTP_SSL);
-
-            //    //'ENVIO
-            //    try
-            //    {
-            //        SMTP.Send(Message);
-            //    }
-            //    catch (System.Net.Mail.SmtpException Ex)
-            //    {
-            //        String error1 = Ex.Message;
-            //        connMysql.guardaError("EnviarCorreo", "Send", error1);
-            //        enviado = false;
-            //    }
-            //    SMTP.Dispose();
-            //}
-
-
-
+            }
             return enviado;
         }
     }

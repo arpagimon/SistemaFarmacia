@@ -731,6 +731,67 @@
 
                 </div>
         </div>
+        <div runat="server" id="divFormTipo" class="FormClienteCorreo" visible="false">
+            <div id="divCabeceraTipo" class="FCabecera">
+                <label id="lblTipoTitulo" class="FTitulo" runat="server"></label>
+            </div>
+            <asp:Panel runat="server" ID="plTipo">
+                <div id="FormTipoCorreo" class="FContenido FCCContenido">
+                    <asp:Label runat="server" ID="lblIDTipo" Visible="false"></asp:Label>
+                    <table class="tblParametros">
+                        <tr>
+                            <td style="width: 10%;"><label>Tipo de correo:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtTipo" CssClass="ParamInput"></asp:TextBox></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td style="width: 10%;"><label>Asunto:</label></td>
+                            <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtAsuntoTipo" CssClass="ParamInput"></asp:TextBox></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><label>Mensaje:</label></td>
+                            <td>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMsjTipo" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                            </td>
+                        </tr>
+                        <tr id="imgCorreoTipo" runat="server" visible="false">
+                            <td><label>Imagen correo:</label></td>
+                            <td>
+                                <asp:FileUpload runat="server" ID="fuploadTipo" CssClass="ParamInput"  accept="image/jpeg" />
+                                <asp:Label runat="server" ID="lblErrorUploadTipo" CssClass="lblError"></asp:Label>
+                                <asp:Label runat="server" ID="lblRutaImgTipo" Visible="false"></asp:Label>
+                            </td>
+                        </tr>
+                    
+                        <tr>
+                            <td><label>Firma:</label></td>
+                            <td><asp:TextBox runat="server" ID="txtFirmaTipo" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
+                        </tr>
+                    </table>
+                    <br/>
+                    <div class="row justify-content-center">
+                        <div class="col px-2 text-center FBotonera">
+                            <asp:Button runat="server" ID="btnCerrarTipo" CssClass="FGBoton FCCBoton" Text="Cerrar" OnClick="btnTipoCerrar_Click"/>
+                            <asp:Button runat="server" ID="btnLimpiaTipo" CssClass="FGBoton FCCBoton" Text="Limpiar" OnClick="btnTipoLimpiar_Click"/>
+                            <asp:Button runat="server" ID="btnTipoAgregar" CssClass="FGBoton FCCBoton" Text="Agregar" OnClick="btnFormTipoAgregar_Click"/>
+                            <asp:Button runat="server" ID="btnTipoModificar" CssClass="FGBoton FCCBoton" Text="Modificar" OnClick="btnFormTipoModificar_Click"/>
+                        </div>
+                    </div>
+                </div>
+            </asp:Panel>
+        </div>
+        <div runat="server" id="divConfirmaDeleteTipo" class="divMensaje divMensajeConfirmacion" visible="false">
+            <div id="divTipoCabeceraD" class="FCabecera"   >
+                <label id="lblMsjTipoD">¡Alerta!</label>
+            </div>
+            <div id="divMsjContTipoD" class="divConfCorreoContenido">
+                <asp:Label runat="server" ID="lblMsjDeleteTipo" CssClass="lblMensaje"></asp:Label><asp:Label runat="server" ID="lblIDtipoDelete" visible="false"></asp:Label>                
+                <br />
+                <asp:Button runat="server" ID="btnCancelarDTipo" CssClass="MBoton" Text="Cancelar" OnClick="btnCancelarDeleteTipo_Click" />
+                <asp:Button runat="server" ID="btnokDtipo" CssClass="MBoton" Text="Aceptar" OnClick="btnOKDeleteTipo_Click"/>
+            </div>
+        </div>
     </div>
 </asp:Content>
 
@@ -745,12 +806,15 @@
         <asp:Button runat="server" ID ="btnConfiguracionCorreo" OnClick="btnConfiguracionCorreo_Click" Text="Configuración de correo" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnContenidCorreo" OnClick="btnContenidCorreo_Click" Text="Contenido de correo" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnContenidCorreoSelec" OnClick="btnContenidCorreoSelec_Click" Text="Contenido de correo selectivo" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnCorreoRecordatorio" OnClick="btnCorreoRecordatorio_Click" Text="Configuración de correo recordatorio" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnTiposCorreo" OnClick="btnTiposCorreo_Click" Text="Tipos de correo" Visible="false" CssClass="subOpcion"/>
         <br />
         <asp:Button runat="server" ID ="btnEnvioCorreo" OnClick="btnEnvioCorreo_Click" Text="Envio selectivo de correo" Visible="true" />
         <br />
         <asp:Button runat="server" ID ="btnOpcionClientes" OnClick="btnOpcionClientes_Click" Text="Reactivar clientes" />
         <br />
         <asp:Button runat="server" ID="btnConfigCitas" OnClick="btnConfigCitas_Click" Text="Config. de citas" />
+        <br />
         <br />
         <asp:Button runat="server" ID ="btnRegresar" OnClick="btnRegresar_Click" Text="Regresar" Visible="false"/>
     </div>
@@ -848,7 +912,11 @@
                 <asp:Button runat="server" ID="btnActCorreoConf" Text="Actualizar" OnClick="btnActCorreoConf_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoCont" Text="Actualizar" OnClick="btnActCorreoCont_Click" CssClass="btnAgrUsuarioG" />
                 <asp:Button runat="server" ID="btnActCorreoContSelec" Text="Actualizar" OnClick="btnActCorreoContSelec_Click" CssClass="btnAgrUsuarioG" />
+                <asp:Button runat="server" ID="btnActCorreoRecordatorio" Text="Actualizar" OnClick="btnActCorreoRecordatorio_Click" CssClass="btnAgrUsuarioG" />
                 <button runat="server" id="btnPreview" visible="false" class="btnAgrUsuarioG" onclick="abrePreview()">Preview</button>
+                <asp:Button runat="server" ID="btnActTipo" Text="Agregar tipo" ToolTip="Agregar Tipo de correo" OnClick="btnAgregarTipo_Click" CssClass="btnAgrUsuarioG" />
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusqTipo" placeholder="Tipo de correo" CssClass="txtBusquedaG" OnTextChanged="txtBusqTipoC_TextChanged" AutoPostBack="true"></asp:TextBox>
+                <asp:Image runat="server" ID="imgBusqTipo" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
             </div>
             <div id="divCorreo2">
                 <div runat="server" id="divCorreoConfTec">
@@ -968,6 +1036,96 @@
                         </tr>
                     </table>
                     <br />
+                </div>
+                <div runat="server" id="divCorreoRecordatorio">
+                    <div runat="server" id="divConfCorreoRec">
+                        <div class="divCorreoTitulo"><h5>Configuración de correo recordatorio</h5></div>
+                        <table class="tblParametros">
+                            <tr>
+                                <td style="width: 20%;"><label>Enviar antes de la cita:</label></td>
+                                <td style="width: 10%;"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtDiasAntesCita" CssClass="ParamInput" TextMode="Number"></asp:TextBox></td>
+                                <td style="width: 70%;"></td>
+                            
+                            </tr>
+                        </table>
+                    </div>
+                    <div runat="server" id="divContenidoRecordatorio">
+                        <div class="divCorreoTitulo" style="border-radius:unset;"><h5>Contenido del correo recordatorio</h5></div>
+                        <table class="tblParametros">
+                            <tr>
+                                <td style="width: 10%;"><label>Asunto:</label></td>
+                                <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtAsuntoRec" CssClass="ParamInput"></asp:TextBox></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label>Mensaje:</label></td>
+                                <td>
+                                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMesajeRec" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Imagen correo:</label></td>
+                                <td>
+                                    <asp:FileUpload runat="server" ID="fuploadRec" CssClass="ParamInput"  accept="image/jpeg" />
+                                    <asp:Label runat="server" ID="lblErrorRec" CssClass="lblError"></asp:Label>
+                                </td>
+                            </tr>
+                    
+                            <tr>
+                                <td><label>Firma:</label></td>
+                                <td><asp:TextBox runat="server" ID="txtFirmaRec" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
+                            </tr>
+                        </table>
+                        <br />
+                    </div>
+                </div>
+                <div id="divTiposCorreo" runat="server">
+                    <asp:GridView ID="gvTiposCorreo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                    CssClass="gridview" CellPadding="5" Width="100%" style="table-layout:fixed;" EmptyDataText="Sin registros">
+                        <AlternatingRowStyle BackColor="#f2f2f2" />
+                        <RowStyle BackColor="#FFFFFF" />
+                        <Columns>
+                            <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblIdTipo' CssClass="lblUsuario" Text='<%# Bind("ID_TIPO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Tipo de correo" HeaderStyle-Width="30%">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblTipo' CssClass="lblUsuario" Text='<%# Bind("NOMBRE_TIPO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Sujeto" HeaderStyle-Width="30%">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblSujeto' CssClass="lblUsuario" Text='<%# Bind("SUJETO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Mensaje" HeaderStyle-Width="30%">
+                                <ItemTemplate>
+                                    <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                        <asp:Label runat='server' ID='lblMensaje' CssClass="lblUsuario" Text='<%# Bind("MENSAJE") %>'></asp:Label>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblImagen' CssClass="lblUsuario" Text='<%# Bind("IMGCORREO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblFirma' CssClass="lblUsuario" Text='<%# Bind("FIRMA") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Opciones" HeaderStyle-Width="10%">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="linkEditT" ToolTip="Editar" OnClick="gvTipo_Edit" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />
+                                <asp:LinkButton ID="linkConsultT" ToolTip="Ver tipo de correo" OnClick="gvTipo_Consult" OnClientClick="abrePreview()" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-eye' aria-hidden='true'></i>" />
+		                        <asp:LinkButton ID="linkDeleteT" ToolTip="Eliminar" OnClick="gvTipo_Delete" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-trash' aria-hidden='true'></i>" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
                 </div>
             </div>
         </div>

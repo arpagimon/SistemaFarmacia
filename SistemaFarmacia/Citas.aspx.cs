@@ -22,6 +22,15 @@ namespace SistemaFarmacia
             {
                 if (!IsPostBack)
                 {
+                    if (Session["MesSeleccionado"] == null)
+                    {
+                        Session.Add("MesSeleccionado", DateTime.Now.Month.ToString().PadLeft(2,'0'));
+                    }
+                    else
+                    {
+                        Session["MesSeleccionado"] = DateTime.Now.Month.ToString().PadLeft(2, '0');
+                    }
+                    
                     llenaDropMedicos();
                     llenaEstadosDFa();
                     llenaEstados();
@@ -30,19 +39,38 @@ namespace SistemaFarmacia
                     master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
                 }
 
-                CargarCitas("08");
+                CargarCitas(Session["MesSeleccionado"].ToString());
+
+                
+
+
 
                 switch (eventarget1)
                 {
                     case "MostartDatosCita":
                         sombraMensaje.Visible = true;
                         llenaDatosCita(datosEnviados);
+                        
                         break;
 
                     case "MostartDatosCitaNueva":
                         sombraMensaje.Visible = true;
-                        divFormularioCita.Visible = true;
+
                         llenaCamposCitaNueva(datosEnviados);
+
+                        if (DiaValido(datosEnviados.Split('T')[0], datosEnviados.Split('T')[1]))
+                        {
+                            divFormularioCita.Visible = true;
+                        }
+                        else
+                        {
+                            divFormularioCita.Visible = false;
+                            divMensaje.Visible = true;
+                            ocultarBotonesMensaje();
+                            btnCerrarMensaje.Visible = true;
+                            btnContCitas.Visible = true;
+                            lblMensaje.Text = "La fecha seleccionada es un dia y/o hora, ¿Desea continuar con la creación de la cita?";
+                        }
 
                         break;
 
@@ -68,6 +96,7 @@ namespace SistemaFarmacia
         public void CargarCitas(String Mes)
         {
             String eventos = "[";
+            String bloqueos = "[";
 
             DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
 
@@ -75,20 +104,34 @@ namespace SistemaFarmacia
             if (dsCitas.Tables.Count > 0) { 
                 foreach (DataRow dRow in dsCitas.Tables[0].Rows)
                 {
-                    if(eventos.Length > 1)
+                    if (dRow["tipo"].ToString() == "1")
                     {
-                        eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
-                    }
-                    else
+                        if (eventos.Length > 1)
+                        {
+                            eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        }
+                        else
+                        {
+                            eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        }
+                    }else
                     {
-                        eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() +" "+ dRow["apellido_paterno"].ToString() +" "+ dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        if (bloqueos.Length > 1)
+                        {
+                            bloqueos += ",{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        }
+                        else
+                        {
+                            bloqueos += "{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                        }
                     }
                 }
             }
 
             eventos += "]";
+            bloqueos += "]";
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + ");</script>", false);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + ","+(Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'")+");</script>", false);
         }
         
 
@@ -112,12 +155,23 @@ namespace SistemaFarmacia
         
         protected void btnModificarCita_Click(object sender, EventArgs e)
         {
-            mostrarmensaje();
-            ocultarBotonesMensaje();
-            btnConfModifCita.Visible = true;
-            btnCancModifCita.Visible = true;
+            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCita.Text);
 
-            lblMensaje.Text = "¿Desea continuar con la modificación de la cita de <b>" + TxtNombre.Text + " " + TxtApellidoP.Text + " " + TxtApellidoM.Text + "</b> a el día <b>" + txtFechaCita.Text.Split('-')[2] + "/" + txtFechaCita.Text.Split('-')[1] + "/" + txtFechaCita.Text.Split('-')[0] + "</b> con un horario de <b> " + txtHoraInicio.Text + "</b> a las <b> " + txtHoraFin.Text + "</b>?";
+            if (CitaExistente.Length == 0)
+            {
+                mostrarmensaje();
+                ocultarBotonesMensaje();
+                btnConfModifCita.Visible = true;
+                btnCancModifCita.Visible = true;
+
+                lblMensaje.Text = "¿Desea continuar con la modificación de la cita de <b>" + TxtNombre.Text + " " + TxtApellidoP.Text + " " + TxtApellidoM.Text + "</b> a el día <b>" + txtFechaCita.Text.Split('-')[2] + "/" + txtFechaCita.Text.Split('-')[1] + "/" + txtFechaCita.Text.Split('-')[0] + "</b> con un horario de <b> " + txtHoraInicio.Text + "</b> a las <b> " + txtHoraFin.Text + "</b>?";
+
+                lblErrorFormCita.Text = "";
+            }
+            else
+            {
+                lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
+            }
 
         }
 
@@ -171,6 +225,8 @@ namespace SistemaFarmacia
             btnCancModifCita.Visible = false;
             btnConfModifCita.Visible = false;
             btnOkSalir.Visible = false;
+            btnOKClienteGuardado.Visible = false;
+            btnContCitas.Visible = false;
         }
 
         public void llenaDatosCita(String Id_Cita)
@@ -184,11 +240,19 @@ namespace SistemaFarmacia
             foreach(DataRow dRow in datosCita.Tables[0].Rows)
             {
                 TxtIDCita.Text = dRow["ID_Cita"].ToString();
-                TxtNombre.Text = dRow["Nombre"].ToString();
-                TxtApellidoP.Text = dRow["apellido_paterno"].ToString();
-                TxtApellidoM.Text = dRow["apellido_materno"].ToString();
-                TxtFechaN.Text = dRow["Fecha_Nacimiento"].ToString().Split(' ')[0];
-                TxtEmail.Text = dRow["EMAIL"].ToString();
+
+                if (dRow["tipo"].ToString() == "1")
+                {
+                    TxtNombre.Text = dRow["Nombre"].ToString();
+                    TxtApellidoP.Text = dRow["apellido_paterno"].ToString();
+                    TxtApellidoM.Text = dRow["apellido_materno"].ToString();
+                    TxtFechaN.Text = dRow["Fecha_Nacimiento"].ToString().Split(' ')[0];
+                    TxtEmail.Text = dRow["EMAIL"].ToString();
+                }else
+                {
+                    divDatosCliente.Visible = false;
+                }
+
 
                 ddlDoctorCita.SelectedValue = dRow["ID_usuario"].ToString();
                 txtFechaCita.Text = dRow["fecha_cita"].ToString().Split(' ')[0];
@@ -200,6 +264,9 @@ namespace SistemaFarmacia
             ocultarBotonesMensaje();
             divFormularioCita.Visible = true;
             btnAgendarCita.Visible = false;
+            btnInhabiliarHorario.Visible = false;
+            btnModificarCita.Visible = true;
+            btnCancelarCita.Visible = true;
         }
 
         protected void llenaDropMedicos()
@@ -218,6 +285,20 @@ namespace SistemaFarmacia
             ddlDoctor.DataBind();
 
             ddlDoctor.SelectedIndex = 0;
+
+            if(Session["Doctor"].ToString() == "1")
+            {
+                ListItem OpcionDoctor = ddlDoctorCita.Items.FindByValue(connMySql.traerIDEmpleado(Session["usuario"].ToString()));
+
+                ddlDoctorCita.Items.Clear();
+                ddlDoctorCita.Items.Add(OpcionDoctor);
+
+                ddlDoctor.Items.Clear();
+                ddlDoctor.Items.Add(OpcionDoctor);
+
+            }
+
+
         }
 
         public void llenaCamposCitaNueva(String datosSeleccionados)
@@ -232,6 +313,7 @@ namespace SistemaFarmacia
             btnCancelarCita.Visible = false;
             btnModificarCita.Visible = false;
             btnAgendarCita.Visible = false;
+            btnInhabiliarHorario.Visible = false;
 
             divSeleccionCliente.Visible = true;
             divDatosCliente.Visible = false;
@@ -243,27 +325,16 @@ namespace SistemaFarmacia
             llenarMedio();
             llenaEstados();
             divFormularioCliente.Visible = true;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
 
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
         {
             divFormularioCita.Visible = false;
             divFormBusqCliente.Visible = true;
+
+            FormCliContenido.Visible = true;
+            divClienteResultados.Visible = false;
+            
         }
 
     #region buscarcliente
@@ -397,27 +468,37 @@ namespace SistemaFarmacia
 
         protected void btnAgendarCita_Click(object sender, EventArgs e)
         {
-            connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCliente.Text, txtNotasCita.Text, ddlDoctorCita.SelectedValue);
+            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "");
 
-            lblMensaje.Text = "Cita agendada";
-            ocultarBotonesMensaje();
-            divMensaje.Visible = true;
-            divFormularioCita.Visible = false;
-            btnCerrarMensaje.Visible = true;
+            if (CitaExistente.Length == 0) { 
+                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCliente.Text, txtNotasCita.Text, ddlDoctorCita.SelectedValue,"1");
+
+                lblMensaje.Text = "Cita agendada";
+                ocultarBotonesMensaje();
+                divMensaje.Visible = true;
+                divFormularioCita.Visible = false;
+                btnCerrarMensaje.Visible = true;
 
 
-            TxtNombre.Text = "";
-            TxtApellidoP.Text = "";
-            TxtApellidoM.Text = "";
-            TxtFechaN.Text = "";
-            TxtEmail.Text = "";
-            txtFechaCita.Text = "";
-            txtHoraInicio.Text = "";
-            txtHoraFin.Text = "";
-            TxtIDCliente.Text = "";
-            txtNotasCita.Text = "";
-            
-            
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                txtFechaCita.Text = "";
+                txtHoraInicio.Text = "";
+                txtHoraFin.Text = "";
+                TxtIDCliente.Text = "";
+                txtNotasCita.Text = "";
+
+                lblErrorFormCita.Text = "";
+            }
+            else
+            {
+                lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
+            }
+
+
         }
 
 
@@ -990,8 +1071,8 @@ namespace SistemaFarmacia
                 resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon);
 
 
-
-                divFormularioCita.Visible = true;
+                
+                //divFormularioCita.Visible = true;
                 divFormularioCliente.Visible = false;
 
                 divSeleccionCliente.Visible = false;
@@ -1043,6 +1124,11 @@ namespace SistemaFarmacia
                 divPaisDFa.Visible = false;
                 divMunicipioDFa.Visible = true;
                 divMensajeDF.Visible = false;
+
+
+
+                divMensaje.Visible = true;
+                ocultarBotonesMensaje();
 
 
             }
@@ -1278,6 +1364,147 @@ namespace SistemaFarmacia
             ddlFormCliPais.DataBind();
 
             ddlFormCliPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
+        }
+
+        protected void btnOKClienteGuardado_Click(object sender, EventArgs e)
+        {
+            divMensaje.Visible = false;
+            divFormularioCita.Visible = true;
+
+
+        }
+
+        protected void btnOpcionInhabilitar_Click(object sender, EventArgs e)
+        {
+            btnInhabiliarHorario.Visible = true;
+            divSeleccionCliente.Visible = false;
+        }
+
+        protected void btnInhabiliarHorario_Click(object sender, EventArgs e)
+        {
+            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text,"");
+
+            if (CitaExistente.Length == 0)
+            {
+                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "0", txtNotasCita.Text, ddlDoctorCita.SelectedValue,"0");
+
+                lblMensaje.Text = "Cita agendada";
+                ocultarBotonesMensaje();
+                divMensaje.Visible = true;
+                divFormularioCita.Visible = false;
+                btnCerrarMensaje.Visible = true;
+
+
+                TxtNombre.Text = "";
+                TxtApellidoP.Text = "";
+                TxtApellidoM.Text = "";
+                TxtFechaN.Text = "";
+                TxtEmail.Text = "";
+                txtFechaCita.Text = "";
+                txtHoraInicio.Text = "";
+                txtHoraFin.Text = "";
+                TxtIDCliente.Text = "";
+                txtNotasCita.Text = "";
+
+            }
+            else
+            {
+                lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente; 
+            }
+        }
+        public Boolean DiaValido(String Dia, String Hora_Inicio)
+        {
+            Boolean valida = true;
+            String[] diasPartes = Dia.Split('-');
+            String[] horaPartes = Hora_Inicio.Split(':');
+
+            DateTime diaSeleccionado = new DateTime(int.Parse(Dia.Split('-')[0]), int.Parse(Dia.Split('-')[1]), int.Parse(Dia.Split('-')[2]), int.Parse(Hora_Inicio.Split(':')[0]), int.Parse(Hora_Inicio.Split(':')[1]), 0);
+            DayOfWeek NombreDiaSemana = diaSeleccionado.DayOfWeek;
+            int diaSemana = 0;
+
+            switch (diaSeleccionado.DayOfWeek)
+            {
+                case DayOfWeek.Sunday: // Domingo
+                    diaSemana = 0;
+                    break;
+
+                case DayOfWeek.Monday: //lunes
+                    diaSemana = 1;
+                    break;
+
+                case DayOfWeek.Tuesday: //Martes
+                    diaSemana = 2;
+                    break;
+
+                case DayOfWeek.Wednesday: // Miercoles
+                    diaSemana = 3;
+                    break;
+
+                case DayOfWeek.Thursday: // Jueves
+                    diaSemana = 4;
+                    break;
+
+                case DayOfWeek.Friday: //Viernes
+                    diaSemana = 5;
+                    break;
+
+                case DayOfWeek.Saturday: //Sabado
+                    diaSemana = 6;
+                    break;
+
+                default:
+                    break;
+            }
+
+            TimeSpan horaDelDia = diaSeleccionado.TimeOfDay;
+
+            DataSet diasInhabiles = connMySql.TraerFechaInhabiles();
+            String horaApertura = connMySql.TraerHrApertura();
+            TimeSpan horaAperturaTS = new TimeSpan(int.Parse(horaApertura.Split(':')[0]), int.Parse(horaApertura.Split(':')[1]),0);
+            String horaCierre = connMySql.TraerHrCierre();
+            TimeSpan horaCierreTS = new TimeSpan(int.Parse(horaCierre.Split(':')[0]), int.Parse(horaCierre.Split(':')[1]), 0);
+            String diasInhabilesSemana = connMySql.TraerDiasSemana();
+
+
+            foreach(DataRow dRow in diasInhabiles.Tables[0].Rows)
+            {
+                DateTime fecha = (DateTime)dRow["fechas_inhabiles"];
+                if(fecha == diaSeleccionado.Date)
+                { 
+                    valida = false;
+                }
+            }
+
+            if (diasInhabilesSemana.Split(',')[diaSemana] == "True")
+            {
+                valida = false;
+            }
+
+            if (horaDelDia < horaAperturaTS)
+            {
+                valida = false;
+            }
+
+            if (horaDelDia > horaCierreTS)
+            {
+                valida = false;
+            }
+
+            if(diaSeleccionado < DateTime.Now)
+            {
+                valida = false;
+            }
+
+            return valida;
+        }
+
+
+        protected void btnContCitas_Click(object sender, EventArgs e)
+        {
+            divMensaje.Visible = false;
+            ocultarBotonesMensaje();
+
+            divFormularioCita.Visible = true;
         }
 
 

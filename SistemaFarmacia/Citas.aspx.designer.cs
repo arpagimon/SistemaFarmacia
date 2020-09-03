@@ -76,6 +76,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Button btnConfModifCita;
         
         /// <summary>
+        /// Control btnContCitas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnContCitas;
+        
+        /// <summary>
         /// Control btnCerrarMensaje.
         /// </summary>
         /// <remarks>
@@ -92,6 +101,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnOkSalir;
+        
+        /// <summary>
+        /// Control btnOKClienteGuardado.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOKClienteGuardado;
         
         /// <summary>
         /// Control divFormularioCita.
@@ -164,6 +182,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button bntNuevoCliente;
+        
+        /// <summary>
+        /// Control btnOpcionInhabilitar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnOpcionInhabilitar;
         
         /// <summary>
         /// Control divDatosCliente.
@@ -265,6 +292,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.TextBox txtNotasCita;
         
         /// <summary>
+        /// Control lblErrorFormCita.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblErrorFormCita;
+        
+        /// <summary>
         /// Control btnCancelarCita.
         /// </summary>
         /// <remarks>
@@ -290,6 +326,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAgendarCita;
+        
+        /// <summary>
+        /// Control btnInhabiliarHorario.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnInhabiliarHorario;
         
         /// <summary>
         /// Control btnCerrar.

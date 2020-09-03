@@ -234,6 +234,12 @@ namespace SistemaFarmacia
 
             return resultado;
         }
+
+        public String ConsultaDoctor(String usuario)
+        {
+            return EjecutaQueryString("select medico from " + esquema + ".empleado where usuario = '" + usuario + "'");
+        }
+
         #endregion
 
         #region Chayo
@@ -770,13 +776,12 @@ namespace SistemaFarmacia
 
         public DataSet traerCitasDoctor(String Mes, String Doctor)
         {
-            //return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " and DATE_FORMAT(hora_inicio,'%m') = '" + Mes.PadLeft(2, '0') + "'");
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
+            return EjecutaQueryDS("Select ID_Cita, Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
         }
 
         public DataSet traerDatosCitas(String ID_Cita)
         {
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(fecha,'%Y-%m-%d %H:%i:%s') fecha_cita, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, EMAIL, DATE_FORMAT(FECHA_NACIMIENTO,'%Y-%m-%d %H:%i:%s') Fecha_Nacimiento, ID_usuario, Citas.nota from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_Cita =" + ID_Cita  );
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(fecha,'%Y-%m-%d %H:%i:%s') fecha_cita, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, EMAIL, DATE_FORMAT(FECHA_NACIMIENTO,'%Y-%m-%d %H:%i:%s') Fecha_Nacimiento, ID_usuario, Citas.nota, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_Cita =" + ID_Cita  );
         }
         
         public DataSet consultaMedico()
@@ -794,9 +799,9 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("update " + esquema + ".Citas set fecha_Modifica = sysdate(), ID_Empleado_Modifica='" + id_EmpleadoActualiza + "', Fecha = '"+ Fecha_Cita + " 00:00:00', hora_inicio='" + Fecha_Cita + " " + Hora_inicio + "', hora_fin='" + Fecha_Cita + " " + Hora_fin + "' where id_cita = " + Id_Cita);
         }
 
-        public String AgregarCita(String id_EmpleadoCrea, String Fecha_Cita, String Hora_inicio, String Hora_fin, String ID_Cliente, String Nota, String ID_Doctor)
+        public String AgregarCita(String id_EmpleadoCrea, String Fecha_Cita, String Hora_inicio, String Hora_fin, String ID_Cliente, String Nota, String ID_Doctor, String tipo)
         {
-            return EjecutaQueryInsert("Insert into " + esquema + ".Citas(fecha_Modifica, ID_Empleado_Modifica, ID_Empleado_Crea, fecha_Crea, Fecha, hora_inicio, hora_fin, ID_Cliente, nota, ID_usuario)   values(sysdate(), '" + id_EmpleadoCrea + "', '" + id_EmpleadoCrea + "', sysdate(), '" + Fecha_Cita + " 00:00:00', '" + Fecha_Cita + " " + Hora_inicio + "', '" + Fecha_Cita + " " + Hora_fin + "'," + ID_Cliente + ",'" + Nota + "'," + ID_Doctor + ") ");
+            return EjecutaQueryInsert("Insert into " + esquema + ".Citas(fecha_Modifica, ID_Empleado_Modifica, ID_Empleado_Crea, fecha_Crea, Fecha, hora_inicio, hora_fin, ID_Cliente, nota, ID_usuario, tipo)   values(sysdate(), '" + id_EmpleadoCrea + "', '" + id_EmpleadoCrea + "', sysdate(), '" + Fecha_Cita + " 00:00:00', '" + Fecha_Cita + " " + Hora_inicio + "', '" + Fecha_Cita + " " + Hora_fin + "'," + ID_Cliente + ",'" + Nota + "'," + ID_Doctor + ",'" + tipo + "') ");
         }
 
         public String traeUltimoID()
@@ -804,9 +809,11 @@ namespace SistemaFarmacia
             return EjecutaQueryString("select last_insert_id()");
         }
 
-        public String validaCitaColisionada(String ID_Doctor, String Fecha, String Hora_Inicio, String Hora_Fin)
+        public String validaCitaColisionada(String ID_Doctor, String Fecha, String Hora_Inicio, String Hora_Fin, String ID_Cita)
         {
-            return EjecutaQueryString("Select hora_inicio, hora_fin from " + esquema + ".citas where ((hora_inicio <= '" + Fecha + " " + Hora_Inicio + "' or hora_inicio >= '" + Fecha + " " + Hora_Inicio + "') and hora_fin > '2020-08-29 15:30:00' and (hora_fin <= '2020-08-29 16:30:00' or hora_fin >= '2020-08-29 16:30:00') and hora_inicio < '2020-08-29 16:30:00')  and ID_usuario = 1; ");
+            return EjecutaQueryString("Select concat(DATE_FORMAT(hora_inicio,'%d-%m-%Y'), ' de las ', DATE_FORMAT(hora_inicio,'%H:%i:%s'), ' a las ', DATE_FORMAT(hora_fin,'%H:%i:%s')) from " + esquema + ".citas where ((hora_inicio <= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '2020-09-01 18:00:00' and hora_fin > '" + Fecha + " " + Hora_Inicio + "' ) or "+
+                "(hora_inicio >= '" + Fecha + " " + Hora_Inicio + "' and hora_fin >= '" + Fecha + " " + Hora_Fin + "' and hora_inicio < '" + Fecha + " " + Hora_Fin + "') or " +
+                "(hora_inicio >= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '" + Fecha + " " + Hora_Fin + "')) and ID_usuario = " + ID_Doctor + " and estatus_cita = 1 and ID_Cita != " + ID_Cita);
         }
 
 
@@ -914,57 +921,63 @@ namespace SistemaFarmacia
 
         public string GuardaDiasInhabilesSemana(string diasSemana)
         {
-            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + diasSemana + "' WHERE NOMBRE='no_Inhabiles_Semana';");
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + diasSemana + "' WHERE NOMBRE='no_Inhabiles_Semana'");
         }
 
         public string GuardaHorarioLaboralA(string hora_Apertura)
         {
-            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Apertura + "' WHERE NOMBRE='hora_Apertura';");
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Apertura + "' WHERE NOMBRE='hora_Apertura'");
         }
         public string GuardaHorarioLaboralC(string hora_Cierre)
         {
-            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Cierre + "' WHERE NOMBRE='hora_Cierre';");
+            return EjecutaQueryInsert("UPDATE " + esquema + ".configuracion SET VALOR = '" + hora_Cierre + "' WHERE NOMBRE='hora_Cierre'");
         }
         public string GuardaFechasInhabiles(string FechasInhabiles)
         {
-            return EjecutaQueryInsert("INSERT " + esquema + ".fechas_inhabiles(fechas_inhabiles)  values ('" + FechasInhabiles + "');");
+            return EjecutaQueryInsert("INSERT " + esquema + ".fechas_inhabiles(fechas_inhabiles)  values ('" + FechasInhabiles + "')");
         }
         public DataSet TraerFechaInhabiles()
         {
-            return EjecutaQueryDS("SELECT fechas_inhabiles FROM " + esquema + ".fechas_inhabiles;");
+            return EjecutaQueryDS("SELECT fechas_inhabiles FROM " + esquema + ".fechas_inhabiles");
         }
         public string TraerHrApertura()
         {
-            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Apertura';");
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Apertura'");
         }
         public string TraerHrCierre()
         {
-            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Cierre';");
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'hora_Cierre'");
         }
         public string TraerDiasSemana()
         {
-            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'no_Inhabiles_Semana';");
+            return EjecutaQueryString("SELECT VALOR FROM " + esquema + ".configuracion WHERE NOMBRE = 'no_Inhabiles_Semana'");
         }
         public String EliminaFecha(String Fecha)
         {
-            return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = '" + Fecha + "';");
+            return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = '" + Fecha + "'");
         }
 
 
 
 
 
-        public bool ValidaCitaCorreo()
+        public bool ValidaCitaCorreo(String diasAntes)
         {
-            return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where Fecha =  DATE_SUB(CURDATE(), INTERVAL -1 DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0 ;
+            //return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where estatus_cita = 1 and Fecha =  DATE_SUB(CURDATE(), INTERVAL -1 DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0 ;
+            return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where estatus_cita = 1 and Fecha =  DATE_SUB(CURDATE(), INTERVAL -" + diasAntes + " DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0;
         }
 
 
-        public DataSet TraerClientesConCitaM()
+        public DataSet TraerClientesConCitaM(String diasAntes)
         {
+            //return EjecutaQueryDS("Select ID_Cita, DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin, '%H:%i:%s') hora_fin, DATE_FORMAT(fecha, '%Y-%m-%d') fecha, cliente.ID_CLIENTE," +
+            //    " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL " +
+            //    " from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
+                //" where estatus_cita = 1 and citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - 1 DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
             return EjecutaQueryDS("Select ID_Cita, DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin, '%H:%i:%s') hora_fin, DATE_FORMAT(fecha, '%Y-%m-%d') fecha, cliente.ID_CLIENTE," +
-                " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
-                " where citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - 1 DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
+                " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL " +
+                " from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
+                " where estatus_cita = 1 and citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - " + diasAntes + " DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
         }
 
         public String ActualizaRecordatorio(int id_cita)
@@ -972,6 +985,178 @@ namespace SistemaFarmacia
             return EjecutaQueryInsert("update " + esquema + ".citas set CorreoEnviado = '1' where ID_Cita = " + id_cita);
         }
 
+
+        public DatosCorreo ConsultaDatosCorreoRec()
+        {
+            DatosCorreo resultado = new DatosCorreo();
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select nombre, valor from " + esquema + ".configuracion ", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    while (mySqlDataReader.Read())
+                    {
+                        switch (mySqlDataReader.GetString(0))
+                        {
+                            case "SMTP_SSL":
+                                resultado.SMTP_SSL = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO":
+                                resultado.SMTP_CORREO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_HOST":
+                                resultado.SMTP_HOST = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_PUERTO":
+                                resultado.SMTP_PUERTO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_SUJETO_R":
+                                resultado.SMTP_SUJETO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_MSJ_R":
+                                resultado.SMTP_MENSAJE = mySqlDataReader.GetString(1);
+                                break;
+                            case "DIASANTESENVREC":
+                                if (mySqlDataReader.GetString(1).Length > 0)
+                                {
+                                    resultado.DiasAntes = mySqlDataReader.GetString(1);
+                                }
+                                else
+                                {
+                                    resultado.DiasAntes = "0";
+                                }
+                                break;
+                            case "IMGCORREO_R":
+                                resultado.SMTP_IMAGEN = mySqlDataReader.GetString(1);
+                                break;
+                            case "PRUEBAS":
+                                resultado.PRUEBAS = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO_PRUEBA":
+                                resultado.SMTP_CORREO_PRUEBA = mySqlDataReader.GetString(1);
+                                break;
+                            case "ENV_CORREO_A":
+                                resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_FIRMA_R":
+                                resultado.SMTP_FIRMA = mySqlDataReader.GetString(1);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                mySqlDataReader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+
+
+        public String ActualizaContCorreoRec(DatosCorreo datoscorreo, String diasAntes)
+        {
+            string resultado = "OK";
+            try
+            {
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_SUJETO + "' where nombre = 'SMTP_SUJETO_R'");
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_MENSAJE + "' where nombre = 'SMTP_MSJ_R'");
+                if (datoscorreo.SMTP_IMAGEN.Length > 0)
+                {
+                    EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_IMAGEN + "' where nombre = 'IMGCORREO_R'");
+                }
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_FIRMA + "' where nombre = 'SMTP_FIRMA_R'");
+                EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + diasAntes + "' where nombre = 'DIASANTESENVREC'");
+
+            }
+            catch (Exception ex)
+            {
+                resultado = ex.InnerException.Message;
+            }
+
+            return resultado;
+        }
+
+
+
+
+        public DataSet TraerTipoCorreo(String condicion)
+        {
+            return EjecutaQueryDS("Select ID_tipo, Nombre_tipo, Sujeto, Mensaje, ImgCorreo, Firma from " + esquema + ".tipo_correo where estatus = 1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") + " order by Nombre_tipo asc;");
+        }
+
+        public String GuardaTipoCorreo(String Nombre, String Sujeto, String Mensaje, String ImgCorreo, String Firma)
+        {
+            return EjecutaQueryInsert("Insert into " + esquema + ".tipo_correo (Nombre_tipo,Sujeto,Mensaje,ImgCorreo,Firma,estatus) values ('" + Nombre + "','" + Sujeto + "','" + Mensaje + "','" + ImgCorreo + "','" + Firma + "','1');");
+        }
+
+        public String ActualizaTipoCorreo(String id_tipo, String Nombre, String Sujeto, String Mensaje, bool CambiaImg, String ImgCorreo, String Firma)
+        {
+            return EjecutaQueryInsert("Update " + esquema + ".tipo_correo set Nombre_tipo = '" + Nombre + "',Sujeto = '" + Sujeto + "',Mensaje = '" + Mensaje + "' " + (CambiaImg ? ", ImgCorreo = '" + ImgCorreo + "'" : "") + ",Firma = '" + Firma + "' where id_tipo=1;");
+        }
+
+        public String EliminaTipoCorreo(String id_tipo)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".tipo_correo set estatus = 0 where id_tipo= " + id_tipo);
+        }
+
+        public DatosCorreo ConsultaDatosTipoCorreo(String Asunto, String Mensaje, String Firma, String Imagen)
+        {
+            DatosCorreo resultado = new DatosCorreo();
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select nombre, valor from " + esquema + ".configuracion ", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    while (mySqlDataReader.Read())
+                    {
+                        switch (mySqlDataReader.GetString(0))
+                        {
+                            case "SMTP_CORREO":
+                                resultado.SMTP_CORREO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO_PRUEBA":
+                                resultado.SMTP_CORREO_PRUEBA = mySqlDataReader.GetString(1);
+                                break;
+                            case "ENV_CORREO_A":
+                                resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                mySqlDataReader.Close();
+                resultado.SMTP_SUJETO = Asunto;
+                resultado.SMTP_MENSAJE = Mensaje;
+                resultado.SMTP_IMAGEN = Imagen;
+                resultado.SMTP_FIRMA = Firma;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
 
     }
 }
