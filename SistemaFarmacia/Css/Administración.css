@@ -215,6 +215,11 @@ textarea.ParamInput {
     margin-left: 10px;
 }
 
+.gvCliGrupo:first-child a{
+    color: white;
+}
+
+
 .gridview2:first-child a  {
     color: white;
     /*margin-left: 10px;*/
@@ -930,6 +935,15 @@ textarea.ParamInput {
 
 .FGCliente {
     width: 100% !important; 
+}
+
+
+ConfCorreoButton{
+    width: 100% !important;
+    padding: 4px 10px !important;
+}
+.BotoneraConfCorreo div{
+    margin: auto;
 }
 
 

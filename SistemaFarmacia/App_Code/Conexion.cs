@@ -776,7 +776,9 @@ namespace SistemaFarmacia
 
         public DataSet traerCitasDoctor(String Mes, String Doctor)
         {
-            return EjecutaQueryDS("Select ID_Cita, Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
+            //return EjecutaQueryDS("Select ID_Cita, Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
+            return EjecutaQueryDS("Select ID_Cita, Citas.ID_CLIENTE, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, DATE_FORMAT(Citas.Fecha,'%Y-%m-%d') Fechas, Citas.nota, nombre, apellido_paterno, apellido_materno, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_usuario=" + Doctor + " ");
+
         }
 
         public DataSet traerDatosCitas(String ID_Cita)
@@ -964,7 +966,7 @@ namespace SistemaFarmacia
         public bool ValidaCitaCorreo(String diasAntes)
         {
             //return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where estatus_cita = 1 and Fecha =  DATE_SUB(CURDATE(), INTERVAL -1 DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0 ;
-            return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where estatus_cita = 1 and Fecha =  DATE_SUB(CURDATE(), INTERVAL -" + diasAntes + " DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0;
+            return int.Parse(EjecutaQueryString("Select COUNT(*) from " + esquema + ".citas where estatus_cita = 1 and Fecha =  DATE_SUB(CURDATE(), INTERVAL - " + diasAntes + " DAY) and (CorreoEnviado is null or CorreoEnviado = '0')")) > 0;
         }
 
 
@@ -1158,5 +1160,146 @@ namespace SistemaFarmacia
             return resultado;
         }
 
+
+
+        public DataSet TraerTipoCorreoDdl()
+        {
+            return EjecutaQueryDS("Select ID_tipo, Nombre_tipo from " + esquema + ".tipo_correo where estatus = 1 order by Nombre_tipo asc;");
+        }
+        public DataSet TraerGpoClddl()
+        {
+            return EjecutaQueryDS("Select ID_Grupo, Nombre_Grupo from " + esquema + ".Grupos order by Nombre_grupo asc;");
+        }
+        public DatosCorreo ConsultaDatosTipoMail(String id_tipo)
+        {
+            DatosCorreo resultado = new DatosCorreo();
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select nombre, valor from " + esquema + ".configuracion ", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    while (mySqlDataReader.Read())
+                    {
+                        switch (mySqlDataReader.GetString(0))
+                        {
+                            case "SMTP_SSL":
+                                resultado.SMTP_SSL = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO":
+                                resultado.SMTP_CORREO = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_PASS":
+                                resultado.SMTP_PASS = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_HOST":
+                                resultado.SMTP_HOST = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_PUERTO":
+                                resultado.SMTP_PUERTO = mySqlDataReader.GetString(1);
+                                break;
+                            case "PRUEBAS":
+                                resultado.PRUEBAS = mySqlDataReader.GetString(1);
+                                break;
+                            case "SMTP_CORREO_PRUEBA":
+                                resultado.SMTP_CORREO_PRUEBA = mySqlDataReader.GetString(1);
+                                break;
+                            case "ENV_CORREO_A":
+                                resultado.ENV_ESTADO = mySqlDataReader.GetString(1);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                mySqlDataReader.Close();
+                //Traer datos de tipo correo
+                mySqlCommand = new MySqlCommand("Select Sujeto, Mensaje, ImgCorreo, Firma, Nombre_tipo from farmacia.tipo_correo where Id_tipo = " + id_tipo + ";", connMySql);
+                mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    while (mySqlDataReader.Read())
+                    {
+                        resultado.SMTP_SUJETO = mySqlDataReader.GetString(0);
+                        resultado.SMTP_MENSAJE = mySqlDataReader.GetString(1);
+                        resultado.SMTP_IMAGEN = mySqlDataReader.GetString(2);
+                        resultado.SMTP_FIRMA = mySqlDataReader.GetString(3);
+                    }
+                }
+                mySqlDataReader.Close();
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+
+
+
+        
+        public DataSet TraerClGpo(String id_grupo)
+        {
+            return EjecutaQueryDS("Select cliente.ID_CLIENTE, cliente.NOMBRE, cliente.APELLIDO_PATERNO, cliente.APELLIDO_MATERNO, cliente.EMAIL from farmacia.clientesGrupo " +
+                " left join farmacia.cliente on cliente.ID_CLIENTE = clientesGrupo.ID_CLIENTE where clientesGrupo.ID_Grupo = " + id_grupo + " ");
+        }
+
+        //public DataSet traerGrupos()
+        //{
+        //    return EjecutaQueryDS("select nombre_grupo from " + esquema + ".grupos order by Nombre_Grupo");
+        //}
+        public string traerIdsClientesGrupo(string seleccion)
+        {
+            return EjecutaQueryString("select clientes_grupo from " + esquema + ".grupos_clientes where nombre_grupo = '" + seleccion + "';");
+        }
+        
+        public string GuardarCliEnGrupo(string id, string seleccion)
+        {
+            return EjecutaQueryInsert("UPDATE " + esquema + ".cliente SET GRUPO = '" + seleccion + "' where ID_CLIENTE = '" + id + "';");
+
+            //string Ids = traerIdsClientesGrupo(seleccion);
+            //return EjecutaQueryInsert("UPDATE "+esquema+".grupos_clientes SET clientes_grupo = '"+id+","+Ids+"' WHERE nombre_grupo = '"+seleccion+"';");
+        }
+
+        //////////
+        public DataSet TraerGrupos()
+        {
+            return EjecutaQueryDS("SELECT ID_Grupo, Nombre_Grupo, Descripcion_Grupo from " + esquema + ".grupos where Estatus_Grupo = '1' order by Nombre_Grupo");
+        }
+        public string GuardarNuevoGrupo(string nombre, string descripcion, String ID_empleado)
+        {
+            return EjecutaQueryInsert("INSERT " + esquema + ".grupos (Nombre_Grupo,Descripcion_Grupo,ID_Usuario_Crea,Fecha_Crea,ID_Usuario_modifica,Fecha_Modifica,Estatus_Grupo)  VALUES ('" + nombre + "','" + descripcion + "',"+ID_empleado+",sysdate(),"+ID_empleado+",sysdate(),'1')");
+        }
+        public DataSet TraerCliGrupos(string idGrupo)
+        {
+            return EjecutaQueryDS("select ID_Cliente from " + esquema + ".clientesgrupo WHERE ID_Grupo = " + idGrupo);
+        }
+        public String actualizaGrupoModificacion(String ID_Grupo, String ID_Empleado)
+        {
+            return EjecutaQueryString("update " + esquema + ".grupos set ID_Usuario_modifica = " + ID_Empleado + ", Fecha_Modifica = sysdate() where ID_Grupo = " + ID_Grupo);
+        }
+
+        public string GuardarIDCLienteGrupo(string ID_Grupo, string id_cliente)
+        {
+            return EjecutaQueryInsert("Insert into farmacia.clientesGrupo(ID_Grupo, ID_Cliente) values(" + ID_Grupo + ", " + id_cliente + ")");
+        }
+
+        public String EliminaGrupoClientes(String ID_Grupo, String ID_Empleado)
+        {
+            return EjecutaQueryString("update " + esquema + ".grupos set Estatus_Grupo = '0', ID_Usuario_modifica = " + ID_Empleado + ", Fecha_Modifica = sysdate() where ID_Grupo = " + ID_Grupo);
+        }
+
+        public String limpiaGrupoClientes(String ID_Grupo)
+        {
+            return EjecutaQueryString("delete from " + esquema + ".clientesGrupo where ID_Grupo = " + ID_Grupo);
+        }
     }
 }

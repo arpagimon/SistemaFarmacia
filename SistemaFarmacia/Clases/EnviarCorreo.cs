@@ -99,11 +99,11 @@ namespace SistemaFarmacia.Clases
         }
 
 
-        public Boolean EnviarSelectivo(List<String> Correo, String Archivo)
+        public Boolean EnviarSelectivo(List<String> Correo, String Archivo, String id_tipo)
         {
             SistemaFarmacia.Conexion connMysql = new SistemaFarmacia.Conexion();
             DatosCorreo datosCorreo_ = new DatosCorreo();
-            datosCorreo_ = connMysql.ConsultaDatosCorreoSelec();
+            datosCorreo_ = connMysql.ConsultaDatosTipoMail(id_tipo);
 
             //Configuración correo
             Boolean enviado = true;

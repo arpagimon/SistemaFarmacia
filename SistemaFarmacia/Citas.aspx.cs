@@ -91,17 +91,60 @@ namespace SistemaFarmacia
                 return;
             }
         }
-        
+
+
+        //public void CargarCitas(String Mes)
+        //{
+        //    String eventos = "[";
+        //    String bloqueos = "[";
+
+        //    DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
+
+
+        //    if (dsCitas.Tables.Count > 0) { 
+        //        foreach (DataRow dRow in dsCitas.Tables[0].Rows)
+        //        {
+        //            if (dRow["tipo"].ToString() == "1")
+        //            {
+        //                if (eventos.Length > 1)
+        //                {
+        //                    eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+        //                }
+        //                else
+        //                {
+        //                    eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+        //                }
+        //            }else
+        //            {
+        //                if (bloqueos.Length > 1)
+        //                {
+        //                    bloqueos += ",{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+        //                }
+        //                else
+        //                {
+        //                    bloqueos += "{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    eventos += "]";
+        //    bloqueos += "]";
+
+        //    ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + ","+(Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'")+");</script>", false);
+        //}
 
         public void CargarCitas(String Mes)
         {
             String eventos = "[";
             String bloqueos = "[";
+            String eventosChico = "[";
 
             DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
 
-            
-            if (dsCitas.Tables.Count > 0) { 
+
+            if (dsCitas.Tables.Count > 0)
+            {
                 foreach (DataRow dRow in dsCitas.Tables[0].Rows)
                 {
                     if (dRow["tipo"].ToString() == "1")
@@ -109,12 +152,17 @@ namespace SistemaFarmacia
                         if (eventos.Length > 1)
                         {
                             eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                            eventosChico += ",{ start: '" + dRow["Fechas"].ToString() + "', end:'" + dRow["Fechas"].ToString() + "', overlap: false, display: 'background', color: '#58D68D'}";
+
                         }
                         else
                         {
                             eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
+                            eventosChico += "{ start: '" + dRow["Fechas"].ToString() + "', end:'" + dRow["Fechas"].ToString() + "', overlap: false, display: 'background', color: '#58D68D'}";
+
                         }
-                    }else
+                    }
+                    else
                     {
                         if (bloqueos.Length > 1)
                         {
@@ -124,18 +172,21 @@ namespace SistemaFarmacia
                         {
                             bloqueos += "{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
                         }
+
                     }
+
+
+
                 }
             }
 
             eventos += "]";
             bloqueos += "]";
+            eventosChico += "]";
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + ","+(Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'")+");</script>", false);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + "," + (Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'") + "," + eventosChico + ");</script>", false);
         }
-        
 
-        
         protected void btnCancelarCita_Click(object sender, EventArgs e)
         {
             mostrarmensaje();

@@ -7,7 +7,7 @@
     <script type="text/javascript" src="FullCalendar/locales-all.js"></script>
     <script type="text/javascript">
 
-        function cargaCalendario(eventos,eventosBloqueos,tipoVista) {
+        function cargaCalendario(eventos,eventosBloqueos,tipoVista,eventosChico) {
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
 
@@ -18,7 +18,7 @@
                     locale: 'es',
                     //Elementos de la cabecera
                     headerToolbar: {
-                        left: 'prev,next today',
+                        left: 'customPrevButton,customNextButton customDayButton',
                         center: 'title',
                         right: 'timeGridWeek,timeGridDay'
                     },
@@ -26,6 +26,7 @@
                     //businessHours: {
                     //    daysOfWeek: [1, 2, 3, 4, 5, 6]
                     //},
+                    allDaySlot: false,
                     editable: false,
                     dayMaxEventRows: true, // for all non-TimeGrid views
                     views: {
@@ -33,20 +34,58 @@
                             dayMaxEventRows: 6 // adjust to 6 only for timeGridWeek/timeGridDay
                         }
                     },
-                    eventSources: [
-                    {
-                        events: eventos,
-                    
-                        color: '#cdf0ea',
-                        textColor: 'black',
-                        borderColor: '#8db0aa'
+                    customButtons:{
+                        customPrevButton: {
+
+                            text: '<',
+                            click: function () {
+                                calendar.prev();
+                                var date = calendar.getDate();
+                                var fecha1 = date.toISOString().slice(0, 10);
+
+                                calendarCh.changeView('dayGridMonth', fecha1);
+                            }
+                        }
+                    ,
+                        customNextButton: {
+                            text: '>',
+                            click: function () {
+                                calendar.next();
+
+                                var date = calendar.getDate();
+                                var fecha1 = date.toISOString().slice(0, 10);
+
+                                calendarCh.changeView('dayGridMonth', fecha1);
+
+                            }
+                        },
+                        customDayButton: {
+                            text: 'Today',
+
+                            click: function () {
+                                calendar.today();
+                                var date = calendar.getDate();
+                                var fecha1 = date.toISOString().slice(0, 10);
+
+                                calendarCh.changeView('dayGridMonth', fecha1);
+                            }
+                        }
                     },
-                    {
-                        events: eventosBloqueos,
-                        color: 'white',
-                        textColor: 'black',
-                        borderColor: '#8db0aa'
-                    }],
+
+                    eventSources: [
+                        {
+                            events: eventos,
+
+                            color: '#cdf0ea',
+                            textColor: 'black',
+                            borderColor: '#8db0aa'
+                        },
+                        {
+                            events: eventosBloqueos,
+                            color: 'white',
+                            textColor: 'black',
+                            borderColor: '#8db0aa'
+                        }],
 
                     windowResize: function (arg) {
                         calendar.render();
@@ -56,7 +95,7 @@
                         __doPostBack("MostartDatosCitaNueva", info.dateStr);
                     },
 
-                    eventClick: function(info) {
+                    eventClick: function (info) {
                         //alert('ID: ' + info.event._def.publicId);
                         __doPostBack("MostartDatosCita", info.event._def.publicId);
                     }
@@ -76,6 +115,17 @@
                         left: 'title',
                         right:  'prev,next'
                     },
+                    dateClick: function (info) {
+
+                        var fecha = info.dateStr;
+                        //alert('a day has been clicked!' + info.dateStr);
+
+
+                        calendar.changeView('timeGridDay', fecha);
+
+                    },
+                    events:eventosChico,
+					
 
                     windowResize: function (arg) {
                         calendar.render();
@@ -85,6 +135,7 @@
                 calendarCh.render();
 
             });
+        
         }
     </script>
 </asp:Content>
