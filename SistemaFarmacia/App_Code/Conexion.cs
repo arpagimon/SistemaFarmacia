@@ -142,7 +142,7 @@ namespace SistemaFarmacia
                                                              + " where estadosmunicipios.estados_id = '" + Estado + "' order by municipio");
         }
 
-        
+
 
         public String ConsultaPermisos(string usuario)
         {
@@ -252,14 +252,14 @@ namespace SistemaFarmacia
 
         public DataSet TraerClientes(String condicion, String Estatus)
         {
-            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo, CASE WHEN REQ_FACTURA = 1 THEN 'Sí' else 'No' end REQ_FACTURA, RFC, ENTIDAD, calle_dirf ,noInterior_dirf ,noExterior_dirf ,Colonia_dirf ,CP_dirf ,Estado_dirf ,municipio_dirf ,pais_dirf, NOMBRAZON_FACTURA from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + " and estatus " + (Estatus == "1,0" ? " in ('1','0')" : " and estatus = '" + Estatus + "'") : " where estatus " + (Estatus =="1,0"? " in ('1','0') ": " = '"+Estatus+"'")) + " order by ID_CLIENTE desc");
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo, CASE WHEN REQ_FACTURA = 1 THEN 'Sí' else 'No' end REQ_FACTURA, RFC, ENTIDAD, calle_dirf ,noInterior_dirf ,noExterior_dirf ,Colonia_dirf ,CP_dirf ,Estado_dirf ,municipio_dirf ,pais_dirf, NOMBRAZON_FACTURA from " + esquema + ".cliente " + (condicion.Trim().Length > 0 ? " where " + condicion + " and estatus " + (Estatus == "1,0" ? " in ('1','0')" : " and estatus = '" + Estatus + "'") : " where estatus " + (Estatus == "1,0" ? " in ('1','0') " : " = '" + Estatus + "'")) + " order by ID_CLIENTE desc");
         }
 
         public String GuardaCliente(String NOMBRE, String APELLIDO_PATERNO, String APELLIDO_MATERNO, String EDAD, String FECHA_NACIMIENTO, String FECHA_INGRESO, String MUNICIPIO, String tel_casa_fijo, String extension, String celular, String EMAIL, String OBSERVACIONES, String NOTA, String MEDIO, String Estatus, String Estado, String Pais, String Enviar_Correo, String ID_Empleado, String Req_Factura, String RFC, String Entidad, String CalleF, String NIntF, String NExtF, String ColoniaF, String CPF, String EstadoF, String MunicipioF, String PaisF, String NomRazon)
         {
             return EjecutaQueryInsert("insert into " + esquema + ".cliente(NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, EDAD,FECHA_NACIMIENTO, FECHA_INGRESO, MUNICIPIO, tel_casa_fijo, extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, ESTATUS, Estado, Pais, Enviar_Correo, Fecha_creacion, ID_Empleado_Creacion, Fecha_Modificacion, Id_Empleado_Modificacion, req_factura, rfc, entidad, calle_dirf ,noInterior_dirf ,noExterior_dirf ,Colonia_dirf ,CP_dirf ,Estado_dirf ,municipio_dirf ,pais_dirf,NombRazon_factura) " +
-                "values('" + NOMBRE + "','" + APELLIDO_PATERNO + "','" + APELLIDO_MATERNO + "'," + (((EDAD == null || EDAD == "") ? "null" : "'" + EDAD + "'")) + "," + ((FECHA_NACIMIENTO == null || FECHA_NACIMIENTO == "") ? "null" : "'" + FECHA_NACIMIENTO + "'") + "," + ((FECHA_INGRESO == null || FECHA_INGRESO == "") ? "null" : "'" + FECHA_INGRESO + "'") + ",'" + MUNICIPIO + "','" + tel_casa_fijo + "','" + extension + "','" + celular + "','" + EMAIL + "','" + OBSERVACIONES + "','" + NOTA + "','" + MEDIO + "','" + Estatus + "', '" + Estado + "','" + Pais + "','" + Enviar_Correo + "',sysdate(), "+ ID_Empleado + ", sysdate(), " + ID_Empleado + ",'" + Req_Factura + "','" + RFC + "','" + Entidad + "','" + CalleF + "','" + NIntF + "','" + NExtF + "','" + ColoniaF + "','" + CPF + "','" + EstadoF + "','" + MunicipioF + "','" + PaisF + "','" + NomRazon + "')");
-            
+                "values('" + NOMBRE + "','" + APELLIDO_PATERNO + "','" + APELLIDO_MATERNO + "'," + (((EDAD == null || EDAD == "") ? "null" : "'" + EDAD + "'")) + "," + ((FECHA_NACIMIENTO == null || FECHA_NACIMIENTO == "") ? "null" : "'" + FECHA_NACIMIENTO + "'") + "," + ((FECHA_INGRESO == null || FECHA_INGRESO == "") ? "null" : "'" + FECHA_INGRESO + "'") + ",'" + MUNICIPIO + "','" + tel_casa_fijo + "','" + extension + "','" + celular + "','" + EMAIL + "','" + OBSERVACIONES + "','" + NOTA + "','" + MEDIO + "','" + Estatus + "', '" + Estado + "','" + Pais + "','" + Enviar_Correo + "',sysdate(), " + ID_Empleado + ", sysdate(), " + ID_Empleado + ",'" + Req_Factura + "','" + RFC + "','" + Entidad + "','" + CalleF + "','" + NIntF + "','" + NExtF + "','" + ColoniaF + "','" + CPF + "','" + EstadoF + "','" + MunicipioF + "','" + PaisF + "','" + NomRazon + "')");
+
             //return EjecutaQueryInsert("insert into cliente(NOMBRE, APELLIDO_PATERNO, APELLIDO_MATERNO, EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, MUNICIPIO, tel_casa_fijo, extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, estatus) " +
             //"values('" + NOMBRE + "','" + APELLIDO_PATERNO + "','" + APELLIDO_MATERNO + "','" + EDAD + "','" + FECHA_NACIMIENTO + "','" + FECHA_INGRESO + "','" + MUNICIPIO + "','" + tel_casa_fijo + "','" + extension + "','" + celular + "','" + EMAIL + "','" + OBSERVACIONES + "','" + NOTA + "','" + MEDIO + "','1')");
         }
@@ -464,7 +464,7 @@ namespace SistemaFarmacia
 
                 if (mySqlDataReader.HasRows)
                 {
-                    while(mySqlDataReader.Read())
+                    while (mySqlDataReader.Read())
                     {
                         switch (mySqlDataReader.GetString(0))
                         {
@@ -473,7 +473,7 @@ namespace SistemaFarmacia
                                 break;
                             case "SMTP_CORREO":
                                 resultado.SMTP_CORREO = mySqlDataReader.GetString(1);
-                                break; 
+                                break;
                             case "SMTP_PASS":
                                 resultado.SMTP_PASS = mySqlDataReader.GetString(1);
                                 break;
@@ -589,15 +589,15 @@ namespace SistemaFarmacia
         public DataSet TraerClientesDelMesSiguiente(String condicion, String Estatus)
         {
             return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO,Enviar_Correo " +
-                " from " + esquema + ".cliente "+
-                " where estatus   " + (Estatus == "1,0" ? " in ('1','0')" : " = '" + Estatus + "' ") + " and Date_format(fecha_nacimiento,'%m') =  (case when date_format(sysdate(),'%m') = 12 then 1  else date_format(sysdate(),'%m')+1 end) " + (condicion.Trim().Length > 0 ? " and " + condicion : "") );
+                " from " + esquema + ".cliente " +
+                " where estatus   " + (Estatus == "1,0" ? " in ('1','0')" : " = '" + Estatus + "' ") + " and Date_format(fecha_nacimiento,'%m') =  (case when date_format(sysdate(),'%m') = 12 then 1  else date_format(sysdate(),'%m')+1 end) " + (condicion.Trim().Length > 0 ? " and " + condicion : ""));
         }
 
         public DataSet TraerClientesDelMes(String condicion, int mes, String estatus)
         {
             return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, " +
                 " FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL,OBSERVACIONES, NOTA, MEDIO, CHECK_EMAIL,Enviar_Correo " +
-                " from " + esquema + ".cliente where estatus " + (estatus == "1,0" ? " in ('1','0')" : " = '" + estatus + "' ") + " and date_format(fecha_nacimiento,'%m') = '" + mes.ToString().PadLeft(2,'0') + "' " + (condicion.Trim().Length > 0 ? " and " + condicion : ""));
+                " from " + esquema + ".cliente where estatus " + (estatus == "1,0" ? " in ('1','0')" : " = '" + estatus + "' ") + " and date_format(fecha_nacimiento,'%m') = '" + mes.ToString().PadLeft(2, '0') + "' " + (condicion.Trim().Length > 0 ? " and " + condicion : ""));
         }
 
 
@@ -626,7 +626,7 @@ namespace SistemaFarmacia
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_CORREO + "' where nombre = 'SMTP_CORREO'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_PASS + "' where nombre = 'SMTP_PASS'");
 
-                
+
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_MENSAJE + "' where nombre = 'SMTP_MENSAJE'");
                 if (datoscorreo.SMTP_IMAGEN.Length > 0)
                 {
@@ -644,11 +644,11 @@ namespace SistemaFarmacia
 
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.PRUEBAS + "' where nombre = 'PRUEBAS'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_CORREO_PRUEBA + "' where nombre = 'SMTP_CORREO_PRUEBA'");
-                    
+
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.ENV_ESTADO + "' where nombre = 'ENV_CORREO_A'");
                 EjecutaQueryInsert("update " + esquema + ".configuracion set valor = '" + datoscorreo.SMTP_FIRMA + "' where nombre = 'SMTP_FIRMA'");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 resultado = ex.InnerException.Message;
             }
@@ -740,8 +740,9 @@ namespace SistemaFarmacia
             Boolean inserto = (EjecutaQueryInsert("Insert into " + esquema + ".BitacoraCorreo(fecha_hora,empleado_envia) values(sysdate(), " + traerIDEmpleado(empleado) + " )") == "OK" ? true : false);
             if (inserto)
             {
-                foreach(String ID in ID_Cliente) { 
-                    EjecutaQueryInsert("Insert into " + esquema + ".BitacoraDestinos(ID_Entrada,ID_Cliente) values((select last_insert_id()), "+ID+")");
+                foreach (String ID in ID_Cliente)
+                {
+                    EjecutaQueryInsert("Insert into " + esquema + ".BitacoraDestinos(ID_Entrada,ID_Cliente) values((select last_insert_id()), " + ID + ")");
                 }
                 EjecutaQueryInsert("Insert into " + esquema + ".BitacoraEstructura(ID_Entrada, Asunto, Mensaje, imagen, firma) values((select last_insert_id()), '" + dCorreo.SMTP_SUJETO + "','" + dCorreo.SMTP_MENSAJE + "','" + dCorreo.SMTP_IMAGEN + "','" + dCorreo.SMTP_FIRMA + "')");
             }
@@ -754,16 +755,16 @@ namespace SistemaFarmacia
             return EjecutaQueryString("select id_usuario from " + esquema + ".empleado where usuario = '" + empleado + "'");
         }
 
-        public String guardaError(String Error,String Modulo, String Evento)
+        public String guardaError(String Error, String Modulo, String Evento)
         {
-            return EjecutaQueryInsert("Insert into " + esquema + ".LogErrores(Modulo,Evento,msjError,Fecha) values('"+Modulo+"','"+Evento+"','"+Error+"',sysdate())");
+            return EjecutaQueryInsert("Insert into " + esquema + ".LogErrores(Modulo,Evento,msjError,Fecha) values('" + Modulo + "','" + Evento + "','" + Error + "',sysdate())");
         }
 
 
 
         public DataSet TraerClEliminados(String Condicion)
         {
-            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo, CASE WHEN REQ_FACTURA = 1 THEN 'Sí' else 'No' end REQ_FACTURA, RFC, ENTIDAD, DIR_FACTURA, NOMBRAZON_FACTURA from " + esquema + ".cliente where estatus = 3 " + (Condicion.Length > 0 ? " and " + Condicion: "" ) + " order by ID_CLIENTE desc");
+            return EjecutaQueryDS("select ID_CLIENTE,NOMBRE,APELLIDO_PATERNO,APELLIDO_MATERNO, (YEAR(CURDATE())-YEAR(FECHA_NACIMIENTO) + IF(DATE_FORMAT(CURDATE(),'%m-%d') >= DATE_FORMAT(FECHA_NACIMIENTO,'%m-%d'), 0, -1)) AS EDAD, FECHA_NACIMIENTO, FECHA_INGRESO, ESTADO, MUNICIPIO, tel_casa_fijo,extension, celular, EMAIL, OBSERVACIONES, NOTA, MEDIO, CASE WHEN ESTATUS = 1 THEN 'Activo' else 'Inactivo' end ESTATUS, PAIS, Enviar_Correo, CASE WHEN REQ_FACTURA = 1 THEN 'Sí' else 'No' end REQ_FACTURA, RFC, ENTIDAD, DIR_FACTURA, NOMBRAZON_FACTURA from " + esquema + ".cliente where estatus = 3 " + (Condicion.Length > 0 ? " and " + Condicion : "") + " order by ID_CLIENTE desc");
         }
 
         public String ReactivaCliente(String Id_Cliente, String ID_Empleado)
@@ -783,9 +784,9 @@ namespace SistemaFarmacia
 
         public DataSet traerDatosCitas(String ID_Cita)
         {
-            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(fecha,'%Y-%m-%d %H:%i:%s') fecha_cita, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, EMAIL, DATE_FORMAT(FECHA_NACIMIENTO,'%Y-%m-%d %H:%i:%s') Fecha_Nacimiento, ID_usuario, Citas.nota, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_Cita =" + ID_Cita  );
+            return EjecutaQueryDS("Select ID_Cita,Citas.ID_CLIENTE, DATE_FORMAT(fecha,'%Y-%m-%d %H:%i:%s') fecha_cita, DATE_FORMAT(hora_inicio,'%Y-%m-%d %H:%i:%s') hora_inicio,  DATE_FORMAT(hora_fin,'%Y-%m-%d %H:%i:%s') hora_fin, Citas.nota, nombre, apellido_paterno, apellido_materno, EMAIL, DATE_FORMAT(FECHA_NACIMIENTO,'%Y-%m-%d %H:%i:%s') Fecha_Nacimiento, ID_usuario, Citas.nota, tipo from " + esquema + ".Citas left join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE where estatus_cita = '1' and ID_Cita =" + ID_Cita);
         }
-        
+
         public DataSet consultaMedico()
         {
             return EjecutaQueryDS("select id_usuario, concat(nombre, ' ', apellido_paterno, ' ', apellido_materno) Nombre from " + esquema + ".empleado  where estatus = 1 and medico = 1");
@@ -798,7 +799,7 @@ namespace SistemaFarmacia
 
         public String ActualizaCita(String Id_Cita, String id_EmpleadoActualiza, String Fecha_Cita, String Hora_inicio, String Hora_fin)
         {
-            return EjecutaQueryInsert("update " + esquema + ".Citas set fecha_Modifica = sysdate(), ID_Empleado_Modifica='" + id_EmpleadoActualiza + "', Fecha = '"+ Fecha_Cita + " 00:00:00', hora_inicio='" + Fecha_Cita + " " + Hora_inicio + "', hora_fin='" + Fecha_Cita + " " + Hora_fin + "' where id_cita = " + Id_Cita);
+            return EjecutaQueryInsert("update " + esquema + ".Citas set fecha_Modifica = sysdate(), ID_Empleado_Modifica='" + id_EmpleadoActualiza + "', Fecha = '" + Fecha_Cita + " 00:00:00', hora_inicio='" + Fecha_Cita + " " + Hora_inicio + "', hora_fin='" + Fecha_Cita + " " + Hora_fin + "' where id_cita = " + Id_Cita);
         }
 
         public String AgregarCita(String id_EmpleadoCrea, String Fecha_Cita, String Hora_inicio, String Hora_fin, String ID_Cliente, String Nota, String ID_Doctor, String tipo)
@@ -813,9 +814,9 @@ namespace SistemaFarmacia
 
         public String validaCitaColisionada(String ID_Doctor, String Fecha, String Hora_Inicio, String Hora_Fin, String ID_Cita)
         {
-            return EjecutaQueryString("Select concat(DATE_FORMAT(hora_inicio,'%d-%m-%Y'), ' de las ', DATE_FORMAT(hora_inicio,'%H:%i:%s'), ' a las ', DATE_FORMAT(hora_fin,'%H:%i:%s')) from " + esquema + ".citas where ((hora_inicio <= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '2020-09-01 18:00:00' and hora_fin > '" + Fecha + " " + Hora_Inicio + "' ) or "+
+            return EjecutaQueryString("Select concat(DATE_FORMAT(hora_inicio,'%d-%m-%Y'), ' de las ', DATE_FORMAT(hora_inicio,'%H:%i:%s'), ' a las ', DATE_FORMAT(hora_fin,'%H:%i:%s')) from " + esquema + ".citas where ((hora_inicio <= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '" + Fecha + " " + Hora_Fin + "' and hora_fin > '" + Fecha + " " + Hora_Inicio + "' ) or " +
                 "(hora_inicio >= '" + Fecha + " " + Hora_Inicio + "' and hora_fin >= '" + Fecha + " " + Hora_Fin + "' and hora_inicio < '" + Fecha + " " + Hora_Fin + "') or " +
-                "(hora_inicio >= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '" + Fecha + " " + Hora_Fin + "')) and ID_usuario = " + ID_Doctor + " and estatus_cita = 1 and ID_Cita != " + ID_Cita);
+                "(hora_inicio >= '" + Fecha + " " + Hora_Inicio + "' and hora_fin <= '" + Fecha + " " + Hora_Fin + "')) and ID_usuario = " + ID_Doctor + " and estatus_cita = 1 " + (ID_Cita != "" ? "and ID_Cita != " + ID_Cita : ""));
         }
 
 
@@ -956,7 +957,8 @@ namespace SistemaFarmacia
         }
         public String EliminaFecha(String Fecha)
         {
-            return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = '" + Fecha + "'");
+            //return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = '" + Fecha + "'");
+            return EjecutaQueryInsert("delete from " + esquema + ".fechas_inhabiles where fechas_inhabiles = str_to_date('" + Fecha + "','%d/%m/%Y')");
         }
 
 
@@ -975,7 +977,7 @@ namespace SistemaFarmacia
             //return EjecutaQueryDS("Select ID_Cita, DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin, '%H:%i:%s') hora_fin, DATE_FORMAT(fecha, '%Y-%m-%d') fecha, cliente.ID_CLIENTE," +
             //    " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL " +
             //    " from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
-                //" where estatus_cita = 1 and citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - 1 DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
+            //" where estatus_cita = 1 and citas.Fecha = (select DATE_SUB(CURDATE(), INTERVAL - 1 DAY)) and (CorreoEnviado is null or CorreoEnviado = '0'); ");
             return EjecutaQueryDS("Select ID_Cita, DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin, '%H:%i:%s') hora_fin, DATE_FORMAT(fecha, '%Y-%m-%d') fecha, cliente.ID_CLIENTE," +
                 " cliente.nombre, cliente.apellido_paterno, cliente.apellido_materno, cliente.EMAIL " +
                 " from " + esquema + ".Citas inner join " + esquema + ".cliente on Citas.ID_CLIENTE = Cliente.ID_CLIENTE" +
@@ -1164,11 +1166,11 @@ namespace SistemaFarmacia
 
         public DataSet TraerTipoCorreoDdl()
         {
-            return EjecutaQueryDS("Select ID_tipo, Nombre_tipo from " + esquema + ".tipo_correo where estatus = 1 order by Nombre_tipo asc;");
+            return EjecutaQueryDS("Select ID_tipo, Nombre_tipo from " + esquema + ".tipo_correo where estatus = 1 order by Nombre_tipo asc");
         }
         public DataSet TraerGpoClddl()
         {
-            return EjecutaQueryDS("Select ID_Grupo, Nombre_Grupo from " + esquema + ".Grupos order by Nombre_grupo asc;");
+            return EjecutaQueryDS("Select ID_Grupo, Nombre_Grupo from " + esquema + ".Grupos where Estatus_Grupo='1' order by Nombre_grupo asc");
         }
         public DatosCorreo ConsultaDatosTipoMail(String id_tipo)
         {
@@ -1245,7 +1247,7 @@ namespace SistemaFarmacia
 
 
 
-        
+
         public DataSet TraerClGpo(String id_grupo)
         {
             return EjecutaQueryDS("Select cliente.ID_CLIENTE, cliente.NOMBRE, cliente.APELLIDO_PATERNO, cliente.APELLIDO_MATERNO, cliente.EMAIL from farmacia.clientesGrupo " +
@@ -1260,7 +1262,7 @@ namespace SistemaFarmacia
         {
             return EjecutaQueryString("select clientes_grupo from " + esquema + ".grupos_clientes where nombre_grupo = '" + seleccion + "';");
         }
-        
+
         public string GuardarCliEnGrupo(string id, string seleccion)
         {
             return EjecutaQueryInsert("UPDATE " + esquema + ".cliente SET GRUPO = '" + seleccion + "' where ID_CLIENTE = '" + id + "';");
@@ -1276,7 +1278,7 @@ namespace SistemaFarmacia
         }
         public string GuardarNuevoGrupo(string nombre, string descripcion, String ID_empleado)
         {
-            return EjecutaQueryInsert("INSERT " + esquema + ".grupos (Nombre_Grupo,Descripcion_Grupo,ID_Usuario_Crea,Fecha_Crea,ID_Usuario_modifica,Fecha_Modifica,Estatus_Grupo)  VALUES ('" + nombre + "','" + descripcion + "',"+ID_empleado+",sysdate(),"+ID_empleado+",sysdate(),'1')");
+            return EjecutaQueryInsert("INSERT " + esquema + ".grupos (Nombre_Grupo,Descripcion_Grupo,ID_Usuario_Crea,Fecha_Crea,ID_Usuario_modifica,Fecha_Modifica,Estatus_Grupo)  VALUES ('" + nombre + "','" + descripcion + "'," + ID_empleado + ",sysdate()," + ID_empleado + ",sysdate(),'1')");
         }
         public DataSet TraerCliGrupos(string idGrupo)
         {

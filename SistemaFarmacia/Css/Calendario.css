@@ -36,7 +36,7 @@
     text-align: center;
     color: white;
     height: 40px;
-    padding: 6px;
+    padding: 6px 6px 0px ;
 }
 .FTitulo {
     font-family: Verdana;
@@ -314,4 +314,24 @@
 }
 .fc-scrollgrid-sync-table{
     border: soid 1 px gray !important;
-}*/
+}
+*/
+
+
+.btnPestana{
+    border-radius: 8px 8px 0px 0px;
+    height: 100%;
+    border-bottom: none;
+    background: #eee;
+    float: left;
+    padding: 0px 20px;
+}
+
+.btnPestanaSeleccionada{
+    background: white;
+}
+
+.txtExtGrande{
+    width:100%;
+    height: 50px;
+}

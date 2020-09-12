@@ -10,7 +10,7 @@
 
         });
 
-        ///Version 1.54
+        ///Version 1.55
 
 
         function ModalUpdate(titulo, MSG) {
@@ -63,7 +63,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
                         </div>
-                        <asp:TextBox type="text" runat="server" ID="Usuario" class="form-control" placeholder="Usuario" aria-label="Usuario" aria-describedby="basic-addon1"></asp:TextBox>
+                        <asp:TextBox type="text" runat="server" ID="Usuario" class="form-control" placeholder="Usuario" aria-label="Usuario" aria-describedby="basic-addon1" AutoComplete="off"></asp:TextBox>
                     </div>
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">

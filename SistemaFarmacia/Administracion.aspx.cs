@@ -148,6 +148,14 @@ namespace SistemaFarmacia
                             Session["OrdenCliGrup"] = "";
                         }
 
+                        if (Session["IdGrupo"] == null)
+                        {
+                            Session.Add("IdGrupo", "");
+                        }
+                        else
+                        {
+                            Session["IdGrupo"] = "";
+                        }
                         
 
 
@@ -1757,16 +1765,22 @@ namespace SistemaFarmacia
             btnConfiguracionCorreo.Visible = false;
             btnContenidCorreo.Visible = false;
             btnContenidCorreoSelec.Visible = false;
+            btnTiposCorreo.Visible = false;
+            btnCorreoRecordatorio.Visible = false;
 
             btnConfiguracionTecnica.CssClass = "subOpcion";
             btnConfiguracionCorreo.CssClass = "subOpcion";
             btnContenidCorreo.CssClass = "subOpcion";
             btnContenidCorreoSelec.CssClass = "subOpcion";
+            btnTiposCorreo.CssClass = "subOpcion";
+            btnCorreoRecordatorio.CssClass = "subOpcion";
 
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = false;
             divCorreoConfCorreo.Visible = true;
             divCorreoContSelec.Visible = false;
+            divTiposCorreo.Visible = false;
+            divCorreoRecordatorio.Visible = false;
         }
 
         protected void btnActCorreoTecn_Click(object sender, EventArgs e)
@@ -2449,8 +2463,8 @@ namespace SistemaFarmacia
                     Session["CondicionClientes"] = condicion;
                     cargaClientes();
 
-                    string IdGrupo = (string)(Session["IdGrupo"].ToString());
-                    CargarCliGrupo(IdGrupo);
+                    //string IdGrupo = (string)(Session["IdGrupo"].ToString());
+                    //CargarCliGrupo(IdGrupo);
 
 
                     divFormularioG.Visible = false;
@@ -3695,6 +3709,8 @@ namespace SistemaFarmacia
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "seleccionado";
 
+            CambiaTitulo("Confiuración de citas");
+
             ocultarOpcionesCorreo();
             TraerFechasInhabiles();
         }
@@ -4188,7 +4204,7 @@ namespace SistemaFarmacia
             divFormTipo.Visible = false;
 
             lblIDtipoDelete.Text = IDtipo.Text;
-            lblMsjDeleteTipo.Text = "¿Está seguro que desea eliminar el tipo de correo\n'" + TipoCorreo.Text + "' ?";
+            lblMsjDeleteTipo.Text = "¿Está seguro que desea eliminar el tipo de correo\n '" + TipoCorreo.Text + "' ?";
         }
 
         protected void btnFormTipoAgregar_Click(object sender, EventArgs e)
@@ -4434,7 +4450,7 @@ namespace SistemaFarmacia
             GridViewRow row = ((GridViewRow)((LinkButton)sender).NamingContainer);
 
             String IDGrupo = ((Label)row.FindControl("lblIdGrupo")).Text;
-            String TipoCorreo = ((Label)row.FindControl("lblNombre")).Text;
+            String nombreGrupo = ((Label)row.FindControl("lblNombre")).Text;
 
             //MasterFarmacia master = (MasterFarmacia)this.Master;
             //master.mostrarMensaje(true);
@@ -4448,7 +4464,7 @@ namespace SistemaFarmacia
             divConfirmaDeleteGrupo.Visible = true;
 
             lblIDGrupoDeleteGrupo.Text = IDGrupo;
-            lblMsjDeleteTipo.Text = "¿Está seguro que desea eliminar el grupo de clientes\n'" + nombreGrupo + "' ?";
+            lblTextDeleteGrupo.Text = "¿Está seguro que desea eliminar el grupo de clientes <br> <b>" + nombreGrupo + "</b> ?";
         }
 
 
@@ -4467,6 +4483,7 @@ namespace SistemaFarmacia
 
             mostrarMensaje("Grupo eliminado exitosamente");
             lblIDGrupoDeleteGrupo.Text = "";
+            CargarGrupos();
         }
 
 
@@ -4749,6 +4766,7 @@ namespace SistemaFarmacia
         {
             lblIDGrupoGvGrupo.Text = "";
             lblNombreGrupoGvGrupo.Text = "";
+            CambiaTitulo("Grupos Clientes");
 
             divContenidosGrupos.Visible = false;
             divGvGrupos.Visible = true;

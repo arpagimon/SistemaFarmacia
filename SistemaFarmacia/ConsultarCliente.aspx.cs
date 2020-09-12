@@ -78,7 +78,7 @@ namespace SistemaFarmacia
                         }
 
                         ddlEstatusGeneral.SelectedValue = "1";
-                        
+
                         master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
                         master.mostrarMensaje(false);
                         sombraMensaje.Visible = false;
@@ -198,7 +198,7 @@ namespace SistemaFarmacia
                         }
                     }
                 }
-                
+
                 bool editar = false;
                 bool eliminar = false;
 
@@ -211,7 +211,7 @@ namespace SistemaFarmacia
                 {
                     eliminar = true;
                 }
-                
+
                 if (!editar && !eliminar)
                 {
                     if (e.Row.RowType != DataControlRowType.Pager)
@@ -229,7 +229,7 @@ namespace SistemaFarmacia
                         lblNumeroFila.Text = ((e.Row.RowIndex + 1) + (gvGerentes.PageIndex * gvGerentes.PageSize)).ToString();
                     }
                     catch { }
-                    
+
                     Label etiquetaFechaI = (Label)e.Row.FindControl("lblFechaI");
                     Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
 
@@ -244,7 +244,7 @@ namespace SistemaFarmacia
                         etiquetaFechaI.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[6]).ToString("dd/MM/yyyy");
                     }
                     catch { }
-                    
+
                     if (!editar)
                     {
                         e.Row.Cells[15].Controls[0].Visible = false;
@@ -280,7 +280,7 @@ namespace SistemaFarmacia
             FGAgregar.Visible = false;
 
             ocultaRango();
-            
+
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
@@ -350,7 +350,7 @@ namespace SistemaFarmacia
                 {
                     divMunicipio.Visible = true;
                     divPais.Visible = false;
-                    
+
                     llenaMunicipio(ddlEstado.SelectedValue);
                     try
                     {
@@ -375,7 +375,7 @@ namespace SistemaFarmacia
                 }
             }
             catch { }
-            
+
             TxtEdad.Text = Edad.Text;
 
             try
@@ -383,7 +383,7 @@ namespace SistemaFarmacia
                 TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3, 2) + "-" + FechaI.Text.Substring(0, 2);
             }
             catch (Exception ex) { }
-            
+
             try
             {
                 ddlMedio.SelectedValue = Medio.Text;
@@ -400,7 +400,7 @@ namespace SistemaFarmacia
             }
             catch (Exception ex)
             { }
-            
+
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
             TxtNota.Text = Nota.Text;
@@ -498,7 +498,7 @@ namespace SistemaFarmacia
             TxtApellidoM.Text = "";
             ddlEstado.SelectedIndex = -1;
             ddlMunicipio.SelectedIndex = -1;
-            
+
             TxtEdad.Text = "";
             TxtFechaI.Text = "";
             ddlMedio.SelectedIndex = -1;
@@ -683,7 +683,7 @@ namespace SistemaFarmacia
                 TxtTelFijo.Attributes.Add("style", "border: 1px red solid;");
                 TxtCelular.Attributes.Add("style", "border: 1px red solid;");
             }
-            
+
             String FechaN = TxtFechaN.Text;
             if (FechaN.Trim().Length == 0)
             {
@@ -908,7 +908,7 @@ namespace SistemaFarmacia
 
                 sombraMensaje.Visible = true;
                 mostrarMensaje((resultado.Trim().Equals("OK") ? "Cliente guardado exitosamente" : resultado));
-                
+
                 gvGerentes.EditIndex = -1;
                 cargaClientes();
             }
@@ -917,7 +917,7 @@ namespace SistemaFarmacia
                 lblError.Text = "Favor de llenar los campos faltantes";
             }
         }
-        
+
         public void mostrarMensaje(String mensaje)
         {
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -947,7 +947,7 @@ namespace SistemaFarmacia
             lblError.Text = "";
             TxtEdad.Enabled = false;
             panelMsj.DefaultButton = FGAgregar.ID;
-            
+
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
@@ -999,7 +999,7 @@ namespace SistemaFarmacia
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
 
-            ddlFactura.SelectedIndex = 1;
+            ddlFactura.SelectedIndex = 0;
             //ddlEntidad.SelectedIndex = 0;
             //txtRfc.Text = "";
             //txtDirFiscal.Text = "";
@@ -1175,7 +1175,7 @@ namespace SistemaFarmacia
                 TxtCelular.Attributes.Add("style", "border: 1px red solid;");
                 Pasa = false;
             }
-            
+
             String FechaN = TxtFechaN.Text;
             if (FechaN.Trim().Length == 0)
             {
@@ -1397,7 +1397,7 @@ namespace SistemaFarmacia
                 {
                     condicion += " nombre like '%" + TxtNombre.Text.Trim() + "%' ";
                 }
-                
+
                 if (TxtApellidoP.Text.Trim().Length > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " apellido_paterno like '%" + TxtApellidoP.Text.Trim() + "%' ";
@@ -1416,7 +1416,7 @@ namespace SistemaFarmacia
                         condicion += (condicion.Length > 0 ? " and " : "") + " Municipio like '%" + ddlMunicipio.Items[ddlMunicipio.SelectedIndex].Text.Trim() + "%' ";
                     }
                 }
-                
+
                 if (ddlPais.SelectedIndex > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " Pais like '%" + ddlPais.Items[ddlPais.SelectedIndex].Text.Trim() + "%' ";
@@ -1475,12 +1475,12 @@ namespace SistemaFarmacia
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " fecha_ingreso like '%" + TxtFechaI.Text.Trim() + "%' ";
                 }
-                
+
                 if (ddlMedio.SelectedValue != "0")
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " medio like '%" + ddlMedio.SelectedValue.Trim() + "%' ";
                 }
-                
+
                 if (TxtTelFijo.Text.Trim().Length > 0)
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " tel_casa_fijo like '%" + TxtTelFijo.Text.Trim() + "%' ";
@@ -1525,14 +1525,14 @@ namespace SistemaFarmacia
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " req_factura like '%" + ddlFactura.SelectedValue.Trim() + "%' ";
                 }
-                
+
 
                 if (pasa)
                 {
                     lblError.Text = "";
                     Session["Condicion"] = condicion;
                     cargaClientes();
-                    
+
                     btnLimpiarF.Visible = false;
                     btnBuscarF.Visible = false;
                     btnCerrarF.Visible = false;
@@ -1608,7 +1608,7 @@ namespace SistemaFarmacia
                     TxtEdad.Attributes.Add("style", "width:calc(100% - 25px); margin-right:0px;");
                     chkRango.Visible = true;
                 }
-                
+
                 divObservacionesNota.Visible = false;
                 int temporal = ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1"));
                 if (ddlEnviarCorreo.Items.IndexOf(new ListItem("Todos", "-1")) == -1)
@@ -1616,13 +1616,13 @@ namespace SistemaFarmacia
                     ddlEnviarCorreo.Items.Add(new ListItem("Todos", "-1"));
                     ddlEnviarCorreo.SelectedValue = "-1";
                 }
-                
+
                 if (ddlEstatus.Items.IndexOf(lITodos) == -1)
                 {
                     ddlEstatus.Items.Insert(0, lITodos);
                     ddlEstatus.SelectedIndex = 0;
                 }
-                
+
                 btnLimpiarF.Visible = true;
                 btnBuscarF.Visible = true;
                 btnCerrarF.Visible = true;
@@ -1691,7 +1691,7 @@ namespace SistemaFarmacia
 
             return vive;
         }
-        
+
         protected void btnCerrarF_Click(object sender, EventArgs e)
         {
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -1721,12 +1721,12 @@ namespace SistemaFarmacia
                 TxtObservaciones.Text = "";
                 TxtNota.Text = "";
                 ddlEstatus.SelectedIndex = 0;
-                
+
                 Session["Condicion"] = "";
                 cargaClientes();
             }
         }
-        
+
         #region medio
         protected void llenarDropDownDlist()
         {
@@ -1879,7 +1879,7 @@ namespace SistemaFarmacia
             FGAgregar.Visible = false;
 
             ocultaRango();
-            
+
             if (ddlEstatus.Items.IndexOf(lITodos) == 0)
             {
                 ddlEstatus.Items.RemoveAt(0);
@@ -1917,7 +1917,7 @@ namespace SistemaFarmacia
             Label R_Factura = (Label)row.FindControl("lblFactura");
             Label RFC = (Label)row.FindControl("lblRfc");
             Label Entidad = (Label)row.FindControl("lblEntidad");
-            
+
             Label NomRazon = (Label)row.FindControl("lblNomRazon");
             Label Calle = (Label)row.FindControl("lblCalleF");
             Label NoInterior = (Label)row.FindControl("lblNoInteriorF");
@@ -1945,7 +1945,7 @@ namespace SistemaFarmacia
                 {
                     divMunicipio.Visible = true;
                     divPais.Visible = false;
-                    
+
                     llenaMunicipio(ddlEstado.SelectedValue);
                     try
                     {
@@ -1967,7 +1967,7 @@ namespace SistemaFarmacia
                 }
             }
             catch { }
-            
+
             TxtEdad.Text = Edad.Text;
 
             try
@@ -1975,7 +1975,7 @@ namespace SistemaFarmacia
                 TxtFechaI.Text = FechaI.Text.Substring(6) + "-" + FechaI.Text.Substring(3, 2) + "-" + FechaI.Text.Substring(0, 2);
             }
             catch (Exception ex) { }
-            
+
             try
             {
                 ddlMedio.SelectedValue = Medio.Text;
@@ -1992,7 +1992,7 @@ namespace SistemaFarmacia
             }
             catch (Exception ex)
             { }
-            
+
             TxtEmail.Text = Email.Text;
             TxtObservaciones.Text = Observaciones.Text;
             TxtNota.Text = Nota.Text;
@@ -2051,7 +2051,7 @@ namespace SistemaFarmacia
             ddlPaisDFa.Enabled = false;
             txtCPdfA.Enabled = false;
             ddlEntidadDFa.Enabled = false;
-            
+
 
             //ddlEntidad.Enabled = false;
             //txtDirFiscal.Enabled = false;
@@ -2103,7 +2103,7 @@ namespace SistemaFarmacia
             catch { }
             ddlMunicipioDFa.Enabled = false;
         }
-        
+
         public void HabilitaCampos()
         {
             if (!TxtNombre.Enabled)

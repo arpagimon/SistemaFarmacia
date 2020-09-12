@@ -83,8 +83,7 @@
                 <label class="FGEtiqueta">Nombre: </label>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtNombre" CssClass="FGColumna2 FGInput"></asp:TextBox>
                 <br />
-                <label cla
-                    ss="FGEtiqueta">Apellido Paterno: </label>
+                <label class="FGEtiqueta">Apellido Paterno: </label>
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtApellidoP" CssClass="FGColumna2 FGInput"></asp:TextBox>
                 <br />
                 <label class="FGEtiqueta">Apellido Materno: </label>
@@ -182,7 +181,7 @@
                                     <asp:ListItem Value="311">Contenido</asp:ListItem>
                                 </asp:CheckBoxList>
                                 <asp:CheckBoxList runat="server"  id="chkAdmin" CssClass="chbFG" RepeatColumns="2">
-                                    <asp:ListItem Value="312">Envio selectivo de correo</asp:ListItem>
+                                    <asp:ListItem Value="312">Envio de promociones</asp:ListItem>
                                     <asp:ListItem Value="313">Reactivar clientes</asp:ListItem>
                                 </asp:CheckBoxList>
                             </div>
@@ -448,16 +447,16 @@
                 <br />
                 <div class="row BotoneraConfCorreo">
                     <div class="col-md">
-                        <asp:Button runat="server" ID="btnConfcorreoCancelar" CssClass="MBoton" Text="Cancelar" OnClick="btnConfcorreoCancelar_Click" />
+                        <asp:Button runat="server" ID="btnConfcorreoCancelar" CssClass="MBoton ConfCorreoButton" Text="Cancelar" OnClick="btnConfcorreoCancelar_Click" />
                     </div>
                     <div>
-                        <asp:Button runat="server" ID="btnGpoClientes" CssClass="MBoton" Text="Enviar a Grupo de Clientes" OnClick="btnGpoClientes_Click" />
+                        <asp:Button runat="server" ID="btnGpoClientes" CssClass="MBoton ConfCorreoButton" Text="Enviar a Grupo de Clientes" OnClick="btnGpoClientes_Click" />
                     </div>
                     <div class="col-md" runat="server" id="DivContinuaSelec">
-                        <asp:Button runat="server" ID="btnContinuaSelec" CssClass="MBoton" Text="Continuar con selección" OnClick="btnContinuaSelec_Click"/>
+                        <asp:Button runat="server" ID="btnContinuaSelec" CssClass="MBoton ConfCorreoButton" Text="Continuar con selección" OnClick="btnContinuaSelec_Click"/>
                     </div>
                     <div class="col-md" runat="server" id="DivConfOK">
-                        <asp:Button runat="server" ID="btnConfCorreoOK" CssClass="MBoton" Text="Aceptar" OnClick="btnConfCorreoOK_Click" OnClientClick="return mostrarmensajejs();" Visible="false"/>
+                        <asp:Button runat="server" ID="btnConfCorreoOK" CssClass="MBoton ConfCorreoButton" Text="Aceptar" OnClick="btnConfCorreoOK_Click" OnClientClick="return mostrarmensajejs();" Visible="false"/>
                     </div>
                 </div>
             </div>
@@ -1766,7 +1765,7 @@
                     <asp:Button runat="server" ID="btnCancelarGrupo" CssClass="btnEnviarCorreo" AutoPostBack="true" Text="Cancelar" OnClick="btnCancelarGrupo_Click1"></asp:Button>
                     <asp:Button runat="server" ID="btnBuscarCliGrup" Text="Buscar" OnClick="btnBuscarCliGrup_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
                 </div>
-                <div runat="server" id="divClientesGrupos">
+                <div runat="server" id="divClientesGrupos" class="divContenido2">
                     <asp:Label runat="server" ID="lblIDGrupoGvGrupo" Visible="false"></asp:Label>
                     <asp:Label runat="server" ID="lblNombreGrupoGvGrupo" Visible="false"></asp:Label>
                     <asp:GridView ID="gvCliGrupo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"

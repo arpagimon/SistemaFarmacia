@@ -163,10 +163,12 @@
 
         <div runat="server" id="divFormularioCita" class="FormGerente" >
             <div id="FCabecera" class="FCabecera">
-                <asp:Label runat="server" ID="FTitulo" CssClass="FTitulo">Datos de cita</asp:Label>
+                <asp:Button Text="Datos de cita" runat="server" CssClass="btnPestana" ID="btnPestanaDatosCita" OnClick="btnPestanaDatosCita_Click"/>
+                <asp:Button Text="Resultado de cita" runat="server" CssClass="btnPestana" ID="btnPestanaResulCita" OnClick="btnPestanaResulCita_Click"/>
+                <%--<asp:Label runat="server" ID="FTitulo" CssClass="FTitulo">Datos de cita</asp:Label>--%>
             </div>
             <asp:Panel runat="server" ID="panelMsj">
-                <div id="FContenido" class="FContenido">
+                <div id="divFContenidoDatoCita" class="FContenido" runat="server">
                     <asp:TextBox runat="server" ID="TxtIDCita" Visible="false" ></asp:TextBox>
                     <asp:TextBox runat="server" ID="TxtIDCliente" Visible="false" ></asp:TextBox>
                     <div runat="server" id="divSeleccionCliente" visible="false" class="divSeleccionCliente">
@@ -258,6 +260,49 @@
                             <asp:Button runat="server" ID="btnAgendarCita" CssClass="FGBoton" Text="Agendar cita" OnClick="btnAgendarCita_Click" />
                             <asp:Button runat="server" ID="btnInhabiliarHorario" CssClass="FGBoton" Text="Inhabilitar horario" OnClick="btnInhabiliarHorario_Click" />
                             <asp:Button runat="server" ID="btnCerrar" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
+                        </div>
+                    </div>
+                </div>
+                <div id="divFContenidoResulCita" class="FContenido" runat="server" visible="false">
+                    <div class="row justify-content-start px-2">
+                        <label>Objetivo</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <asp:TextBox runat="server" ID="txtObjetivo" TextMode="MultiLine" CssClass="form-control txtExtGrande"></asp:TextBox>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <label>Sintomas</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <asp:TextBox runat="server" ID="txtSintomas" TextMode="MultiLine" CssClass="form-control txtExtGrande"></asp:TextBox>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <label>Receta</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <div>
+                            <asp:GridView runat="server" ID="gvReceta" CssClass="" ></asp:GridView>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <label>Indicaciones generales</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <asp:TextBox runat="server" ID="txtIndicaciones" TextMode="MultiLine" CssClass="form-control txtExtGrande"></asp:TextBox>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <label>Adjuntar archivos</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <asp:FileUpload runat="server" ID="FUploadResultCita" CssClass="txtExtGrande ParamInput"  accept="image/jpeg" />
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col-12 px-2">
+                            <asp:Label runat="server" ID="lblResulCitaError" CssClass="lblError"></asp:Label>
+                        </div>
+                        <div class="col px-2 text-center FBotonera">
+                            <asp:Button runat="server" ID="btnResulCitaGuardar" CssClass="FGBoton" Text="Guardar" OnClick="btnResulCitaGuardar_Click" />
+                            <asp:Button runat="server" ID="btnResulCitaCerrar" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
                         </div>
                     </div>
                 </div>
@@ -480,7 +525,7 @@
                                 <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                             </asp:DropDownList>
                             <div id="divBtnDatosF" class="divBtnDatosF" runat="server" visible="false">
-                                <asp:LinkButton ID="btnAddDatosF" ToolTip="Añadir datos de facturación" OnClick="btnAddDatosF_Click" CssClass="btnAgrClienteG AddDatosF" runat="server" Text="<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>" />
+                                <asp:LinkButton ID="btnAddDatosF" ToolTip="Datos de facturación" OnClick="btnAddDatosF_Click" CssClass="btnAgrClienteG AddDatosF" runat="server" Text="<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>" />
                             </div>
                         </div>
                     </div>

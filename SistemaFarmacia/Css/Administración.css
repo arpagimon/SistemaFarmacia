@@ -1,4 +1,13 @@
-﻿.subOpcion {
+﻿.ConfCorreoButton {
+    width: 100% !important;
+    padding: 4px 10px !important;
+}
+
+.divBtnCompleto {
+    margin: auto;
+}
+
+.subOpcion {
     background-color: #555 !important;
     font-size: 14px !important;
     padding-left: 40px !important;

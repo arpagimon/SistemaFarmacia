@@ -1,4 +1,12 @@
-﻿body {
+﻿.modal-dialog {
+    height: -webkit-fill-available;
+}
+.modal-content {
+    max-height: -webkit-fill-available;
+    overflow:auto;
+}
+
+body {
     /*background-image: url(../resources/img/imgLogin.jfif);*/
     background-image: url(../Imagenes/imgFondoLogo.jpg);
     background-repeat: no-repeat;
@@ -56,10 +64,10 @@
 
 
 .ErrorLogin {
-    background: rgb(255,0,0, 0.6);
+    background: rgba(255,0,0, 0.6);
 }
 
 .modal {
-    background-color:#808080b8;
+    background-color: rgba(80,80,80,0.5);
 }
-}
+

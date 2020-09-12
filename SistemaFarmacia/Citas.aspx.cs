@@ -69,7 +69,7 @@ namespace SistemaFarmacia
                             ocultarBotonesMensaje();
                             btnCerrarMensaje.Visible = true;
                             btnContCitas.Visible = true;
-                            lblMensaje.Text = "La fecha seleccionada es un dia y/o hora, ¿Desea continuar con la creación de la cita?";
+                            lblMensaje.Text = "La fecha seleccionada es un dia y/o hora no hábil, ¿Desea continuar con la creación de la cita?";
                         }
 
                         break;
@@ -286,6 +286,15 @@ namespace SistemaFarmacia
             divSeleccionCliente.Visible = false;
             divDatosCliente.Visible = true;
 
+            divFContenidoDatoCita.Visible = true;
+            divFContenidoResulCita.Visible = false;
+
+            btnPestanaDatosCita.Visible = true;
+            btnPestanaResulCita.Visible = true;
+
+            btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
+            btnPestanaResulCita.CssClass = "btnPestana";
+
             DataSet datosCita = connMySql.traerDatosCitas(Id_Cita);
 
             foreach(DataRow dRow in datosCita.Tables[0].Rows)
@@ -355,6 +364,14 @@ namespace SistemaFarmacia
         public void llenaCamposCitaNueva(String datosSeleccionados)
         {
             TxtIDCita.Text = "";
+
+            btnPestanaDatosCita.Visible = true;
+            btnPestanaResulCita.Visible = false;
+
+            btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
+            btnPestanaResulCita.CssClass = "btnPestana";
+
+
 
             txtFechaCita.Text = datosSeleccionados.Substring(0, 10);
             txtHoraInicio.Text = datosSeleccionados.Substring(11, 5);
@@ -473,7 +490,7 @@ namespace SistemaFarmacia
                 chkSeleccionado.Attributes.Add("ApellidoP", ((DataRowView)e.Row.DataItem).Row.ItemArray[2].ToString());
                 chkSeleccionado.Attributes.Add("ApellidoM", ((DataRowView)e.Row.DataItem).Row.ItemArray[3].ToString());
                 chkSeleccionado.Attributes.Add("Email", ((DataRowView)e.Row.DataItem).Row.ItemArray[12].ToString());
-                chkSeleccionado.Attributes.Add("FechaN", ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("yyyy-MM-dd"));
+                chkSeleccionado.Attributes.Add("FechaN", (((DataRowView)e.Row.DataItem).Row.ItemArray[5].ToString() != "" ? ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("yyyy-MM-dd"):""));
 
                 Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
                 try
@@ -711,11 +728,11 @@ namespace SistemaFarmacia
         {
             divFormularioCliente.Visible = false;
             divMensajeDF.Visible = true;
-            if (FTitulo.Text == "Detalle de cliente")
-            {
-                btnLimpiaDF.Visible = false;
-                btnGuardaDF.Visible = false;
-            }
+            //if (FTitulo.Text == "Detalle de cliente")
+            //{
+            //    btnLimpiaDF.Visible = false;
+            //    btnGuardaDF.Visible = false;
+            //}
         }
 
         public void llenaEstados()
@@ -1131,6 +1148,8 @@ namespace SistemaFarmacia
 
                 btnAgendarCita.Visible = true;
 
+                
+
                 TxtIDCliente.Text = connMySql.traeUltimoID();
                 TxtNombre.Text = txtFormCliNombre.Text;
                 TxtApellidoP.Text = txtFormCliApePat.Text;
@@ -1180,6 +1199,11 @@ namespace SistemaFarmacia
 
                 divMensaje.Visible = true;
                 ocultarBotonesMensaje();
+
+
+                btnOKClienteGuardado.Visible = true;
+                lblMensaje.Text = "El cliente se registró exitosamente.";
+                divFormularioCita.Visible = false;
 
 
             }
@@ -1558,6 +1582,27 @@ namespace SistemaFarmacia
             divFormularioCita.Visible = true;
         }
 
+        protected void btnPestanaDatosCita_Click(object sender, EventArgs e)
+        {
+            btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
+            btnPestanaResulCita.CssClass = "btnPestana";
 
+            divFContenidoDatoCita.Visible = true;
+            divFContenidoResulCita.Visible = false;
+        }
+
+        protected void btnPestanaResulCita_Click(object sender, EventArgs e)
+        {
+            btnPestanaDatosCita.CssClass = "btnPestana";
+            btnPestanaResulCita.CssClass = "btnPestana btnPestanaSeleccionada";
+
+            divFContenidoDatoCita.Visible = false;
+            divFContenidoResulCita.Visible = true;
+        }
+
+        protected void btnResulCitaGuardar_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
