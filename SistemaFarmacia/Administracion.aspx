@@ -39,6 +39,10 @@
             } catch (error) { }
 
             try {
+                $("#<%=divMsjConfirmaEnvio.ClientID%>").hide();
+            } catch (error) { }
+
+            try {
                 $("#<%=MContenidoJS.ClientID%>").show();
             } catch (error) { }
         }
@@ -388,10 +392,10 @@
             <div id="divConfCorreoContenido" class="divConfCorreoContenido">
                 <asp:Label runat="server" ID="lblConfCorreoMensaje" CssClass="lblMensaje">Continuar con el envio de correo a los siguientes clientes:</asp:Label>
                 <br />
-                <asp:GridView ID="gvDestinoCorreo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
+                <asp:GridView ID="gvDestinoCorreo" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvDestinoCorreo_RowDataBound" OnPageIndexChanging="gvDestinoCorreo_PageIndexChanging" OnSorting="gvDestinoCorreo_Sorting" AllowSorting="true">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7"  />
+                    <RowStyle BackColor="#f9def8" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -456,9 +460,22 @@
                         <asp:Button runat="server" ID="btnContinuaSelec" CssClass="MBoton ConfCorreoButton" Text="Continuar con selección" OnClick="btnContinuaSelec_Click"/>
                     </div>
                     <div class="col-md" runat="server" id="DivConfOK">
-                        <asp:Button runat="server" ID="btnConfCorreoOK" CssClass="MBoton ConfCorreoButton" Text="Aceptar" OnClick="btnConfCorreoOK_Click" OnClientClick="return mostrarmensajejs();" Visible="false"/>
+                        <asp:Button runat="server" ID="btnConfCorreoOK" CssClass="MBoton ConfCorreoButton" Text="Aceptar" OnClick="btnConfCorreoOK_Click" Visible="false"/>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div runat="server" id="divMsjConfirmaEnvio" class="divMensaje divMensajeConfirmacion" visible="false">
+            <div id="divConfEnvioCabecera" class="FCabecera">
+                <label id="lblConfEnvioTitulo">Mensaje</label>
+            </div>
+            <div id="divConfEnvio" class="divConfCorreoContenido">
+                <asp:Label runat="server" ID="lblMsjConfEnvioS" CssClass="lblMensaje"></asp:Label>
+                <br />
+                <asp:Button runat="server" ID="btnCancelEnvioS" CssClass="MBoton" Text="Cancelar" OnClick="btnCancelaEnvioS_Click" />
+                <asp:Button runat="server" ID="btnContinuaEnvioS" CssClass="MBoton" Text="Aceptar" OnClick="btnContinuaEnvioS_Click" OnClientClick="return mostrarmensajejs();" />
+                <asp:Button runat="server" ID="btnCancelEnvioGpo" CssClass="MBoton" Text="Cancelar" OnClick="btnCancelaEnvioG_Click" />
+                <asp:Button runat="server" ID="btnContinuaEnvioGpo" CssClass="MBoton" Text="Aceptar" OnClick="btnContinuaEnvioG_Click" OnClientClick="return mostrarmensajejs();" />
             </div>
         </div>
         <div runat="server" id="divGpoClienteTipoSelec" class="divMensaje divMensajeConfirmacion" visible="false">
@@ -475,11 +492,11 @@
                     </tr>
                 </table>
                 <div id="VistaGpoCl" runat="server" visible="false">
-                    <asp:GridView ID="gvGpoClDatos" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="5" PagerSettings-Mode="NumericFirstLast"
+                    <asp:GridView ID="gvGpoClDatos" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="5" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview2" CellPadding="5" Width="100%" OnPageIndexChanging="gvDestinoCorreo_PageIndexChanging" OnSorting="gvDestinoCorreo_Sorting" AllowSorting="true">
                     <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
-                    <PagerStyle BackColor="#CCCCCC" />
+                    <RowStyle BackColor="#f9c3f7" />
+                    <PagerStyle BackColor="#f9def8" />
                     <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedAscendingCellStyle CssClass="Seleccionada" />
@@ -528,7 +545,7 @@
                 <br />
                 <asp:Button runat="server" ID="btnCancelaGpoCl" CssClass="MBoton" Text="Cancelar" OnClick="btnGpoClCancelar_Click" />
                 <asp:Button runat="server" ID="btnContinuaGpoCl" CssClass="MBoton" Text="Continuar" OnClick="btnGpoClContinua_Click" Enabled="false" />
-                <asp:Button runat="server" ID="btnEnviarGpoCl" CssClass="MBoton" Text="Aceptar" OnClick="btnEnviaCorreoGpo_Click" OnClientClick="return mostrarmensajejs();" Enabled="false" Visible="false"/>
+                <asp:Button runat="server" ID="btnEnviarGpoCl" CssClass="MBoton" Text="Aceptar" OnClick="btnEnviaCorreoGpo_Click" Enabled="false" Visible="false"/>
             </div>
         </div>
         <div id="MContenidoJS" runat="server" style="display:none;" class="divMensaje divMensajeConfirmacion" >
@@ -569,17 +586,29 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-4 px-2">
+                        <div class="col-2 px-2">
                             <div class="form-group">
-                                <label class="FGEtiqueta">Fecha Ingreso</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control FGInput FGCliente" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                                <label class="FGEtiqueta">Sexo</label>
+                                <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control FGInput FGCliente ddlSexo">
+                                    <asp:ListItem Text="TODOS" Value="-1"></asp:ListItem>
+                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
+                                    <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
+                                </asp:DropDownList>
                             </div>
                         </div>
 
-                        <div class="col-4 px-2">
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label class="FGEtiqueta">Fecha Ingreso</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control FGInput FGCliente txtFecha" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-3 px-2">
                             <div class="form-group">
                                 <label class="FGEtiqueta">Fecha Nacimiento</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control FGInput FGCliente" TextMode="Date" AutoComplete="off" AutoPostBack="true"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control FGInput FGCliente txtFecha" TextMode="Date" AutoComplete="off" AutoPostBack="true"></asp:TextBox>
                             </div>
                         </div>
 
@@ -747,7 +776,7 @@
 
                 </div>
         </div>
-        <div runat="server" id="divFormTipo" class="FormClienteCorreo" visible="false">
+        <%--<div runat="server" id="divFormTipo" class="FormClienteCorreo" visible="false">
             <div id="divCabeceraTipo" class="FCabecera">
                 <label id="lblTipoTitulo" class="FTitulo" runat="server"></label>
             </div>
@@ -796,7 +825,7 @@
                     </div>
                 </div>
             </asp:Panel>
-        </div>
+        </div>--%>
         <div runat="server" id="divConfirmaDeleteTipo" class="divMensaje divMensajeConfirmacion" visible="false">
             <div id="divTipoCabeceraD" class="FCabecera"   >
                 <label id="lblMsjTipoD">¡Alerta!</label>
@@ -847,17 +876,29 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-4 px-2">
+                        <div class="col-2 px-2">
                             <div class="form-group">
-                                <label>Fecha Ingreso</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliGrupoFecIngreso" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                                <label>Sexo</label>
+                                <asp:DropDownList runat="server" ID="ddlFormCliGrupoSexo" CssClass="form-control ddlSexo">
+                                    <asp:ListItem Text="TODOS" Value="-1"></asp:ListItem>
+                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
+                                    <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
+                                </asp:DropDownList>
                             </div>
                         </div>
 
-                        <div class="col-4 px-2">
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Fecha Ingreso</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliGrupoFecIngreso" CssClass="form-control txtFecha" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Nacimiento</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliGrupoFecNac" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" ></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliGrupoFecNac" CssClass="form-control txtFecha" TextMode="Date" AutoComplete="off" ></asp:TextBox>
                             </div>
                         </div>
 
@@ -976,11 +1017,12 @@
         <asp:Button runat="server" ID ="btnConfiguracionTecnica" OnClick="btnConfiguracionTecnica_Click" Text="Configuración técnica" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnConfiguracionCorreo" OnClick="btnConfiguracionCorreo_Click" Text="Configuración de correo" Visible="false" CssClass="subOpcion"/>
         <asp:Button runat="server" ID ="btnContenidCorreo" OnClick="btnContenidCorreo_Click" Text="Contenido de correo" Visible="false" CssClass="subOpcion"/>
-        <asp:Button runat="server" ID ="btnContenidCorreoSelec" OnClick="btnContenidCorreoSelec_Click" Text="Contenido de correo selectivo" Visible="false" CssClass="subOpcion"/>
+        <%--<asp:Button runat="server" ID ="btnContenidCorreoSelec" OnClick="btnContenidCorreoSelec_Click" Text="Contenido de correo selectivo" Visible="false" CssClass="subOpcion"/>--%>
         <asp:Button runat="server" ID ="btnCorreoRecordatorio" OnClick="btnCorreoRecordatorio_Click" Text="Configuración de correo recordatorio" Visible="false" CssClass="subOpcion"/>
-        <asp:Button runat="server" ID ="btnTiposCorreo" OnClick="btnTiposCorreo_Click" Text="Tipos de correo" Visible="false" CssClass="subOpcion"/>
-        <br />
-        <asp:Button runat="server" ID ="btnEnvioCorreo" OnClick="btnEnvioCorreo_Click" Text="Envio de promociones" Visible="true" />
+        <asp:Button runat="server" ID ="btnTiposCorreo" OnClick="btnTiposCorreo_Click" Text="Tipos de correo promociones" Visible="false" CssClass="subOpcion"/>
+        <asp:Button runat="server" ID ="btnEnvioCorreo" OnClick="btnEnvioCorreo_Click" Text="Envío de correo promociones" Visible="false" CssClass="subOpcion" />
+        
+        <%--<asp:Button runat="server" ID ="btnEnvioCorreo" OnClick="btnEnvioCorreo_Click" Text="Envio de promociones" Visible="true" />--%>
         <br />
         <asp:Button runat="server" ID ="btnOpcionClientes" OnClick="btnOpcionClientes_Click" Text="Reactivar clientes" />
         <br />
@@ -998,11 +1040,11 @@
                 <asp:Image runat="server" ID="imgBusquedaG" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
             </div>
             <div id="divGerentes2">
-                <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false"
                     CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" OnRowEditing="gvGerentes_RowEditing" OnRowCancelingEdit="gvGerentes_RowCancelingEdit"
                     OnRowUpdated="gvGerentes_RowUpdated" OnRowDeleted="gvGerentes_RowDeleted" OnRowDeleting="gvGerentes_RowDeleting">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
                     <Columns>
                         <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
                             <ItemTemplate>
@@ -1052,11 +1094,11 @@
                 <asp:Image runat="server" ID="Image1" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
             </div>
             <div id="Perfiles2">
-                <asp:GridView ID="gvPerfiles" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                <asp:GridView ID="gvPerfiles" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false"
                     CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvPerfiles_RowDataBound" OnRowEditing="gvPerfiles_RowEditing" OnRowCancelingEdit="gvPerfiles_RowCancelingEdit"
                     OnRowUpdated="gvPerfiles_RowUpdated" OnRowDeleted="gvPerfiles_RowDeleted" OnRowDeleting="gvPerfiles_RowDeleting" OnRowUpdating="gvPerfiles_RowUpdating">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
                     <Columns>
                         <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
                             <ItemTemplate>
@@ -1089,6 +1131,16 @@
                 <asp:Button runat="server" ID="btnActTipo" Text="Agregar tipo" ToolTip="Agregar Tipo de correo" OnClick="btnAgregarTipo_Click" CssClass="btnAgrUsuarioG" />
                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusqTipo" placeholder="Tipo de correo" CssClass="txtBusquedaG" OnTextChanged="txtBusqTipoC_TextChanged" AutoPostBack="true"></asp:TextBox>
                 <asp:Image runat="server" ID="imgBusqTipo" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+
+                <asp:Button runat="server" ID="btnCerrarTipo" CssClass="btnAgrUsuarioG" Text="Cancelar" OnClick="btnTipoCerrar_Click" Visible ="false"/>
+                <asp:Button runat="server" ID="btnLimpiaTipo" CssClass="btnAgrUsuarioG" Text="Limpiar" OnClick="btnTipoLimpiar_Click"  Visible ="false"/>
+                <asp:Button runat="server" ID="btnTipoAgregar" CssClass="btnAgrUsuarioG" Text="Agregar" OnClick="btnFormTipoAgregar_Click"  Visible ="false"/>
+                <asp:Button runat="server" ID="btnTipoModificar" CssClass="btnAgrUsuarioG" Text="Modificar" OnClick="btnFormTipoModificar_Click"  Visible ="false"/>
+
+                <div class="btnEnviarCorreo" id="chkdivSelecTodo" runat="server" visible="false"><asp:CheckBox runat="server" ID="chkECSelectTodo" Text="Todos" OnCheckedChanged="chkECSelectTodo_CheckedChanged" AutoPostBack="true"/></div>
+                <asp:Button runat="server" ID="btnLimipiaS" CssClass="btnAgrClienteG" Text="Limpiar Selección" OnClick="btnLimpiaS_Click" Visible="false" />
+                <asp:Button runat="server" ID="btnEnviarCorreo" CssClass="btnEnviarCorreo" AutoPostBack="true" Text="Enviar correos" OnClick="btnEnviarCorreo_Click" Visible="false"></asp:Button>
+                <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar" Visible="false" />
             </div>
             <div id="divCorreo2">
                 <div runat="server" id="divCorreoConfTec">
@@ -1252,10 +1304,10 @@
                     </div>
                 </div>
                 <div id="divTiposCorreo" runat="server">
-                    <asp:GridView ID="gvTiposCorreo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                    <asp:GridView ID="gvTiposCorreo" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false"
                     CssClass="gridview" CellPadding="5" Width="100%" style="table-layout:fixed;" EmptyDataText="Sin registros">
-                        <AlternatingRowStyle BackColor="#f2f2f2" />
-                        <RowStyle BackColor="#FFFFFF" />
+                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                        <RowStyle BackColor="#f9def8" />
                         <Columns>
                             <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
                                 <ItemTemplate>
@@ -1299,21 +1351,187 @@
                         </Columns>
                     </asp:GridView>
                 </div>
+                <div runat="server" id="divFormTipo" visible="false">
+                    <div id="FormTipoCorreo" class="FContenido FCCContenido">
+                        <asp:Label runat="server" ID="lblIDTipo" Visible="false"></asp:Label>
+                        <table class="tblParametros">
+                            <tr>
+                                <td style="width: 10%;"><label>Tipo de correo:</label></td>
+                                <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtTipo" CssClass="ParamInput"></asp:TextBox></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td style="width: 10%;"><label>Asunto:</label></td>
+                                <td><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtAsuntoTipo" CssClass="ParamInput"></asp:TextBox></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td><label>Mensaje:</label></td>
+                                <td>
+                                    <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtMsjTipo" CssClass="ParamInput" TextMode="multiline" Columns="50" Rows="5"></asp:TextBox>
+                                </td>
+                            </tr>
+                            <tr id="imgCorreoTipo" runat="server">
+                                <td><label>Imagen correo:</label></td>
+                                <td>
+                                    <asp:FileUpload runat="server" ID="fuploadTipo" CssClass="ParamInput"  accept="image/jpeg" />
+                                    <asp:Label runat="server" ID="lblErrorUploadTipo" CssClass="lblError"></asp:Label>
+                                </td>
+                            </tr>
+                    
+                            <tr>
+                                <td><label>Firma:</label></td>
+                                <td><asp:TextBox runat="server" ID="txtFirmaTipo" CssClass="ParamInput" TextMode="MultiLine"></asp:TextBox></td>
+                            </tr>
+                        </table>        
+                    </div>
+                </div>
+                <div runat="server" id="div1" visible="false">
+                    <asp:GridView ID="GridView1" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
+                        CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvClientesCorreo_RowDataBound" OnPageIndexChanging="gvClientesCorreo_PageIndexChanging" OnSorting="gvClientesCorreo_Sorting" AllowSorting="true">
+                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                        <RowStyle BackColor="#f9def8" />
+                        <PagerStyle BackColor="#CCCCCC" />
+                        <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
+                        <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
+                        <SortedAscendingCellStyle CssClass="Seleccionada" />
+                        <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
+                        <PagerStyle CssClass="Paginador" />
+
+                        <Columns>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:CheckBox ID="chkSeleccionado" ToolTip="Seleccionar" runat="server" OnCheckedChanged="chkSeleccionado_CheckedChanged" AutoPostBack="true" />
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:Templatefield HeaderText="indice" Visible ="true">
+                                    <ItemTemplate>
+                                        <asp:Label runat='server' ID='lblindice' CssClass="lblUsuario" ></asp:Label>
+                                    </ItemTemplate>
+                            </asp:Templatefield>
+                            <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblIdCliente' CssClass="lblUsuario" Text='<%# Bind("ID_CLIENTE") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Nombre" SortExpression="Nombre">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblNombre' CssClass="lblEnviarCorreo" Text='<%# Bind("Nombre") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Apellido Paterno" SortExpression="Apellido_paterno">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblApellidoP' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_paterno") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Apellido Materno" SortExpression="Apellido_materno">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblApellidoM' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Sexo" SortExpression="Sexo">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblSexo' CssClass="lblEnviarCorreo" Text='<%# Bind("Sexo") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Estado" SortExpression="ESTADO">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEstado' CssClass="lblEnviarCorreo" Text='<%# Bind("ESTADO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Municipio" SortExpression="MUNICIPIO">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblMunicipio' CssClass="lblEnviarCorreo" Text='<%# Bind("MUNICIPIO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Edad" SortExpression="EDAD">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEdad' CssClass="lblEnviarCorreo" Text='<%# Bind("EDAD") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Fecha Ingreso" SortExpression="FECHA_INGRESO">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblFechaI' CssClass="lblEnviarCorreo" Text='<%# Bind("FECHA_INGRESO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Medio" SortExpression="MEDIO">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblMedio' CssClass="lblEnviarCorreo" Text='<%# Bind("MEDIO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Tel casa" SortExpression="tel_casa_fijo">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblTelFijo' CssClass="lblEnviarCorreo" Text='<%# Bind("tel_casa_fijo") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Ext." SortExpression="Extension">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblExtension' CssClass="lblEnviarCorreo" Text='<%# Bind("Extension") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Celular" SortExpression="Celular">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblCelular' CssClass="lblEnviarCorreo" Text='<%# Bind("Celular") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Fecha nacimiento" SortExpression="FECHA_NACIMIENTO">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblFechaN' CssClass="lblEnviarCorreo" Text='<%# Bind("FECHA_NACIMIENTO") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Email" SortExpression="EMAIL">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEmail' CssClass="lblEnviarCorreo" Text='<%# Bind("EMAIL") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Observaciones" SortExpression="OBSERVACIONES" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblObservaciones' CssClass="lblEnviarCorreo" Text='<%# Bind("OBSERVACIONES") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Nota" SortExpression="NOTA" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblNota' CssClass="lblEnviarCorreo" Text='<%# Bind("NOTA") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Estatus" SortExpression="Estatus">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEstatus' CssClass="lblEnviarCorreo" Text='<%# Bind("ESTATUS") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Pais" SortExpression="Pais" Visible="true">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblPais' CssClass="lblEnviarCorreo" Text='<%# Bind("PAIS") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="EnvCorreo" SortExpression="Enviar_Correo" Visible="false">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblEnviarCorreo" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Requiere Factura" SortExpression="Req_Factura">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblFactura' CssClass="lblEnviarCorreo" Text='<%# Bind("REQ_FACTURA") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
             </div>
         </div>
 
         <div runat="server" id="divEnvioCorreo" class="divContenido2" visible="false">
-            <div id="divEnvioCorreo1">
+            <%--<div id="divEnvioCorreo1">
                 <div class="btnEnviarCorreo"><asp:CheckBox runat="server" ID="chkECSelectTodo" Text="Todos" OnCheckedChanged="chkECSelectTodo_CheckedChanged" AutoPostBack="true"/></div>
                 <asp:Button runat="server" ID="btnLimipiaS" CssClass="btnAgrClienteG" Text="Limpiar Selección" OnClick="btnLimpiaS_Click" Visible="false" />
                 <asp:Button runat="server" ID="btnEnviarCorreo" CssClass="btnEnviarCorreo" AutoPostBack="true" Text="Enviar correos" OnClick="btnEnviarCorreo_Click" Visible="true"></asp:Button>
                 <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
-            </div>
+            </div>--%>
             <div id="divEnvioCorreo2">
-                <asp:GridView ID="gvClientesCorreo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
+                <asp:GridView ID="gvClientesCorreo" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvClientesCorreo_RowDataBound" OnPageIndexChanging="gvClientesCorreo_PageIndexChanging" OnSorting="gvClientesCorreo_Sorting" AllowSorting="true">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -1445,10 +1663,10 @@
             <div id="divClientes2">
                
                 <div runat="server" id="divClientesG">
-                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="7" PagerSettings-Mode="NumericFirstLast"
+                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="7" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvClientes_RowDataBound">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -1477,6 +1695,11 @@
                                 <asp:Label runat='server' ID='lblApellidoM' CssClass="lblUsuario" Text='<%# Bind("APELLIDO_MATERNO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="Estado" HeaderStyle-Width="20%" SortExpression="ESTADO">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblEstado' CssClass="lblGerentes" Text='<%# Bind("ESTADO") %>'></asp:Label>
@@ -1681,10 +1904,10 @@
                         <div class="row justify-content-center">
                             <div class="col-6">
                                 <div id="FechaInhabiles">
-                                    <asp:GridView ID="TbFechas" runat="server" AllowPaging="true" PageSize="6" OnPageIndexChanging="TbFechas_PageIndexChanging" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                                    <asp:GridView ID="TbFechas" runat="server" AllowPaging="true" PageSize="6" OnPageIndexChanging="TbFechas_PageIndexChanging" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false"
                                         CssClass="gridview" CellPadding="5" Width="100%" OnRowDeleting="TbFechas_RowDeleting">
-                                        <AlternatingRowStyle BackColor="#f2f2f2" />
-                                        <RowStyle BackColor="#FFFFFF" />
+                                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                                        <RowStyle BackColor="#f9def8" />
                                         <Columns>
                                             <asp:TemplateField HeaderText="Fecha" HeaderStyle-Width="100%">
                                                 <ItemTemplate>
@@ -1715,10 +1938,10 @@
                         </button>
                 </div>
                 <div>
-                <asp:GridView ID="gvGrupos" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="7" PagerSettings-Mode="NumericFirstLast"
+                <asp:GridView ID="gvGrupos" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="7" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview" CellPadding="5" Width="100%" OnPageIndexChanging="gvGrupos_PageIndexChanging" OnDataBound="gvGrupos_DataBound">
-
-                    <RowStyle BackColor="#FFFFFF" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                     <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -1740,6 +1963,11 @@
                         <asp:TemplateField HeaderText="Descripcion Grupo" SortExpression="Descripcion_grupo">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblDescripción' CssClass="lblEnviarCorreo" Text='<%# Bind("Descripcion_Grupo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Número de Clientes" SortExpression="cantidadCliente">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblcantidadCliente' CssClass="lblEnviarCorreo" Text='<%# Bind("cantidadCliente") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         
@@ -1768,11 +1996,11 @@
                 <div runat="server" id="divClientesGrupos" class="divContenido2">
                     <asp:Label runat="server" ID="lblIDGrupoGvGrupo" Visible="false"></asp:Label>
                     <asp:Label runat="server" ID="lblNombreGrupoGvGrupo" Visible="false"></asp:Label>
-                    <asp:GridView ID="gvCliGrupo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
+                    <asp:GridView ID="gvCliGrupo" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
                         CssClass="gridview gvCliGrupo" CellPadding="5" Width="100%" OnRowDataBound="gvCliGrupo_RowDataBound" OnPageIndexChanging="gvCliGrupo_PageIndexChanging" OnSorting="gvCliGrupo_Sorting" AllowSorting="true">
 
-                        <AlternatingRowStyle BackColor="#f2f2f2" />
-                        <RowStyle BackColor="#FFFFFF" />
+                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                        <RowStyle BackColor="#f9def8" />
                         <PagerStyle BackColor="#CCCCCC" />
                         <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                         <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -1809,6 +2037,11 @@
                             <asp:TemplateField HeaderText="Apellido Materno" SortExpression="Apellido_materno">
                                 <ItemTemplate>
                                     <asp:Label runat='server' ID='lblApellidoM' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Sexo" SortExpression="Sexo">
+                                <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblSexo' CssClass="lblEnviarCorreo" Text='<%# Bind("Sexo") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Estado" SortExpression="ESTADO">
@@ -1881,7 +2114,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="">
-                                        <label>Nombre del Grupo :</label>
+                                        <label>Nombre del Grupo: </label>
                                         <input type="text" runat="server" id="nombreGrupo" autocomplete="off" />
                                     </div>
                                 </div>
@@ -1890,7 +2123,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="">
-                                        <label>Descripcion del Grupo :</label>
+                                        <label>Descripcion del Grupo: </label>
                                         <textarea runat="server" id="descripcionGrupo" rows="1" cols="50" name="comment" autocomplete="off"></textarea>
                                     </div>
                                 </div>

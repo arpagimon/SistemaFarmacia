@@ -1,12 +1,13 @@
 ﻿
 .encabezado {
-    background: rgb(65,97,156, 0.9);
+    /*background: rgb(65,97,156, 0.9);*/
+    background: rgb(120, 64, 126);
     padding: 20px;
     /*border-radius: 10px;*/
     color: white;
     height: 70px;
     /*position: fixed;*/
-    z-index:1;
+    z-index: 1;
 }
 
 .sombra{

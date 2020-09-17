@@ -35,14 +35,11 @@ namespace SistemaFarmacia
                     llenaEstadosDFa();
                     llenaEstados();
                     llenaPaises();
-                    master.cambiarLblTitle("<img src='Imagenes/citas.png' alt='Citas'><h1>Citas</h1>");
+                    master.cambiarLblTitle("<img src='Imagenes/citas-morado.png' alt='Citas'><h1>Citas</h1>");
                     master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
                 }
 
                 CargarCitas(Session["MesSeleccionado"].ToString());
-
-                
-
 
 
                 switch (eventarget1)
@@ -50,7 +47,6 @@ namespace SistemaFarmacia
                     case "MostartDatosCita":
                         sombraMensaje.Visible = true;
                         llenaDatosCita(datosEnviados);
-                        
                         break;
 
                     case "MostartDatosCitaNueva":
@@ -71,14 +67,11 @@ namespace SistemaFarmacia
                             btnContCitas.Visible = true;
                             lblMensaje.Text = "La fecha seleccionada es un dia y/o hora no hábil, ¿Desea continuar con la creación de la cita?";
                         }
-
                         break;
 
                     default:
                         break;
                 }
-
-
             }
             else
             {
@@ -93,47 +86,6 @@ namespace SistemaFarmacia
         }
 
 
-        //public void CargarCitas(String Mes)
-        //{
-        //    String eventos = "[";
-        //    String bloqueos = "[";
-
-        //    DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
-
-
-        //    if (dsCitas.Tables.Count > 0) { 
-        //        foreach (DataRow dRow in dsCitas.Tables[0].Rows)
-        //        {
-        //            if (dRow["tipo"].ToString() == "1")
-        //            {
-        //                if (eventos.Length > 1)
-        //                {
-        //                    eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
-        //                }
-        //                else
-        //                {
-        //                    eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
-        //                }
-        //            }else
-        //            {
-        //                if (bloqueos.Length > 1)
-        //                {
-        //                    bloqueos += ",{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
-        //                }
-        //                else
-        //                {
-        //                    bloqueos += "{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    eventos += "]";
-        //    bloqueos += "]";
-
-        //    ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + ","+(Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'")+");</script>", false);
-        //}
-
         public void CargarCitas(String Mes)
         {
             String eventos = "[";
@@ -141,8 +93,7 @@ namespace SistemaFarmacia
             String eventosChico = "[";
 
             DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
-
-
+            
             if (dsCitas.Tables.Count > 0)
             {
                 foreach (DataRow dRow in dsCitas.Tables[0].Rows)
@@ -153,13 +104,11 @@ namespace SistemaFarmacia
                         {
                             eventos += ",{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
                             eventosChico += ",{ start: '" + dRow["Fechas"].ToString() + "', end:'" + dRow["Fechas"].ToString() + "', overlap: false, display: 'background', color: '#58D68D'}";
-
                         }
                         else
                         {
                             eventos += "{ id: '" + dRow["ID_Cita"] + "', title: '" + dRow["nombre"].ToString() + " " + dRow["apellido_paterno"].ToString() + " " + dRow["apellido_materno"].ToString() + "', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
                             eventosChico += "{ start: '" + dRow["Fechas"].ToString() + "', end:'" + dRow["Fechas"].ToString() + "', overlap: false, display: 'background', color: '#58D68D'}";
-
                         }
                     }
                     else
@@ -172,11 +121,7 @@ namespace SistemaFarmacia
                         {
                             bloqueos += "{ id: '" + dRow["ID_Cita"] + "', title: 'Horario bloqueado', start: '" + dRow["hora_inicio"].ToString() + "', end:'" + dRow["hora_fin"].ToString() + "'}";
                         }
-
                     }
-
-
-
                 }
             }
 
@@ -202,7 +147,6 @@ namespace SistemaFarmacia
 
             sombraMensaje.Visible = false;
         }
-
         
         protected void btnModificarCita_Click(object sender, EventArgs e)
         {
@@ -223,7 +167,6 @@ namespace SistemaFarmacia
             {
                 lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
             }
-
         }
 
         #region MsjCancelacionCita
@@ -282,7 +225,6 @@ namespace SistemaFarmacia
 
         public void llenaDatosCita(String Id_Cita)
         {
-
             divSeleccionCliente.Visible = false;
             divDatosCliente.Visible = true;
 
@@ -297,6 +239,7 @@ namespace SistemaFarmacia
 
             DataSet datosCita = connMySql.traerDatosCitas(Id_Cita);
 
+            String tipo = "";
             foreach(DataRow dRow in datosCita.Tables[0].Rows)
             {
                 TxtIDCita.Text = dRow["ID_Cita"].ToString();
@@ -312,13 +255,22 @@ namespace SistemaFarmacia
                 {
                     divDatosCliente.Visible = false;
                 }
-
-
+                
                 ddlDoctorCita.SelectedValue = dRow["ID_usuario"].ToString();
                 txtFechaCita.Text = dRow["fecha_cita"].ToString().Split(' ')[0];
                 txtHoraInicio.Text = dRow["hora_inicio"].ToString().Split(' ')[1];
                 txtHoraFin.Text = dRow["hora_fin"].ToString().Split(' ')[1];
                 txtNotasCita.Text = dRow["nota"].ToString();
+                tipo = dRow["tipo"].ToString();
+            }
+
+            if (tipo == "1") {
+                btnModificarCita.Text = "Modificar cita";
+                btnCancelarCita.Text = "Cancelar cita";
+            } else
+            {
+                btnModificarCita.Text = "Modificar bloqueo";
+                btnCancelarCita.Text = "Cancelar bloqueo";
             }
 
             ocultarBotonesMensaje();
@@ -337,8 +289,7 @@ namespace SistemaFarmacia
             ddlDoctorCita.DataBind();
 
             ddlDoctorCita.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
-
-
+            
             ddlDoctor.DataTextField = "Nombre";
             ddlDoctor.DataValueField = "id_usuario";
             ddlDoctor.DataSource = connMySql.consultaMedico();
@@ -355,24 +306,20 @@ namespace SistemaFarmacia
 
                 ddlDoctor.Items.Clear();
                 ddlDoctor.Items.Add(OpcionDoctor);
-
             }
-
-
         }
 
         public void llenaCamposCitaNueva(String datosSeleccionados)
         {
             TxtIDCita.Text = "";
+            lblErrorFormCita.Text = "";
 
             btnPestanaDatosCita.Visible = true;
             btnPestanaResulCita.Visible = false;
 
             btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
             btnPestanaResulCita.CssClass = "btnPestana";
-
-
-
+            
             txtFechaCita.Text = datosSeleccionados.Substring(0, 10);
             txtHoraInicio.Text = datosSeleccionados.Substring(11, 5);
             txtHoraFin.Text = (int.Parse(datosSeleccionados.Substring(11, 2)) +1).ToString().PadLeft(2,'0') + datosSeleccionados.Substring(13, 3);
@@ -402,7 +349,6 @@ namespace SistemaFarmacia
 
             FormCliContenido.Visible = true;
             divClienteResultados.Visible = false;
-            
         }
 
     #region buscarcliente
@@ -449,13 +395,11 @@ namespace SistemaFarmacia
 
                 FormCliContenido.Visible = false;
                 divClienteResultados.Visible = true;
-
             }
             else
             {
                 lblBusqCliError.Text = "Favor de llenar al menos un campo";
             }
-
         }
 
         protected void btnFormCliLimpiar_Click(object sender, EventArgs e)
@@ -481,7 +425,6 @@ namespace SistemaFarmacia
 
         protected void gvClientes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
                 Button chkSeleccionado = (Button)e.Row.FindControl("btnSeleccionar");
@@ -498,7 +441,6 @@ namespace SistemaFarmacia
                     etiquetaFechaN.Text = ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("dd/MM/yyyy");
                 }
                 catch { }
-
             }
         }
 
@@ -507,8 +449,7 @@ namespace SistemaFarmacia
             gvClientes.PageIndex = e.NewPageIndex;
             cargaClientes(Session["condicion"].ToString());
         }
-
-
+        
         protected void btnSeleccionar_Click(object sender, EventArgs e)
         {
             TxtIDCliente.Text = ((Button)sender).Attributes["ID_Cliente"].ToString();
@@ -520,8 +461,7 @@ namespace SistemaFarmacia
 
             divFormularioCita.Visible = true;
             divFormBusqCliente.Visible = false;
-
-
+            
             TxtBusqCliNombre.Text = "";
             TxtBusqCliApellidoP.Text = "";
             TxtBusqCliApellidoM.Text = "";
@@ -546,8 +486,7 @@ namespace SistemaFarmacia
                 divMensaje.Visible = true;
                 divFormularioCita.Visible = false;
                 btnCerrarMensaje.Visible = true;
-
-
+                
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
@@ -565,8 +504,6 @@ namespace SistemaFarmacia
             {
                 lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
             }
-
-
         }
 
 
@@ -601,7 +538,6 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("FECHA_INGRESO");
                         dtTemporal.Columns.Add("ESTADO");
                         dtTemporal.Columns.Add("MUNICIPIO");
-                        dtTemporal.Columns.Add("PAIS");
                         dtTemporal.Columns.Add("tel_casa_fijo");
                         dtTemporal.Columns.Add("extension");
                         dtTemporal.Columns.Add("celular");
@@ -610,12 +546,21 @@ namespace SistemaFarmacia
                         dtTemporal.Columns.Add("NOTA");
                         dtTemporal.Columns.Add("MEDIO");
                         dtTemporal.Columns.Add("estatus");
+                        dtTemporal.Columns.Add("PAIS");
                         dtTemporal.Columns.Add("Enviar_Correo");
-                        dtTemporal.Columns.Add("REQ_FACTURA");
+                        dtTemporal.Columns.Add("req_factura");
+                        dtTemporal.Columns.Add("rfc");
+                        dtTemporal.Columns.Add("entidad");
+                        dtTemporal.Columns.Add("calle_dirf");
+                        dtTemporal.Columns.Add("noInterior_dirf");
+                        dtTemporal.Columns.Add("noExterior_dirf");
+                        dtTemporal.Columns.Add("Colonia_dirf");
+                        dtTemporal.Columns.Add("CP_dirf");
+                        dtTemporal.Columns.Add("Estado_dirf");
+                        dtTemporal.Columns.Add("municipio_dirf");
+                        dtTemporal.Columns.Add("pais_dirf");
                         dtTemporal.Columns.Add("NOMBRAZON_FACTURA");
-                        dtTemporal.Columns.Add("RFC");
-                        dtTemporal.Columns.Add("ENTIDAD");
-                        dtTemporal.Columns.Add("DIR_FACTURA");
+                        dtTemporal.Columns.Add("sexo");
                         dtTemporal.NewRow();
                         DataRow drTemporal = dtTemporal.NewRow();
                         dtTemporal.Rows.InsertAt(drTemporal, 0);
@@ -634,11 +579,8 @@ namespace SistemaFarmacia
                 }
             }
         }
-
         #endregion
-
-
-
+        
         public void mostrarmensaje()
         {
             divMensaje.Visible = true;
@@ -670,8 +612,7 @@ namespace SistemaFarmacia
         {
             CargarCitas("08");
         }
-
-
+        
 
         protected void llenarMedio()
         {
@@ -697,7 +638,6 @@ namespace SistemaFarmacia
                 edad = age.ToString();
 
                 TxtFormCliEdad.Text = edad;
-                
             }
             else
             {
@@ -728,11 +668,6 @@ namespace SistemaFarmacia
         {
             divFormularioCliente.Visible = false;
             divMensajeDF.Visible = true;
-            //if (FTitulo.Text == "Detalle de cliente")
-            //{
-            //    btnLimpiaDF.Visible = false;
-            //    btnGuardaDF.Visible = false;
-            //}
         }
 
         public void llenaEstados()
@@ -828,8 +763,7 @@ namespace SistemaFarmacia
                 txtCPdfA.Attributes.Remove("style");
             }
             catch { }
-
-
+            
             ddlFormCliFactura.SelectedIndex = 1;
             
             divBtnDatosF.Visible = false;
@@ -846,7 +780,6 @@ namespace SistemaFarmacia
             ddlEstadoDFa.SelectedIndex = -1;
             ddlEntidadDFa.SelectedIndex = 1;
             txtCPdfA.Text = "";
-
             
             divFormularioCita.Visible = true;
             divFormularioCliente.Visible = false;
@@ -999,11 +932,12 @@ namespace SistemaFarmacia
                 ddlFormCliPais.Attributes.Remove("style");
             }
 
+            String Sexo = ddlSexo.SelectedValue;
+
             String Req_Factura = ddlFormCliFactura.SelectedValue;
 
             String RFC = "";
             String Entidad = "";
-            String Dir_Factura = "";
             String NomRazon = "";
 
             String CalleF = "";
@@ -1129,37 +1063,27 @@ namespace SistemaFarmacia
                     btnAddDatosF.Attributes.Add("style", "border: 2px red solid;");
                 }
             }
-
-
-
-
+            
             if (pasa)
             {
                 lblFormCliError.Text = "";
-                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon);
-
-
+                resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon, Sexo);
                 
-                //divFormularioCita.Visible = true;
                 divFormularioCliente.Visible = false;
 
                 divSeleccionCliente.Visible = false;
                 divDatosCliente.Visible = true;
 
                 btnAgendarCita.Visible = true;
-
                 
-
                 TxtIDCliente.Text = connMySql.traeUltimoID();
                 TxtNombre.Text = txtFormCliNombre.Text;
                 TxtApellidoP.Text = txtFormCliApePat.Text;
                 TxtApellidoM.Text = txtFormCliApeMat.Text;
                 TxtEmail.Text = txtFormCliEmail.Text;
                 TxtFechaN.Text = txtFormCliFecNac.Text;
-
-
-                //Limpia las opciones
                 
+                //Limpia las opciones
                 txtFormCliNombre.Text = "";
                 txtFormCliApePat.Text = "";
                 txtFormCliApeMat.Text = "";
@@ -1179,6 +1103,7 @@ namespace SistemaFarmacia
                 ddlFormCliPais.SelectedIndex = -1;
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
+                ddlSexo.SelectedIndex = -1;
 
                 txtNombRDFa.Text = "";
                 txtNoExtDFa.Text = "";
@@ -1194,18 +1119,13 @@ namespace SistemaFarmacia
                 divPaisDFa.Visible = false;
                 divMunicipioDFa.Visible = true;
                 divMensajeDF.Visible = false;
-
-
-
+                
                 divMensaje.Visible = true;
                 ocultarBotonesMensaje();
-
-
+                
                 btnOKClienteGuardado.Visible = true;
                 lblMensaje.Text = "El cliente se registró exitosamente.";
                 divFormularioCita.Visible = false;
-
-
             }
             else
             {
@@ -1428,9 +1348,7 @@ namespace SistemaFarmacia
                 lblErrorDF.Text = "Favor de llenar los campos faltantes.";
             }
         }
-
-
-
+        
         public void llenaPaises()
         {
             ddlFormCliPais.DataTextField = "pais";
@@ -1445,8 +1363,6 @@ namespace SistemaFarmacia
         {
             divMensaje.Visible = false;
             divFormularioCita.Visible = true;
-
-
         }
 
         protected void btnOpcionInhabilitar_Click(object sender, EventArgs e)
@@ -1480,13 +1396,13 @@ namespace SistemaFarmacia
                 txtHoraFin.Text = "";
                 TxtIDCliente.Text = "";
                 txtNotasCita.Text = "";
-
             }
             else
             {
                 lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente; 
             }
         }
+
         public Boolean DiaValido(String Dia, String Hora_Inicio)
         {
             Boolean valida = true;
@@ -1572,7 +1488,6 @@ namespace SistemaFarmacia
 
             return valida;
         }
-
 
         protected void btnContCitas_Click(object sender, EventArgs e)
         {

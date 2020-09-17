@@ -84,14 +84,26 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-4 px-2">
+                        <div class="col-2 px-2">
+                            <div class="form-group">
+                                <label>Sexo</label>
+                                <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
+                                    <asp:ListItem Text="Todos" Value="-1"></asp:ListItem>
+                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
+                                    <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
+                        <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Ingreso</label>
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
 
-                        <div class="col-4 px-2">
+                        <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Nacimiento</label>
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" ></asp:TextBox>
@@ -142,6 +154,7 @@
                             <div class="form-group">
                                 <label>Enviar Email</label>
                                 <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlEnviarCorreo">
+                                    <asp:ListItem Value="-1" Text="Todos"></asp:ListItem>
                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                 </asp:DropDownList>
@@ -159,6 +172,7 @@
                             <div class="form-group">
                                 <label>Factura:</label>
                                 <asp:DropDownList runat="server" CssClass="form-control InpChico" ID="ddlFactura">
+                                    <asp:ListItem Value="-1" Text="Todos"></asp:ListItem>
                                     <asp:ListItem Value="1" Text="Si"></asp:ListItem>
                                     <asp:ListItem Value="0" Text="No"></asp:ListItem>
                                 </asp:DropDownList>
@@ -194,6 +208,7 @@
                             <div class="form-group">
                                 <label>Estatus</label>
                                 <asp:DropDownList runat="server" ID="ddlEstatus" CssClass="form-control InpMediano">
+                                    <asp:ListItem Value="-1" Text="tODOS"></asp:ListItem>
                                     <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
                                 </asp:DropDownList>
@@ -340,11 +355,11 @@
                     <asp:Label runat="server" ID="lblMes" CssClass="lblMes"></asp:Label>
                     <asp:ImageButton runat="server" ID="btnMasMes" OnClick="btnMasMes_Click" ImageUrl="~/Imagenes/right-arrow.png" CssClass="btnMasMes"/>
                 </div>
-                <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false"
+                <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false"
                     CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" AllowPaging ="true" PageSize="10" PagerSettings-Mode="NumericFirstLast" OnPageIndexChanging="gvGerentes_PageIndexChanging"
                     OnSorting="gvGerentes_Sorting" AllowSorting="true">
-                    <AlternatingRowStyle BackColor="#f2f2f2" />
-                    <PagerStyle BackColor="#CCCCCC" />
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <PagerStyle BackColor="#f9def8" />
                     <RowStyle BackColor="#FFFFFF" />
                     <PagerStyle BackColor="#CCCCCC" />
                     <SortedAscendingHeaderStyle ForeColor ="WhiteSmoke" CssClass="Seleccionada"/>
@@ -376,6 +391,11 @@
                         <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="15%" SortExpression="Apellido_materno">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="Estado" HeaderStyle-Width="20%" SortExpression="ESTADO">

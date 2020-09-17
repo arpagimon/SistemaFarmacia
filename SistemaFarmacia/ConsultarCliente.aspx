@@ -60,17 +60,28 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-4 px-2">
+                        <div class="col-2 px-2">
                             <div class="form-group">
-                                <label>Fecha Ingreso</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                                <label>Sexo</label>
+                                <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
+                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
+                                    <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
+                                </asp:DropDownList>
                             </div>
                         </div>
 
-                        <div class="col-4 px-2">
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Fecha Ingreso</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control txtFecha" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                            </div>
+                        </div>
+
+                        <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Nacimiento</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" OnTextChanged="TxtFechaN_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control txtFecha" TextMode="Date" AutoComplete="off" OnTextChanged="TxtFechaN_TextChanged" AutoPostBack="true"></asp:TextBox>
                             </div>
                         </div>
 
@@ -342,11 +353,11 @@
             <asp:Button runat="server" ID="btnBuscar" Text="Buscar" OnClick="btnBuscar_Click" style="background-position: 20px center; background-image: url('Imagenes/imgBusqueda_opt.png'); background-repeat: no-repeat; width: 140px;"  CssClass="btnAgrClienteG floatDerecha btnBuscar"  />
         </div>
         <div id="divGerentes2">
-            <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
+            <asp:GridView ID="gvGerentes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="10" PagerSettings-Mode="NumericFirstLast"
                 CssClass="gridview" CellPadding="5" Width="100%" OnRowDataBound="gvGerentes_RowDataBound" OnRowEditing="gvGerentes_RowEditing" OnRowCancelingEdit="gvGerentes_RowCancelingEdit"
                 OnRowUpdated="gvGerentes_RowUpdated" OnRowDeleted="gvGerentes_RowDeleted" OnRowDeleting="gvGerentes_RowDeleting" OnPageIndexChanging="gvGerentes_PageIndexChanging" OnSorting="gvGerentes_Sorting" AllowSorting="true">
-                <AlternatingRowStyle BackColor="#f2f2f2" />
-                <RowStyle BackColor="#FFFFFF" />
+                <AlternatingRowStyle BackColor="#f9c3f7" />
+                <RowStyle BackColor="#f9def8" />
                 <PagerStyle BackColor="#CCCCCC" />
                 <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
                 <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
@@ -378,6 +389,11 @@
                     <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="15%" SortExpression="Apellido_materno">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                        <ItemTemplate>
+                            <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField HeaderText="Estado" HeaderStyle-Width="20%" SortExpression="ESTADO">

@@ -8,24 +8,25 @@
 }
 
 .subOpcion {
-    background-color: #555 !important;
+    background-color: #f7def6 !important;
     font-size: 14px !important;
     padding-left: 40px !important;
-    color: #aaa !important;
-    border-bottom: #333 1px solid !important;
+    color: #2d2f8c !important;
+    border-bottom: #ffb3fc 1px solid !important;
 }
 
 .subOpcionSeleccionado {
-    background: #888 !important;
-    color: white !important;
+    background: #fff0fe !important;
+    color: #2d2f8c !important;
 }
+
 
 .chkPruebas {
     height: 20px;
 }
 
-#divCorreo2,.divCorreo2 {
-    background: rgba(200,200,200,0.9);
+#divCorreo2, .divCorreo2 {
+    background: #fdcbfc;
     border-radius: 11px;
     margin-top: 10px;
 }
@@ -41,7 +42,7 @@
     z-index: 1;
     top: 70px;
     left: 0;
-    background-color: #111;
+    background-color: #fdcbfc;
     overflow-x: hidden;
     padding-top: 20px;
 }
@@ -50,7 +51,7 @@
     padding: 6px 6px 6px 20px;
     text-decoration: none;
     font-size: 22px;
-    color: #818181;
+    color: #020456;
     display: block;
     width: 100%;
     text-align: left;
@@ -60,12 +61,12 @@
     white-space: normal;
 }
 .sidenav input:hover {
-    color: #f1f1f1;
+    color:#000;
 }
 
 .seleccionado {
-    color: #f1f1f1 !important;
-    background: #333333 !important;
+    color: #00049c !important;
+    background: #ff9bfd !important;
 }
 
 .main {
@@ -135,7 +136,7 @@ textarea.ParamInput {
     display: inline-block;
     font-size: 14px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: rgb(120, 64, 126);
     color: white;
     border: none;
     border-radius: 5px;
@@ -144,7 +145,7 @@ textarea.ParamInput {
 
 .FormGerente {
     width: 600px;
-    background: white;
+    background: #fdcbfc;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
@@ -153,7 +154,7 @@ textarea.ParamInput {
 
 .FormPerfil {
     width: 700px;
-    background: white;
+    background: #fdcbfc;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
@@ -284,7 +285,7 @@ textarea.ParamInput {
 
 /*      Agrega Gerente / Coorporativo       */
 .FCabecera {
-    background: #333f4f;
+    background: #46114c;
     text-align: center;
     color: white;
     height: 30px;
@@ -362,7 +363,7 @@ textarea.ParamInput {
     display: inline-block;
     font-size: 15px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: rgb(120, 64, 126);
     color: white;
     border: none;
     border-radius: 5px;
@@ -383,7 +384,7 @@ textarea.ParamInput {
     width: 500px;
     /*height: 140px;*/
     height:auto;
-    background: white;
+    background: #fdcbfc;
     margin: auto;
     margin-top: 10%;
     z-index: 6;
@@ -391,7 +392,7 @@ textarea.ParamInput {
 }
 
 #MCabecera, #MCabecera2 {
-    background: rgb(68,84,106);
+    background: #46114c;
     text-align: center;
     color: white;
     height: 30px;
@@ -414,7 +415,7 @@ textarea.ParamInput {
     width: 40%;
     font-size: 15px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 5px;
@@ -758,7 +759,8 @@ textarea.ParamInput {
     border-top: solid 1px #ffffff;
     border-bottom: solid 1px #ffffff;
     padding: 5px 10px;
-    background: #f0f0f0;
+    background: rgb(120, 64, 126);
+    color:#fff;
 }
 
 .ddlEnvCorreo {
@@ -776,7 +778,7 @@ textarea.ParamInput {
     font-weight: bold;
     width: 100%;
     display: inline-block;
-    background: #eee;
+    background: #e6afe5;
     padding-left: 5px;
 }
 
@@ -787,7 +789,7 @@ textarea.ParamInput {
     font-weight: bold;
     width: 100%;
     display: inline-block;
-    background: #eee;
+    background: #e6afe5;
     padding-left: 5px;
 }
 
@@ -809,7 +811,7 @@ textarea.ParamInput {
     display: inline-block;
     font-size: 14px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 5px;
@@ -832,7 +834,7 @@ textarea.ParamInput {
     display: inline-block;
     font-size: 14px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 5px;
@@ -866,7 +868,7 @@ textarea.ParamInput {
 .FormClienteCorreo {
     width: 700px;
     border-radius: 15px;
-    background: white;
+    background: #fdcbfc;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
@@ -955,6 +957,10 @@ ConfCorreoButton{
     margin: auto;
 }
 
+
+.txtFecha{
+    width: 140px;
+}
 
 
 @media (min-width: 768px) {

@@ -13,13 +13,14 @@ body {
     background-size:cover;
 }
 .encabezado {
-    background: rgb(65,97,156, 0.9);
+    /*background: rgb(65,97,156, 0.9);*/
+    background: rgb(120, 64, 126);
     padding: 20px;
     color: white;
 }
 
 .formulario {
-    background: rgb(128, 128, 128,0.7);
+    background: rgba(128, 128, 128,0.7);
     padding: 20px;
     border-radius: 10px; 
     color: white;
@@ -29,7 +30,8 @@ body {
     border: none;
     outline: none;
     height: 40px;
-    background: #45619c;
+    /*background: #45619c;*/
+    background: #78407e;
     color: #fff;
     font-size: 18px;
     border-radius: 20px;

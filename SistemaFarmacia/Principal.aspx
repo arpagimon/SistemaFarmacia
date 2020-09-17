@@ -15,28 +15,28 @@
         <tr>
             <td>
                 <div class="align-items-center text-center Icono" id="iconoClientes" runat="server">
-                    <asp:ImageButton runat="server" ID="Clientes" PostBackUrl="~/ConsultarCliente.aspx" ImageUrl="~/Imagenes/CLIENTE.png" OnClick="Clientes_Click" CssClass="BotonMenu " />
+                    <asp:ImageButton runat="server" ID="Clientes" PostBackUrl="~/ConsultarCliente.aspx" ImageUrl="~/Imagenes/CLIENTE-morado.png" OnClick="Clientes_Click" CssClass="BotonMenu " />
                     <br />
                     <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Clientes</h5>
                 </div>
             </td>
             <td>
                 <div class="align-items-center text-center Icono" id="iconoClientesMes" runat="server">
-                    <asp:ImageButton runat="server" ID="ClientesMes" PostBackUrl="~/ConsultarClienteMes.aspx" ImageUrl="~/Imagenes/cumple.png" OnClick="ClientesMes_Click" CssClass="BotonMenu " />
+                    <asp:ImageButton runat="server" ID="ClientesMes" PostBackUrl="~/ConsultarClienteMes.aspx" ImageUrl="~/Imagenes/cumple-morado.png" OnClick="ClientesMes_Click" CssClass="BotonMenu " />
                     <br />
                     <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Cumpleañeros</h5>
                 </div>
             </td>
             <td>
                 <div class="align-items-center text-center Icono" id="Div1" runat="server">
-                    <asp:ImageButton runat="server" ID="Citas" PostBackUrl="~/Citas.aspx" ImageUrl="~/Imagenes/citas.png" OnClick="Citas_Click" CssClass="BotonMenu " />
+                    <asp:ImageButton runat="server" ID="Citas" PostBackUrl="~/Citas.aspx" ImageUrl="~/Imagenes/citas-morado.png" OnClick="Citas_Click" CssClass="BotonMenu " />
                     <br />
                     <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Citas</h5>
                 </div>
             </td>
             <td>
                 <div class="align-items-center text-center Icono" id="iconoAdministracion" runat="server">
-                    <asp:ImageButton runat="server" ID="Administración" PostBackUrl="~/Administracion.aspx" ImageUrl="~/Imagenes/Administracion.png" OnClick="Administración_Click" CssClass="BotonMenu" />
+                    <asp:ImageButton runat="server" ID="Administración" PostBackUrl="~/Administracion.aspx" ImageUrl="~/Imagenes/Administracion-morado.png" OnClick="Administración_Click" CssClass="BotonMenu" />
                     <br />
                     <h5 class="text-dark" style="background: #ddddff; border-radius: 21px; padding: 2px 10px; vertical-align: middle;">Administración</h5>
                 </div>

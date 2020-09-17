@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Administracion.aspx" />
-    <Content Include="Citas.asmx" />
     <Content Include="Citas.aspx" />
     <Content Include="ConsultarClienteMes.aspx" />
     <Content Include="ConsultarCliente.aspx" />
@@ -77,12 +76,16 @@
     <Content Include="FullCalendar\main.css" />
     <Content Include="FullCalendar\main.js" />
     <Content Include="Imagenes\add_cliente.png" />
+    <Content Include="Imagenes\Administracion-morado.png" />
     <Content Include="Imagenes\Administracion.png" />
     <Content Include="Imagenes\cargando-gif.gif" />
+    <Content Include="Imagenes\citas-Morado.png" />
     <Content Include="Imagenes\citas.png" />
+    <Content Include="Imagenes\CLIENTE-morado.png" />
     <Content Include="Imagenes\CLIENTE.png" />
     <Content Include="Imagenes\clientes.png" />
     <Content Include="Imagenes\Correo\1024_2000.jpg" />
+    <Content Include="Imagenes\cumple-morado.png" />
     <Content Include="Imagenes\cumple.png" />
     <Content Include="Imagenes\Icono_salida.png" />
     <Content Include="Imagenes\imgBusqueda.png" />
@@ -171,10 +174,6 @@
       <DependentUpon>Administracion.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Code\Conexion.cs" />
-    <Compile Include="Citas.asmx.cs">
-      <DependentUpon>Citas.asmx</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Citas.aspx.cs">
       <DependentUpon>Citas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

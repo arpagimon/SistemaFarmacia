@@ -10,7 +10,7 @@
             display: inline-block;
             font-size: 14px;
             font-family: Verdana;
-            background: rgb(51,51,153);
+            background: #78407e;
             color: white;
             border: none;
             border-radius: 5px;

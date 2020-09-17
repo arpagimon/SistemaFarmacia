@@ -1,17 +1,10 @@
 ﻿.divCalendario {
     width: 65%;
-    
-    /*margin-left: calc(35% - 415px);*/
     height: 30%;
-    /*float:right;*/
     background: white;
-    /*margin: 1% auto;*/
     padding: 1%;
     vertical-align: top;
     display: inline-block !important;
-
-    /*margin: 0px;*/
-
 }
 
 .sombra{
@@ -22,7 +15,7 @@
 .FormGerente {
     width: 700px;
     border-radius: 15px;
-    background: white;
+    background: #fdcbfc;
     margin: auto;
     margin-top: 0.5%;
     z-index: 6;
@@ -32,7 +25,7 @@
 
 .FCabecera {
     border-radius: 15px 15px 0px 0px;
-    background: #333f4f;
+    background: #46114c;
     text-align: center;
     color: white;
     height: 40px;
@@ -100,7 +93,7 @@
     display: inline-block;
     font-size: 15px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 20px;
@@ -143,10 +136,7 @@
 
 
 #MCabecera{
-    /*background: rgb(68,84,106);*/
     text-align: center;
-    /*color: white;
-    height: 30px;*/
 }
 
 #MTitulo{
@@ -166,7 +156,7 @@
     width: 40%;
     font-size: 15px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 5px;
@@ -261,19 +251,19 @@
 }
 
 .btnAgrClienteG {
-        display: inline-block;
-        font-size: 11px;
-        font-family: Verdana;
-        background: rgb(51,51,153);
-        color: white;
-        border: none;
-        border-radius: 5px;
-        padding: 5px 30px;
-    }
+    display: inline-block;
+    font-size: 11px;
+    font-family: Verdana;
+    background: rgb(120, 64, 126);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
 
 
 .divBtnDatosF{
-    float: left;
+    float: right;
     display: block;
     margin: 0 6px;
 }
@@ -294,7 +284,7 @@
     width: -moz-fit-content;
     font-size: 15px;
     font-family: Verdana;
-    background: rgb(51,51,153);
+    background: #78407e;
     color: white;
     border: none;
     border-radius: 5px;
@@ -322,13 +312,13 @@
     border-radius: 8px 8px 0px 0px;
     height: 100%;
     border-bottom: none;
-    background: #eee;
+    background: #ffe1fe;
     float: left;
     padding: 0px 20px;
 }
 
 .btnPestanaSeleccionada{
-    background: white;
+    background: #fdcbfc;
 }
 
 .txtExtGrande{

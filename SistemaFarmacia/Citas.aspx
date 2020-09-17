@@ -82,7 +82,7 @@
                         },
                         {
                             events: eventosBloqueos,
-                            color: 'white',
+                            color: '#ffc3c3',
                             textColor: 'black',
                             borderColor: '#8db0aa'
                         }],
@@ -263,6 +263,8 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div id="divFContenidoResulCita" class="FContenido" runat="server" visible="false">
                     <div class="row justify-content-start px-2">
                         <label>Objetivo</label>
@@ -371,10 +373,10 @@
                 </div>
                 <div id="divClienteResultados" class="FContenido FCCContenido" runat="server" visible="false">
                     <h5>Selecciona un cliente</h5>
-                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
+                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
                     CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvClientes_RowDataBound" OnPageIndexChanging="gvClientes_PageIndexChanging" >
-                        <AlternatingRowStyle BackColor="#f2f2f2" />
-                        <RowStyle BackColor="#FFFFFF" />
+                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                        <RowStyle BackColor="#f9def8" />
                         <PagerStyle BackColor="#CCCCCC" />
                         <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
                         <PagerStyle CssClass="Paginador" />
@@ -449,14 +451,24 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div class="col-4 px-2">
+                    <div class="col-2 px-2">
+                        <div class="form-group">
+                            <label>Sexo</label>
+                            <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
+                                <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
+                                <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+                    </div>
+                    <div class="col-3 px-2">
                         <div class="form-group">
                             <label>Fecha Ingreso</label>
                             <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliFecIngreso" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
                         </div>
                     </div>
 
-                    <div class="col-4 px-2">
+                    <div class="col-3 px-2">
                         <div class="form-group">
                             <label>Fecha Nacimiento</label>
                             <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliFecNac" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" OnTextChanged="txtFormCliFecNac_TextChanged" AutoPostBack="true"></asp:TextBox>
