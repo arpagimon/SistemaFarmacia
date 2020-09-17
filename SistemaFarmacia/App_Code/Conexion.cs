@@ -1219,7 +1219,7 @@ namespace SistemaFarmacia
                 }
                 mySqlDataReader.Close();
                 //Traer datos de tipo correo
-                mySqlCommand = new MySqlCommand("Select Sujeto, Mensaje, ImgCorreo, Firma, Nombre_tipo from farmacia.tipo_correo where Id_tipo = " + id_tipo + ";", connMySql);
+                mySqlCommand = new MySqlCommand("Select Sujeto, Mensaje, ImgCorreo, Firma, Nombre_tipo from " + esquema + ".tipo_correo where Id_tipo = " + id_tipo + ";", connMySql);
                 mySqlDataReader = mySqlCommand.ExecuteReader();
 
                 if (mySqlDataReader.HasRows)
@@ -1250,8 +1250,8 @@ namespace SistemaFarmacia
 
         public DataSet TraerClGpo(String id_grupo)
         {
-            return EjecutaQueryDS("Select cliente.ID_CLIENTE, cliente.NOMBRE, cliente.APELLIDO_PATERNO, cliente.APELLIDO_MATERNO, cliente.EMAIL from farmacia.clientesGrupo " +
-                " left join farmacia.cliente on cliente.ID_CLIENTE = clientesGrupo.ID_CLIENTE where clientesGrupo.ID_Grupo = " + id_grupo + " ");
+            return EjecutaQueryDS("Select cliente.ID_CLIENTE, cliente.NOMBRE, cliente.APELLIDO_PATERNO, cliente.APELLIDO_MATERNO, cliente.EMAIL from " + esquema + ".clientesGrupo " +
+                " left join " + esquema + ".cliente on cliente.ID_CLIENTE = clientesGrupo.ID_CLIENTE where clientesGrupo.ID_Grupo = " + id_grupo + " ");
         }
 
         //public DataSet traerGrupos()
@@ -1315,26 +1315,30 @@ namespace SistemaFarmacia
         #region CitasRececta
         public string GuardarReceta(String idCita, String medicina, String indicacion, String dosis, String frecuencia, String periodo)
         {
-            return EjecutaQueryInsert("Insert into farmacia.receta(Medicamento,Indicaciones,Dosis, id_cita,frecuencia, periodo)values( '" + medicina + "','" + indicacion + "','" + dosis + "'," + idCita + ",'" + frecuencia + "','" + periodo + "')");
+            return EjecutaQueryInsert("Insert into " + esquema + ".receta(Medicamento,Indicaciones,Dosis, id_cita,frecuencia, periodo)values( '" + medicina + "','" + indicacion + "','" + dosis + "'," + idCita + ",'" + frecuencia + "','" + periodo + "')");
         }
 
         public DataSet TraerReceta(String idCita)
         {
-            return EjecutaQueryDS("select Medicamento, indicaciones, dosis, frecuencia, periodo  from  farmacia.receta  where Id_Cita=" + idCita);
+            return EjecutaQueryDS("select Medicamento, indicaciones, dosis, frecuencia, periodo  from  " + esquema + ".receta  where Id_Cita=" + idCita);
         }
         public string GuardarResultadoCita(String idCita, String objetivo, String sintomas, String indicacionesgenerales)
         {
-            return EjecutaQueryInsert("Insert into farmacia.resultadocita(Id_Cita,Objetivo,Sintomas,indicaciones_generales)values(" + idCita + ",'" + objetivo + "','" + sintomas + "','" + indicacionesgenerales + "')");
+            return EjecutaQueryInsert("Insert into " + esquema + ".resultadocita(Id_Cita,Objetivo,Sintomas,indicaciones_generales)values(" + idCita + ",'" + objetivo + "','" + sintomas + "','" + indicacionesgenerales + "')");
+        }
+        public string ActualizaResultadoCita(String idCita, String objetivo, String sintomas, String indicacionesgenerales)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".resultadocita set Objetivo = '" + objetivo + "', Sintomas = '" + sintomas + "', indicaciones_generales = '" + indicacionesgenerales + "' where Id_Cita= " + idCita );
         }
 
         public DataSet TraerResultadoCita(String Id_Cita)
         {
-            return EjecutaQueryDS("select objetivo, sintomas, indicaciones_generales  from  farmacia.resultadocita  where Id_Cita=" + Id_Cita);
+            return EjecutaQueryDS("select objetivo, sintomas, indicaciones_generales  from  " + esquema + ".resultadocita  where Id_Cita=" + Id_Cita);
         }
 
         public String BorrarMedicamento(String medicamentoFinal, String idCitaFinal)
         {
-            return EjecutaQueryString("delete from farmacia.receta where Id_Cita= " + idCitaFinal + " and medicamento='" + medicamentoFinal + "'");
+            return EjecutaQueryString("delete from " + esquema + ".receta where Id_Cita= " + idCitaFinal + " and medicamento='" + medicamentoFinal + "'");
         }
 
         public String ActualizaReceta(String idcita, String medicamentoNuevo, String indicacionNuevo, String dosisNuevo, String frecuenciaNuevo, String periodoNuevo, String medicamentoViejo, String indicacionViejo, String dosisViejo, String frecuenciaViejo, String periodoViejo)
@@ -1344,17 +1348,17 @@ namespace SistemaFarmacia
 
         public string GuardarExpediente(String idCita, String nombreArchivoT, String rutaT)
         {
-            return EjecutaQueryInsert("Insert into farmacia.archivo (Id_Cita, archivo, ruta_archivo )values(" + idCita + ",'" + nombreArchivoT + "','" + rutaT + "')");
+            return EjecutaQueryInsert("Insert into " + esquema + ".archivo (Id_Cita, archivo, ruta_archivo )values(" + idCita + ",'" + nombreArchivoT + "','" + rutaT + "')");
         }
 
         public DataSet traerExpediente(String Id_Cita)
         {
-            return EjecutaQueryDS("select Id_Cita, archivo, ruta_archivo from  farmacia.archivo  where Id_Cita=" + Id_Cita);
+            return EjecutaQueryDS("select Id_Cita, archivo, ruta_archivo from  " + esquema + ".archivo  where Id_Cita=" + Id_Cita);
         }
 
         public DataSet TraerResultadoCitaCompara(String idCita)
         {
-            return EjecutaQueryDS("select objetivo, sintomas, indicaciones_generales  from  farmacia.resultadocita  where Id_Cita=" + idCita);
+            return EjecutaQueryDS("select objetivo, sintomas, indicaciones_generales  from  " + esquema + ".resultadocita  where Id_Cita=" + idCita);
         }
         #endregion
 

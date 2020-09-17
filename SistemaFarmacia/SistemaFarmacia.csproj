@@ -99,6 +99,7 @@
     <Content Include="Imagenes\mail.png" />
     <Content Include="Imagenes\palomita2.png" />
     <Content Include="Imagenes\palomita2Oscuro.png" />
+    <Content Include="Imagenes\plus2.png" />
     <Content Include="Imagenes\return.png" />
     <Content Include="Imagenes\right-arrow.png" />
     <Content Include="js\modal.js" />
@@ -232,7 +233,9 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Imagenes\Expediente\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

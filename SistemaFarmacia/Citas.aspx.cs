@@ -1513,11 +1513,343 @@ namespace SistemaFarmacia
 
             divFContenidoDatoCita.Visible = false;
             divFContenidoResulCita.Visible = true;
+
+            String Id_Cita = TxtIDCita.Text;
+            //if (Id_Cita == null)
+            //{
+            txtObjetivo.Text = "";
+            txtSintomas.Text = "";
+            txtIndicaciones.Text = "";
+            TextBoxMedicamento.Text = "";
+            TextBoxIndicaciones.Text = "";
+            TextBoxDosis.Text = "";
+            TextFrecuencia.Text = "";
+            TextPeriodo.Text = "";
+
+            //}
+
+            DataSet datosCita = connMySql.TraerResultadoCita(Id_Cita);
+            if (datosCita != null)
+            {
+
+                foreach (DataRow dRow in datosCita.Tables[0].Rows)
+                {
+
+                    txtObjetivo.Text = dRow["objetivo"].ToString();
+                    txtSintomas.Text = dRow["sintomas"].ToString();
+                    txtIndicaciones.Text = dRow["indicaciones_generales"].ToString();
+                }
+            }
+            else
+            {
+                txtObjetivo.Text = "";
+                txtSintomas.Text = "";
+                txtIndicaciones.Text = "";
+            }
+            cargarReceta();
+            cargarExpediente();
         }
 
         protected void btnResulCitaGuardar_Click(object sender, EventArgs e)
         {
 
+            String archivo = System.IO.Path.GetFileName(FUploadResultCita.FileName);
+            String idCita = TxtIDCita.Text;
+            DataSet resultadocompara = connMySql.TraerResultadoCitaCompara(idCita);
+            if (resultadocompara.Tables[0].Rows.Count == 0)
+            {
+                connMySql.GuardarResultadoCita(idCita, txtObjetivo.Text, txtSintomas.Text, txtIndicaciones.Text);
+            }else
+            {
+                connMySql.ActualizaResultadoCita(idCita, txtObjetivo.Text, txtSintomas.Text, txtIndicaciones.Text);
+            }
+
+            String medicina = TextBoxMedicamento.Text;
+            String indicacion = TextBoxIndicaciones.Text;
+            String dosis = TextBoxDosis.Text;
+            if (medicina != "" || indicacion != "" || dosis != "")
+            {
+
+                String frecuencia = TextFrecuencia.Text;
+                String periodo = TextPeriodo.Text;
+
+                String idCliente = TxtIDCliente.Text;
+                String resultado1 = connMySql.GuardarReceta(idCita, medicina, indicacion, dosis, frecuencia, periodo);
+            }
+
+            if (FUploadResultCita.FileName.Trim().Length != 0)
+            {
+                if (FUploadResultCita.HasFile)
+                {
+                    string nombreArchivo = FUploadResultCita.FileName;
+                    string ruta = "Imagenes/Expediente/" + nombreArchivo;
+                    FUploadResultCita.SaveAs(Server.MapPath(ruta));
+
+                    //FUploadResultCita.SMTP_IMAGEN = ruta;
+                    String nombreArchivoT = nombreArchivo;
+                    String rutaT = ruta;
+                    String resultado2 = connMySql.GuardarExpediente(idCita, nombreArchivoT, rutaT);
+
+                }
+
+            }
+            Div3.Visible = true;
+            div5.Visible = true;
+            divmensaje2.Visible = false;
         }
+
+        protected void plusClick_Click(object sender, EventArgs e)
+        {
+            String medicina = TextBoxMedicamento.Text;
+            String indicacion = TextBoxIndicaciones.Text;
+            String dosis = TextBoxDosis.Text;
+            String idCliente = TxtIDCliente.Text;
+            String idCita = TxtIDCita.Text;
+            String frecuencia = TextFrecuencia.Text;
+            String periodo = TextPeriodo.Text;
+            if (medicina == "" || dosis == "" || frecuencia == "")
+            {
+                Div3.Visible = true;
+                div6.Visible = true;
+            }
+            else
+            {
+                String resultado = connMySql.GuardarReceta(idCita, medicina, indicacion, dosis, frecuencia, periodo);
+                cargarReceta();
+
+                TextBoxMedicamento.Text = "";
+                TextBoxIndicaciones.Text = "";
+                TextBoxDosis.Text = "";
+                TextFrecuencia.Text = "";
+                TextPeriodo.Text = "";
+            }
+        }
+
+        public void cargarReceta()
+        {
+            String idCita = TxtIDCita.Text;
+            DataSet ds = connMySql.TraerReceta(idCita);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                GridViewReceta.DataSource = ds.Tables[0];
+                GridViewReceta.DataBind();
+            }
+            else
+            {
+                GridViewReceta.DataSource = ds.Tables[0];
+                GridViewReceta.DataBind();
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (GridViewReceta.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("Medicamento");
+                    dtTemporal.Columns.Add("indicaciones");
+                    dtTemporal.Columns.Add("dosis");
+                    dtTemporal.Columns.Add("frecuencia");
+                    dtTemporal.Columns.Add("periodo");
+                    dtTemporal.NewRow();
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    GridViewReceta.DataSource = dtTemporal;
+                    GridViewReceta.DataBind();
+                    GridViewReceta.Visible = true;
+                }
+                GridViewReceta.Rows[0].Cells.Clear();
+                GridViewReceta.Rows[0].Cells.Add(new TableCell());
+                GridViewReceta.Rows[0].Cells[0].ColumnSpan = 6;
+            }
+        }
+
+        protected void linkeditar_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+            Label medicamento = (Label)row.FindControl("medicamentoId");
+            Label indicaciones = (Label)row.FindControl("indicacionesId");
+            Label dosis = (Label)row.FindControl("dosisId");
+            Label frecuencia = (Label)row.FindControl("frecuenciaId");
+            Label periodo = (Label)row.FindControl("periodoId");
+            String medicamentoEdit = medicamento.Text;
+            String indicacionesEdit = indicaciones.Text;
+            String dosisEdit = dosis.Text;
+            String frecuenciaEdit = frecuencia.Text;
+            String periodoEdit = periodo.Text;
+            medicamentoref.Text = medicamentoEdit;
+            indicacionRef.Text = indicacionesEdit;
+            dosisref.Text = dosisEdit;
+            frecuenciaref.Text = frecuenciaEdit;
+            periodoref.Text = periodoEdit;
+
+            MedicamentoACt.Text = medicamentoEdit;
+            IndicacionesAct.Text = indicacionesEdit;
+            DosisAct.Text = dosisEdit;
+            FrecuenciaAct.Text = frecuenciaEdit;
+            PeriodoACt.Text = periodoEdit;
+            Div3.Visible = true;
+            div4.Visible = true;
+            divmensaje2.Visible = false;
+        }
+
+
+        protected void GridViewReceta_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+
+        }
+
+        protected void eliminarCancelar_Click(object sender, EventArgs e)
+        {
+            Div3.Visible = false;
+        }
+
+        protected void eliminarAceptar_Click(object sender, EventArgs e)
+        {
+            String medicamentoFinal = recupera.Text;
+            String idCitaFinal = recuperaId.Text;
+
+            String resultado = connMySql.BorrarMedicamento(medicamentoFinal, idCitaFinal);
+            Div3.Visible = false;
+            cargarReceta();
+
+
+        }
+
+        protected void btnCancelaraAct_Click(object sender, EventArgs e)
+        {
+            Div3.Visible = false;
+        }
+
+        protected void btnActualizar_Click(object sender, EventArgs e)
+        {
+            String idcita = TxtIDCita.Text;
+            String medicamentoNuevo = MedicamentoACt.Text;
+            String indicacionNuevo = IndicacionesAct.Text;
+            String dosisNuevo = DosisAct.Text;
+            String frecuenciaNuevo = FrecuenciaAct.Text;
+            String periodoNuevo = PeriodoACt.Text;
+            String medicamentoViejo = medicamentoref.Text;
+            String indicacionViejo = indicacionRef.Text;
+            String dosisViejo = dosisref.Text;
+            String frecuenciaViejo = frecuenciaref.Text;
+            String periodoViejo = periodoref.Text;
+            String resultado = connMySql.ActualizaReceta(idcita, medicamentoNuevo, indicacionNuevo, dosisNuevo, frecuenciaNuevo, periodoNuevo, medicamentoViejo, indicacionViejo, dosisViejo, frecuenciaViejo, periodoViejo);
+            cargarReceta();
+            Div3.Visible = false;
+            div4.Visible = false;
+
+
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            Div3.Visible = false;
+            div5.Visible = false;
+            div6.Visible = false;
+            //sombraMensaje.Visible = false;
+        }
+
+
+        protected void linkeliminar_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+            Label medicamento = (Label)row.FindControl("medicamentoId");
+            String medicamentoAct = medicamento.Text;
+            recupera.Text = medicamento.Text;
+            recuperaId.Text = TxtIDCita.Text;
+            Div3.Visible = true;
+            divmensaje2.Visible = true;
+            div4.Visible = false;
+        }
+
+
+        public void cargarExpediente()
+        {
+
+            String idCita = TxtIDCita.Text;
+            DataSet ds = connMySql.traerExpediente(idCita);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                GridVieArchivo.DataSource = ds.Tables[0];
+                GridVieArchivo.DataBind();
+            }
+            else
+            {
+                GridVieArchivo.DataSource = ds.Tables[0];
+                GridVieArchivo.DataBind();
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (GridVieArchivo.Rows.Count == 0)
+                {
+
+
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("Id_Cita");
+                    dtTemporal.Columns.Add("archivo");
+                    dtTemporal.Columns.Add("ruta_archivo");
+                    dtTemporal.NewRow();
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    GridVieArchivo.DataSource = dtTemporal;
+                    GridVieArchivo.DataBind();
+                    GridVieArchivo.Visible = true;
+                }
+                GridVieArchivo.Rows[0].Cells.Clear();
+                GridVieArchivo.Rows[0].Cells.Add(new TableCell());
+                GridVieArchivo.Rows[0].Cells[0].ColumnSpan = 6;
+            }
+        }
+
+        protected void linkdescargar_Click(object sender, EventArgs e)
+        {
+            LinkButton btn = (LinkButton)sender;
+            GridViewRow row = (GridViewRow)btn.NamingContainer;
+            Label ruta = (Label)row.FindControl("rutaId");
+            Label nombre = (Label)row.FindControl("archivoId");
+            String nombrearch = nombre.Text;
+            String rutaD = ruta.Text;
+            string path = rutaD;
+            try
+            {
+                string strURL = path;
+                System.Net.WebClient req = new System.Net.WebClient();
+                HttpResponse response = HttpContext.Current.Response;
+                response.Clear();
+                response.ClearContent();
+                response.ClearHeaders();
+                response.Buffer = true;
+                response.AddHeader("Content-Disposition", "attachment;filename=\"" + nombrearch + "\"");
+                //response.AddHeader("Content-Disposition", "attachment;filename=\"" + Server.MapPath(strURL) + "\"");
+                byte[] data = req.DownloadData(Server.MapPath(strURL));
+                response.BinaryWrite(data);
+                response.End();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        protected void plusClickArcivo_Click(object sender, EventArgs e)
+        {
+            String idCita = TxtIDCita.Text;
+            if (FUploadResultCita.FileName.Trim().Length != 0)
+            {
+                if (FUploadResultCita.HasFile)
+                {
+                    string nombreArchivo = FUploadResultCita.FileName;
+                    string ruta = "Imagenes/Expediente/" + nombreArchivo;
+                    FUploadResultCita.SaveAs(Server.MapPath(ruta));
+
+                    //FUploadResultCita.SMTP_IMAGEN = ruta;
+                    String nombreArchivoT = nombreArchivo;
+                    String rutaT = ruta;
+                    String resultado2 = connMySql.GuardarExpediente(idCita, nombreArchivoT, rutaT);
+                    cargarExpediente();
+                }
+            }
+        }
+
     }
 }
