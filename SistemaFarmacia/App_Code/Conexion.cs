@@ -1362,5 +1362,105 @@ namespace SistemaFarmacia
         }
         #endregion
 
+        public string GuardarHistoriaClinica(String id_empleado, String Fitzpatrick, String Loc_cabeza, String Loc_tronco, String Loc_extinf, String Loc_extsup, String Ext_localizada, String Ext_Diseminada, String Ext_Generalizada, String Predominio, String Morfologia, String Interrogatorio, String Resto_anexos, String Sintomatologia, String Tratamientos_anterior, String Antecedentes, String Diagnostico, String Tratamiento, String ID_Cliente)
+        {
+            return EjecutaQueryInsert("Insert into " + esquema + ".Historia_Clinica (ID_Empleado_Crea,Fecha_creacion,ID_Empleado_Modifica,Fecha_modificacion,Fitzpatrick,Loc_cabeza,Loc_tronco,Loc_extinf,Loc_extsup,Ext_localizada,Ext_Diseminada,Ext_Generalizada,Predominio,Morfologia,Interrogatorio,Resto_anexos,Sintomatologia,Tratamientos_anterior,Antecedentes,Diagnostico,Tratamiento,ID_Cliente)" +
+                " values (" + id_empleado + ",sysdate()," + id_empleado + ",sysdate(),'" + Fitzpatrick + "','" + Loc_cabeza + "','" + Loc_tronco + "','" + Loc_extinf + "','" + Loc_extsup + "','" + Ext_localizada + "','" + Ext_Diseminada + "','" + Ext_Generalizada + "','" + Predominio + "','" + Morfologia + "','" + Interrogatorio + "','" + Resto_anexos + "','" + Sintomatologia + "','" + Tratamientos_anterior + "','" + Antecedentes + "','" + Diagnostico + "','" + Tratamiento + "'," + ID_Cliente + ");");
+        }
+
+        public DataSet TraerHistoriaC(String id_cliente)
+        {
+            return EjecutaQueryDS("select Fitzpatrick,Loc_cabeza,Loc_tronco,Loc_extinf,Loc_extsup,Ext_localizada,Ext_Diseminada,Ext_Generalizada,Predominio,Morfologia,Interrogatorio,Resto_anexos,Sintomatologia,Tratamientos_anterior,Antecedentes,Diagnostico,Tratamiento  from  " + esquema + ".Historia_Clinica  where ID_Cliente=" + id_cliente);
+        }
+
+        public String ActualizaHistoriaC(String id_empleado, String Fitzpatrick, String Loc_cabeza, String Loc_tronco, String Loc_extinf, String Loc_extsup, String Ext_localizada, String Ext_Diseminada, String Ext_Generalizada, String Predominio, String Morfologia, String Interrogatorio, String Resto_anexos, String Sintomatologia, String Tratamientos_anterior, String Antecedentes, String Diagnostico, String Tratamiento, String ID_Cliente)
+        {
+            return EjecutaQueryString("Update " + esquema + ".Historia_Clinica set ID_Empleado_Modifica=" + id_empleado + ",Fecha_modificacion=sysdate(),Fitzpatrick='" + Fitzpatrick + "',Loc_cabeza='" + Loc_cabeza + "',Loc_tronco='" + Loc_tronco + "',Loc_extinf='" + Loc_extinf + "',Loc_extsup='" + Loc_extsup + "',Ext_localizada='" + Ext_localizada + "',Ext_Diseminada='" + Ext_Diseminada + "',Ext_Generalizada='" + Ext_Generalizada + "',Predominio='" + Predominio + "',Morfologia='" + Morfologia + "'," +
+                "Interrogatorio='" + Interrogatorio + "',Resto_anexos='" + Resto_anexos + "',Sintomatologia='" + Sintomatologia + "',Tratamientos_anterior='" + Tratamientos_anterior + "',Antecedentes='" + Antecedentes + "',Diagnostico='" + Diagnostico + "',Tratamiento='" + Tratamiento + "' where ID_Cliente=" + ID_Cliente);
+        }
+
+        public bool ValidaExistenciaHistoria(String id_cliente)
+        {
+            bool resultado = false;
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select ID_Historia from " + esquema + ".Historia_Clinica where ID_Cliente=" + id_cliente + ";", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    if (mySqlDataReader.Read())
+                    {
+                        resultado = true;
+                    }
+                }
+                mySqlDataReader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+
+        public string GuardarNotaEvolucion(String id_empleado, String ta, String fc, String fr, String temperatura, String peso, String talla, String evolucion, String diagnostico, String tratamiento, String id_cita)
+        {
+            return EjecutaQueryInsert("Insert into " + esquema + ".Notas_evolucion (ID_Empleado_Crea,Fecha_creacion,ID_Empleado_Modifica,Fecha_modificacion,TA,FC,FR,Temperatura,Peso,Talla,Evolucion,Diagnostico,Tratamiento,ID_Cita)" +
+                " values (" + id_empleado + ",sysdate()," + id_empleado + ",sysdate(),'" + ta + "','" + fc + "','" + fr + "','" + temperatura + "','" + peso + "','" + talla + "','" + evolucion + "','" + diagnostico + "','" + tratamiento + "'," + id_cita + ");");
+        }
+
+        public DataSet TraerNotaEvolucion(String id_cita)
+        {
+            return EjecutaQueryDS("Select TA,FC,FR,Temperatura,Peso,Talla,Evolucion,Diagnostico,Tratamiento from " + esquema + ".Notas_evolucion where ID_Cita=" + id_cita);
+        }
+
+        public String ActualizaNotaEvolucion(String id_empleado, String ta, String fc, String fr, String temperatura, String peso, String talla, String evolucion, String diagnostico, String tratamiento, String id_cita)
+        {
+            return EjecutaQueryString("Update " + esquema + ".Notas_evolucion set ID_Empleado_Modifica=" + id_empleado + ",Fecha_modificacion=sysdate(),TA='" + ta + "',FC='" + fc + "',FR='" + fr + "',Temperatura='" + temperatura + "'," +
+                "Peso='" + peso + "',Talla='" + talla + "',Evolucion='" + evolucion + "',Diagnostico='" + diagnostico + "',Tratamiento='" + tratamiento + "' where ID_Cita=" + id_cita);
+        }
+        public DataSet TraerProxCita(String id_cliente, String fecha_cita)
+        {
+            return EjecutaQueryDS("Select MIN(date_format(fecha,'%Y-%m-%d')) fecha,DATE_FORMAT(hora_inicio,'%H:%i:%s') hora_inicio, DATE_FORMAT(hora_fin,'%H:%i:%s') hora_fin from " + esquema + ".citas where id_cliente=" + id_cliente + " and Fecha>'" + fecha_cita + "' and estatus_cita=1;");
+        }
+        public bool ValidaExistenciaEvolucion(String id_cita)
+        {
+            bool resultado = false;
+            try
+            {
+                connMySql.Open();
+
+                MySqlCommand mySqlCommand = new MySqlCommand("Select ID_Nota from " + esquema + ".Notas_evolucion where ID_Cita=" + id_cita + ";", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    if (mySqlDataReader.Read())
+                    {
+                        resultado = true;
+                    }
+                }
+                mySqlDataReader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+
+
     }
 }

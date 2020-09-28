@@ -183,13 +183,22 @@
                                     <asp:ListItem Value="39">Técnico</asp:ListItem>
                                     <asp:ListItem Value="310">Configuración</asp:ListItem>
                                     <asp:ListItem Value="311">Contenido</asp:ListItem>
+                                    
+                                    <asp:ListItem Value="315">Configuración correo recordatorio</asp:ListItem>
+                                    <asp:ListItem Value="312">Tipo Correo de promociones</asp:ListItem>
+                                    <asp:ListItem Value="316">Envio de promociones</asp:ListItem>
                                 </asp:CheckBoxList>
-                                <asp:CheckBoxList runat="server"  id="chkAdmin" CssClass="chbFG" RepeatColumns="2">
-                                    <asp:ListItem Value="312">Envio de promociones</asp:ListItem>
+                                <asp:CheckBoxList runat="server"  id="chkAdmin" CssClass="chbFG" RepeatColumns="1">
                                     <asp:ListItem Value="313">Reactivar clientes</asp:ListItem>
+                                    <asp:ListItem Value="317">Configuración citas</asp:ListItem>
+                                    <asp:ListItem Value="318">Grupo clientes</asp:ListItem>
                                 </asp:CheckBoxList>
                             </div>
                         </td>
+                    </tr>
+                    <tr>
+                        <td class="tdColumn1" ><label class="FGEtiqueta">Citas:</label></td>
+                        <td><asp:CheckBox runat="server" ID="chkCitas" CssClass="chkPrimer" /></td>
                     </tr>
                 </table>
                 <asp:Label runat="server" ID="lblId_perfil" Visible="false"></asp:Label>
@@ -568,19 +577,19 @@
                         <div class="col-4 px-2">
                             <div class="form-group">
                                 <label class="FGEtiqueta">Nombre</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TextBox1" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtNombreCl" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
                         <div class="col-4 px-2">
                             <div class="form-group">
                                 <label class="FGEtiqueta">Apellido Paterno</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TextBox2" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoPCl" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
                         <div class="col-4 px-2">
                             <div class="form-group">
                                 <label class="FGEtiqueta">Apellido Materno</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TextBox3" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" onkeyup="this.value = this.value.toUpperCase();" runat="server" ID="TxtApellidoMCl" CssClass="form-control FGInput FGCliente" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
                     </div>
@@ -588,10 +597,10 @@
                     <div class="row justify-content-center">
                         <div class="col-2 px-2">
                             <div class="form-group">
-                                <label class="FGEtiqueta">Sexo</label>
+                                <label class="FGEtiqueta">Género</label>
                                 <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control FGInput FGCliente ddlSexo">
                                     <asp:ListItem Text="TODOS" Value="-1"></asp:ListItem>
-                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <%--<asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>--%>
                                     <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
                                     <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
                                 </asp:DropDownList>
@@ -878,10 +887,10 @@
                     <div class="row justify-content-center">
                         <div class="col-2 px-2">
                             <div class="form-group">
-                                <label>Sexo</label>
+                                <label>Género</label>
                                 <asp:DropDownList runat="server" ID="ddlFormCliGrupoSexo" CssClass="form-control ddlSexo">
                                     <asp:ListItem Text="TODOS" Value="-1"></asp:ListItem>
-                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <%--<asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>--%>
                                     <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
                                     <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
                                 </asp:DropDownList>
@@ -1136,6 +1145,7 @@
                 <asp:Button runat="server" ID="btnLimpiaTipo" CssClass="btnAgrUsuarioG" Text="Limpiar" OnClick="btnTipoLimpiar_Click"  Visible ="false"/>
                 <asp:Button runat="server" ID="btnTipoAgregar" CssClass="btnAgrUsuarioG" Text="Agregar" OnClick="btnFormTipoAgregar_Click"  Visible ="false"/>
                 <asp:Button runat="server" ID="btnTipoModificar" CssClass="btnAgrUsuarioG" Text="Modificar" OnClick="btnFormTipoModificar_Click"  Visible ="false"/>
+                <asp:Button runat="server" ID="btnTipoPreview" CssClass="btnAgrUsuarioG" Text="Preview" OnClientClick="abrePreview()" OnClick="btnFormTipoPreview_Click"  Visible ="false"/>
 
                 <div class="btnEnviarCorreo" id="chkdivSelecTodo" runat="server" visible="false"><asp:CheckBox runat="server" ID="chkECSelectTodo" Text="Todos" OnCheckedChanged="chkECSelectTodo_CheckedChanged" AutoPostBack="true"/></div>
                 <asp:Button runat="server" ID="btnLimipiaS" CssClass="btnAgrClienteG" Text="Limpiar Selección" OnClick="btnLimpiaS_Click" Visible="false" />
@@ -1429,7 +1439,7 @@
                                     <asp:Label runat='server' ID='lblApellidoM' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Sexo" SortExpression="Sexo">
+                            <asp:TemplateField HeaderText="Género" SortExpression="Sexo">
                                 <ItemTemplate>
                                     <asp:Label runat='server' ID='lblSexo' CssClass="lblEnviarCorreo" Text='<%# Bind("Sexo") %>'></asp:Label>
                                 </ItemTemplate>
@@ -1695,7 +1705,7 @@
                                 <asp:Label runat='server' ID='lblApellidoM' CssClass="lblUsuario" Text='<%# Bind("APELLIDO_MATERNO") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                    <asp:TemplateField HeaderText="Género" HeaderStyle-Width="20%" SortExpression="Sexo">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
                         </ItemTemplate>
@@ -1775,7 +1785,7 @@
                             <asp:Label runat='server' ID='lblEnvCorreo' CssClass="lblGerentes" Text='<%# Bind("Enviar_Correo") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Requiere Factura" HeaderStyle-Width="20%" SortExpression="Req_Factura">
+                    <%--<asp:TemplateField HeaderText="Requiere Factura" HeaderStyle-Width="20%" SortExpression="Req_Factura">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblFactura' CssClass="lblGerentes" Text='<%# Bind("REQ_FACTURA") %>'></asp:Label>
                         </ItemTemplate>
@@ -1799,7 +1809,7 @@
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblDirFactura' CssClass="lblGerentes" Text='<%# Bind("DIR_FACTURA") %>'></asp:Label>
                         </ItemTemplate>
-                    </asp:TemplateField>                    
+                    </asp:TemplateField>    --%>                
                     <asp:TemplateField HeaderText="Opciones">
                         <ItemTemplate>
 		                    <asp:LinkButton ID="linkReactiveCl" ToolTip="Reactivar" OnClick="gvClientes_RowDeleting" CssClass="linkOpcion" runat="server" Text="Reactivar" />
@@ -2039,7 +2049,7 @@
                                     <asp:Label runat='server' ID='lblApellidoM' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Sexo" SortExpression="Sexo">
+                            <asp:TemplateField HeaderText="Género" SortExpression="Sexo">
                                 <ItemTemplate>
                                     <asp:Label runat='server' ID='lblSexo' CssClass="lblEnviarCorreo" Text='<%# Bind("Sexo") %>'></asp:Label>
                                 </ItemTemplate>

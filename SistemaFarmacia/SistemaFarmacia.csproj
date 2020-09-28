@@ -87,6 +87,11 @@
     <Content Include="Imagenes\Correo\1024_2000.jpg" />
     <Content Include="Imagenes\cumple-morado.png" />
     <Content Include="Imagenes\cumple.png" />
+    <Content Include="Imagenes\Fitzpatrick1.png" />
+    <Content Include="Imagenes\Fitzpatrick2.png" />
+    <Content Include="Imagenes\Fitzpatrick3.png" />
+    <Content Include="Imagenes\Fitzpatrick4.png" />
+    <Content Include="Imagenes\Fitzpatrick5.png" />
     <Content Include="Imagenes\Icono_salida.png" />
     <Content Include="Imagenes\imgBusqueda.png" />
     <Content Include="Imagenes\imgBusqueda_opt.png" />
@@ -100,6 +105,9 @@
     <Content Include="Imagenes\palomita2.png" />
     <Content Include="Imagenes\palomita2Oscuro.png" />
     <Content Include="Imagenes\plus2.png" />
+    <Content Include="Imagenes\predominioA.png" />
+    <Content Include="Imagenes\predominioB.png" />
+    <Content Include="Imagenes\predominioC.png" />
     <Content Include="Imagenes\return.png" />
     <Content Include="Imagenes\right-arrow.png" />
     <Content Include="js\modal.js" />

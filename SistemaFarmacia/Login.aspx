@@ -10,7 +10,7 @@
 
         });
 
-        ///Version 1.57
+        ///Version 1.58
 
 
         function ModalUpdate(titulo, MSG) {
@@ -81,7 +81,7 @@
 
 
                     <div class="form-group mx-sm-4 pt-3 text-center reactive">
-                        <button type="button" class="btn btn-link text-white" onclick="ModalOlvide()">Olvidé mi contraseña</button>
+                        <button type="button" class="btn btn-link text-olvide" onclick="ModalOlvide()">Olvidé mi contraseña</button>
                     </div>
                     <%--</form>--%>
             </div>

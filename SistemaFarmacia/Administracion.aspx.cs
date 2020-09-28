@@ -183,7 +183,7 @@ namespace SistemaFarmacia
                             }
                         }
 
-                        if (permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316"))
+                        if (permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("312") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316"))
                         {
                             if (PrimeraOpcion.Length == 0)
                             {
@@ -257,20 +257,7 @@ namespace SistemaFarmacia
                             }
                             btnOpcionCorreo.Visible = true;
                         }
-
-                        //if (permisos.Contains("312"))
-                        //{
-                        //    if (PrimeraOpcion.Length == 0)
-                        //    {
-                        //        PrimeraOpcion = "EnvioCorreo";
-                        //        divEnvioCorreo.Visible = true;
-
-                        //    }
-                        //    llenaEstados();
-                        //    llenaPaises();
-                        //    llenarMedio();
-                        //    btnEnvioCorreo.Visible = true;
-                        //}
+                        
 
                         if (permisos.Contains("313"))
                         {
@@ -782,6 +769,8 @@ namespace SistemaFarmacia
 
             ddlDoctor.SelectedValue = Doctor.Text;
 
+
+
             FGAgregar.Visible = false;
             FGActualizar.Visible = true;
         }
@@ -986,6 +975,7 @@ namespace SistemaFarmacia
                     dtTemporal.Columns.Add("Apellido_paterno");
                     dtTemporal.Columns.Add("Apellido_materno");
                     dtTemporal.Columns.Add("Perfil");
+                    dtTemporal.Columns.Add("Medico");
                     dtTemporal.NewRow();
 
                     DataRow drTemporal = dtTemporal.NewRow();
@@ -1185,42 +1175,45 @@ namespace SistemaFarmacia
 
         protected void gvPerfiles_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            bool editar = false;
-            bool eliminar = false;
+            if (SesionViva())
+            {
+                bool editar = false;
+                bool eliminar = false;
 
-            if (Session["Permisos"].ToString().Contains("37"))
-            {
-                editar = true;
-            }
-
-            if (Session["Permisos"].ToString().Contains("38"))
-            {
-                eliminar = true;
-            }
-            
-            if (!editar && !eliminar)
-            {
-                if (e.Row.RowType != DataControlRowType.Pager)
+                if (Session["Permisos"].ToString().Contains("37"))
                 {
-                    e.Row.Cells[3].Visible = false;
-                }
-            }
-            
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                if (!editar)
-                {
-                    e.Row.Cells[3].Controls[0].Visible = false;
+                    editar = true;
                 }
 
-                try
+                if (Session["Permisos"].ToString().Contains("38"))
                 {
-                    if (!eliminar)
+                    eliminar = true;
+                }
+
+                if (!editar && !eliminar)
+                {
+                    if (e.Row.RowType != DataControlRowType.Pager)
                     {
-                        e.Row.Cells[3].Controls[2].Visible = false;
+                        e.Row.Cells[3].Visible = false;
                     }
                 }
-                catch { }
+
+                if (e.Row.RowType == DataControlRowType.DataRow)
+                {
+                    if (!editar)
+                    {
+                        e.Row.Cells[3].Controls[0].Visible = false;
+                    }
+
+                    try
+                    {
+                        if (!eliminar)
+                        {
+                            e.Row.Cells[3].Controls[2].Visible = false;
+                        }
+                    }
+                    catch { }
+                }
             }
         }
 
@@ -1283,7 +1276,10 @@ namespace SistemaFarmacia
                     case "39":
                     case "310":
                     case "311":
+                    case "312":
                     case "314":
+                    case "315":
+                    case "316":
                         foreach (ListItem lsItem in chkPerforCorreo.Items)
                         {
                             if (lsItem.Value.Equals(Permiso.Trim()))
@@ -1292,8 +1288,9 @@ namespace SistemaFarmacia
                             }
                         }
                         break;
-                    case "312":
                     case "313":
+                    case "317":
+                    case "318":
                         foreach (ListItem lsItem in chkAdmin.Items)
                         {
                             if (lsItem.Value.Equals(Permiso.Trim()))
@@ -1301,8 +1298,13 @@ namespace SistemaFarmacia
                                 lsItem.Selected = true;
                             }
                         }
-                        break; 
+                        break;
+
+                    case "41":
+                        chkCitas.Checked = true;
+                        break;
                 }
+
             }
             
             MasterFarmacia master = (MasterFarmacia)this.Master;
@@ -1466,6 +1468,18 @@ namespace SistemaFarmacia
                 }
             }
 
+            if (chkCitas.Checked)
+            {
+                if (Permisos.Length == 0)
+                {
+                    Permisos = "41";
+                }
+                else
+                {
+                    Permisos += ", 41";
+                }
+            }
+
 
             resultado = connMysql.Guardaperfiles(Descripcion.ToUpper(), Permisos);
 
@@ -1580,6 +1594,18 @@ namespace SistemaFarmacia
                     }
                 }
             }
+
+            if (chkCitas.Checked){
+                if (Permisos.Length == 0)
+                {
+                    Permisos = "41";
+                }
+                else
+                {
+                    Permisos += ", 41" ;
+                }
+            }
+
 
             String resultado = connMysql.ActualizaPerfil(idPerfil, Descripcion.ToUpper(), Permisos);
 
@@ -3219,19 +3245,19 @@ namespace SistemaFarmacia
             Boolean pasa = true;
             String condicion = "";
 
-            if (TxtNombre.Text.Trim().Length > 0)
+            if (TxtNombreCl.Text.Trim().Length > 0)
             {
-                condicion += " nombre like '%" + TxtNombre.Text.Trim() + "%' ";
+                condicion += " nombre like '%" + TxtNombreCl.Text.Trim() + "%' ";
             }
 
-            if (TxtApellidoP.Text.Trim().Length > 0)
+            if (TxtApellidoPCl.Text.Trim().Length > 0)
             {
-                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_paterno like '%" + TxtApellidoP.Text.Trim() + "%' ";
+                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_paterno like '%" + TxtApellidoPCl.Text.Trim() + "%' ";
             }
 
-            if (TxtApellidoM.Text.Trim().Length > 0)
+            if (TxtApellidoMCl.Text.Trim().Length > 0)
             {
-                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtApellidoM.Text.Trim() + "%' ";
+                condicion += (condicion.Length > 0 ? " and " : "") + " apellido_materno like '%" + TxtApellidoMCl.Text.Trim() + "%' ";
             }
 
             if (ddlEstado.SelectedIndex > 0)
@@ -3756,7 +3782,7 @@ namespace SistemaFarmacia
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "seleccionado";
 
-            CambiaTitulo("Confiuración de citas");
+            CambiaTitulo("Configuración de citas");
 
             ocultarOpcionesCorreo();
             TraerFechasInhabiles();
@@ -4119,6 +4145,12 @@ namespace SistemaFarmacia
             btnActTipo.Visible = true;
             txtBusqTipo.Visible = true;
             imgBusqTipo.Visible = true;
+            btnCerrarTipo.Visible = false;
+            btnLimpiaTipo.Visible = false;
+            btnTipoAgregar.Visible = false;
+            btnTipoModificar.Visible = false;
+            btnTipoPreview.Visible = false;
+
 
             btnConfiguracionTecnica.CssClass = "subOpcion";
             btnConfiguracionCorreo.CssClass = "subOpcion";
@@ -4200,8 +4232,10 @@ namespace SistemaFarmacia
             btnTipoAgregar.Visible = false;
             btnLimpiaTipo.Visible = false;
             btnActTipo.Visible = true;
+            btnTipoPreview.Visible = false;
             txtBusqTipo.Visible = true;
             imgBusqTipo.Visible = true;
+            CambiaTitulo("Tipo de Correo Promociones");
         }
         protected void btnTipoLimpiar_Click(object sender, EventArgs e)
         {
@@ -4242,6 +4276,10 @@ namespace SistemaFarmacia
             Label Firma = (Label)row.FindControl("lblFirma");
             Label Img = (Label)row.FindControl("lblImagen");
 
+            Session["AsuntoTipo"] = Asunto.Text;
+            Session["MensajeTipo"] = Mensaje.Text;
+            Session["FirmaTipo"] = Firma.Text;
+            Session["ImgTipo"] = Img.Text;
 
 
             divFormTipo.Visible = true;
@@ -4258,6 +4296,7 @@ namespace SistemaFarmacia
             btnActCorreoContSelec.Visible = false;
             btnActCorreoRecordatorio.Visible = false;
             btnActTipo.Visible = false;
+            btnTipoPreview.Visible = true;
 
             divCorreoConfTec.Visible = false;
             divCorreoCont.Visible = false;
@@ -4354,11 +4393,14 @@ namespace SistemaFarmacia
                 btnCerrarTipo.Visible = false;
                 btnLimpiaTipo.Visible = false;
                 btnTipoAgregar.Visible = false;
+                btnTipoPreview.Visible = false;
                 divFormTipo.Visible = false;
                 divTiposCorreo.Visible = true;
                 btnActTipo.Visible = true;
                 txtBusqTipo.Visible = true;
                 imgBusqTipo.Visible = true;
+
+                CambiaTitulo("Tipo de Correo Promociones");
             }
             else
             {
@@ -4409,6 +4451,8 @@ namespace SistemaFarmacia
                 {
                     if (fuploadTipo.HasFile)
                     {
+                        CambiaImg = true;
+
                         string nombreArchivo = fuploadTipo.FileName;
                         string ruta = "Imagenes/Correo/" + nombreArchivo;
                         fuploadTipo.SaveAs(Server.MapPath(ruta));
@@ -4434,11 +4478,14 @@ namespace SistemaFarmacia
                 btnLimpiaTipo.Visible = false;
                 btnTipoAgregar.Visible = false;
                 btnTipoModificar.Visible = false;
+                btnTipoPreview.Visible = false;
                 divFormTipo.Visible = false;
                 divTiposCorreo.Visible = true;
                 btnActTipo.Visible = true;
                 txtBusqTipo.Visible = true;
                 imgBusqTipo.Visible = true;
+
+                CambiaTitulo("Tipo de Correo Promociones");
             }
             else
             {
@@ -4534,7 +4581,10 @@ namespace SistemaFarmacia
             LimpiarMsjGpoS();
         }
 
+        protected void btnFormTipoPreview_Click(object sender, EventArgs e)
+        {
 
+        }
 
 
 

@@ -60,11 +60,12 @@
                     </div>
 
                     <div class="row justify-content-center">
-                        <div class="col-2 px-2">
+                        <div class="col-3 px-2">
                             <div class="form-group">
-                                <label>Sexo</label>
+                                <label>Género</label>
                                 <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
-                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <%--<asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>--%>
+                                    <asp:ListItem Text="--Seleccionar--" Value="-1"></asp:ListItem>
                                     <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
                                     <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
                                 </asp:DropDownList>
@@ -85,7 +86,7 @@
                             </div>
                         </div>
 
-                        <div class="col-4 px-2">
+                        <div class="col-3 px-2">
                                 <div class="form-group">
                                     <label>Edad</label>
                                     <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtEdad" CssClass="form-control-edad" AutoComplete="off" TextMode="Number" Enabled="false"></asp:TextBox>
@@ -391,7 +392,7 @@
                             <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                    <asp:TemplateField HeaderText="Género" HeaderStyle-Width="20%" SortExpression="Sexo">
                         <ItemTemplate>
                             <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
                         </ItemTemplate>

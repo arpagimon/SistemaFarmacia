@@ -20,7 +20,7 @@ body {
 }
 
 .formulario {
-    background: rgba(128, 128, 128,0.7);
+    background: rgba(249,222,248,0.7);
     padding: 20px;
     border-radius: 10px; 
     color: white;
@@ -69,7 +69,26 @@ body {
     background: rgba(255,0,0, 0.6);
 }
 
+
 .modal {
     background-color: rgba(80,80,80,0.5);
 }
 
+.modal .modal-content {
+    background-color: #fdcbfc;
+}
+
+.modal-header {
+    background-color: #46114c;
+    color: #fff;
+}
+
+
+h1.tex-light {
+    COLOR: #78407e;
+}
+
+button.btn.btn-link {
+    color: #78407e;
+    font-weight: bold;
+}

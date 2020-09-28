@@ -14,13 +14,15 @@
 
 
 
-        function cargaCalendario(eventos, eventosBloqueos, tipoVista, eventosChico) {
+        function cargaCalendario(eventos, eventosBloqueos, tipoVista, eventosChico, fechaSeleccionada) {
+            //alert(fechaSeleccionada);
             document.addEventListener('DOMContentLoaded', function () {
                 var calendarEl = document.getElementById('calendar');
 
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     //Tipo de vista inicial
                     initialView: tipoVista,
+                    //defaultDate: fechaSeleccionada,
                     //Idiona
                     locale: 'es',
                     //Elementos de la cabecera
@@ -67,7 +69,7 @@
                             }
                         },
                         customDayButton: {
-                            text: 'Today',
+                            text: 'Hoy',
 
                             click: function () {
                                 calendar.today();
@@ -108,7 +110,7 @@
                     }
                 });
                 calendar.render();
-
+                calendar.gotoDate(fechaSeleccionada);
 
 
 
@@ -140,7 +142,7 @@
 
                 });
                 calendarCh.render();
-
+                calendarCh.gotoDate(fechaSeleccionada);
             });
 
         }
@@ -172,6 +174,8 @@
             <div id="FCabecera" class="FCabecera">
                 <asp:Button Text="Datos de cita" runat="server" CssClass="btnPestana" ID="btnPestanaDatosCita" OnClick="btnPestanaDatosCita_Click" />
                 <asp:Button Text="Resultado de cita" runat="server" CssClass="btnPestana" ID="btnPestanaResulCita" OnClick="btnPestanaResulCita_Click" />
+                <asp:Button Text="Historial clínico" runat="server" CssClass="btnPestana" ID="btnPestanaHistorial" OnClick="btnPestanaHistorial_Click" />
+                <asp:Button Text="Nota de evolución" runat="server" CssClass="btnPestana" ID="btnPestanaNotaEvol" OnClick="btnPestanaNotaEvol_Click" />
                 <%--<asp:Label runat="server" ID="FTitulo" CssClass="FTitulo">Datos de cita</asp:Label>--%>
             </div>
             <asp:Panel runat="server" ID="panelMsj">
@@ -221,7 +225,7 @@
                         </div>
                     </div>
                     <div class="row justify-content-center ajustediv2">
-                        <div class="col-3 px-2">
+                        <div class="col-8 px-2">
                             <div class="form-group">
                                 <label>Doctor</label>
                                 <asp:DropDownList runat="server" CssClass="form-control " ID="ddlDoctorCita">
@@ -229,19 +233,19 @@
                             </div>
                         </div>
 
-                        <div class="col-3 px-2">
+                        <div class="col-4 px-2">
                             <div class="form-group">
                                 <label>Fecha</label>
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFechaCita" CssClass="form-control InpGrande" AutoComplete="off" TextMode="Date"></asp:TextBox>
                             </div>
                         </div>
-                        <div class="col-3 px-2">
+                        <div class="col-4 px-2">
                             <div class="form-group">
                                 <label>Hora inicio</label>
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraInicio" CssClass="form-control InpMediano" AutoComplete="off" TextMode="Time"></asp:TextBox>
                             </div>
                         </div>
-                        <div class="col-3 px-2">
+                        <div class="col-4 px-2">
                             <div class="form-group">
                                 <label>Hora fin</label>
                                 <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraFin" CssClass="form-control InpMediano" AutoComplete="off" TextMode="Time"></asp:TextBox>
@@ -271,7 +275,7 @@
                     </div>
                 </div>
                 <div id="Div3" class="sombra" runat="server" visible="false">
-                    <div runat="server" id="divmensaje2" class="divMensaje ajustediv1  FormGerente" visible="false">
+                    <div runat="server" id="divmensaje2" class="divMensaje FormGerente" visible="false">
                         <div id="MCabecera2" class="row justify-content-center FCabecera ajustediv3">
 
                             <div class="col-12 px-2">
@@ -292,7 +296,7 @@
                     </div>
 
 
-                    <div runat="server" id="div4" class="divMensaje FormGerente ajustediv1" visible="false">
+                    <div runat="server" id="div4" class="divMensaje FormGerente" visible="false">
                         <div id="MCabeceraEDITAR" class="row  justify-content-center FCabecera">
 
 
@@ -306,7 +310,7 @@
                             <br />
                             <div class="row justify-content-center">
 
-                                <div class="col-4 px-2">
+                                <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Medicamento</label>
                                         <asp:TextBox runat="server" CssClass="form-control" ID="MedicamentoACt" TextMode="MultiLine"></asp:TextBox>
@@ -316,30 +320,30 @@
 
 
 
-                                <div class="col-4 px-2">
+                                <div class="col-6 px-2">
                                     <div class="form-group">
                                         <label>Indicaciones</label>
                                         <asp:TextBox runat="server" CssClass="form-control" ID="IndicacionesAct" TextMode="MultiLine"></asp:TextBox>
                                     </div>
                                 </div>
-
+                                
+                            </div>
+                            <div class="row justify-content-center">
 
                                 <div class="col-4 px-2">
                                     <div class="form-group">
                                         <label>Dosis</label>
-                                        <asp:TextBox runat="server" CssClass="form-control" ID="DosisAct" TextMode="MultiLine"></asp:TextBox>
+                                        <asp:TextBox runat="server" CssClass="form-control" ID="DosisAct" TextMode="MultiLine" Rows="1"></asp:TextBox>
                                     </div>
                                 </div>
 
-                            </div>
-                            <div class="row justify-content-center">
-                                <div class="col-6 px-2">
+                                <div class="col-4 px-2">
                                     <label>Frecuencia</label>
-                                    <asp:TextBox runat="server" CssClass="form-control" ID="FrecuenciaAct" TextMode="MultiLine"></asp:TextBox>
+                                    <asp:TextBox runat="server" CssClass="form-control" ID="FrecuenciaAct" TextMode="MultiLine" Rows="1"></asp:TextBox>
                                 </div>
-                                <div class="col-6 px-2">
+                                <div class="col-4 px-2">
                                     <label>Periodo</label>
-                                    <asp:TextBox runat="server" CssClass="form-control" ID="PeriodoACt" TextMode="MultiLine"></asp:TextBox>
+                                    <asp:TextBox runat="server" CssClass="form-control" ID="PeriodoACt" TextMode="MultiLine" Rows="1"></asp:TextBox>
                                 </div>
 
 
@@ -356,7 +360,7 @@
                         </div>
                     </div>
 
-                    <div runat="server" id="div5" class="divMensaje FormGerente ajustediv1" visible="false">
+                    <div runat="server" id="div5" class="divMensaje FormGerente" visible="false">
 
                         <div id="MCabeceraexito" class="row  justify-content-center FCabecera">
                         </div>
@@ -370,7 +374,7 @@
 
                     </div>
 
-                    <div runat="server" id="div6" class="divMensaje FormGerente ajustediv1" visible="false">
+                    <div runat="server" id="div6" class="divMensaje FormGerente" visible="false">
 
                         <div id="advertencia1" class="row  justify-content-center FCabecera">
                             <label id="PreguntaReceta" class="verificacion ">¡Alerta!</label>
@@ -384,9 +388,66 @@
                         </div>
 
                     </div>
+
+                    <div runat="server" id="divProxCita" class="divMensaje FormGerente" visible="false">
+
+                        <div id="cabeceraProxCita" class="row  justify-content-center FCabecera">
+                            <label id="tituloProxCita" class="verificacion ">Agendar Próxima Cita</label>
+                        </div>
+                        <div id="MsjProxCita" class="divcentrar">
+                            <div class="row justify-content-start">
+                                <div class="col-4 px-2">
+                                    <div class="form-group">
+                                        <label>Fecha</label>
+                                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFechaProxCitaAg" CssClass="form-control" AutoComplete="off" TextMode="Date"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-4 px-2">
+                                    <div class="form-group">
+                                        <label>Hora inicio</label>
+                                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraIProxCitaAg" CssClass="form-control" AutoComplete="off" TextMode="Time"></asp:TextBox>
+                                    </div>
+                                </div>
+                                <div class="col-4 px-2">
+                                    <div class="form-group">
+                                        <label>Hora fin</label>
+                                        <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraFProxCitaAg" CssClass="form-control" AutoComplete="off" TextMode="Time"></asp:TextBox>
+                                    </div>
+                                </div>                        
+                            </div>
+                            <div class="row justify-content-center ajustediv">
+                                <div class="col-12 px-2">
+                                    <div class="form-group">
+                                        <label>Nota</label>
+                                        <asp:TextBox runat="server" CssClass="form-control " ID="txtNotaCitaAg" TextMode="MultiLine">
+                                        </asp:TextBox>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-start ajustediv">
+                                <div class="col-12 px-2">
+                                    <asp:label ID="MsjErrorCitaProx" runat="server"></asp:label>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="PieProxCita" class="modal-footer">
+                            <asp:Button runat="server" CssClass="MBoton" Visible="true" Text="Cancelar" ID="btnCancelaProxCita" OnClick="btnCancelaProxCita_Click" />
+                            <asp:Button runat="server" CssClass="MBoton" Visible="true" Text="Aceptar" ID="btnAgendaCitaProx" OnClick="btnAgendaCitaProx_Click" />
+                        </div>
+                    </div>
+
+                    <div runat="server" id="divMsjOKcitaProx" class="divMensaje FormGerente" visible="false">
+                        <div id="MsjCabeceraCita" class="row justify-content-center FCabecera">
+                            <label id="MsjTituloCita" class="FTitulo">¡Alerta!</label>
+                        </div>
+                        <div id="MsjContenidoCita" class=" justify-content-center divcentrar">
+
+                            <asp:Label runat="server" ID="lblMsjCitaProx" CssClass="lblMensaje" Text="Cita Agendada Exitosamente"></asp:Label>
+                            <br />
+                            <asp:Button runat="server" ID="btnOkCitaProx" CssClass="MBoton" Text="Aceptar" OnClick="btnOkCitaProx_Click" />
+                        </div>
+                    </div>
                 </div>
-
-
 
 
                 <div id="divFContenidoResulCita" class="FContenido ajustediv" runat="server" visible="false">
@@ -394,13 +455,13 @@
                         <label>Objetivo</label>
                     </div>
                     <div class="row justify-content-start px-2">
-                        <asp:TextBox runat="server" ID="txtObjetivo" TextMode="MultiLine" CssClass="form-control txtExtGrande"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtObjetivo" TextMode="MultiLine" CssClass="form-control txtExtGrande" Rows="1"></asp:TextBox>
                     </div>
                     <div class="row justify-content-start px-2">
                         <label>Sintomas</label>
                     </div>
                     <div class="row justify-content-start px-2">
-                        <asp:TextBox runat="server" ID="txtSintomas" TextMode="MultiLine" CssClass="form-control txtExtGrande"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtSintomas" TextMode="MultiLine" CssClass="form-control txtExtGrande" Rows="1"></asp:TextBox>
                     </div>
                     <div class="row justify-content-start px-2">
                         <label>Receta</label>
@@ -408,10 +469,10 @@
 
                     <div class="row justify-content-center">
                         <div class="col-12 px-2">
-                            <asp:GridView ID="GridViewReceta" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
+                            <asp:GridView ID="GridViewReceta" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
                                 CssClass="gridview2" CellPadding="5" class="" Width="100%" OnRowDeleting="linkeliminar_Click" OnRowEditing="GridViewReceta_RowEditing">
-                                <AlternatingRowStyle BackColor="#f2f2f2" />
-                                <RowStyle BackColor="#FFFFFF" />
+                                <AlternatingRowStyle BackColor="#f9c3f7" />
+                                <RowStyle BackColor="#f9def8" />
                                 <PagerStyle BackColor="#CCCCCC" />
                                 <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
                                 <PagerStyle CssClass="Paginador" />
@@ -454,73 +515,39 @@
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-
                         </div>
-
-
                     </div>
-
                     <div class="row justify-content-center">
-                        <div class="col-4 px-2">
-
+                        <div class="col-6 px-2">
                             <label>Medicamento</label>
-                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxMedicamento" TextMode="MultiLine"></asp:TextBox>
-
-
+                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxMedicamento" TextMode="MultiLine"  Rows="1"></asp:TextBox>
                         </div>
-
-
-
-                        <div class="col-4 px-2">
-
+                        <div class="col-6 px-2">
                             <label>Indicaciones</label>
-                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxIndicaciones" TextMode="MultiLine"></asp:TextBox>
-
-                        </div>
-
-
-                        <div class="col-4 px-2">
-
-                            <label>Dosis</label>
-                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxDosis" TextMode="MultiLine"></asp:TextBox>
-
+                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxIndicaciones" TextMode="MultiLine" Rows="1"></asp:TextBox>
                         </div>
                     </div>
                     <div class="row justify-content-center">
-                        <div class="col-6 px-2">
-
-                            <label>Frecuencia</label>
-                            <asp:TextBox runat="server" CssClass="form-control" ID="TextFrecuencia" TextMode="MultiLine"></asp:TextBox>
-
+                        <div class="col-4 px-2">
+                            <label>Dosis</label>
+                            <asp:TextBox runat="server" CssClass="form-control" ID="TextBoxDosis" TextMode="MultiLine" Rows="1"></asp:TextBox>
                         </div>
-
-                        <div class="col-6 px-2">
-
+                        <div class="col-4 px-2">
+                            <label>Frecuencia</label>
+                            <asp:TextBox runat="server" CssClass="form-control" ID="TextFrecuencia" TextMode="MultiLine" Rows="1"></asp:TextBox>
+                        </div>
+                        <div class="col-4 px-2">
                             <label>Periodo</label>
-                            <asp:TextBox runat="server" CssClass="form-control" ID="TextPeriodo" TextMode="MultiLine"></asp:TextBox>
-
+                            <asp:TextBox runat="server" CssClass="form-control" ID="TextPeriodo" TextMode="MultiLine" Rows="1"></asp:TextBox>
                         </div>
                     </div>
-
                   <div class="row justify-content-center">
-
-
-
-
                         <div class="col-12 px-2 divcentrar">
                             <div class="form-group">
                                 <asp:Button runat="server" OnClick="plusClick_Click" ID="plusClick" Class="btn-circle btnbrodercircle" Style="background-position: 6px center; background-image: url('Imagenes/plus2.png'); background-repeat: no-repeat;" />
-
                             </div>
                         </div>
-
-
-
                     </div>
-
-
-
-
                     <div class="row justify-content-start px-2">
                         <label>Indicaciones generales</label>
                     </div>
@@ -531,30 +558,27 @@
                         <label>Adjuntar archivos</label>
                     </div>
 
-
-
-
-
-
                     <div class="row justify-content-start px-2">
-                        <div class="col-5 px-2">
+                        <div class="col-6 px-2">
                             <asp:FileUpload runat="server" ID="FUploadResultCita" CssClass="txtExtGrande ParamInput" accept=".pdf" />
                         </div>
-                        <div class="col-7 px-2 divcentrar">
+                        <div class="col-3 px-2 divcentrar">
                             <asp:Button runat="server" OnClick="plusClickArcivo_Click" ID="plusClickArcivo" Class="btn-circle btnbrodercircle" Style="background-position: 6px center; background-image: url('Imagenes/plus2.png'); background-repeat: no-repeat;" />
-
+                        </div>
+                        <div class="col-3 px-2">
+                            <asp:LinkButton runat="server" OnClick="btnVerArchivos_Click" ID="btnVerArchivos" CssClass="btnVeArchivos FGBoton" Text="Mostrar archivos <i class='fa fa-arrow-circle-right' aria-hidden='true'></i>" ToolTip="Mostrar Archivos" />
                         </div>
                     </div>
 
                     <div class="col-12 px-2">
                         <asp:Label runat="server" ID="lblResulCitaError" CssClass="lblError"></asp:Label>
                     </div>
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center" id="divGridArchivos" visible="false" runat="server">
                         <div class="col-12 px-2">
-                            <asp:GridView ID="GridVieArchivo" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
+                            <asp:GridView ID="GridVieArchivo" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
                                 CssClass="gridview2" CellPadding="5" class="" Width="100%" OnRowEditing="GridViewReceta_RowEditing">
-                                <AlternatingRowStyle BackColor="#f2f2f2" />
-                                <RowStyle BackColor="#FFFFFF" />
+                                <AlternatingRowStyle BackColor="#f9c3f7" />
+                                <RowStyle BackColor="#f9def8" />
                                 <PagerStyle BackColor="#CCCCCC" />
                                 <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
                                 <PagerStyle CssClass="Paginador" />
@@ -574,23 +598,15 @@
                                         <ItemTemplate>
                                             <asp:Label runat='server' ID='rutaId' CssClass="lblEnviarCorreo" Text='<%# Bind("ruta_archivo") %>'></asp:Label>
                                         </ItemTemplate>
-
-
-
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderText='Opciones'>
                                         <ItemTemplate>
                                             <asp:LinkButton ID="linkdescargar" ToolTip="descargar" OnClick="linkdescargar_Click" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-cloud-download' aria-hidden='true'></i>" />
-
-
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                 </Columns>
                             </asp:GridView>
-
                         </div>
-
-
                     </div>
 
                     <div class="row justify-content-center">
@@ -600,6 +616,289 @@
                         </div>
                     </div>
                 </div>
+
+
+                <div id="divFContenidoHistoriaC" class="FContenido ajustediv" runat="server" visible="false">
+                    <div class="row justify-content-start px-2 Htitle">
+                        <div class="col-11">
+                            <label>Escala de Fitzpatrick</label>
+                        </div>
+                        <div class="col-1 text-right">
+                            <asp:LinkButton Text="<i class='fa fa-angle-up' aria-hidden='true'></i>" ID="lbtnFitzpatrick" OnClick="lbtnMostrarEscalaF_Click" ToolTip="Ocultar" runat="server"></asp:LinkButton>
+                        </div>
+                    </div>
+                    <div class="row align-content-center px-2" id="divEscalaFitzpatrick" runat="server">
+                        <asp:RadioButtonList runat="server" ID="rbtnFitzpatrick" CssClass="rbFitzpatrick" RepeatDirection="Horizontal">
+                            <asp:ListItem Value="1" Text="<p>I</p><img src='Imagenes/Fitzpatrick1.png' alt='I' />"></asp:ListItem>
+                            <asp:ListItem Value="2" Text="<p>II</p><img src='Imagenes/Fitzpatrick2.png' alt='II' />"></asp:ListItem>
+                            <asp:ListItem Value="3" Text="<p>III</p><img src='Imagenes/Fitzpatrick3.png' alt='III' />"></asp:ListItem>
+                            <asp:ListItem Value="4" Text="<p>IV</p><img src='Imagenes/Fitzpatrick4.png' alt='IV' />"></asp:ListItem>
+                            <asp:ListItem Value="5" Text="<p>V</p><img src='Imagenes/Fitzpatrick5.png' alt='V' />"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">                        
+                        <label>Topografía</label>
+                    </div>
+                    <div class="row justify-content-start px-2 Hsubtitle">
+                        <div class="col-11">
+                            <label>Localización (segmento)</label>
+                        </div>
+                        <div class="col-1 text-right">
+                            <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnLocalizacionH" OnClick="lbtnMostrarLocalizacionH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2" id="divLocalizacionH" visible="false" runat="server">
+                        <div class="col-6 px-2">
+                            <label>Cabeza y cuello</label>
+                            <asp:TextBox runat="server" ID="txtCabezaCuello" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-6 px-2">
+                            <label>Tronco</label>
+                            <asp:TextBox runat="server" ID="txtTronco" CssClass="form-control"></asp:TextBox>
+                        </div>                       
+                        <div class="col-6 px-2">
+                            <label>Extremidades superiores</label>
+                            <asp:TextBox runat="server" ID="txtExtremidadesSup" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-6 px-2">
+                            <label>Extremidades inferiores</label>
+                            <asp:TextBox runat="server" ID="txtExtremidadesInf" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Hsubtitle">
+                        <div class="col-11">
+                            <label>Extensión</label>
+                        </div>
+                        <div class="col-1 text-right">
+                            <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnExtensionH" OnClick="lbtnMostrarExtensionH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2" id="divExtensionH" visible="false" runat="server">                        
+                        <div class="col-6 px-2">
+                            <label>Localizada (1 segmento)</label>
+                            <asp:TextBox runat="server" ID="txtLocalizada" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-6 px-2">
+                            <label>Diseminada (2 o 3 segmentos)</label>
+                            <asp:TextBox runat="server" ID="txtDiseminada" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-6 px-2">
+                            <label>Generalizada (4 segmentos)</label>
+                            <asp:TextBox runat="server" ID="txtGeneralizada" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Hsubtitle">
+                        <div class="col-11">
+                            <label>Predominio</label>
+                        </div>
+                        <div class="col-1 text-right">
+                            <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnPredominioH" OnClick="lbtnMostrarPredominioH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                        </div>
+                    </div>
+                    <div class="row align-content-center px-2" id="divPredominioH" visible="false" runat="server">
+                        <asp:RadioButtonList runat="server" ID="rbtnPredominio" CssClass="rbPredominio" RepeatDirection="Horizontal">
+                            <asp:ListItem Value="a" Text="<p>a</p><img src='Imagenes/predominioA.png' alt='a' />"></asp:ListItem>
+                            <asp:ListItem Value="b" Text="<p>b</p><img src='Imagenes/predominioB.png' alt='b' />"></asp:ListItem>
+                            <asp:ListItem Value="c" Text="<p>c</p><img src='Imagenes/predominioC.png' alt='c' />"></asp:ListItem>
+                        </asp:RadioButtonList>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Morfología</label>
+                            </div>
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnMorfologiaH" OnClick="lbtnMostrarMorfologiaH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divMorfologiaH" visible="false" runat="server">                        
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtMorfologia" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Interrogatorio</label>
+                            </div>
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnInterrogatorioH" OnClick="lbtnInterrogatorioH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divInterrogatorioH" visible="false" runat="server">                        
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtInterrogatorio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Resto de piel y anexos</label>
+                            </div>
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnAnexosH" OnClick="lbtnAnexosH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>     
+                    </div>
+                    <div class="row px-2" id="divAnexosH" visible="false" runat="server">                        
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtRestoAnexos" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>     
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Sintomatología</label>
+                            </div>                            
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnSintomatologiaH" OnClick="lbtnSintomatologiaH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>                        
+                    </div>
+                    <div class="row px-2" id="divSintomatologiaH" visible="false" runat="server">
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtSintomatologia" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Tratamientos anteriores</label>
+                            </div>                            
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnTratamientosH" OnClick="lbtnTratamientosH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divTratamientosH" visible="false" runat="server">
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtTratamientosA" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Antecedentes Importantes</label>
+                            </div>                            
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnAntecedentesH" OnClick="lbtnAntecedentesH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divAntecedentesH" visible="false" runat="server">
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtAntecedentes" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>  
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Diagnóstico</label>
+                            </div>                            
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnDiagnosticoH" OnClick="lbtnDiagnosticoH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divDiagnosticoH" visible="false" runat="server">                        
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtDiagnostico" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div>    
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                            <div class="col-11">
+                                <label>Tratamiento</label>
+                            </div>                            
+                            <div class="col-1 text-right">
+                                <asp:LinkButton Text="<i class='fa fa-angle-down' aria-hidden='true'></i>" ID="lbtnTratamientoH" OnClick="lbtnTratamientoH_Click" ToolTip="Mostrar" runat="server"></asp:LinkButton>
+                            </div>
+                    </div>
+                    <div class="row px-2" id="divTratamientoH" visible="false" runat="server">                        
+                        <div class="col-12">
+                            <asp:TextBox runat="server" ID="txtTratamientoH" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                        </div> 
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col px-2 text-center FBotonera">
+                            <asp:Button runat="server" ID="btnGuardaHistoria" CssClass="FGBoton" Text="Guardar" OnClick="btnGuardaHistoria_Click" />
+                            <asp:Button runat="server" ID="btnCierraHistoria" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="divFContenidoNotaEvol" class="FContenido ajustediv" visible="false" runat="server">
+                    <div class="row justify-content-start px-2 Htitle">
+                        <label>Exploración Física Actual</label>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <div class="col-4 px-2">
+                            <label>T./A.</label>
+                            <asp:TextBox runat="server" ID="txtTAnota" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-4 px-2">
+                            <label>F.C.</label>
+                            <asp:TextBox runat="server" ID="txtFCnota" CssClass="form-control"></asp:TextBox>
+                        </div>                       
+                        <div class="col-4 px-2">
+                            <label>F.R.</label>
+                            <asp:TextBox runat="server" ID="txtFRnota" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2">                    
+                        <div class="col-4 px-2">
+                            <label>Temperatura</label>
+                            <asp:TextBox runat="server" ID="txtTempNota" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-4 px-2">
+                            <label>Peso</label>
+                            <asp:TextBox runat="server" ID="txtPesoNota" CssClass="form-control"></asp:TextBox>
+                        </div>
+                        <div class="col-4 px-2">
+                            <label>Talla</label>
+                            <asp:TextBox runat="server" ID="txtTallaNota" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <div class="col">
+                            <label>Evolución</label>                        
+                            <asp:TextBox runat="server" ID="txtEvolucionNota" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <div class="col">
+                            <label>Diagnóstico</label>                        
+                            <asp:TextBox runat="server" ID="txtDiagnosticoNota" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2">
+                        <div class="col">
+                            <label>Tratamiento</label>                        
+                            <asp:TextBox runat="server" ID="txtTratamientoNota" TextMode="MultiLine" CssClass="form-control"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row justify-content-start px-2 Htitle">
+                        <label>Próxima cita</label>
+                    </div>
+                    <div class="row justify-content-start">
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFechaCitaProx" CssClass="form-control" Enabled="false"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Hora inicio</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraICitaProx" CssClass="form-control" Enabled="false"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-3 px-2">
+                            <div class="form-group">
+                                <label>Hora fin</label>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtHoraFCitaProx" CssClass="form-control" Enabled="false"></asp:TextBox>
+                            </div>
+                        </div>
+                        <div class="col-3 px-2">
+                            <asp:Button runat="server" ID="btnAgendarProxCita" CssClass="FGBoton btnProxCita" Text="Agendar cita" OnClick="btnAgendarProxCita_Click" />
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="col px-2 text-center FBotonera">
+                            <asp:Button runat="server" ID="btnGuardaNotaEvolucion" CssClass="FGBoton" Text="Guardar" OnClick="btnGuardaNotaEvolucion_Click" />
+                            <asp:Button runat="server" ID="btnCierraNotaEvolucion" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
+                        </div>
+                    </div>
+                </div>
+
+
             </asp:Panel>
         </div>
 
@@ -665,10 +964,10 @@
                 </div>
                 <div id="divClienteResultados" class="FContenido FCCContenido" runat="server" visible="false">
                     <h5>Selecciona un cliente</h5>
-                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#5b9bd5" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
+                    <asp:GridView ID="gvClientes" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="6" PagerSettings-Mode="NumericFirstLast"
                         CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvClientes_RowDataBound" OnPageIndexChanging="gvClientes_PageIndexChanging">
-                        <AlternatingRowStyle BackColor="#f2f2f2" />
-                        <RowStyle BackColor="#FFFFFF" />
+                        <AlternatingRowStyle BackColor="#f9c3f7" />
+                        <RowStyle BackColor="#f9def8" />
                         <PagerStyle BackColor="#CCCCCC" />
                         <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
                         <PagerStyle CssClass="Paginador" />
@@ -743,12 +1042,12 @@
                 </div>
 
                 <div class="row justify-content-center">
-                    <div class="col-2 px-2">
+                    <div class="col-3 px-2">
                         <div class="form-group">
-                            <label>Sexo</label>
+                            <label>Género</label>
                             <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
                                 <asp:ListItem Text="TODOS" Value="-1"></asp:ListItem>
-                                <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                <%--<asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>--%>
                                 <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
                                 <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
                             </asp:DropDownList>
@@ -769,7 +1068,7 @@
                         </div>
                     </div>
 
-                    <div class="col-4 px-2">
+                    <div class="col-3 px-2">
                         <div class="form-group">
                             <label>Edad</label>
                             <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFormCliEdad" CssClass="form-control-edad" AutoComplete="off" TextMode="Number" Enabled="false"></asp:TextBox>
@@ -807,7 +1106,7 @@
 
                 <div class="row justify-content-start">
 
-                    <div class="col px-2">
+                    <div class="col-3 px-2">
                         <div class="form-group">
                             <label>Enviar Email</label>
                             <asp:DropDownList runat="server" CssClass="form-control InpMediano" ID="ddlFormCliEnviarCorreo">
@@ -816,14 +1115,14 @@
                             </asp:DropDownList>
                         </div>
                     </div>
-                    <div class="col px-2">
+                    <div class="col-6 px-2">
                         <div class="form-group">
                             <label>Email</label>
                             <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtFormCliEmail" CssClass="form-control InpExtGrande" AutoComplete="off" TextMode="Email"></asp:TextBox>
                         </div>
                     </div>
 
-                    <div class="col px-2">
+                    <div class="col-3 px-2">
                         <div class="form-group">
                             <label>Factura:</label>
                             <asp:DropDownList runat="server" CssClass="form-control InpChico ddlFormCliFactura" OnSelectedIndexChanged="ddlFormCliFactura_SelectedIndexChanged" AutoPostBack="true" ID="ddlFormCliFactura">

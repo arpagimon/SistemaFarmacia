@@ -842,9 +842,13 @@ textarea.ParamInput {
     margin: 10px;
 }
 
+.Paginador {
+    background-color: #78407e !important;
+}
 
 .Paginador a {
-    color: #555555 !important;
+    /*color: #555555 !important;*/
+    color: white !important;
     margin-left: 10px;
 }
 
@@ -854,6 +858,7 @@ textarea.ParamInput {
     color: black;
     text-decoration: underline;
     font-size: medium;
+    font-weight: bold;
 }
 
 

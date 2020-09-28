@@ -303,6 +303,7 @@ namespace SistemaFarmacia
             if (ddlSexo.Items.IndexOf(lITodos) > -1)
             {
                 ddlSexo.Items.RemoveAt(ddlSexo.Items.IndexOf(lITodos));
+                ddlSexo.Items.Insert(0, new ListItem("--Seleccionar--", "-1"));
             }
 
             FTitulo.Text = "Editar cliente";
@@ -420,7 +421,7 @@ namespace SistemaFarmacia
             TxtNota.Text = Nota.Text;
             ddlEstatus.SelectedIndex = (Estatus.Text == "Activo" ? 0 : 1);
             ddlFactura.SelectedIndex = (R_Factura.Text == "Sí" ? 1 : 0);
-            
+
             if (ddlFactura.Items.IndexOf(lITodos) > -1)
             {
                 ddlFactura.Items.RemoveAt(ddlFactura.Items.IndexOf(lITodos));
@@ -474,7 +475,7 @@ namespace SistemaFarmacia
             }
             catch { }
             ddlEnviarCorreo.SelectedIndex = (Env_Correo.Text == "1" ? 1 : 0);
-            ddlSexo.SelectedValue = (Sexo.Text == "" ? "OTRO": Sexo.Text);
+            ddlSexo.SelectedValue = (Sexo.Text == "" ? "OTRO" : Sexo.Text);
         }
 
         protected void gvGerentes_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
@@ -546,11 +547,12 @@ namespace SistemaFarmacia
                 ddlPaisDFa.Attributes.Remove("style");
                 ddlEntidadDFa.Attributes.Remove("style");
                 txtCPdfA.Attributes.Remove("style");
+                ddlSexo.Attributes.Remove("style");
             }
             catch { }
 
             ddlFactura.SelectedIndex = 1;
-            
+
             divBtnDatosF.Visible = false;
             divPaisDFa.Visible = false;
             divMunicipioDFa.Visible = true;
@@ -566,7 +568,7 @@ namespace SistemaFarmacia
             ddlEntidadDFa.SelectedIndex = 1;
             txtCPdfA.Text = "";
 
-            ddlSexo.SelectedValue = "OTRO";
+            ddlSexo.SelectedValue = "-1";
 
             gvGerentes.EditIndex = -1;
             cargaClientes();
@@ -721,7 +723,15 @@ namespace SistemaFarmacia
             }
 
             String Sexo = ddlSexo.SelectedValue;
-
+            if (Sexo == "-1")
+            {
+                ddlSexo.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlSexo.Attributes.Remove("style");
+            }
             String Req_Factura = ddlFactura.SelectedValue;
 
             String RFC = "";
@@ -785,7 +795,7 @@ namespace SistemaFarmacia
                     txtNoExtDFa.Attributes.Remove("style");
                 }
                 NoIntF = txtNoIntDFa.Text;
-                
+
 
                 ColoniaF = txtColoniaDFa.Text;
                 if (ColoniaF.Trim().Length == 0)
@@ -884,7 +894,7 @@ namespace SistemaFarmacia
                 divPais.Visible = false;
                 divMunicipio.Visible = true;
 
-                ddlSexo.SelectedValue = "OTRO";
+                ddlSexo.SelectedValue = "-1";
 
                 txtNombRDFa.Text = "";
                 txtNoExtDFa.Text = "";
@@ -953,7 +963,7 @@ namespace SistemaFarmacia
             llenaEstadosDFa();
 
 
-            if (ddlEnviarCorreo.Items.IndexOf(lITodos) > 0)
+            if (ddlEnviarCorreo.Items.IndexOf(lITodos) > -1)
             {
                 ddlEnviarCorreo.Items.RemoveAt(ddlEnviarCorreo.Items.IndexOf(lITodos));
             }
@@ -962,6 +972,7 @@ namespace SistemaFarmacia
             if (ddlSexo.Items.IndexOf(lITodos) > -1)
             {
                 ddlSexo.Items.RemoveAt(ddlSexo.Items.IndexOf(lITodos));
+                ddlSexo.Items.Insert(0, new ListItem("--Seleccionar--", "-1"));
             }
 
             FTitulo.Text = "Agregar cliente";
@@ -1000,10 +1011,10 @@ namespace SistemaFarmacia
             TxtNota.Text = "";
             ddlEstatus.SelectedIndex = 0;
 
-            ddlSexo.SelectedValue = "OTRO";
+            ddlSexo.SelectedValue = "-1";
 
             ddlFactura.SelectedIndex = 0;
-            
+
             btnAddDatosF.Text = "<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-plus' aria-hidden='true'></i>";
             btnAddDatosF.ToolTip = "Editar datos de facturación";
             txtNombRDFa.Text = "";
@@ -1020,7 +1031,7 @@ namespace SistemaFarmacia
             divMunicipioDFa.Visible = true;
             txtCPdfA.Text = "";
 
-            if (ddlFactura.Items.IndexOf(lITodos) > 0)
+            if (ddlFactura.Items.IndexOf(lITodos) > -1)
             {
                 ddlFactura.Items.RemoveAt(ddlFactura.Items.IndexOf(lITodos));
             }
@@ -1197,7 +1208,15 @@ namespace SistemaFarmacia
             }
 
             String Sexo = ddlSexo.SelectedValue;
-
+            if (Sexo == "-1")
+            {
+                ddlSexo.Attributes.Add("style", "border: red 1px solid;");
+                Pasa = false;
+            }
+            else
+            {
+                ddlSexo.Attributes.Remove("style");
+            }
             String Observaciones = TxtObservaciones.Text;
             String Nota = TxtNota.Text;
             String Estatus = ddlEstatus.SelectedValue;
@@ -1368,7 +1387,7 @@ namespace SistemaFarmacia
                 divMunicipioDFa.Visible = true;
                 divMensajeDF.Visible = false;
 
-                ddlSexo.SelectedValue = "OTRO";
+                ddlSexo.SelectedValue = "-1";
 
                 gvGerentes.EditIndex = -1;
                 cargaClientes();
@@ -1518,12 +1537,12 @@ namespace SistemaFarmacia
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " req_factura like '%" + ddlFactura.SelectedValue.Trim() + "%' ";
                 }
-            
-                if(ddlSexo.SelectedValue != "-1")
+
+                if (ddlSexo.SelectedValue != "-1")
                 {
                     condicion += (condicion.Length > 0 ? " and " : "") + " Sexo ='" + ddlSexo.SelectedValue + "' ";
                 }
-                
+
 
                 if (pasa)
                 {
@@ -1596,7 +1615,7 @@ namespace SistemaFarmacia
                 if (chkRango.Checked)
                 {
                     TxtEdad.Attributes.Remove("style");
-                    TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                    TxtEdad.Attributes.Add("style", "width:45px; margin-right: 0px;");
                     lblA.Visible = true;
                     txtEdad2.Visible = true;
                 }
@@ -1641,6 +1660,7 @@ namespace SistemaFarmacia
 
                 if (ddlSexo.Items.IndexOf(lITodos) == -1)
                 {
+                    ddlSexo.Items.Remove(ddlSexo.Items.FindByValue("-1"));
                     ddlSexo.Items.Insert(0, lITodos);
                     ddlSexo.SelectedValue = "-1";
                 }
@@ -1795,7 +1815,7 @@ namespace SistemaFarmacia
 
             ddlPais.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
         }
-        
+
 
         public void mostrarMensaje2(String Nombre)
         {
@@ -1838,7 +1858,7 @@ namespace SistemaFarmacia
             if (chkRango.Checked)
             {
                 TxtEdad.Attributes.Remove("style");
-                TxtEdad.Attributes.Add("style", "width:70px; margin-right: 0px;");
+                TxtEdad.Attributes.Add("style", "width:45px; margin-right: 0px;");
                 lblA.Visible = true;
                 txtEdad2.Visible = true;
             }
@@ -1890,6 +1910,7 @@ namespace SistemaFarmacia
             if (ddlSexo.Items.IndexOf(lITodos) > -1)
             {
                 ddlSexo.Items.RemoveAt(ddlSexo.Items.IndexOf(lITodos));
+                ddlSexo.Items.Insert(0, new ListItem("--Seleccionar--", "-1"));
             }
 
             FTitulo.Text = "Detalle de cliente";
@@ -2006,12 +2027,12 @@ namespace SistemaFarmacia
             {
                 divBtnDatosF.Visible = true;
             }
-            
+
             if (ddlFactura.Items.IndexOf(lITodos) > -1)
             {
                 ddlFactura.Items.RemoveAt(ddlFactura.Items.IndexOf(lITodos));
             }
-            
+
             TxtNombre.Enabled = false;
             TxtApellidoM.Enabled = false;
             TxtApellidoP.Enabled = false;
@@ -2046,7 +2067,7 @@ namespace SistemaFarmacia
             ddlEntidadDFa.Enabled = false;
 
             ddlSexo.SelectedValue = (Sexo.Text == "" ? "OTRO" : Sexo.Text);
-            
+
             btnAddDatosF.Text = "<i class='fa fa-file-text-o' aria-hidden='true'></i><i class='fa fa-eye' aria-hidden='true'></i>";
             btnAddDatosF.ToolTip = "Ver datos de facturación";
             txtNombRDFa.Text = NomRazon.Text;
@@ -2118,7 +2139,7 @@ namespace SistemaFarmacia
                 ddlFactura.Enabled = true;
 
                 ddlSexo.Enabled = true;
-                
+
                 divBtnDatosF.Visible = false;
                 ddlEntidadDFa.Enabled = true;
                 txtRfcDFa.Enabled = true;

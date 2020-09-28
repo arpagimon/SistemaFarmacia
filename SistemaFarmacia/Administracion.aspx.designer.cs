@@ -346,6 +346,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.CheckBoxList chkAdmin;
         
         /// <summary>
+        /// Control chkCitas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBox chkCitas;
+        
+        /// <summary>
         /// Control lblId_perfil.
         /// </summary>
         /// <remarks>
@@ -1021,31 +1030,31 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Label lblTituloCl;
         
         /// <summary>
-        /// Control TextBox1.
+        /// Control TxtNombreCl.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
+        protected global::System.Web.UI.WebControls.TextBox TxtNombreCl;
         
         /// <summary>
-        /// Control TextBox2.
+        /// Control TxtApellidoPCl.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox TxtApellidoPCl;
         
         /// <summary>
-        /// Control TextBox3.
+        /// Control TxtApellidoMCl.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox3;
+        protected global::System.Web.UI.WebControls.TextBox TxtApellidoMCl;
         
         /// <summary>
         /// Control ddlSexo.
@@ -2000,6 +2009,15 @@ namespace SistemaFarmacia {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnTipoModificar;
+        
+        /// <summary>
+        /// Control btnTipoPreview.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnTipoPreview;
         
         /// <summary>
         /// Control chkdivSelecTodo.

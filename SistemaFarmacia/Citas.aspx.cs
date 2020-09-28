@@ -12,6 +12,7 @@ namespace SistemaFarmacia
     public partial class Citas : System.Web.UI.Page
     {
         Conexion connMySql = new Conexion();
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             String eventarget1 = Request["__EVENTTARGET"];
@@ -24,23 +25,32 @@ namespace SistemaFarmacia
                 {
                     if (Session["MesSeleccionado"] == null)
                     {
-                        Session.Add("MesSeleccionado", DateTime.Now.Month.ToString().PadLeft(2,'0'));
+                        Session.Add("MesSeleccionado", DateTime.Now.Month.ToString().PadLeft(2, '0'));
                     }
                     else
                     {
                         Session["MesSeleccionado"] = DateTime.Now.Month.ToString().PadLeft(2, '0');
                     }
-                    
+
                     llenaDropMedicos();
                     llenaEstadosDFa();
                     llenaEstados();
                     llenaPaises();
                     master.cambiarLblTitle("<img src='Imagenes/citas-morado.png' alt='Citas'><h1>Citas</h1>");
                     master.mostrarLblUser("<p>Usuario: " + this.Session["usuario"].ToString() + " </p>");
+
+                    if (Session["fechaSeleccionada"] == null)
+                    {
+                        Session.Add("fechaSeleccionada", DateTime.Now.ToString("yyyy-MM-dd"));
+                    }
+                    else
+                    {
+                        Session["fechaSeleccionada"] = DateTime.Now.ToString("yyyy-MM-dd");
+                    }
+                    
                 }
 
-                CargarCitas(Session["MesSeleccionado"].ToString());
-
+                
 
                 switch (eventarget1)
                 {
@@ -53,6 +63,8 @@ namespace SistemaFarmacia
                         sombraMensaje.Visible = true;
 
                         llenaCamposCitaNueva(datosEnviados);
+
+                        Session["fechaSeleccionada"] = datosEnviados.Split('T')[0];
 
                         if (DiaValido(datosEnviados.Split('T')[0], datosEnviados.Split('T')[1]))
                         {
@@ -72,6 +84,9 @@ namespace SistemaFarmacia
                     default:
                         break;
                 }
+
+                CargarCitas(Session["MesSeleccionado"].ToString());
+
             }
             else
             {
@@ -93,7 +108,7 @@ namespace SistemaFarmacia
             String eventosChico = "[";
 
             DataSet dsCitas = connMySql.traerCitasDoctor(Mes, ddlDoctor.SelectedValue);
-            
+
             if (dsCitas.Tables.Count > 0)
             {
                 foreach (DataRow dRow in dsCitas.Tables[0].Rows)
@@ -129,13 +144,20 @@ namespace SistemaFarmacia
             bloqueos += "]";
             eventosChico += "]";
 
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + "," + (Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'") + "," + eventosChico + ");</script>", false);
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "X", "<script language='javascript'>cargaCalendario(" + eventos + "," + bloqueos + "," + (Session["Doctor"].ToString() == "1" ? "'timeGridDay'" : "'timeGridWeek'") + "," + eventosChico + ",'" + (Session["fechaSeleccionada"] == null ? DateTime.Now.ToString("yyyy-MM-dd") : Session["fechaSeleccionada"])  + "');</script>", false);
         }
 
         protected void btnCancelarCita_Click(object sender, EventArgs e)
         {
             mostrarmensaje();
-            lblMensaje.Text = "¿Desea continuar con la cancelación de la cita de <b>" + TxtNombre.Text + " " + TxtApellidoP.Text + " " + TxtApellidoM.Text + "</b> para el día <b>" + txtFechaCita.Text.Split('-')[2] + "/" + txtFechaCita.Text.Split('-')[1] + "/" + txtFechaCita.Text.Split('-')[0] + "</b> a las <b> " + txtHoraInicio.Text + "</b>?";
+            if(btnCancelarCita.Text == "Cancelar bloqueo")
+            {
+                lblMensaje.Text = "¿Desea continuar con la cancelación del bloqueo de citas para el día <b>" + txtFechaCita.Text.Split('-')[2] + "/" + txtFechaCita.Text.Split('-')[1] + "/" + txtFechaCita.Text.Split('-')[0] + "</b> de las <b> " + txtHoraInicio.Text + " a las " + txtHoraFin.Text + "</b>?";
+            }
+            else
+            {
+                lblMensaje.Text = "¿Desea continuar con la cancelación de la cita de <b>" + TxtNombre.Text + " " + TxtApellidoP.Text + " " + TxtApellidoM.Text + "</b> para el día <b>" + txtFechaCita.Text.Split('-')[2] + "/" + txtFechaCita.Text.Split('-')[1] + "/" + txtFechaCita.Text.Split('-')[0] + "</b> a las <b> " + txtHoraInicio.Text + "</b>?";
+            }
             ocultarBotonesMensaje();
             btnCancCancelarCita.Visible = true;
             btnConfCancelarCita.Visible = true;
@@ -146,8 +168,13 @@ namespace SistemaFarmacia
             CargarCitas("08");
 
             sombraMensaje.Visible = false;
+            divGridArchivos.Visible = false;
+            btnVerArchivos.Text = "Mostrar Archivos <i class='fa fa-arrow-circle-right btnVeArchivos' aria-hidden='true'></i>";
+            btnVerArchivos.ToolTip = "Mostrar Archivos";
+
+            OcultarCamposHistorial();
         }
-        
+
         protected void btnModificarCita_Click(object sender, EventArgs e)
         {
             String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCita.Text);
@@ -180,8 +207,14 @@ namespace SistemaFarmacia
         protected void btnConfCancelarCita_Click(object sender, EventArgs e)
         {
             connMySql.cancelarCita(TxtIDCita.Text, connMySql.traerIDEmpleado(Session["usuario"].ToString()));
-
-            lblMensaje.Text = "Cita cancelada";
+            if (btnCancelarCita.Text == "Cancelar bloqueo")
+            {
+                lblMensaje.Text = "Bloqueo cancelado";
+            }
+            else
+            {
+                lblMensaje.Text = "Cita cancelada";
+            }
             ocultarBotonesMensaje();
             btnCerrarMensaje.Visible = true;
         }
@@ -230,44 +263,61 @@ namespace SistemaFarmacia
 
             divFContenidoDatoCita.Visible = true;
             divFContenidoResulCita.Visible = false;
+            divFContenidoHistoriaC.Visible = false;
+            divFContenidoNotaEvol.Visible = false;
 
             btnPestanaDatosCita.Visible = true;
             btnPestanaResulCita.Visible = true;
+            btnPestanaHistorial.Visible = true;
+            btnPestanaNotaEvol.Visible = true;
 
             btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
             btnPestanaResulCita.CssClass = "btnPestana";
+            btnPestanaHistorial.CssClass = "btnPestana";
+            btnPestanaNotaEvol.CssClass = "btnPestana";
 
             DataSet datosCita = connMySql.traerDatosCitas(Id_Cita);
 
             String tipo = "";
-            foreach(DataRow dRow in datosCita.Tables[0].Rows)
+            foreach (DataRow dRow in datosCita.Tables[0].Rows)
             {
                 TxtIDCita.Text = dRow["ID_Cita"].ToString();
 
                 if (dRow["tipo"].ToString() == "1")
                 {
+                    TxtIDCliente.Text = dRow["ID_Cliente"].ToString();
                     TxtNombre.Text = dRow["Nombre"].ToString();
                     TxtApellidoP.Text = dRow["apellido_paterno"].ToString();
                     TxtApellidoM.Text = dRow["apellido_materno"].ToString();
                     TxtFechaN.Text = dRow["Fecha_Nacimiento"].ToString().Split(' ')[0];
                     TxtEmail.Text = dRow["EMAIL"].ToString();
-                }else
+                }
+                else
                 {
                     divDatosCliente.Visible = false;
+                    btnPestanaDatosCita.Visible = false;
+                    btnPestanaResulCita.Visible = false;
+                    btnPestanaHistorial.Visible = false;
+                    btnPestanaNotaEvol.Visible = false;
+
                 }
-                
+
                 ddlDoctorCita.SelectedValue = dRow["ID_usuario"].ToString();
                 txtFechaCita.Text = dRow["fecha_cita"].ToString().Split(' ')[0];
                 txtHoraInicio.Text = dRow["hora_inicio"].ToString().Split(' ')[1];
                 txtHoraFin.Text = dRow["hora_fin"].ToString().Split(' ')[1];
                 txtNotasCita.Text = dRow["nota"].ToString();
                 tipo = dRow["tipo"].ToString();
+
+                Session["fechaSeleccionada"] = dRow["fecha_cita"].ToString().Split(' ')[0];
             }
 
-            if (tipo == "1") {
+            if (tipo == "1")
+            {
                 btnModificarCita.Text = "Modificar cita";
                 btnCancelarCita.Text = "Cancelar cita";
-            } else
+            }
+            else
             {
                 btnModificarCita.Text = "Modificar bloqueo";
                 btnCancelarCita.Text = "Cancelar bloqueo";
@@ -289,7 +339,7 @@ namespace SistemaFarmacia
             ddlDoctorCita.DataBind();
 
             ddlDoctorCita.Items.Insert(0, new ListItem("--Seleccionar--", "0"));
-            
+
             ddlDoctor.DataTextField = "Nombre";
             ddlDoctor.DataValueField = "id_usuario";
             ddlDoctor.DataSource = connMySql.consultaMedico();
@@ -297,7 +347,7 @@ namespace SistemaFarmacia
 
             ddlDoctor.SelectedIndex = 0;
 
-            if(Session["Doctor"].ToString() == "1")
+            if (Session["Doctor"].ToString() == "1")
             {
                 ListItem OpcionDoctor = ddlDoctorCita.Items.FindByValue(connMySql.traerIDEmpleado(Session["usuario"].ToString()));
 
@@ -316,13 +366,17 @@ namespace SistemaFarmacia
 
             btnPestanaDatosCita.Visible = true;
             btnPestanaResulCita.Visible = false;
+            btnPestanaHistorial.Visible = false;
+            btnPestanaNotaEvol.Visible = false;
 
             btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
             btnPestanaResulCita.CssClass = "btnPestana";
-            
+            btnPestanaHistorial.CssClass = "btnPestana";
+            btnPestanaNotaEvol.CssClass = "btnPestana";
+
             txtFechaCita.Text = datosSeleccionados.Substring(0, 10);
             txtHoraInicio.Text = datosSeleccionados.Substring(11, 5);
-            txtHoraFin.Text = (int.Parse(datosSeleccionados.Substring(11, 2)) +1).ToString().PadLeft(2,'0') + datosSeleccionados.Substring(13, 3);
+            txtHoraFin.Text = (int.Parse(datosSeleccionados.Substring(11, 2)) + 1).ToString().PadLeft(2, '0') + datosSeleccionados.Substring(13, 3);
             ddlDoctorCita.SelectedValue = ddlDoctor.SelectedValue;
 
             btnCancelarCita.Visible = false;
@@ -332,6 +386,11 @@ namespace SistemaFarmacia
 
             divSeleccionCliente.Visible = true;
             divDatosCliente.Visible = false;
+
+            divFContenidoDatoCita.Visible = true;
+            divFContenidoResulCita.Visible = false;
+            divFContenidoHistoriaC.Visible = false;
+            divFContenidoNotaEvol.Visible = false;
         }
 
         protected void bntNuevoCliente_Click(object sender, EventArgs e)
@@ -340,6 +399,9 @@ namespace SistemaFarmacia
             llenarMedio();
             llenaEstados();
             divFormularioCliente.Visible = true;
+
+            ddlFormCliFactura.SelectedValue = "0";
+            ddlSexo.Items.FindByValue("-1").Text = "--Seleccionar--";
         }
 
         protected void btnBuscarCliente_Click(object sender, EventArgs e)
@@ -349,9 +411,10 @@ namespace SistemaFarmacia
 
             FormCliContenido.Visible = true;
             divClienteResultados.Visible = false;
+            ddlSexo.Items.FindByValue("-1").Text = "TODOS";
         }
 
-    #region buscarcliente
+        #region buscarcliente
         protected void btnFormCliBuscar_Click(object sender, EventArgs e)
         {
             String condicion = "";
@@ -433,7 +496,7 @@ namespace SistemaFarmacia
                 chkSeleccionado.Attributes.Add("ApellidoP", ((DataRowView)e.Row.DataItem).Row.ItemArray[2].ToString());
                 chkSeleccionado.Attributes.Add("ApellidoM", ((DataRowView)e.Row.DataItem).Row.ItemArray[3].ToString());
                 chkSeleccionado.Attributes.Add("Email", ((DataRowView)e.Row.DataItem).Row.ItemArray[12].ToString());
-                chkSeleccionado.Attributes.Add("FechaN", (((DataRowView)e.Row.DataItem).Row.ItemArray[5].ToString() != "" ? ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("yyyy-MM-dd"):""));
+                chkSeleccionado.Attributes.Add("FechaN", (((DataRowView)e.Row.DataItem).Row.ItemArray[5].ToString() != "" ? ((DateTime)((DataRowView)e.Row.DataItem).Row.ItemArray[5]).ToString("yyyy-MM-dd") : ""));
 
                 Label etiquetaFechaN = (Label)e.Row.FindControl("lblFechaN");
                 try
@@ -449,7 +512,7 @@ namespace SistemaFarmacia
             gvClientes.PageIndex = e.NewPageIndex;
             cargaClientes(Session["condicion"].ToString());
         }
-        
+
         protected void btnSeleccionar_Click(object sender, EventArgs e)
         {
             TxtIDCliente.Text = ((Button)sender).Attributes["ID_Cliente"].ToString();
@@ -461,7 +524,7 @@ namespace SistemaFarmacia
 
             divFormularioCita.Visible = true;
             divFormBusqCliente.Visible = false;
-            
+
             TxtBusqCliNombre.Text = "";
             TxtBusqCliApellidoP.Text = "";
             TxtBusqCliApellidoM.Text = "";
@@ -478,15 +541,16 @@ namespace SistemaFarmacia
         {
             String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "");
 
-            if (CitaExistente.Length == 0) { 
-                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCliente.Text, txtNotasCita.Text, ddlDoctorCita.SelectedValue,"1");
+            if (CitaExistente.Length == 0)
+            {
+                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, TxtIDCliente.Text, txtNotasCita.Text, ddlDoctorCita.SelectedValue, "1");
 
                 lblMensaje.Text = "Cita agendada";
                 ocultarBotonesMensaje();
                 divMensaje.Visible = true;
                 divFormularioCita.Visible = false;
                 btnCerrarMensaje.Visible = true;
-                
+
                 TxtNombre.Text = "";
                 TxtApellidoP.Text = "";
                 TxtApellidoM.Text = "";
@@ -580,7 +644,7 @@ namespace SistemaFarmacia
             }
         }
         #endregion
-        
+
         public void mostrarmensaje()
         {
             divMensaje.Visible = true;
@@ -612,7 +676,7 @@ namespace SistemaFarmacia
         {
             CargarCitas("08");
         }
-        
+
 
         protected void llenarMedio()
         {
@@ -761,11 +825,12 @@ namespace SistemaFarmacia
                 ddlPaisDFa.Attributes.Remove("style");
                 ddlEntidadDFa.Attributes.Remove("style");
                 txtCPdfA.Attributes.Remove("style");
+                ddlSexo.Attributes.Remove("style");
             }
             catch { }
-            
+
             ddlFormCliFactura.SelectedIndex = 1;
-            
+
             divBtnDatosF.Visible = false;
             divPaisDFa.Visible = false;
             divMunicipioDFa.Visible = true;
@@ -780,7 +845,7 @@ namespace SistemaFarmacia
             ddlEstadoDFa.SelectedIndex = -1;
             ddlEntidadDFa.SelectedIndex = 1;
             txtCPdfA.Text = "";
-            
+
             divFormularioCita.Visible = true;
             divFormularioCliente.Visible = false;
 
@@ -933,6 +998,15 @@ namespace SistemaFarmacia
             }
 
             String Sexo = ddlSexo.SelectedValue;
+            if (Sexo == "-1")
+            {
+                ddlSexo.Attributes.Add("style", "border: 1px red solid;");
+                pasa = false;
+            }
+            else
+            {
+                ddlSexo.Attributes.Remove("style");
+            }
 
             String Req_Factura = ddlFormCliFactura.SelectedValue;
 
@@ -996,7 +1070,7 @@ namespace SistemaFarmacia
                     txtNoExtDFa.Attributes.Remove("style");
                 }
                 NoIntF = txtNoIntDFa.Text;
-                
+
 
                 ColoniaF = txtColoniaDFa.Text;
                 if (ColoniaF.Trim().Length == 0)
@@ -1063,26 +1137,26 @@ namespace SistemaFarmacia
                     btnAddDatosF.Attributes.Add("style", "border: 2px red solid;");
                 }
             }
-            
+
             if (pasa)
             {
                 lblFormCliError.Text = "";
                 resultado = connMySql.GuardaCliente(Nombre.ToUpper(), ApellidoP.ToUpper(), ApellidoM.ToUpper(), Edad, FechaN, FechaI, Municipio, TelFijo, Extension, Celular, Email, Observaciones, Nota, (Medio == "0" ? "" : Medio), Estatus, Estado, Pais, Enviar_Correo, connMySql.traerIDEmpleado(Session["usuario"].ToString()), Req_Factura, RFC, Entidad, CalleF, NoIntF, NoExtF, ColoniaF, CpF, EstadoF, MunicipioF, PaisF, NomRazon, Sexo);
-                
+
                 divFormularioCliente.Visible = false;
 
                 divSeleccionCliente.Visible = false;
                 divDatosCliente.Visible = true;
 
                 btnAgendarCita.Visible = true;
-                
+
                 TxtIDCliente.Text = connMySql.traeUltimoID();
                 TxtNombre.Text = txtFormCliNombre.Text;
                 TxtApellidoP.Text = txtFormCliApePat.Text;
                 TxtApellidoM.Text = txtFormCliApeMat.Text;
                 TxtEmail.Text = txtFormCliEmail.Text;
                 TxtFechaN.Text = txtFormCliFecNac.Text;
-                
+
                 //Limpia las opciones
                 txtFormCliNombre.Text = "";
                 txtFormCliApePat.Text = "";
@@ -1119,10 +1193,10 @@ namespace SistemaFarmacia
                 divPaisDFa.Visible = false;
                 divMunicipioDFa.Visible = true;
                 divMensajeDF.Visible = false;
-                
+
                 divMensaje.Visible = true;
                 ocultarBotonesMensaje();
-                
+
                 btnOKClienteGuardado.Visible = true;
                 lblMensaje.Text = "El cliente se registró exitosamente.";
                 divFormularioCita.Visible = false;
@@ -1348,7 +1422,7 @@ namespace SistemaFarmacia
                 lblErrorDF.Text = "Favor de llenar los campos faltantes.";
             }
         }
-        
+
         public void llenaPaises()
         {
             ddlFormCliPais.DataTextField = "pais";
@@ -1373,11 +1447,11 @@ namespace SistemaFarmacia
 
         protected void btnInhabiliarHorario_Click(object sender, EventArgs e)
         {
-            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text,"");
+            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "");
 
             if (CitaExistente.Length == 0)
             {
-                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "0", txtNotasCita.Text, ddlDoctorCita.SelectedValue,"0");
+                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaCita.Text, txtHoraInicio.Text, txtHoraFin.Text, "0", txtNotasCita.Text, ddlDoctorCita.SelectedValue, "0");
 
                 lblMensaje.Text = "Cita agendada";
                 ocultarBotonesMensaje();
@@ -1399,7 +1473,7 @@ namespace SistemaFarmacia
             }
             else
             {
-                lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente; 
+                lblErrorFormCita.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
             }
         }
 
@@ -1451,17 +1525,17 @@ namespace SistemaFarmacia
 
             DataSet diasInhabiles = connMySql.TraerFechaInhabiles();
             String horaApertura = connMySql.TraerHrApertura();
-            TimeSpan horaAperturaTS = new TimeSpan(int.Parse(horaApertura.Split(':')[0]), int.Parse(horaApertura.Split(':')[1]),0);
+            TimeSpan horaAperturaTS = new TimeSpan(int.Parse(horaApertura.Split(':')[0]), int.Parse(horaApertura.Split(':')[1]), 0);
             String horaCierre = connMySql.TraerHrCierre();
             TimeSpan horaCierreTS = new TimeSpan(int.Parse(horaCierre.Split(':')[0]), int.Parse(horaCierre.Split(':')[1]), 0);
             String diasInhabilesSemana = connMySql.TraerDiasSemana();
 
 
-            foreach(DataRow dRow in diasInhabiles.Tables[0].Rows)
+            foreach (DataRow dRow in diasInhabiles.Tables[0].Rows)
             {
                 DateTime fecha = (DateTime)dRow["fechas_inhabiles"];
-                if(fecha == diaSeleccionado.Date)
-                { 
+                if (fecha == diaSeleccionado.Date)
+                {
                     valida = false;
                 }
             }
@@ -1481,7 +1555,7 @@ namespace SistemaFarmacia
                 valida = false;
             }
 
-            if(diaSeleccionado < DateTime.Now)
+            if (diaSeleccionado < DateTime.Now)
             {
                 valida = false;
             }
@@ -1501,18 +1575,26 @@ namespace SistemaFarmacia
         {
             btnPestanaDatosCita.CssClass = "btnPestana btnPestanaSeleccionada";
             btnPestanaResulCita.CssClass = "btnPestana";
+            btnPestanaHistorial.CssClass = "btnPestana";
+            btnPestanaNotaEvol.CssClass = "btnPestana";
 
             divFContenidoDatoCita.Visible = true;
             divFContenidoResulCita.Visible = false;
+            divFContenidoHistoriaC.Visible = false;
+            divFContenidoNotaEvol.Visible = false;
         }
 
         protected void btnPestanaResulCita_Click(object sender, EventArgs e)
         {
             btnPestanaDatosCita.CssClass = "btnPestana";
             btnPestanaResulCita.CssClass = "btnPestana btnPestanaSeleccionada";
+            btnPestanaHistorial.CssClass = "btnPestana";
+            btnPestanaNotaEvol.CssClass = "btnPestana";
 
             divFContenidoDatoCita.Visible = false;
             divFContenidoResulCita.Visible = true;
+            divFContenidoHistoriaC.Visible = false;
+            divFContenidoNotaEvol.Visible = false;
 
             String Id_Cita = TxtIDCita.Text;
             //if (Id_Cita == null)
@@ -1559,7 +1641,8 @@ namespace SistemaFarmacia
             if (resultadocompara.Tables[0].Rows.Count == 0)
             {
                 connMySql.GuardarResultadoCita(idCita, txtObjetivo.Text, txtSintomas.Text, txtIndicaciones.Text);
-            }else
+            }
+            else
             {
                 connMySql.ActualizaResultadoCita(idCita, txtObjetivo.Text, txtSintomas.Text, txtIndicaciones.Text);
             }
@@ -1596,6 +1679,10 @@ namespace SistemaFarmacia
             Div3.Visible = true;
             div5.Visible = true;
             divmensaje2.Visible = false;
+            divGridArchivos.Visible = false;
+            divProxCita.Visible = false;
+            btnVerArchivos.Text = "Mostrar Archivos <i class='fa fa-arrow-circle-right btnVeArchivos' aria-hidden='true'></i>";
+            btnVerArchivos.ToolTip = "Mostrar Archivos";
         }
 
         protected void plusClick_Click(object sender, EventArgs e)
@@ -1850,6 +1937,503 @@ namespace SistemaFarmacia
                 }
             }
         }
+        protected void btnVerArchivos_Click(object sender, EventArgs e)
+        {
+            if (divGridArchivos.Visible == true)
+            {
+                divGridArchivos.Visible = false;
 
+                btnVerArchivos.Text = "Mostrar Archivos <i class='fa fa-arrow-circle-right btnVeArchivos' aria-hidden='true'></i>";
+                btnVerArchivos.ToolTip = "Mostrar Archivos";
+            }
+            else
+            {
+                String idCita = TxtIDCita.Text;
+                DataSet ds = connMySql.traerExpediente(idCita);
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    divGridArchivos.Visible = true;
+
+                    btnVerArchivos.Text = "Ocultar Archivos <i class='fa fa-arrow-circle-left btnVeArchivos' aria-hidden='true'></i>";
+                    btnVerArchivos.ToolTip = "Ocultar Archivos";
+                }
+            }
+            cargarReceta();
+        }
+
+        protected void btnPestanaHistorial_Click(object sender, EventArgs e)
+        {
+            btnPestanaDatosCita.CssClass = "btnPestana";
+            btnPestanaResulCita.CssClass = "btnPestana";
+            btnPestanaHistorial.CssClass = "btnPestana btnPestanaSeleccionada";
+            btnPestanaNotaEvol.CssClass = "btnPestana";
+
+            divFContenidoDatoCita.Visible = false;
+            divFContenidoResulCita.Visible = false;
+            divFContenidoHistoriaC.Visible = true;
+            divFContenidoNotaEvol.Visible = false;
+
+            String Id_Cliente = TxtIDCliente.Text;
+
+            rbtnFitzpatrick.SelectedIndex = -1;
+            txtCabezaCuello.Text = "";
+            txtTronco.Text = "";
+            txtExtremidadesInf.Text = "";
+            txtExtremidadesSup.Text = "";
+            txtLocalizada.Text = "";
+            txtDiseminada.Text = "";
+            txtGeneralizada.Text = "";
+            rbtnPredominio.SelectedIndex = -1;
+            txtMorfologia.Text = "";
+            txtInterrogatorio.Text = "";
+            txtRestoAnexos.Text = "";
+            txtSintomatologia.Text = "";
+            txtTratamientosA.Text = "";
+            txtAntecedentes.Text = "";
+            txtDiagnostico.Text = "";
+            txtTratamientoH.Text = "";
+            if (connMySql.ValidaExistenciaHistoria(Id_Cliente))
+            {
+                DataSet HistoralClinico = connMySql.TraerHistoriaC(Id_Cliente);
+                if (HistoralClinico != null)
+                {
+
+                    foreach (DataRow dRow in HistoralClinico.Tables[0].Rows)
+                    {
+                        String fitzpatrick = dRow["Fitzpatrick"].ToString();
+                        if (fitzpatrick != "1" && fitzpatrick != "2" && fitzpatrick != "3" && fitzpatrick != "4" && fitzpatrick != "5")
+                        {
+                            rbtnFitzpatrick.SelectedIndex = -1;
+                        }
+                        else
+                        {
+                            rbtnFitzpatrick.SelectedValue = dRow["Fitzpatrick"].ToString();
+                        }
+                        txtCabezaCuello.Text = dRow["Loc_cabeza"].ToString();
+                        txtTronco.Text = dRow["Loc_tronco"].ToString();
+                        txtExtremidadesInf.Text = dRow["Loc_extinf"].ToString();
+                        txtExtremidadesSup.Text = dRow["Loc_extsup"].ToString();
+                        txtLocalizada.Text = dRow["Ext_localizada"].ToString();
+                        txtDiseminada.Text = dRow["Ext_Diseminada"].ToString();
+                        txtGeneralizada.Text = dRow["Ext_Generalizada"].ToString();
+                        if (dRow["Predominio"].ToString() != "a" && dRow["Predominio"].ToString() != "b" && dRow["Predominio"].ToString() != "c")
+                        {
+                            rbtnPredominio.SelectedIndex = -1;
+                        }
+                        else
+                        {
+                            rbtnPredominio.SelectedValue = dRow["Predominio"].ToString();
+                        }
+                        txtMorfologia.Text = dRow["Morfologia"].ToString();
+                        txtInterrogatorio.Text = dRow["Interrogatorio"].ToString();
+                        txtRestoAnexos.Text = dRow["Resto_anexos"].ToString();
+                        txtSintomatologia.Text = dRow["Sintomatologia"].ToString();
+                        txtTratamientosA.Text = dRow["Tratamientos_anterior"].ToString();
+                        txtAntecedentes.Text = dRow["Antecedentes"].ToString();
+                        txtDiagnostico.Text = dRow["Diagnostico"].ToString();
+                        txtTratamientoH.Text = dRow["Tratamiento"].ToString();
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+        protected void btnGuardaHistoria_Click(object sender, EventArgs e)
+        {
+            String id_cliente = TxtIDCliente.Text;
+
+            String fitzpatrick = rbtnFitzpatrick.SelectedValue;
+            String Cabeza_cuello = txtCabezaCuello.Text;
+            String Tronco = txtTronco.Text;
+            String Ext_Inf = txtExtremidadesInf.Text;
+            String Ext_sup = txtExtremidadesSup.Text;
+            String Localizada = txtLocalizada.Text;
+            String Diseminada = txtDiseminada.Text;
+            String Generalizada = txtGeneralizada.Text;
+            String Predominio = rbtnPredominio.SelectedValue;
+            String Morfologia = txtMorfologia.Text;
+            String Interrogatorio = txtInterrogatorio.Text;
+            String Resto_Anexos = txtRestoAnexos.Text;
+            String Sintomatologia = txtSintomatologia.Text;
+            String TratamientosA = txtTratamientosA.Text;
+            String Antecedentes = txtAntecedentes.Text;
+            String Diagnostico = txtDiagnostico.Text;
+            String TratamientoH = txtTratamientoH.Text;
+
+            if (connMySql.ValidaExistenciaHistoria(id_cliente))
+            {
+                connMySql.ActualizaHistoriaC(connMySql.traerIDEmpleado(Session["usuario"].ToString()), fitzpatrick, Cabeza_cuello, Tronco, Ext_Inf, Ext_sup, Localizada, Diseminada, Generalizada, Predominio, Morfologia, Interrogatorio, Resto_Anexos, Sintomatologia, TratamientosA, Antecedentes, Diagnostico, TratamientoH, id_cliente);
+            }
+            else
+            {
+                connMySql.GuardarHistoriaClinica(connMySql.traerIDEmpleado(Session["usuario"].ToString()), fitzpatrick, Cabeza_cuello, Tronco, Ext_Inf, Ext_sup, Localizada, Diseminada, Generalizada, Predominio, Morfologia, Interrogatorio, Resto_Anexos, Sintomatologia, TratamientosA, Antecedentes, Diagnostico, TratamientoH, id_cliente);
+            }
+
+            Div3.Visible = true;
+            div5.Visible = true;
+            divmensaje2.Visible = false;
+        }
+        protected void lbtnMostrarEscalaF_Click(object sender, EventArgs e)
+        {
+            if (divEscalaFitzpatrick.Visible == false)
+            {
+                divEscalaFitzpatrick.Visible = true;
+                lbtnFitzpatrick.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnFitzpatrick.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divEscalaFitzpatrick.Visible = false;
+                lbtnFitzpatrick.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnFitzpatrick.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnMostrarLocalizacionH_Click(object sender, EventArgs e)
+        {
+            if (divLocalizacionH.Visible == false)
+            {
+                divLocalizacionH.Visible = true;
+                lbtnLocalizacionH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnLocalizacionH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divLocalizacionH.Visible = false;
+                lbtnLocalizacionH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnLocalizacionH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnMostrarExtensionH_Click(object sender, EventArgs e)
+        {
+            if (divExtensionH.Visible == false)
+            {
+                divExtensionH.Visible = true;
+                lbtnExtensionH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnExtensionH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divExtensionH.Visible = false;
+                lbtnExtensionH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnExtensionH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnMostrarPredominioH_Click(object sender, EventArgs e)
+        {
+            if (divPredominioH.Visible == false)
+            {
+                divPredominioH.Visible = true;
+                lbtnPredominioH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnPredominioH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divPredominioH.Visible = false;
+                lbtnPredominioH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnPredominioH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnMostrarMorfologiaH_Click(object sender, EventArgs e)
+        {
+            if (divMorfologiaH.Visible == false)
+            {
+                divMorfologiaH.Visible = true;
+                lbtnMorfologiaH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnMorfologiaH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divMorfologiaH.Visible = false;
+                lbtnMorfologiaH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnMorfologiaH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnInterrogatorioH_Click(object sender, EventArgs e)
+        {
+            if (divInterrogatorioH.Visible == false)
+            {
+                divInterrogatorioH.Visible = true;
+                lbtnInterrogatorioH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnInterrogatorioH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divInterrogatorioH.Visible = false;
+                lbtnInterrogatorioH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnInterrogatorioH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnAnexosH_Click(object sender, EventArgs e)
+        {
+            if (divAnexosH.Visible == false)
+            {
+                divAnexosH.Visible = true;
+                lbtnAnexosH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnAnexosH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divAnexosH.Visible = false;
+                lbtnAnexosH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnAnexosH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnSintomatologiaH_Click(object sender, EventArgs e)
+        {
+            if (divSintomatologiaH.Visible == false)
+            {
+                divSintomatologiaH.Visible = true;
+                lbtnSintomatologiaH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnSintomatologiaH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divSintomatologiaH.Visible = false;
+                lbtnSintomatologiaH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnSintomatologiaH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnTratamientosH_Click(object sender, EventArgs e)
+        {
+            if (divTratamientosH.Visible == false)
+            {
+                divTratamientosH.Visible = true;
+                lbtnTratamientosH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnTratamientosH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divTratamientosH.Visible = false;
+                lbtnTratamientosH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnTratamientosH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnAntecedentesH_Click(object sender, EventArgs e)
+        {
+            if (divAntecedentesH.Visible == false)
+            {
+                divAntecedentesH.Visible = true;
+                lbtnAntecedentesH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnAntecedentesH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divAntecedentesH.Visible = false;
+                lbtnAntecedentesH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnAntecedentesH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnDiagnosticoH_Click(object sender, EventArgs e)
+        {
+            if (divDiagnosticoH.Visible == false)
+            {
+                divDiagnosticoH.Visible = true;
+                lbtnDiagnosticoH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnDiagnosticoH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divDiagnosticoH.Visible = false;
+                lbtnDiagnosticoH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnDiagnosticoH.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnTratamientoH_Click(object sender, EventArgs e)
+        {
+            if (divTratamientoH.Visible == false)
+            {
+                divTratamientoH.Visible = true;
+                lbtnTratamientoH.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnTratamientoH.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divTratamientoH.Visible = false;
+                lbtnTratamientoH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnTratamientoH.ToolTip = "Mostrar";
+            }
+        }
+        public void OcultarCamposHistorial()
+        {
+            divEscalaFitzpatrick.Visible = true;
+            lbtnFitzpatrick.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+            lbtnFitzpatrick.ToolTip = "Ocultar";
+            divLocalizacionH.Visible = false;
+            lbtnLocalizacionH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnLocalizacionH.ToolTip = "Mostrar";
+            divExtensionH.Visible = false;
+            lbtnExtensionH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnExtensionH.ToolTip = "Mostrar";
+            divPredominioH.Visible = false;
+            lbtnPredominioH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnPredominioH.ToolTip = "Mostrar";
+            divMorfologiaH.Visible = false;
+            lbtnMorfologiaH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnMorfologiaH.ToolTip = "Mostrar";
+            divInterrogatorioH.Visible = false;
+            lbtnInterrogatorioH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnInterrogatorioH.ToolTip = "Mostrar";
+            divAnexosH.Visible = false;
+            lbtnAnexosH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnAnexosH.ToolTip = "Mostrar";
+            divSintomatologiaH.Visible = false;
+            lbtnSintomatologiaH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnSintomatologiaH.ToolTip = "Mostrar";
+            divTratamientosH.Visible = false;
+            lbtnTratamientosH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnTratamientosH.ToolTip = "Mostrar";
+            divAntecedentesH.Visible = false;
+            lbtnAntecedentesH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnAntecedentesH.ToolTip = "Mostrar";
+            divDiagnosticoH.Visible = false;
+            lbtnDiagnosticoH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnDiagnosticoH.ToolTip = "Mostrar";
+            divTratamientoH.Visible = false;
+            lbtnTratamientoH.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnTratamientoH.ToolTip = "Mostrar";
+        }
+        protected void btnPestanaNotaEvol_Click(object sender, EventArgs e)
+        {
+            btnPestanaDatosCita.CssClass = "btnPestana";
+            btnPestanaResulCita.CssClass = "btnPestana";
+            btnPestanaHistorial.CssClass = "btnPestana";
+            btnPestanaNotaEvol.CssClass = "btnPestana btnPestanaSeleccionada";
+
+            divFContenidoDatoCita.Visible = false;
+            divFContenidoResulCita.Visible = false;
+            divFContenidoHistoriaC.Visible = false;
+            divFContenidoNotaEvol.Visible = true;
+
+            String Id_Cita = TxtIDCita.Text;
+            String id_cliente = TxtIDCliente.Text;
+
+            txtTAnota.Text = "";
+            txtFCnota.Text = "";
+            txtFRnota.Text = "";
+            txtTempNota.Text = "";
+            txtPesoNota.Text = "";
+            txtTallaNota.Text = "";
+            txtEvolucionNota.Text = "";
+            txtDiagnosticoNota.Text = "";
+            txtTratamientoNota.Text = "";
+            txtFechaCitaProx.Text = "";
+            txtHoraICitaProx.Text = "";
+            txtHoraFCitaProx.Text = "";
+
+            if (connMySql.ValidaExistenciaEvolucion(Id_Cita))
+            {
+                DataSet NotaEvolucion = connMySql.TraerNotaEvolucion(Id_Cita);
+                if (NotaEvolucion != null)
+                {
+                    foreach (DataRow dRow in NotaEvolucion.Tables[0].Rows)
+                    {
+                        txtTAnota.Text = dRow["ta"].ToString();
+                        txtFCnota.Text = dRow["fc"].ToString();
+                        txtFRnota.Text = dRow["fr"].ToString();
+                        txtTempNota.Text = dRow["temperatura"].ToString();
+                        txtPesoNota.Text = dRow["peso"].ToString();
+                        txtTallaNota.Text = dRow["talla"].ToString();
+                        txtEvolucionNota.Text = dRow["evolucion"].ToString();
+                        txtDiagnosticoNota.Text = dRow["diagnostico"].ToString();
+                        txtTratamientoNota.Text = dRow["tratamiento"].ToString();
+                    }
+                }
+            }
+            DataSet ProximaCita = connMySql.TraerProxCita(id_cliente, txtFechaCita.Text);
+            if (ProximaCita != null)
+            {
+                foreach (DataRow dRow in ProximaCita.Tables[0].Rows)
+                {
+                    txtFechaCitaProx.Text = dRow["fecha"].ToString();
+                    txtHoraICitaProx.Text = dRow["hora_inicio"].ToString();
+                    txtHoraFCitaProx.Text = dRow["hora_fin"].ToString();
+                }
+            }
+        }
+        protected void btnAgendarProxCita_Click(object sender, EventArgs e)
+        {
+            Div3.Visible = true;
+            div4.Visible = false;
+            divProxCita.Visible = true;
+            divmensaje2.Visible = false;
+        }
+        protected void btnCancelaProxCita_Click(object sender, EventArgs e)
+        {
+            Div3.Visible = false;
+            divProxCita.Visible = false;
+
+            txtFechaProxCitaAg.Text = "";
+            txtHoraIProxCitaAg.Text = "";
+            txtHoraFProxCitaAg.Text = "";
+        }
+        protected void btnAgendaCitaProx_Click(object sender, EventArgs e)
+        {
+            String CitaExistente = connMySql.validaCitaColisionada(ddlDoctor.SelectedValue, txtFechaProxCitaAg.Text, txtHoraIProxCitaAg.Text, txtHoraFProxCitaAg.Text, "");
+
+            if (CitaExistente.Length == 0)
+            {
+                connMySql.AgregarCita(connMySql.traerIDEmpleado(Session["usuario"].ToString()), txtFechaProxCitaAg.Text, txtHoraIProxCitaAg.Text, txtHoraFProxCitaAg.Text, TxtIDCliente.Text, txtNotaCitaAg.Text, ddlDoctorCita.SelectedValue, "1");
+
+                divMsjOKcitaProx.Visible = true;
+
+                txtFechaProxCitaAg.Text = "";
+                txtHoraIProxCitaAg.Text = "";
+                txtHoraFProxCitaAg.Text = "";
+                txtNotaCitaAg.Text = "";
+
+                MsjErrorCitaProx.Text = "";
+                Div3.Visible = true;
+                divProxCita.Visible = false;
+
+                String id_cliente = TxtIDCliente.Text;
+                DataSet ProximaCita = connMySql.TraerProxCita(id_cliente, txtFechaCita.Text);
+                if (ProximaCita != null)
+                {
+                    foreach (DataRow dRow in ProximaCita.Tables[0].Rows)
+                    {
+                        txtFechaCitaProx.Text = dRow["fecha"].ToString();
+                        txtHoraICitaProx.Text = dRow["hora_inicio"].ToString();
+                        txtHoraFCitaProx.Text = dRow["hora_fin"].ToString();
+                    }
+                }
+            }
+            else
+            {
+                MsjErrorCitaProx.Text = "El horario seleccionado coincide con una cita del " + CitaExistente;
+            }
+        }
+        protected void btnOkCitaProx_Click(object sender, EventArgs e)
+        {
+            divMsjOKcitaProx.Visible = false;
+            Div3.Visible = false;
+        }
+        protected void btnGuardaNotaEvolucion_Click(object sender, EventArgs e)
+        {
+            String id_cita = TxtIDCita.Text;
+            String TA = txtTAnota.Text;
+            String FC = txtFCnota.Text;
+            String FR = txtFRnota.Text;
+            String Temperatura = txtTempNota.Text;
+            String Peso = txtPesoNota.Text;
+            String Talla = txtTallaNota.Text;
+            String Evolucion = txtEvolucionNota.Text;
+            String Diagnostico = txtDiagnosticoNota.Text;
+            String Tratamiento = txtTratamientoNota.Text;
+
+            if (connMySql.ValidaExistenciaEvolucion(id_cita))
+            {
+                connMySql.ActualizaNotaEvolucion(connMySql.traerIDEmpleado(Session["usuario"].ToString()), TA, FC, FR, Temperatura, Peso, Talla, Evolucion, Diagnostico, Tratamiento, id_cita);
+            }
+            else
+            {
+                connMySql.GuardarNotaEvolucion(connMySql.traerIDEmpleado(Session["usuario"].ToString()), TA, FC, FR, Temperatura, Peso, Talla, Evolucion, Diagnostico, Tratamiento, id_cita);
+            }
+
+            Div3.Visible = true;
+            div5.Visible = true;
+            divmensaje2.Visible = false;
+        }
     }
 }

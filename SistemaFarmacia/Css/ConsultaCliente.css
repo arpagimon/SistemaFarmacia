@@ -237,8 +237,13 @@
 .gridview td {
 }
 
+.Paginador {
+    background-color: #78407e !important;
+}
+
 .Paginador a {
-    color: #555555;
+    /*color: #555555;*/
+    color: white !important;
     margin-left: 10px;
 }
 
@@ -248,6 +253,7 @@
     color: black;
     text-decoration: underline;
     font-size: medium;
+    font-weight: bold;
 }
 
 .Seleccionada{
@@ -905,7 +911,7 @@
 
 /***/
 .ddlSexo {
-    width: 90px;
+    /*width: 90px;*/
 }
 
 .txtFecha{

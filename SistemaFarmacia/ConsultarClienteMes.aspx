@@ -86,10 +86,10 @@
                     <div class="row justify-content-center">
                         <div class="col-2 px-2">
                             <div class="form-group">
-                                <label>Sexo</label>
+                                <label>Género</label>
                                 <asp:DropDownList runat="server" ID="ddlSexo" CssClass="form-control ddlSexo">
                                     <asp:ListItem Text="Todos" Value="-1"></asp:ListItem>
-                                    <asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>
+                                    <%--<asp:ListItem Text="OTRO" Value="OTRO"></asp:ListItem>--%>
                                     <asp:ListItem Text="HOMBRE" Value="HOMBRE"></asp:ListItem>
                                     <asp:ListItem Text="MUJER" Value="MUJER"></asp:ListItem>
                                 </asp:DropDownList>
@@ -99,14 +99,14 @@
                         <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Ingreso</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off"></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaI" CssClass="form-control" TextMode="Date" AutoComplete="off"></asp:TextBox>
                             </div>
                         </div>
 
                         <div class="col-3 px-2">
                             <div class="form-group">
                                 <label>Fecha Nacimiento</label>
-                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control InpGrande" TextMode="Date" AutoComplete="off" ></asp:TextBox>
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="TxtFechaN" CssClass="form-control" TextMode="Date" AutoComplete="off" ></asp:TextBox>
                             </div>
                         </div>
 
@@ -208,7 +208,7 @@
                             <div class="form-group">
                                 <label>Estatus</label>
                                 <asp:DropDownList runat="server" ID="ddlEstatus" CssClass="form-control InpMediano">
-                                    <asp:ListItem Value="-1" Text="tODOS"></asp:ListItem>
+                                    <asp:ListItem Value="-1" Text="Todos"></asp:ListItem>
                                     <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
                                     <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
                                 </asp:DropDownList>
@@ -393,7 +393,7 @@
                                 <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="Sexo" HeaderStyle-Width="20%" SortExpression="Sexo">
+                        <asp:TemplateField HeaderText="Género" HeaderStyle-Width="20%" SortExpression="Sexo">
                             <ItemTemplate>
                                 <asp:Label runat='server' ID='lblSexo' CssClass="lblGerentes" Text='<%# Bind("Sexo") %>'></asp:Label>
                             </ItemTemplate>
