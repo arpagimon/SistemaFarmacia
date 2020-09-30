@@ -1013,12 +1013,102 @@
                 </div>
             </asp:Panel>
         </div>
+
+        <div id="divAgregarMedico" class="FormGerente text-center" runat="server" visible="false">
+            <div id="divAgregaMedicoCabecera" class="FCabecera">
+                <label id="lblAgregaMedicoTitulo" class="FTitulo">Agregar Médico</label>
+            </div>
+            <asp:Panel runat="server" ID="panelMedicoAgrega">
+                <div id="FormAgregaMedico" class="FContenido FCCContenido">
+                    <div id="SeleccionaUsuarioMed" runat="server">
+                        <div class="row justify-content-start">
+                            <div class="col px-2">
+                                <h5>Seleccione el usuario que quiere añadir como médico</h5>
+                            </div>
+                        </div>
+                        <div class="row justify-content-start">
+                            <div class="col px-2">
+                                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusqUsuarioMed" placeholder="Usuario" CssClass="txtBusquedaG" OnTextChanged="txtBusqUsuMed_TextChanged" AutoPostBack="true"></asp:TextBox>
+                                <asp:Image runat="server" ID="imgBusqUsuMed" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+                            </div>
+                        </div>
+                        <div class="row justify-content-start">
+                            <div class="col px-2">
+                                <asp:GridView ID="gvUsuariosMedicoA" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="5" PagerSettings-Mode="NumericFirstLast"
+                            CssClass="gridview2" CellPadding="5" Width="100%" OnRowDataBound="gvUsuariosMedicoA_RowDataBound" OnPageIndexChanging="gvUsuariosMedicoA_PageIndexChanging">
+                            <AlternatingRowStyle BackColor="#f9c3f7" />
+                            <RowStyle BackColor="#f9def8" />
+                            <PagerStyle BackColor="#CCCCCC" />
+                            <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
+                            <PagerStyle CssClass="Paginador" />
+                            <Columns>
+                                <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                                    <ItemTemplate>
+                                        <asp:Label runat='server' ID='lblIdUsuario' CssClass="lblUsuario" Text='<%# Bind("ID_USUARIO") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField>
+                                    <ItemTemplate>
+                                        <asp:Button ID="btnSeleccionarMed" ToolTip="Seleccionar" runat="server" Text="Seleccionar" OnClick="btnSeleccionarMed_Click" AutoPostBack="true" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Nombre" SortExpression="Nombre">
+                                    <ItemTemplate>
+                                        <asp:Label runat='server' ID='lblNombre' CssClass="lblEnviarCorreo" Text='<%# Bind("Nombre") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Apellido Paterno" SortExpression="Apellido_paterno">
+                                    <ItemTemplate>
+                                        <asp:Label runat='server' ID='lblApellidoP' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_paterno") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                <asp:TemplateField HeaderText="Apellido Materno" SortExpression="Apellido_materno">
+                                    <ItemTemplate>
+                                        <asp:Label runat='server' ID='lblApellidoM' CssClass="lblEnviarCorreo" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                            </Columns>
+                        </asp:GridView>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ConfirmaMedicoSelec" runat="server">
+                        <div class="row justify-content-center">
+                            <div class="col px-2">
+                                <asp:label id="IDMedicoAgregar" runat="server" visible="false"></asp:label>
+                                <asp:label id="nombreMedicoAgregar" runat="server" visible="false"></asp:label>
+                                <asp:label id="appMedicoAgregar" runat="server" visible="false"></asp:label>
+                                <asp:label id="apmMedicoAgregar" runat="server" visible="false"></asp:label>
+                                <asp:label id="lblConfirmaMedico" class="text-center" runat="server"></asp:label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="BotoneraMedicoAgrega" class="justify-content-center">
+                        <asp:Button runat="server" ID="btnCancelarMedicoAg" CssClass="FGBoton" Text="Cancelar" OnClick="MedicoAgCancelar_Click" />
+                        <asp:Button runat="server" ID="btnAceptarMedicoAg" CssClass="FGBoton" Text="Aceptar" OnClick="MedicoAgAceptar_Click" />
+                    </div>
+                </div>
+            </asp:Panel>
+        </div>
+        <div id="divConfirmaDeleteMedico" class="divMensaje divMensajeConfirmacion text-center" runat="server" visible="false">
+            <div id="divMedicoCabeceraDelete" class="FCabecera"   >
+                <label id="lblMsjMedicoDelete">¡Alerta!</label>
+            </div>
+            <div id="divMsjContMedicoDelete" class="divConfCorreoContenido">
+                <asp:Label runat="server" ID="lblMensajeDeleteMedico" CssClass="lblMensaje"></asp:Label><asp:Label runat="server" ID="lblIdsuarioDeleteMed" visible="false"></asp:Label>                
+                <br />
+                <asp:Button runat="server" ID="btnCancelDelMed" CssClass="MBoton" Text="Cancelar" OnClick="btnCancelarDeleteMedico_Click" />
+                <asp:Button runat="server" ID="btnAceptaDelMed" CssClass="MBoton" Text="Aceptar" OnClick="btnAceptarDeleteMedico_Click"/>
+            </div>
+        </div>
     </div>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceBody" runat="server">
     <div id="mySidenav" class="sidenav">
         <asp:Button runat="server" ID ="btnOpcionUsuario" OnClick="btnOpcionUsuario_Click" Text="Usuarios"/>
+        <br />
+        <asp:Button runat="server" ID="btnOpcionMedico" OnClick="btnOpcionMedico_Click" Text="Médico"/>
         <br />
         <asp:Button runat="server" ID ="btnOpcionPerfil" OnClick="btnOpcionPerfil_Click" Text="Perfiles"/>
         <br />
@@ -2145,6 +2235,181 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div id="divMedico" class="divContenido" visible="false" runat="server">
+            <div id="divMedicos1">
+                <asp:Button runat="server" ID="btnAgregarMedico" Text="Agregar Médico" OnClick="btnAgregarMedico_Click" CssClass="btnAgrUsuarioG" />
+
+                <asp:Button runat="server" ID="btnCancelaMedico" Text="Cancelar" OnClick="btnCancelaMedico_Click" CssClass="btnAgrUsuarioG" />
+                <asp:Button runat="server" ID="btnGuardaMedico" Text="Guardar" OnClick="btnGuardaMedico_Click" CssClass="btnAgrUsuarioG" />
+                <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtBusqMedicos" placeholder="Médico" CssClass="txtBusquedaG" OnTextChanged="txtBusqMed_TextChanged" AutoPostBack="true"></asp:TextBox>
+                <asp:Image runat="server" ID="imgBusqMed" ImageUrl="~/Imagenes/imgBusqueda.png" CssClass="imgBusquedaG" />
+            </div>
+            <div id="divTablaMedicos" class="divTablaMedicos" runat="server">
+                <asp:GridView ID="gvMedicos" runat="server" HeaderStyle-BackColor="#9d6da2" ShowHeader="true" AutoGenerateColumns="false" AllowPaging="true" PageSize="7" PagerSettings-Mode="NumericFirstLast"
+                    CssClass="gridview" CellPadding="5" Width="100%" OnPageIndexChanging="gvMedicos_PageIndexChanging" OnDataBound="gvMedicos_DataBound">
+                    <AlternatingRowStyle BackColor="#f9c3f7" />
+                    <RowStyle BackColor="#f9def8" />
+                    <PagerStyle BackColor="#CCCCCC" />
+                    <SortedAscendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
+                    <SortedDescendingHeaderStyle ForeColor="WhiteSmoke" CssClass="Seleccionada" />
+                    <SortedAscendingCellStyle CssClass="Seleccionada" />
+                    <PagerSettings Mode="NumericFirstLast" Position="Bottom" PageButtonCount="10" />
+                    <PagerStyle CssClass="Paginador" />
+
+                    <Columns>
+                        <asp:TemplateField HeaderText="" HeaderStyle-Width="0%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblIdUsuario' CssClass="lblUsuario" Text='<%# Bind("ID_USUARIO") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Prefijo" HeaderStyle-Width="5%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblPrefijo' CssClass="lblGerentes" Text='<%# Bind("Prefijo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Nombre" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblNombre' CssClass="lblGerentes" Text='<%# Bind("Nombre") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Apellido Paterno" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblApellidoP' CssClass="lblGerentes" Text='<%# Bind("Apellido_paterno") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Apellido Materno" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblApellidoM' CssClass="lblGerentes" Text='<%# Bind("Apellido_materno") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Título" HeaderStyle-Width="20%">
+                            <ItemTemplate>
+                                <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                                    <asp:Label runat='server' ID='lblTitulo' CssClass="lblGerentes" Text='<%# Bind("Titulo") %>'></asp:Label>
+                                </div>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Especialidades" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                    <asp:Label runat='server' ID='lblEspecialidad' CssClass="lblGerentes" Text='<%# Bind("Especialidades") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Cédula Profesional" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblCedulaProf' CssClass="lblGerentes" Text='<%# Bind("Cedula_profesional") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Cédula de especialidad" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblCedulaEspec' CssClass="lblGerentes" Text='<%# Bind("Cedula_Especialidad") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Instagram" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblInstagram' CssClass="lblGerentes" Text='<%# Bind("Instagram") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Facebook" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblFacebook' CssClass="lblGerentes" Text='<%# Bind("Facebook") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Correo" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblCorreo' CssClass="lblGerentes" Text='<%# Bind("Correo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Sitio web" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblSitioWeb' CssClass="lblGerentes" Text='<%# Bind("Sitio_web") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Número celular" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblNumCelular' CssClass="lblGerentes" Text='<%# Bind("Numero_celular") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Número fijo" HeaderStyle-Width="20%" Visible="false">
+                            <ItemTemplate>
+                                <asp:Label runat='server' ID='lblNumFijo' CssClass="lblGerentes" Text='<%# Bind("Numero_fijo") %>'></asp:Label>
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                        <asp:TemplateField HeaderText="Opciones">
+                            <ItemTemplate>
+                                <asp:LinkButton ID="linkEditMedico" ToolTip="Editar" OnClick="gvMedicos_RowEditing" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-pencil-square-o' aria-hidden='true'></i>" />
+		                        <asp:LinkButton ID="linkDeleteMedico" ToolTip="Eliminar" OnClick="gvMedicos_RowDeleting" CssClass="linkOpcion" runat="server" Text="<i class='fa fa-trash' aria-hidden='true'></i>" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
+                    </Columns>
+                </asp:GridView>
+                </div>
+            
+            <div id="divFormularioMedico" class="FContenido divFormularioMedico" visible="false" runat="server">
+                <asp:Label runat="server" ID="lblIDmedico" Visible="false"></asp:Label>
+                <div class="divCorreoTitulo"><h5>Datos generales</h5></div>
+                <table class="tblParametros">
+                    <tr>
+                        <td><label>Prefijo:</label></td>
+                        <td>
+                            <asp:DropDownList ID="ddlPrefijoMedico" runat="server">
+                                <asp:ListItem Text="Dr." Value="Dr."></asp:ListItem>
+                                <asp:ListItem Text="Dra." Value="Dra."></asp:ListItem>
+                            </asp:DropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Nombre:</label></td>
+                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" Enabled="false" runat="server" ID="txtNombreMedico" CssClass="ParamInput"></asp:TextBox></td>
+                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" Enabled="false" runat="server" ID="txtApellidoPMedico" CssClass="ParamInput"></asp:TextBox></td>
+                        <td><asp:TextBox onkeypress="return DisableEnterKey(event);" Enabled="false" runat="server" ID="txtApellidoMMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td><label>Título:</label></td>
+                        <td colspan="3"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtTitulodMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td><label>Cédula profesional:</label></td>
+                        <td colspan="3"><asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCedulaProfMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr>
+                    <tr>
+                        <td><label>Cédula de especialidad:</label></td>
+                        <td colspan="3">
+                            <asp:TextBox onkeypress="return DisableEnterKey(event);" runat="server" ID="txtCedulaEspMedico" CssClass="ParamInput"></asp:TextBox>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td><label>Especialidades:</label></td>
+                        <td colspan="3"><asp:TextBox runat="server" ID="txtEspecialidaddMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr>                    
+                </table>
+                <div class="divCorreoTitulo" style="border-radius:unset;"><h5>Datos de contacto</h5></div>
+                <table class="tblParametros">
+                    <tr>
+                        <td><label>Instagram:</label></td>
+                        <td colspan="3"><asp:TextBox runat="server" ID="txtInstagramMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr> 
+                    <tr>
+                        <td><label>Facebook:</label></td>
+                        <td colspan="3"><asp:TextBox runat="server" ID="txtFacebookMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr> 
+                    <tr>
+                        <td><label>Correo:</label></td>
+                        <td colspan="3"><asp:TextBox runat="server" ID="txtCorreoMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr> 
+                    <tr>
+                        <td><label>Sitio web:</label></td>
+                        <td colspan="3"><asp:TextBox runat="server" ID="txtSitioMedico" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr> 
+                    <tr>
+                        <td><label>Números de contacto:</label></td>
+                        <td><asp:TextBox runat="server" ID="txtFijoMedico" ToolTip="Teléfono fijo" placeholder="Teléfono fijo" CssClass="ParamInput"></asp:TextBox></td>
+                        <td></td>
+                        <td><asp:TextBox runat="server" ID="txtCelularMedico" ToolTip="Teléfono celular" placeholder="Teléfono celular" CssClass="ParamInput"></asp:TextBox></td>
+                    </tr> 
+                </table>
             </div>
         </div>
 

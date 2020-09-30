@@ -1461,6 +1461,77 @@ namespace SistemaFarmacia
             return resultado;
         }
 
+        public bool ValidaExistenciaDatosMedico(String id_empleado)
+        {
+            bool resultado = false;
+            try
+            {
+                connMySql.Open();
 
+                MySqlCommand mySqlCommand = new MySqlCommand("Select ID_Datos from " + esquema + ".Datos_Medico where id_usuario=" + id_empleado + ";", connMySql);
+                MySqlDataReader mySqlDataReader = mySqlCommand.ExecuteReader();
+
+                if (mySqlDataReader.HasRows)
+                {
+                    if (mySqlDataReader.Read())
+                    {
+                        resultado = true;
+                    }
+                }
+                mySqlDataReader.Close();
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                cerrar_conexion();
+            }
+            return resultado;
+        }
+        public DataSet TraerMedicos(String condicion)
+        {
+            return EjecutaQueryDS("select empleado.id_usuario, empleado.nombre, empleado.apellido_paterno, empleado.apellido_materno, datos.prefijo, datos.titulo, " +
+                "datos.especialidades, datos.Cedula_profesional, datos.Cedula_especialidad, datos.instagram, datos.facebook, datos.correo, datos.sitio_web, " +
+                "datos.numero_celular, datos.numero_fijo from " + esquema + ".empleado left join " + esquema + ".datos_medico as datos on datos.id_usuario = empleado.id_usuario " +
+                "where empleado.medico = '1' and empleado.estatus = 1 " + (condicion.Trim().Length > 0 ? " and " + condicion : "") + " order by empleado.nombre asc, " +
+                "empleado.apellido_paterno asc, empleado.apellido_materno asc;");
+        }
+        public string GuardarDatos_Medico(String id_medico, String empleado, String prefijo, String titulo, String especialidades, String cedula_prof, String cedula_esp, String instagram, String facebook, String correo, String sitio_web, String num_cel, String num_fijo)
+        {
+            return EjecutaQueryInsert("Insert into " + esquema + ".datos_medico (ID_usuario, ID_Empleado_Crea, Fecha_creacion, ID_Empleado_Modifica, Fecha_modificacion, " +
+                "prefijo, titulo, especialidades, Cedula_profesional, Cedula_especialidad, instagram, facebook, correo, sitio_web, numero_celular, numero_fijo) " +
+                "values (" + id_medico + "," + empleado + ",sysdate()," + empleado + ",sysdate(),'" + prefijo + "','" + titulo + "','" + especialidades + "','" +
+                cedula_prof + "','" + cedula_esp + "','" + instagram + "','" + facebook + "','" + correo + "','" + sitio_web + "','" + num_cel + "','" + num_fijo + "');");
+        }
+        public String ActualizaDatosMedico(String id_medico, String id_empleado, String prefijo, String titulo, String especialidades, String cedula_prof, String cedula_esp, String instagram, String facebook, String correo, String sitio_web, String num_cel, String num_fijo)
+        {
+            return EjecutaQueryInsert("Update " + esquema + ".datos_medico set ID_Empleado_Modifica=" + id_empleado + ",Fecha_modificacion=sysdate(), prefijo = '" + prefijo + "', " +
+                "titulo = '" + titulo + "', especialidades = '" + especialidades + "', Cedula_profesional = '" + cedula_prof + "', Cedula_especialidad = '" + cedula_esp + "', " +
+                "instagram = '" + instagram + "', facebook = '" + facebook + "', correo = '" + correo + "', sitio_web = '" + sitio_web + "', numero_celular = '" + num_cel + "', " +
+                "numero_fijo = '" + num_fijo + "' where id_usuario=" + id_medico);
+        }
+        public String AgregarMedico(String id_medico)
+        {
+            return EjecutaQueryInsert("Update " + esquema + ".empleado set medico = '1' where id_usuario = " + id_medico);
+        }
+        public String EliminaMedico(String id_medico)
+        {
+            return EjecutaQueryInsert("update " + esquema + ".empleado set medico = '0' where id_usuario= " + id_medico);
+        }
+
+        public DataSet TraerNotasEvolucionCliente(String id_cliente)
+        {
+            return EjecutaQueryDS("Select ID_Nota, TA, FC, FR, Temperatura, Peso, Talla, Evolucion, Diagnostico, Tratamiento, DATE_FORMAT(notas_evolucion.Fecha_creacion,'%d-%m-%Y') as Fecha, " +
+                "citas.ID_Cita from " + esquema + ".notas_evolucion inner join " + esquema + ".citas on notas_evolucion.ID_Cita = citas.ID_Cita where citas.id_cliente = " + id_cliente);
+        }
+
+
+        public DataSet TraerInfoDoctor(String doctorid)
+        {
+            return EjecutaQueryDS("select prefijo, titulo, especialidades, instagram, facebook, Sitio_web, Numero_celular, Cedula_profesional, Cedula_especialidad, correo, numero_fijo from " + esquema + ".datos_medico  where ID_Datos=" + doctorid);
+        }
     }
 }

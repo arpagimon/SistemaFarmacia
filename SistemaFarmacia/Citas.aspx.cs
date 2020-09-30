@@ -5,6 +5,27 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Globalization;
+
+using iText.IO.Font.Constants;
+using iText.IO.Image;
+using iText.Kernel.Colors;
+using iText.Kernel.Events;
+using iText.Kernel.Font;
+using iText.Kernel.Geom;
+using iText.Kernel.Pdf;
+using iText.Kernel.Pdf.Canvas;
+using iText.Layout;
+using iText.Layout.Borders;
+using Elements = iText.Layout.Element;
+using iText.Layout.Properties;
+using iText.Pdfa;
+using iText.StyledXmlParser.Jsoup.Nodes;
+
+using Document = iText.Layout.Document;
+using Image = iText.Layout.Element.Image;
+using Style = iText.Layout.Style;
+using Table = iText.Layout.Element.Table;
 
 
 namespace SistemaFarmacia
@@ -1834,6 +1855,7 @@ namespace SistemaFarmacia
             div5.Visible = false;
             div6.Visible = false;
             //sombraMensaje.Visible = false;
+            descargarPDF.Visible = true;
         }
 
 
@@ -1853,7 +1875,6 @@ namespace SistemaFarmacia
 
         public void cargarExpediente()
         {
-
             String idCita = TxtIDCita.Text;
             DataSet ds = connMySql.traerExpediente(idCita);
             if (ds.Tables[0].Rows.Count > 0)
@@ -1937,6 +1958,297 @@ namespace SistemaFarmacia
                 }
             }
         }
+        
+        
+        public void crearPdf()
+        {
+            String doctor = ddlDoctorCita.SelectedItem.Text;
+            String doctorid = ddlDoctorCita.SelectedValue;
+
+            String fecha = txtFechaCita.Text;
+            String hora = txtHoraInicio.Text;
+            String idcita = TxtIDCita.Text;
+            DateTime fechapartida = DateTime.Parse(fecha);
+            DataSet datosReceta = connMySql.TraerReceta(idcita);
+            String path = "C:/Users/UNYII/source/repos/Sistema_Farmacia/SistemaFarmacia/SistemaFarmacia/";
+            String imgF = "Imagenes/recetaFondo.jpg";
+            String RUTA = "Pdf/Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
+            PdfWriter pdfEscrito = new PdfWriter(path + RUTA);
+
+            PdfDocument pdf = new PdfDocument(pdfEscrito);
+            PageSize pageSize = PageSize.LETTER;
+            Document documento = new Document(pdf, PageSize.LETTER);
+
+            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+            PdfCanvas canvas = new PdfCanvas(pdf.AddNewPage());
+            canvas.AddImage(ImageDataFactory.Create(path + imgF), pageSize, false);
+            
+            documento.SetMargins(150, 30, 90, 30);
+
+            DataSet datosDoctor = connMySql.TraerInfoDoctor(doctorid);
+            if (datosDoctor.Tables.Count > 0)
+            {
+                foreach (DataRow dRow in datosDoctor.Tables[0].Rows)
+                {
+                    String prefijo = dRow["prefijo"].ToString();
+                    String titulo = dRow["titulo"].ToString();
+                    String especialidad = dRow["especialidades"].ToString();
+                    String instagram = dRow["instagram"].ToString();
+                    String facebook = dRow["facebook"].ToString();
+                    String sitioWeb = dRow["Sitio_web"].ToString();
+                    String correo = dRow["correo"].ToString();
+                    String numTel = dRow["numero_fijo"].ToString();
+                    String numCel = dRow["Numero_celular"].ToString();
+                    String Cprof = dRow["Cedula_profesional"].ToString();
+                    String Cesp = dRow["Cedula_especialidad"].ToString();
+
+                    pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new HeaderEventHandler1(doctor, fecha, hora, prefijo, titulo, especialidad, Cesp, Cprof));
+                    pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterEventHandler1(numCel, numTel));
+                    pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterEventHandler2(instagram, facebook, sitioWeb, correo));
+                }
+            }
+            
+            documento.Add(new Elements.Paragraph(" "));
+            documento.Add(new Elements.Paragraph(" "));
+            documento.Add(new Elements.Paragraph(" "));
+            documento.Add(new Elements.Paragraph(" "));
+            documento.Add(new Elements.Paragraph("NOMBRE DE CLIENTE:").SetFontSize(10f).SetFont(bold));
+            documento.Add(new Elements.Paragraph(TxtNombre.Text + " " + TxtApellidoP.Text + " " + TxtApellidoM.Text).SetFontSize(10f));
+            documento.Add(new Elements.Paragraph(" "));
+            documento.Add(new Elements.Paragraph("MEDICAMENTO:").SetFontSize(10f).SetFont(bold));
+
+            if (datosReceta != null)
+            {
+
+                foreach (DataRow dRow in datosReceta.Tables[0].Rows)
+                {
+
+                    String medicamentoS = dRow["Medicamento"].ToString();
+                    String indicacionesS = dRow["indicaciones"].ToString();
+                    String dosisiS = dRow["dosis"].ToString();
+                    String frecuenciaS = dRow["frecuencia"].ToString();
+                    String periodo = dRow["periodo"].ToString();
+
+                    documento.Add(new Elements.Paragraph(medicamentoS + ", " + indicacionesS).SetFontSize(10f));
+                    documento.Add(new Elements.Paragraph(dosisiS + " " + frecuenciaS + " " + periodo).SetFontSize(10f));
+                    documento.Add(new Elements.Paragraph(""));
+
+
+
+                }
+            }
+            documento.Add(new Elements.Paragraph("INDICACIONES GENERALES:\n").SetFont(bold).SetFontSize(10f));
+            documento.Add(new Elements.Paragraph(txtIndicaciones.Text).SetFontSize(10f));
+            
+            
+            documento.Close();
+
+
+            try
+            {
+                //string strURL = "Imagenes/Expediente/Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
+                System.Net.WebClient req = new System.Net.WebClient();
+                HttpResponse response = HttpContext.Current.Response;
+                response.Clear();
+                response.ClearContent();
+                response.ClearHeaders();
+                response.Buffer = true;
+                response.AddHeader("Content-Disposition", "attachment;filename=\" Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf");
+                byte[] data = req.DownloadData(Server.MapPath(RUTA));
+                response.BinaryWrite(data);
+                response.End();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public class HeaderEventHandler1 : IEventHandler
+        {
+            Image Img;
+            String Doctor;
+            String Fecha;
+            String Hora;
+            String Prefijo;
+            String Titulo;
+            String Esp;
+            String DoctorId;
+            String cedulaP;
+            String cedulaE;
+
+            public HeaderEventHandler1(String doctor, String fecha, String hora, String prefijo, String titulo, String especialidad, String Cprof, String Cesp)
+            {
+                Doctor = doctor;
+                Fecha = fecha;
+                Hora = hora;
+                Prefijo = prefijo;
+                Titulo = titulo;
+                Esp = especialidad;
+                cedulaP = Cprof;
+                cedulaE = Cesp;
+            }
+
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas1 = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdfDoc);
+                Rectangle rootArea = new Rectangle(255, 625, 300, 150);
+                new Canvas(canvas1, pdfDoc, rootArea).Add(Traertabla(docEvent));
+            }
+
+            public Table Traertabla(PdfDocumentEvent docEvent)
+            {
+                DateTime fechapartida = DateTime.Parse(Fecha);
+
+                float[] cellWidth = { 100f, 0f };
+                Table tableEvent = new Table(UnitValue.CreatePercentArray(cellWidth)).UseAllAvailableWidth();
+
+                Style styleCell = new Style().SetBorder(Border.NO_BORDER);
+                Style styleText = new Style().SetTextAlignment(TextAlignment.RIGHT).SetFontSize(10f);
+
+                PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+                PdfFont arial = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+                
+                Elements.Cell cell = new Elements.Cell().AddStyle(styleText).AddStyle(styleCell)
+                 .Add(new Elements.Paragraph("Dermatologia Clinica, Quirurgica y Estetica\n").SetFont(bold).SetFontColor(new DeviceRgb(104, 39, 148)))
+                 .Add(new Elements.Paragraph(Prefijo + " " + Doctor + "\n ").SetFont(arial).SetFontColor(new DeviceRgb(77, 77, 77)))
+                 .Add(new Elements.Paragraph(Titulo + "\n ").SetFont(arial).SetFontColor(new DeviceRgb(104, 39, 148)))
+                 .Add(new Elements.Paragraph("C.Prof. " + cedulaP + " / C.Esp. " + cedulaE + "\n ").SetFont(arial).SetFontColor(new DeviceRgb(77, 77, 77)))
+                 .Add(new Elements.Paragraph(Esp + "\n ").SetFont(arial).SetFontColor(new DeviceRgb(77, 77, 77)))
+                 .Add(new Elements.Paragraph("\n ").SetFont(arial).SetFontColor(new DeviceRgb(77, 77, 77)))
+                 .Add(new Elements.Paragraph(fechapartida.Day + "                   " + fechapartida.Month.ToString().PadLeft(2,'0') + "                " + fechapartida.Year + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)));
+
+                tableEvent.AddCell(cell);
+
+                return tableEvent;
+            }
+        }
+
+        public class FooterEventHandler1 : IEventHandler
+        {
+            //Image Img;
+            String numC;
+            String numT;
+
+            public FooterEventHandler1( String numCell, String numTell)
+            {
+                //Img = img2;
+                numT = numTell;
+                numC = numCell;
+            }
+
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas1 = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdfDoc);
+                Rectangle rootArea = new Rectangle(255, 25, 200, 100);
+                new Canvas(canvas1, pdfDoc, rootArea).Add(Traertabla(docEvent));
+            }
+
+            public Table Traertabla(PdfDocumentEvent docEvent)
+            {
+                float[] cellWidth = { 30f, 0f };
+                Table tableEvent = new Table(UnitValue.CreatePercentArray(cellWidth)).UseAllAvailableWidth();
+
+                Style styleCell = new Style()
+                    .SetBorder(Border.NO_BORDER);
+                Style styleText = new Style().SetTextAlignment(TextAlignment.LEFT).SetFontSize(10f);
+                Style styleText1 = new Style().SetTextAlignment(TextAlignment.LEFT).SetFontSize(10f);
+
+                PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+                
+                Elements.Cell cell = new Elements.Cell()
+                    .Add(new Elements.Paragraph("\n ").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(numT + "\n ").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(numC + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .AddStyle(styleText).AddStyle(styleCell).SetBorder(new SolidBorder(ColorConstants.WHITE, 1));
+                tableEvent.AddCell(cell);
+
+                return tableEvent;
+            }
+        }
+
+        public class FooterEventHandler2 : IEventHandler
+        {
+            Image Img;
+            String insta;
+            String face;
+            String web;
+            String cor;
+
+            public FooterEventHandler2(String facebook, String instagram, String sitioWeb, String correo)
+            {
+                insta = instagram;
+                face = facebook;
+                web = sitioWeb;
+                cor = correo;
+            }
+
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas1 = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdfDoc);
+                Rectangle rootArea = new Rectangle(49, 47, 100, 60);
+                new Canvas(canvas1, pdfDoc, rootArea).Add(Traertabla(docEvent));
+            }
+
+            public Table Traertabla(PdfDocumentEvent docEvent)
+            {
+                float[] cellWidth = { 100f, 0f };
+                Table tableEvent = new Table(UnitValue.CreatePercentArray(cellWidth)).UseAllAvailableWidth();
+
+                Style styleCell = new Style()
+                    .SetBorder(Border.NO_BORDER);
+                Style styleText = new Style().SetTextAlignment(TextAlignment.LEFT).SetFontSize(9f);
+
+
+                PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+                Elements.Cell cell = new Elements.Cell()
+                    .Add(new Elements.Paragraph(insta + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(face + "\n ").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(cor + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(web + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                 .AddStyle(styleText).AddStyle(styleCell).SetBorder(new SolidBorder(ColorConstants.WHITE, 1));
+                tableEvent.AddCell(cell);
+
+                return tableEvent;
+            }
+        }
+
+        protected void ManipulatePdf()
+        {
+            String doctor = ddlDoctorCita.SelectedItem.Text;
+            String fecha = txtFechaCita.Text;
+            String hora = txtHoraInicio.Text;
+            String idcita = TxtIDCita.Text;
+            DataSet datosReceta = connMySql.TraerReceta(idcita);
+            String dest = "C:\\inetpub\\wwwroot\\farmacia040820\\SistemaFarmacia-Desarrollo\\SistemaFarmacia\\Imagenes\\Expediente\\Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
+            String imgF = "C:\\inetpub\\wwwroot\\farmacia040820\\SistemaFarmacia-Desarrollo\\SistemaFarmacia\\Imagenes\\RecetaFondo.jpg";
+            PdfDocument pdfDoc = new PdfDocument(new PdfWriter(dest));
+            PageSize pageSize = PageSize.A4.Rotate();
+
+            Document doc = new Document(pdfDoc, PageSize.LETTER);
+        }
+
+        protected void descargarPDF_Click(object sender, EventArgs e)
+        {
+            crearPdf();
+        }
+
+
+
+
+
+
+
+
+
         protected void btnVerArchivos_Click(object sender, EventArgs e)
         {
             if (divGridArchivos.Visible == true)
@@ -2309,18 +2621,20 @@ namespace SistemaFarmacia
             String Id_Cita = TxtIDCita.Text;
             String id_cliente = TxtIDCliente.Text;
 
-            txtTAnota.Text = "";
-            txtFCnota.Text = "";
-            txtFRnota.Text = "";
-            txtTempNota.Text = "";
-            txtPesoNota.Text = "";
-            txtTallaNota.Text = "";
-            txtEvolucionNota.Text = "";
-            txtDiagnosticoNota.Text = "";
-            txtTratamientoNota.Text = "";
-            txtFechaCitaProx.Text = "";
-            txtHoraICitaProx.Text = "";
-            txtHoraFCitaProx.Text = "";
+            //txtTAnota.Text = "";
+            //txtFCnota.Text = "";
+            //txtFRnota.Text = "";
+            //txtTempNota.Text = "";
+            //txtPesoNota.Text = "";
+            //txtTallaNota.Text = "";
+            //txtEvolucionNota.Text = "";
+            //txtDiagnosticoNota.Text = "";
+            //txtTratamientoNota.Text = "";
+            //txtFechaCitaProx.Text = "";
+            //txtHoraICitaProx.Text = "";
+            //txtHoraFCitaProx.Text = "";
+
+            RestableceCamposNotaEvol();
 
             if (connMySql.ValidaExistenciaEvolucion(Id_Cita))
             {
@@ -2351,7 +2665,10 @@ namespace SistemaFarmacia
                     txtHoraFCitaProx.Text = dRow["hora_fin"].ToString();
                 }
             }
+            TraerNotasEvolucion(id_cliente);
         }
+
+
         protected void btnAgendarProxCita_Click(object sender, EventArgs e)
         {
             Div3.Visible = true;
@@ -2367,6 +2684,7 @@ namespace SistemaFarmacia
             txtFechaProxCitaAg.Text = "";
             txtHoraIProxCitaAg.Text = "";
             txtHoraFProxCitaAg.Text = "";
+            MsjErrorCitaProx.Text = "";
         }
         protected void btnAgendaCitaProx_Click(object sender, EventArgs e)
         {
@@ -2435,5 +2753,142 @@ namespace SistemaFarmacia
             div5.Visible = true;
             divmensaje2.Visible = false;
         }
+
+        protected void linkMostrarNota_Click(object sender, EventArgs e)
+        {
+            divFormNotaConsulta.Visible = true;
+            divFormularioCita.Visible = false;
+
+            GridViewRow row = ((GridViewRow)((LinkButton)sender).NamingContainer);
+
+            txtEvolConsulta.Text = ((Label)row.FindControl("evolucion")).Text;
+            txtDiagnosticoConsulta.Text = ((Label)row.FindControl("diagnostico")).Text;
+            fechanotaevol.InnerText = "Fecha: " + ((Label)row.FindControl("fecha_creacion")).Text;
+            txtTAconsulta.Text = ((Label)row.FindControl("ta")).Text;
+            txtFCconsulta.Text = ((Label)row.FindControl("fc")).Text;
+            txtFRconsulta.Text = ((Label)row.FindControl("fr")).Text;
+            txtTempConsulta.Text = ((Label)row.FindControl("temperatura")).Text;
+            txtPesoConsulta.Text = ((Label)row.FindControl("peso")).Text;
+            txtTallaConsulta.Text = ((Label)row.FindControl("talla")).Text;
+            txtTratamientoConsulta.Text = ((Label)row.FindControl("tratamiento")).Text;
+
+        }
+        protected void btnCerrarCNota_Click(object sender, EventArgs e)
+        {
+            divFormNotaConsulta.Visible = false;
+            divFormularioCita.Visible = true;
+
+            txtEvolConsulta.Text = "";
+            txtDiagnosticoConsulta.Text = "";
+            fechanotaevol.InnerText = "";
+            txtTAconsulta.Text = "";
+            txtFCconsulta.Text = "";
+            txtFRconsulta.Text = "";
+            txtTempConsulta.Text = "";
+            txtPesoConsulta.Text = "";
+            txtTallaConsulta.Text = "";
+            txtTratamientoConsulta.Text = "";
+        }
+        protected void lbtnNotasEvolucion_Click(object sender, EventArgs e)
+        {
+            if (divNotasEvolucionGral.Visible == false)
+            {
+                divNotasEvolucionGral.Visible = true;
+                lbtnNotasEvolucion.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnNotasEvolucion.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divNotasEvolucionGral.Visible = false;
+                lbtnNotasEvolucion.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnNotasEvolucion.ToolTip = "Mostrar";
+            }
+        }
+        protected void lbtnNotaActual_Click(object sender, EventArgs e)
+        {
+            if (divNotaActual.Visible == false)
+            {
+                divNotaActual.Visible = true;
+                lbtnNotaActual.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+                lbtnNotaActual.ToolTip = "Ocultar";
+            }
+            else
+            {
+                divNotaActual.Visible = false;
+                lbtnNotaActual.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+                lbtnNotaActual.ToolTip = "Mostrar";
+            }
+        }
+        public void TraerNotasEvolucion(String id_cliente)
+        {
+            DataSet ds = connMySql.TraerNotasEvolucionCliente(id_cliente);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                gvNotasEvolucionGral.DataSource = ds.Tables[0];
+                gvNotasEvolucionGral.DataBind();
+            }
+            else
+            {
+                gvNotasEvolucionGral.DataSource = ds.Tables[0];
+                gvNotasEvolucionGral.DataBind();
+
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (gvNotasEvolucionGral.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_Nota");
+                    dtTemporal.Columns.Add("Evolucion");
+                    dtTemporal.Columns.Add("Diagnostico");
+                    dtTemporal.Columns.Add("Fecha");
+                    dtTemporal.Columns.Add("TA");
+                    dtTemporal.Columns.Add("FC");
+                    dtTemporal.Columns.Add("FR");
+                    dtTemporal.Columns.Add("Temperatura");
+                    dtTemporal.Columns.Add("Peso");
+                    dtTemporal.Columns.Add("Talla");
+                    dtTemporal.Columns.Add("Tratamiento");
+                    dtTemporal.NewRow();
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvNotasEvolucionGral.DataSource = dtTemporal;
+                    gvNotasEvolucionGral.DataBind();
+                }
+
+                gvNotasEvolucionGral.Rows[0].Cells.Clear();
+                gvNotasEvolucionGral.Rows[0].Cells.Add(new TableCell());
+                gvNotasEvolucionGral.Rows[0].Cells[0].ColumnSpan = 11;
+                gvNotasEvolucionGral.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvNotasEvolucionGral.Rows[0].Cells[0].Text = "Sin resultados";
+
+                gvNotasEvolucionGral.Visible = true;
+            }
+        }
+        public void RestableceCamposNotaEvol()
+        {
+            divNotaActual.Visible = true;
+            lbtnNotaActual.Text = "<i class='fa fa-angle-up' aria-hidden='true'></i>";
+            lbtnNotaActual.ToolTip = "Ocultar";
+            divNotasEvolucionGral.Visible = false;
+            lbtnNotasEvolucion.Text = "<i class='fa fa-angle-down' aria-hidden='true'></i>";
+            lbtnNotasEvolucion.ToolTip = "Mostrar";
+
+            txtTAnota.Text = "";
+            txtFCnota.Text = "";
+            txtFRnota.Text = "";
+            txtTempNota.Text = "";
+            txtPesoNota.Text = "";
+            txtTallaNota.Text = "";
+            txtEvolucionNota.Text = "";
+            txtDiagnosticoNota.Text = "";
+            txtTratamientoNota.Text = "";
+            txtFechaCitaProx.Text = "";
+            txtHoraICitaProx.Text = "";
+            txtHoraFCitaProx.Text = "";
+        }
+
+
+
     }
 }

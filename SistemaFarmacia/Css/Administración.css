@@ -968,6 +968,24 @@ ConfCorreoButton{
 }
 
 
+.divFormularioMedico {
+    background: #fdcbfc;
+    border-radius: 11px;
+    margin-top: 10px;
+}
+.divTablaMedicos {
+    margin-top: 2%;
+}
+
+.gridview2 td input {
+    color: white;
+    background: #78407e;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+
 @media (min-width: 768px) {
     .gridview, .gridview2 {
         font-size: 10px;

@@ -48,7 +48,7 @@ namespace SistemaFarmacia
 
                         //master.cambiarLblTitle("<img src='Imagenes/Administracion.png' alt='clientes'><h1>Administración</h1>");
 
-                        if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316")) )
+                        if (!(permisos.Contains("31") || permisos.Contains("32") || permisos.Contains("33") || permisos.Contains("34") || permisos.Contains("35") || permisos.Contains("36") || permisos.Contains("37") || permisos.Contains("38") || permisos.Contains("39") || permisos.Contains("310") || permisos.Contains("311") || permisos.Contains("314") || permisos.Contains("315") || permisos.Contains("316") || permisos.Contains("317") || permisos.Contains("318") ||permisos.Contains("319") ) )
                         {
                             Response.Redirect("Principal.aspx");
                         }
@@ -72,12 +72,14 @@ namespace SistemaFarmacia
                         btnOpcionCorreo.CssClass = "";
                         btnOpcionClientes.CssClass = "";
                         btnConfigCitas.CssClass = "";
+                        btnOpcionMedico.CssClass = "";
                         cargaGerentes();
 
                         btnOpcionUsuario.Visible = false;
                         btnOpcionPerfil.Visible = false;
                         btnOpcionCorreo.Visible = false;
                         btnEnvioCorreo.Visible = false;
+                        btnOpcionMedico.Visible = false;
 
                         String PrimeraOpcion = "";
 
@@ -268,6 +270,26 @@ namespace SistemaFarmacia
                             btnOpcionClientes.Visible = true;
                         }
 
+                        if (permisos.Contains("319"))
+                        {
+                            {
+                                if (PrimeraOpcion.Length == 0)
+                                {
+                                    PrimeraOpcion = "Medico";
+                                    divMedico.Visible = true;
+                                    divTablaMedicos.Visible = true;
+                                    btnAgregarMedico.Visible = true;
+                                    divFormularioMedico.Visible = false;
+                                    btnCancelaMedico.Visible = false;
+                                    btnGuardaMedico.Visible = false;
+                                    txtBusqMedicos.Visible = true;
+                                    imgBusqMed.Visible = true;
+                                }
+                                btnOpcionMedico.Visible = true;
+                                TraerMedicos("");
+                            }
+                        }
+
                         switch (PrimeraOpcion)
                         {
                             case "Usuario":
@@ -284,16 +306,17 @@ namespace SistemaFarmacia
                                 btnOpcionCorreo.CssClass = "seleccionado";
                                 CambiaTitulo("Configuración técnica");
                                 break;
-
-                            //case "EnvioCorreo":
-                            //    btnEnvioCorreo.CssClass = "seleccionado";
-                            //    CambiaTitulo("Envío de correo");
-                            //    break;
-
+                                
                             case "Clientes":
                                 btnOpcionClientes.CssClass = "seleccionado";
                                 CambiaTitulo("Reactivar clientes");
                                 break;
+
+                            case "Medico":
+                                btnOpcionMedico.CssClass = "seleccionado";
+                                CambiaTitulo("Médicos");
+                                break;
+
                             default:
                                 break;
                         }
@@ -362,15 +385,15 @@ namespace SistemaFarmacia
             divClientes.Visible = false;
             divConfigCitas.Visible = false;
             divGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnGruposClientes.CssClass = "";
             btnConfigCitas.CssClass = "";
             btnOpcionUsuario.CssClass = "seleccionado";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "";
-            //btnOpcionClientes.Visible = false;
+            btnOpcionMedico.CssClass = "";
 
             CambiaTitulo("Usuarios");
 
@@ -387,15 +410,15 @@ namespace SistemaFarmacia
             divClientes.Visible = false;
             divConfigCitas.Visible = false;
             divGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnGruposClientes.CssClass = "";
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "seleccionado";
             btnOpcionCorreo.CssClass = "";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "";
-            //btnOpcionClientes.Visible = false;
+            btnOpcionMedico.CssClass = "";
 
             CambiaTitulo("Perfiles");
 
@@ -410,23 +433,21 @@ namespace SistemaFarmacia
             divGerentes.Visible = false;
             divPerfiles.Visible = false;
             divCorreo.Visible = true;
-            //divEnvioCorreo.Visible = false;
             divClientes.Visible = false;
             divConfigCitas.Visible = false;
             divGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnGruposClientes.CssClass = "";
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "seleccionado";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "";
-
-            //btnOpcionClientes.Visible = false;
             btnConfiguracionCorreo.Visible = false;
             btnConfiguracionTecnica.Visible = false;
             btnContenidCorreo.Visible = false;
+            btnOpcionMedico.CssClass = "";
 
             btnContenidCorreo.Visible = false;
 
@@ -3114,18 +3135,19 @@ namespace SistemaFarmacia
             divClientes.Visible = true;
             divGerentes.Visible = false;
             divPerfiles.Visible = false;
-            //divEnvioCorreo.Visible = false;
             divCorreo.Visible = false;
             divConfigCitas.Visible = false;
             divGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnGruposClientes.CssClass = "";
             btnConfigCitas.CssClass = "";
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "seleccionado";
+            btnOpcionMedico.CssClass = "";
+
             CambiaTitulo("Reactivar clientes");
             cargaClientesE("estatus = 3");
             ocultarOpcionesCorreo();
@@ -3769,18 +3791,18 @@ namespace SistemaFarmacia
             divGerentes.Visible = false;
             divPerfiles.Visible = false;
             divCorreo.Visible = false;
-            //divEnvioCorreo.Visible = false;
             divClientes.Visible = false;
             divConfigCitas.Visible = true;
             divGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnGruposClientes.CssClass = "";
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "seleccionado";
+            btnOpcionMedico.CssClass = "";
 
             CambiaTitulo("Configuración de citas");
 
@@ -4586,17 +4608,6 @@ namespace SistemaFarmacia
 
         }
 
-
-
-
-
-
-
-
-
-
-
-
         protected void btnGruposClientes_Click(object sender, EventArgs e)
         {
             CambiaTitulo("Grupos Clientes");
@@ -4604,21 +4615,20 @@ namespace SistemaFarmacia
             divGerentes.Visible = false;
             divPerfiles.Visible = false;
             divCorreo.Visible = false;
-            //divEnvioCorreo.Visible = false;
             divClientes.Visible = false;
             divConfigCitas.Visible = false;
             divGrupos.Visible = true;
-
             divGvGrupos.Visible = true;
             divContenidosGrupos.Visible = false;
+            divMedico.Visible = false;
 
             btnOpcionUsuario.CssClass = "";
             btnOpcionPerfil.CssClass = "";
             btnOpcionCorreo.CssClass = "";
-            //btnEnvioCorreo.CssClass = "";
             btnOpcionClientes.CssClass = "";
             btnConfigCitas.CssClass = "";
             btnGruposClientes.CssClass = "seleccionado";
+            btnOpcionMedico.CssClass = "";
 
             ocultarOpcionesCorreo();
 
@@ -4664,7 +4674,6 @@ namespace SistemaFarmacia
                 gvGrupos.Rows[0].Cells[0].Text = "Sin resultados";
             }
         }
-
 
         protected void gvGrupos_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
@@ -5323,6 +5332,409 @@ namespace SistemaFarmacia
         {
             sombraMensaje.Visible = false;
             divFormCliGrupo.Visible = false;
+        }
+
+        protected void gvMedicos_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMedicos.PageIndex = e.NewPageIndex;
+            String condicion = "";
+            if (txtBusqMedicos.Text.Length > 0)
+            {
+                condicion = txtBusqMedicos.Text;
+            }
+            TraerMedicos(condicion);
+        }
+        protected void gvMedicos_DataBound(object sender, EventArgs e)
+        {
+
+        }
+        protected void gvUsuariosMedicoA_RowDataBound(object sender, EventArgs e)
+        {
+
+        }
+        protected void gvUsuariosMedicoA_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvUsuariosMedicoA.PageIndex = e.NewPageIndex;
+            String condicion = "";
+            if (txtBusqUsuarioMed.Text.Length > 0)
+            {
+                condicion = txtBusqUsuarioMed.Text;
+            }
+            LlenarUsuariosDistMedicos(condicion);
+        }
+        public void TraerDatosMedicoNuevo(String id_empleado)
+        {
+            String condicion = "empleado.id_usuario = " + id_empleado;
+
+            DataSet medico = connMysql.TraerMedicos(condicion);
+
+            if (medico.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow dr in medico.Tables[0].Rows)
+                {
+                    ddlPrefijoMedico.SelectedValue = dr["prefijo"].ToString();
+                    txtTitulodMedico.Text = dr["titulo"].ToString();
+                    txtCedulaProfMedico.Text = dr["cedula_profesional"].ToString();
+                    txtCedulaEspMedico.Text = dr["cedula_especialidad"].ToString();
+                    txtEspecialidaddMedico.Text = dr["especialidades"].ToString();
+                    txtInstagramMedico.Text = dr["instagram"].ToString();
+                    txtFacebookMedico.Text = dr["facebook"].ToString();
+                    txtCorreoMedico.Text = dr["correo"].ToString();
+                    txtSitioMedico.Text = dr["sitio_web"].ToString();
+                    txtFijoMedico.Text = dr["numero_fijo"].ToString();
+                    txtCelularMedico.Text = dr["numero_celular"].ToString();
+                }
+            }
+        }
+        public void TraerMedicos(String condicion)
+        {
+            String consulta = "";
+            if (condicion.Length > 0)
+            {
+                consulta = " (empleado.nombre like '%" + condicion + "%' or empleado.apellido_paterno like '%" + condicion + "%' or empleado.apellido_materno like '%" + condicion + "%')";
+            }
+            DataSet medico = connMysql.TraerMedicos(consulta);
+
+            if (medico.Tables[0].Rows.Count > 0)
+            {
+                gvMedicos.DataSource = medico.Tables[0];
+                gvMedicos.DataBind();
+            }
+            else
+            {
+                gvMedicos.DataSource = medico.Tables[0];
+                gvMedicos.DataBind();
+
+                int totalColumnas = medico.Tables[0].Columns.Count;
+
+                if (gvMedicos.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_USUARIO");
+                    dtTemporal.Columns.Add("Prefijo");
+                    dtTemporal.Columns.Add("Nombre");
+                    dtTemporal.Columns.Add("Apellido_paterno");
+                    dtTemporal.Columns.Add("Apellido_materno");
+                    dtTemporal.Columns.Add("Titulo");
+                    dtTemporal.Columns.Add("Especialidades");
+                    dtTemporal.Columns.Add("Cedula_profesional");
+                    dtTemporal.Columns.Add("Cedula_Especialidad");
+                    dtTemporal.Columns.Add("Instagram");
+                    dtTemporal.Columns.Add("Facebook");
+                    dtTemporal.Columns.Add("Correo");
+                    dtTemporal.Columns.Add("Sitio_web");
+                    dtTemporal.Columns.Add("Numero_celular");
+                    dtTemporal.Columns.Add("Numero_fijo");
+                    dtTemporal.NewRow();
+
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvMedicos.DataSource = dtTemporal;
+                    gvMedicos.DataBind();
+                }
+
+                gvMedicos.Rows[0].Cells.Clear();
+                gvMedicos.Rows[0].Cells.Add(new TableCell());
+                gvMedicos.Rows[0].Cells[0].ColumnSpan = 15;
+                gvMedicos.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvMedicos.Rows[0].Cells[0].Text = "Sin resultados";
+            }
+        }
+        protected void btnOpcionMedico_Click(object sender, EventArgs e)
+        {
+            CambiaTitulo("Médicos");
+
+            divGerentes.Visible = false;
+            divPerfiles.Visible = false;
+            divCorreo.Visible = false;
+            divClientes.Visible = false;
+            divConfigCitas.Visible = false;
+            divGrupos.Visible = false;
+            divMedico.Visible = true;
+
+            divTablaMedicos.Visible = true;
+            divFormularioMedico.Visible = false;
+
+            btnOpcionUsuario.CssClass = "";
+            btnOpcionPerfil.CssClass = "";
+            btnOpcionCorreo.CssClass = "";
+            btnOpcionClientes.CssClass = "";
+            btnConfigCitas.CssClass = "";
+            btnGruposClientes.CssClass = "";
+            btnOpcionMedico.CssClass = "seleccionado";
+
+            btnAgregarMedico.Visible = true;
+            btnCancelaMedico.Visible = false;
+            btnGuardaMedico.Visible = false;
+            txtBusqMedicos.Visible = true;
+            imgBusqMed.Visible = true;
+            ocultarOpcionesCorreo();
+            TraerMedicos("");
+            LimpiaCamposMedico();
+        }
+        protected void txtBusqMed_TextChanged(object sender, EventArgs e)
+        {
+            String condicion = txtBusqMedicos.Text.Trim().ToUpper();
+
+            TraerMedicos(condicion);
+
+            gvMedicos.Visible = true;
+        }
+        protected void txtBusqUsuMed_TextChanged(object sender, EventArgs e)
+        {
+            String condicion = txtBusqUsuarioMed.Text;
+
+            LlenarUsuariosDistMedicos(condicion);
+        }
+        public void LlenarUsuariosDistMedicos(String condicion)
+        {
+
+            if (condicion.Length > 0)
+            {
+                condicion = " (nombre like '%" + condicion + "%' or apellido_paterno like '%" + condicion + "%' or apellido_materno like '%" + condicion + "%') and medico != '1'";
+            }
+            else
+            {
+                condicion = "medico!=1";
+            }
+
+            DataSet ds = connMysql.TraerUsuarios(condicion);
+
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                gvUsuariosMedicoA.DataSource = ds.Tables[0];
+                gvUsuariosMedicoA.DataBind();
+            }
+            else
+            {
+                gvUsuariosMedicoA.DataSource = ds.Tables[0];
+                gvUsuariosMedicoA.DataBind();
+
+                int totalColumnas = ds.Tables[0].Columns.Count;
+
+                if (gvUsuariosMedicoA.Rows.Count == 0)
+                {
+                    DataTable dtTemporal = new DataTable();
+                    dtTemporal.Columns.Add("ID_USUARIO");
+                    dtTemporal.Columns.Add("Nombre");
+                    dtTemporal.Columns.Add("Apellido_paterno");
+                    dtTemporal.Columns.Add("Apellido_materno");
+                    dtTemporal.NewRow();
+
+                    DataRow drTemporal = dtTemporal.NewRow();
+                    dtTemporal.Rows.InsertAt(drTemporal, 0);
+
+                    gvUsuariosMedicoA.DataSource = dtTemporal;
+                    gvUsuariosMedicoA.DataBind();
+                }
+
+                gvUsuariosMedicoA.Rows[0].Cells.Clear();
+                gvUsuariosMedicoA.Rows[0].Cells.Add(new TableCell());
+                gvUsuariosMedicoA.Rows[0].Cells[0].ColumnSpan = 5;
+                gvUsuariosMedicoA.Rows[0].Cells[0].CssClass = "lblSinResultado";
+                gvUsuariosMedicoA.Rows[0].Cells[0].Text = "Sin resultados";
+
+                gvUsuariosMedicoA.Visible = true;
+            }
+        }
+        protected void btnSeleccionarMed_Click(object sender, EventArgs e)
+        {
+            GridViewRow row = ((GridViewRow)((Button)sender).NamingContainer);
+
+            String medico = ((Label)row.FindControl("lblIdUsuario")).Text;
+            IDMedicoAgregar.Text = medico;
+            String nombre = ((Label)row.FindControl("lblNombre")).Text;
+            String ap_paterno = ((Label)row.FindControl("lblApellidoP")).Text;
+            String ap_materno = ((Label)row.FindControl("lblApellidoM")).Text;
+
+            nombreMedicoAgregar.Text = nombre;
+            appMedicoAgregar.Text = ap_paterno;
+            apmMedicoAgregar.Text = ap_materno;
+
+            SeleccionaUsuarioMed.Visible = false;
+            ConfirmaMedicoSelec.Visible = true;
+
+            lblConfirmaMedico.Text = "¿Está seguro que quiere añadir al usuario \n" + nombre + " " + ap_paterno + " " + ap_materno + "\n como médico?";
+            btnAceptarMedicoAg.Visible = true;
+        }
+        protected void btnAgregarMedico_Click(object sender, EventArgs e)
+        {
+            sombraMensaje.Visible = true;
+            divAgregarMedico.Visible = true;
+            SeleccionaUsuarioMed.Visible = true;
+            ConfirmaMedicoSelec.Visible = false;
+            btnAceptarMedicoAg.Visible = false;
+            SeleccionaUsuarioMed.Visible = true;
+            ConfirmaMedicoSelec.Visible = false;
+
+            LlenarUsuariosDistMedicos("");
+        }
+        protected void MedicoAgCancelar_Click(object sender, EventArgs e)
+        {
+            sombraMensaje.Visible = false;
+            divAgregarMedico.Visible = false;
+            SeleccionaUsuarioMed.Visible = true;
+            ConfirmaMedicoSelec.Visible = false;
+            btnAceptarMedicoAg.Visible = false;
+
+            nombreMedicoAgregar.Text = "";
+            appMedicoAgregar.Text = "";
+            apmMedicoAgregar.Text = "";
+        }
+        protected void MedicoAgAceptar_Click(object sender, EventArgs e)
+        {
+            connMysql.AgregarMedico(IDMedicoAgregar.Text);
+
+            divFormularioMedico.Visible = true;
+            divTablaMedicos.Visible = false;
+            lblIDmedico.Text = IDMedicoAgregar.Text;
+            txtNombreMedico.Text = nombreMedicoAgregar.Text;
+            txtApellidoPMedico.Text = appMedicoAgregar.Text;
+            txtApellidoMMedico.Text = apmMedicoAgregar.Text;
+            if (connMysql.ValidaExistenciaDatosMedico(lblIDmedico.Text))
+            {
+                TraerDatosMedicoNuevo(lblIDmedico.Text);
+            }
+            btnAgregarMedico.Visible = false;
+            btnCancelaMedico.Visible = true;
+            btnGuardaMedico.Visible = true;
+            txtBusqMedicos.Visible = false;
+            imgBusqMed.Visible = false;
+
+            divAgregarMedico.Visible = false;
+            ConfirmaMedicoSelec.Visible = false;
+            btnAceptarMedicoAg.Visible = false;
+            nombreMedicoAgregar.Text = "";
+            appMedicoAgregar.Text = "";
+            apmMedicoAgregar.Text = "";
+
+            CambiaTitulo("Actualiza Datos de Médico");
+
+            mostrarMensaje("El usuario ha sido añadido como médico");
+        }
+        protected void btnCancelaMedico_Click(object sender, EventArgs e)
+        {
+            LimpiaCamposMedico();
+            divFormularioMedico.Visible = false;
+            divTablaMedicos.Visible = true;
+            btnAgregarMedico.Visible = true;
+            btnCancelaMedico.Visible = false;
+            btnGuardaMedico.Visible = false;
+            CambiaTitulo("Médicos");
+        }
+        protected void btnGuardaMedico_Click(object sender, EventArgs e)
+        {
+            String id_medico = lblIDmedico.Text;
+            String prefijo = ddlPrefijoMedico.SelectedValue;
+            String titulo = txtTitulodMedico.Text;
+            String especialidades = txtEspecialidaddMedico.Text;
+            String ced_prof = txtCedulaProfMedico.Text;
+            String ced_esp = txtCedulaEspMedico.Text;
+            String instagram = txtInstagramMedico.Text;
+            String facebook = txtFacebookMedico.Text;
+            String correo = txtCorreoMedico.Text;
+            String sitio = txtSitioMedico.Text;
+            String celular = txtCelularMedico.Text;
+            String fijo = txtFijoMedico.Text;
+            if (connMysql.ValidaExistenciaDatosMedico(id_medico))
+            {
+                connMysql.ActualizaDatosMedico(id_medico, connMysql.traerIDEmpleado(Session["usuario"].ToString()), prefijo, titulo, especialidades, ced_prof, ced_esp, instagram, facebook, correo, sitio, celular, fijo);
+            }
+            else
+            {
+                connMysql.GuardarDatos_Medico(id_medico, connMysql.traerIDEmpleado(Session["usuario"].ToString()), prefijo, titulo, especialidades, ced_prof, ced_esp, instagram, facebook, correo, sitio, celular, fijo);
+            }
+            mostrarMensaje("Datos de Médico actualizados exitosamente");
+            LimpiaCamposMedico();
+            divFormularioMedico.Visible = false;
+            divTablaMedicos.Visible = true;
+            btnAgregarMedico.Visible = true;
+            btnCancelaMedico.Visible = false;
+            btnGuardaMedico.Visible = false;
+            txtBusqMedicos.Visible = true;
+            imgBusqMed.Visible = true;
+            CambiaTitulo("Médicos");
+            TraerMedicos("");
+        }
+        protected void gvMedicos_RowEditing(object sender, EventArgs e)
+        {
+            GridViewRow row = ((GridViewRow)((LinkButton)sender).NamingContainer);
+
+            String medico = ((Label)row.FindControl("lblIdUsuario")).Text;
+            lblIDmedico.Text = medico;
+            txtNombreMedico.Text = ((Label)row.FindControl("lblNombre")).Text;
+            txtApellidoPMedico.Text = ((Label)row.FindControl("lblApellidoP")).Text;
+            txtApellidoMMedico.Text = ((Label)row.FindControl("lblApellidoM")).Text;
+            if (connMysql.ValidaExistenciaDatosMedico(medico))
+            {
+                ddlPrefijoMedico.SelectedValue = ((Label)row.FindControl("lblPrefijo")).Text;
+                txtTitulodMedico.Text = ((Label)row.FindControl("lblTitulo")).Text;
+                txtEspecialidaddMedico.Text = ((Label)row.FindControl("lblEspecialidad")).Text;
+                txtCedulaProfMedico.Text = ((Label)row.FindControl("lblCedulaProf")).Text;
+                txtCedulaEspMedico.Text = ((Label)row.FindControl("lblCedulaEspec")).Text;
+                txtInstagramMedico.Text = ((Label)row.FindControl("lblInstagram")).Text;
+                txtFacebookMedico.Text = ((Label)row.FindControl("lblFacebook")).Text;
+                txtCorreoMedico.Text = ((Label)row.FindControl("lblCorreo")).Text;
+                txtSitioMedico.Text = ((Label)row.FindControl("lblSitioWeb")).Text;
+                txtCelularMedico.Text = ((Label)row.FindControl("lblNumCelular")).Text;
+                txtFijoMedico.Text = ((Label)row.FindControl("lblNumFijo")).Text;
+            }
+
+            divTablaMedicos.Visible = false;
+            divFormularioMedico.Visible = true;
+            btnAgregarMedico.Visible = false;
+            btnCancelaMedico.Visible = true;
+            btnGuardaMedico.Visible = true;
+            txtBusqMedicos.Visible = false;
+            imgBusqMed.Visible = false;
+            CambiaTitulo("Actualiza Datos de médico");
+        }
+        protected void gvMedicos_RowDeleting(object sender, EventArgs e)
+        {
+            sombraMensaje.Visible = true;
+            divConfirmaDeleteMedico.Visible = true;
+            GridViewRow row = ((GridViewRow)((LinkButton)sender).NamingContainer);
+
+            String medico = ((Label)row.FindControl("lblIdUsuario")).Text;
+            lblIdsuarioDeleteMed.Text = medico;
+            String nombre = ((Label)row.FindControl("lblNombre")).Text;
+            String appaterno = ((Label)row.FindControl("lblApellidoP")).Text;
+            String apmaterno = ((Label)row.FindControl("lblApellidoM")).Text;
+
+            lblMensajeDeleteMedico.Text = "¿Está seguro que quiere eliminar el usuario " + nombre + " " + appaterno + " " + apmaterno + " como médico?<br/>Esta acción no eliminará el usuario en su totalidad.";
+
+        }
+        protected void btnAceptarDeleteMedico_Click(object sender, EventArgs e)
+        {
+            connMysql.EliminaMedico(lblIdsuarioDeleteMed.Text);
+            divConfirmaDeleteMedico.Visible = false;
+            mostrarMensaje("Médico eliminado correctamente");
+            TraerMedicos("");
+        }
+        protected void btnCancelarDeleteMedico_Click(object sender, EventArgs e)
+        {
+            sombraMensaje.Visible = false;
+            divConfirmaDeleteMedico.Visible = false;
+            lblIdsuarioDeleteMed.Text = "";
+            TraerMedicos("");
+        }
+        public void LimpiaCamposMedico()
+        {
+            ddlPrefijoMedico.SelectedIndex = -1;
+            txtNombreMedico.Text = "";
+            txtApellidoPMedico.Text = "";
+            txtApellidoMMedico.Text = "";
+            txtTitulodMedico.Text = "";
+            txtCedulaProfMedico.Text = "";
+            txtCedulaEspMedico.Text = "";
+            txtEspecialidaddMedico.Text = "";
+            txtInstagramMedico.Text = "";
+            txtFacebookMedico.Text = "";
+            txtCorreoMedico.Text = "";
+            txtSitioMedico.Text = "";
+            txtFijoMedico.Text = "";
+            txtCelularMedico.Text = "";
         }
     }
 }
