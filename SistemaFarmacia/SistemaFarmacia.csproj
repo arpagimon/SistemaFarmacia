@@ -150,6 +150,7 @@
     <Content Include="Imagenes\Loading_icon.gif" />
     <Content Include="Imagenes\Logo.png" />
     <Content Include="Imagenes\mail.png" />
+    <Content Include="Imagenes\NotaEvolucionFondo.jpg" />
     <Content Include="Imagenes\palomita2.png" />
     <Content Include="Imagenes\palomita2Oscuro.png" />
     <Content Include="Imagenes\plus2.png" />

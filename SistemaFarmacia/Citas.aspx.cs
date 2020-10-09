@@ -1741,9 +1741,11 @@ namespace SistemaFarmacia
             {
                 GridViewReceta.DataSource = ds.Tables[0];
                 GridViewReceta.DataBind();
+                descargarPDF.Visible = true;
             }
             else
             {
+                descargarPDF.Visible = false;
                 GridViewReceta.DataSource = ds.Tables[0];
                 GridViewReceta.DataBind();
                 int totalColumnas = ds.Tables[0].Columns.Count;
@@ -1970,7 +1972,8 @@ namespace SistemaFarmacia
             String idcita = TxtIDCita.Text;
             DateTime fechapartida = DateTime.Parse(fecha);
             DataSet datosReceta = connMySql.TraerReceta(idcita);
-            String path = "C:/Users/UNYII/source/repos/Sistema_Farmacia/SistemaFarmacia/SistemaFarmacia/";
+            //String path = "C:/Users/UNYII/source/repos/Sistema_Farmacia/SistemaFarmacia/SistemaFarmacia/";
+            String path = Server.MapPath("Citas.aspx.cs").Remove(Server.MapPath("Citas.aspx.cs").IndexOf("Citas.aspx.cs"));
             String imgF = "Imagenes/recetaFondo.jpg";
             String RUTA = "Pdf/Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
             PdfWriter pdfEscrito = new PdfWriter(path + RUTA);
@@ -1979,7 +1982,7 @@ namespace SistemaFarmacia
             PageSize pageSize = PageSize.LETTER;
             Document documento = new Document(pdf, PageSize.LETTER);
 
-            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD); 
             PdfCanvas canvas = new PdfCanvas(pdf.AddNewPage());
             canvas.AddImage(ImageDataFactory.Create(path + imgF), pageSize, false);
             
@@ -2890,5 +2893,206 @@ namespace SistemaFarmacia
 
 
 
+
+
+
+
+        protected void btnDesgargarNE_Click(object sender, EventArgs e)
+        {
+            crearPdfEvolucion();
+        }
+
+        public void crearPdfEvolucion()
+        {
+
+            String anota = txtTAnota.Text;
+            String fcnota = txtFCnota.Text;
+            String frnota = txtFRnota.Text;
+            String tempnota = txtTempNota.Text;
+            String pesonota = txtPesoNota.Text;
+            String tallanota = txtTallaNota.Text;
+            String evolnota = txtEvolucionNota.Text;
+            String diagnosticonota = txtDiagnosticoNota.Text;
+            String tratamientonota = txtTratamientoNota.Text;
+            String fechacitaprox = txtFechaCitaProx.Text;
+            String nombrecliente = TxtNombre.Text;
+            String apellidoPcliente = TxtApellidoP.Text;
+            String apellidoMcliente = TxtApellidoM.Text;
+
+
+            String doctor = ddlDoctorCita.SelectedItem.Text;
+            String doctorid = ddlDoctorCita.SelectedValue;
+
+            String fecha = txtFechaCita.Text;
+            String hora = txtHoraInicio.Text;
+            String idcita = TxtIDCita.Text;
+            DateTime fechapartida = DateTime.Parse(fecha);
+            DataSet datosReceta = connMySql.TraerReceta(idcita);
+            //String path = "C:/inetpub/wwwroot/farmacia040820/SistemaFarmacia-Desarrollo/SistemaFarmacia/";
+            String path = Server.MapPath("Citas.aspx.cs").Remove(Server.MapPath("Citas.aspx.cs").IndexOf("Citas.aspx.cs"));
+            String imgF = "Imagenes/NotaEvolucionFondo.jpg";
+            String RUTA = "Pdf/NotaEvolucion_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
+            PdfWriter pdfEscrito = new PdfWriter(path + RUTA);
+
+            PdfDocument pdf = new PdfDocument(pdfEscrito);
+            PageSize pageSize = PageSize.LETTER;
+            Document documento = new Document(pdf, PageSize.LETTER);
+
+            PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+            PdfCanvas canvas = new PdfCanvas(pdf.AddNewPage());
+            canvas.AddImage(ImageDataFactory.Create(path + imgF), pageSize, false);
+
+            documento.SetMargins(210, 40, 90, 40);
+
+
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new HeaderEventHandlerevolt1(nombrecliente, apellidoPcliente, apellidoMcliente, fecha, hora, fechacitaprox));
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterEventHandlerevolt2(tallanota, fcnota, frnota, tempnota, pesonota, anota));
+
+            documento.Add(new Elements.Paragraph("Evolucion: " + evolnota).SetFontSize(11f));
+            documento.Add(new Elements.Paragraph("").SetFontSize(11f));
+            documento.Add(new Elements.Paragraph("Diagnostico: " + diagnosticonota).SetFontSize(11f));
+            documento.Add(new Elements.Paragraph("").SetFontSize(11f));
+            documento.Add(new Elements.Paragraph("Tratamiento: " + tratamientonota).SetFontSize(11f));
+
+
+            documento.Close();
+
+
+            try
+            {
+                //string strURL = "Imagenes/Expediente/Receta_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf";
+                System.Net.WebClient req = new System.Net.WebClient();
+                HttpResponse response = HttpContext.Current.Response;
+                response.Clear();
+                response.ClearContent();
+                response.ClearHeaders();
+                response.Buffer = true;
+                response.AddHeader("Content-Disposition", "attachment;filename=\"NotaEvolucion_" + TxtNombre.Text + "" + TxtApellidoP.Text + "" + txtFechaCita.Text + ".pdf");
+                byte[] data = req.DownloadData(Server.MapPath(RUTA));
+                response.BinaryWrite(data);
+                response.End();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+        public class HeaderEventHandlerevolt1 : IEventHandler
+        {
+            //Image Img;
+            String nombreC;
+            String apellidoP;
+            String apellidoM;
+            String Fecha;
+            String Hora;
+            String proxcita;
+
+            public HeaderEventHandlerevolt1(String nombrecliente, String apellidoPcliente, String apellidoMcliente, String fecha, String hora, String fechacitaprox)
+            {
+                //Img = img2;
+                nombreC = nombrecliente;
+                apellidoP = apellidoPcliente;
+                apellidoM = apellidoMcliente;
+                Fecha = fecha;
+                Hora = hora;
+                proxcita = fechacitaprox;
+
+
+
+            }
+
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas1 = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdfDoc);
+                Rectangle rootArea = new Rectangle(30, 587, 400, 100);
+                new Canvas(canvas1, pdfDoc, rootArea).Add(Traertabla(docEvent));
+            }
+
+            public Table Traertabla(PdfDocumentEvent docEvent)
+            {
+                Char delimitador = ':';
+                String[] fracTiempo = Hora.Split(delimitador);
+                DateTime fechapartida = DateTime.Parse(Fecha);
+                DateTime fechaprox = DateTime.Parse(proxcita);
+
+                float[] cellWidth = { 30f, 0f };
+                Table tableEvent = new Table(UnitValue.CreatePercentArray(cellWidth)).UseAllAvailableWidth();
+
+                Style styleCell = new Style()
+                    .SetBorder(Border.NO_BORDER);
+                Style styleText = new Style().SetTextAlignment(TextAlignment.CENTER).SetFontSize(10f);
+                Style styleText1 = new Style().SetTextAlignment(TextAlignment.LEFT).SetFontSize(10f);
+
+                PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+
+                Elements.Cell cell = new Elements.Cell()
+                    .AddStyle(styleText).AddStyle(styleCell)
+                    .Add(new Elements.Paragraph(nombreC + "    " + apellidoP + "      " + apellidoM + "\n ").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                     .Add(new Elements.Paragraph("\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph(fechapartida.Day + "           " + fechapartida.Month.ToString().PadLeft(2, '0') + "         " + fechapartida.Year + "                        " + fracTiempo[0] + ":" + fracTiempo[1] + "                                       " + fechaprox.Day + "/" + fechaprox.Month + "/" + fechaprox.Year + "\n ").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)))
+                    .Add(new Elements.Paragraph("\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)));
+
+                tableEvent.AddCell(cell);
+
+                return tableEvent;
+            }
+        }
+
+        public class FooterEventHandlerevolt2 : IEventHandler
+        {
+            String Tallanota;
+            String Fcnota;
+            String Frnota;
+            String Tempnota;
+            String Pesonota;
+            String Anota;
+
+            public FooterEventHandlerevolt2(String tallanota, String fcnota, String frnota, String tempnota, String pesonota, String anota)
+
+            {
+
+                Tallanota = tallanota;
+                Fcnota = fcnota;
+                Frnota = frnota;
+                Tempnota = tempnota;
+                Pesonota = pesonota;
+                Anota = anota;
+
+            }
+
+            public void HandleEvent(Event @event)
+            {
+                PdfDocumentEvent docEvent = (PdfDocumentEvent)@event;
+                PdfDocument pdfDoc = docEvent.GetDocument();
+                PdfPage page = docEvent.GetPage();
+                PdfCanvas canvas1 = new PdfCanvas(page.NewContentStreamAfter(), page.GetResources(), pdfDoc);
+                Rectangle rootArea = new Rectangle(12, 539, 600, 60);
+                new Canvas(canvas1, pdfDoc, rootArea).Add(Traertabla(docEvent));
+            }
+
+            public Table Traertabla(PdfDocumentEvent docEvent)
+            {
+                float[] cellWidth = { 100f, 0f };
+                Table tableEvent = new Table(UnitValue.CreatePercentArray(cellWidth)).UseAllAvailableWidth();
+
+                Style styleCell = new Style()
+                    .SetBorder(Border.NO_BORDER);
+                Style styleText = new Style().SetTextAlignment(TextAlignment.CENTER).SetFontSize(9f);
+
+
+                PdfFont bold = PdfFontFactory.CreateFont(StandardFonts.TIMES_BOLD);
+
+                Elements.Cell cell = new Elements.Cell()
+                    .AddStyle(styleText).AddStyle(styleCell)
+                    .Add(new Elements.Paragraph(Anota.PadRight(39,' ') + Fcnota.PadRight(39, ' ') + Frnota.PadRight(39, ' ') + Tempnota.PadRight(39, ' ')+ Pesonota.PadRight(39, ' ') + Tallanota.PadRight(39, ' ') + "\n").SetFont(bold).SetFontColor(new DeviceRgb(77, 77, 77)));
+
+
+                tableEvent.AddCell(cell);
+
+                return tableEvent;
+            }
+        }
     }
 }

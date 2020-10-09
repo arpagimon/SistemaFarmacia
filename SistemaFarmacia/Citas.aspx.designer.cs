@@ -1516,6 +1516,15 @@ namespace SistemaFarmacia {
         protected global::System.Web.UI.WebControls.Button btnGuardaNotaEvolucion;
         
         /// <summary>
+        /// Control btnDesgargarNE.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnDesgargarNE;
+        
+        /// <summary>
         /// Control btnCierraNotaEvolucion.
         /// </summary>
         /// <remarks>

@@ -1020,6 +1020,7 @@
                     <div class="row justify-content-center">
                         <div class="col px-2 text-center FBotonera">
                             <asp:Button runat="server" ID="btnGuardaNotaEvolucion" CssClass="FGBoton" Text="Guardar" OnClick="btnGuardaNotaEvolucion_Click" />
+                            <asp:Button runat="server" ID="btnDesgargarNE" CssClass="FGBoton" Text="Descargar Nota de Evolucion " OnClick="btnDesgargarNE_Click" />
                             <asp:Button runat="server" ID="btnCierraNotaEvolucion" CssClass="FGBoton" Text="Cerrar" OnClick="btnCerrar_Click" />
                         </div>
                     </div>
